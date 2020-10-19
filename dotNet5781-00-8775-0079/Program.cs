@@ -19,7 +19,7 @@ namespace dotNet5781_00_8775_0079
         static partial void Welcome0079();
         private static void Welcome8775()
         {
-            Console.WriteLine("Enter your name:"); //cout
+            Console.WriteLine("Enter your name :"); //cout
             string userName = Console.ReadLine(); //cin char* name; cin<<name; 
             Console.WriteLine("{0}, welcome to my first console application", userName); //cout>> name >> "welcome to my first console.."
         }
