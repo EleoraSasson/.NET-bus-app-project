@@ -16,7 +16,12 @@ namespace dotNet5781_00_8775_0079
             Console.ReadKey();
         }
 
-        static partial void Welcome0079();
+        
+        private static void Welcome0079()
+        {
+            Console.WriteLine("I am also here ");
+
+        }
         private static void Welcome8775()
         {
             Console.WriteLine("Enter your name :"); //cout
