@@ -1,2 +1,3 @@
 # dotNet5781-00-8775-0079
-Exercise 0 
+Hi Eleora! It is so great to work with you :)
+Exercise 0
