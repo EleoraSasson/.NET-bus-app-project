@@ -1,3 +1,2 @@
 # dotNet5781-00-8775-0079
-Testing123...
-Exercise 0
+Exercise 0 
