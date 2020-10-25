@@ -19,12 +19,34 @@ namespace Bus_Fleet_Ex1
         float fuel;
 
         //methods:
-        
+        /*chooseBus:
+         * user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
+         */
+        void chooseBus ()
+        {   
+            Console.WriteLine("Enter a bus license number: ");
+            string busNum = Console.ReadLine();
+            foreach (string x in busStringArray) //check if the bus exists
+                if (busNum.Contains(x))
+                    break;
+                else Console.WriteLine("ERROR: bus does not exist." );
+
+            Random rnd = new Random();
+            int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
+            if ((getMileage() + length > 20000) || (getFuel() - length < 0) //if there is not enough fuel or the mileage is too high
+            {
+                Console.WriteLine("The trip is not possible.");
+                return;
+            }
+            setMileage(getMileage() + length); //updates the files
+            setFuel(getFuel() - length);
+
+        }
     }
 
     class Program
     {
-        enum BusOptions { Add = 1, Choose, Refuel, Mileage, Exit };
+        public enum BusOptions { Add = 1, Choose, Refuel, Mileage, Exit };
         static void Main(string[] args)
         {
             // create a list of buses
@@ -32,14 +54,15 @@ namespace Bus_Fleet_Ex1
 
             Console.WriteLine("Welcome to our Bus Fleet \nPlease select an option from the menu:");
        
-            Console.WriteLine(" A. Adding a Bus \n B. Choosing a Bus a for Travel \n C. Refueling/Bus Maintenance \n D. Mileage Display of Bus Fleet \n E. Exit");
-            
-            var userChoice = Console.ReadLine();
+            Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
 
-            switch (BusOptions)
+            BusOptions b = (BusOptions) Console.Read(); //added this line so the switch could work
+
+            switch (b) //works but nothing shows up on the console when we run it
             {
                 case BusOptions.Add: 
                     Console.WriteLine("add");
+                    Console.ReadKey();
                     break;
                 case BusOptions.Choose:
                     Console.WriteLine("choose");
@@ -54,6 +77,7 @@ namespace Bus_Fleet_Ex1
                     Console.WriteLine("exit");
                     break;
                 default:
+                    Console.WriteLine("default");
                     break;
             }
 
@@ -93,3 +117,4 @@ namespace Bus_Fleet_Ex1
 
  
  */
+
