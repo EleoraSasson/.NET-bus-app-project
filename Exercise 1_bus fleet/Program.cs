@@ -28,7 +28,7 @@ namespace Exercise_1_bus_fleet
  */
 
 //menu:
- /* A. adding a bus
+ /*A. adding a bus
  * B. choosing a bus
  * C. refuel or maintenance 
  * D. display of mileage since last maintenance
