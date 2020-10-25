@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotNet5781-00-8775-0079", "dotNet5781-00-8775-0079\dotNet5781-00-8775-0079.csproj", "{7E66A4D9-4B15-4915-812A-B247BB5704D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exercise 1_bus fleet", "Exercise 1_bus fleet\Exercise 1_bus fleet.csproj", "{29B3CECB-A69C-43A1-A253-BAD384B64B62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bus Fleet Ex1", "Bus Fleet Ex1\Bus Fleet Ex1.csproj", "{7512041A-C297-47AD-BCCD-7E89E9922A56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{7E66A4D9-4B15-4915-812A-B247BB5704D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E66A4D9-4B15-4915-812A-B247BB5704D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E66A4D9-4B15-4915-812A-B247BB5704D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29B3CECB-A69C-43A1-A253-BAD384B64B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29B3CECB-A69C-43A1-A253-BAD384B64B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29B3CECB-A69C-43A1-A253-BAD384B64B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29B3CECB-A69C-43A1-A253-BAD384B64B62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7512041A-C297-47AD-BCCD-7E89E9922A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7512041A-C297-47AD-BCCD-7E89E9922A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7512041A-C297-47AD-BCCD-7E89E9922A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7512041A-C297-47AD-BCCD-7E89E9922A56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
