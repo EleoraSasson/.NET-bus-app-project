@@ -42,7 +42,7 @@ namespace Bus_Fleet_Ex1
         public DateTime BusStartDate
         {
             get { return startDate; }
-            set { startDate = value; }
+            set { startDate = DateTime.Now; }
         }
 
 
@@ -62,8 +62,6 @@ namespace Bus_Fleet_Ex1
             get { return fuel; }
             set { fuel = value; }
         }
-
-        public struct DateTime { } //date&time
 
         /* CLASS METHODS */
 
@@ -223,10 +221,10 @@ namespace Bus_Fleet_Ex1
 
 //menu:
 /* 
-* A.adding a bus
-* B. choosing a bus  
-* C. refuel or maintenance 
-* D. display of mileage since last maintenance 
+* A.adding a bus (Eleora)
+* B. choosing a bus  DONE YAY :)
+* C. refuel or maintenance (Gila)
+* D. display of mileage since last maintenance STILL CHECK
 * E. exit
 */
 
