@@ -17,7 +17,6 @@ namespace Bus_Fleet_Ex1
         /* CLASS MEMBERS */
 
         //information of each bus - each member is private with a public method that accesses and update the private member:
-
         private string license; //license number
 
         public string BusLicense
@@ -27,10 +26,10 @@ namespace Bus_Fleet_Ex1
             {
                 if (BusStartDate < /* date 2018*/)
                 {
-                    /*7 didgits format --> 12-345-67 */
+                    /*7 didgits format --> 12-345-67 */ 
                     license = value;
                 }
-                else
+                else // >2018
                 {
                     /*8 didgits format --> 12-345-678 */
                     license = value;
@@ -53,7 +52,7 @@ namespace Bus_Fleet_Ex1
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = value; }
+            { mileage = 0; }
         }
 
         private float fuel; //fuel value
@@ -81,26 +80,43 @@ namespace Bus_Fleet_Ex1
          * Discription: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
          * Return Type: void 
          */
-        void chooseBus() //--> note: need to change ethod calls to new names to keep data encapsulation
+        void chooseBus(List<Bus> Busfleet) //--> note: need to change ethod calls to new names to keep data encapsulation
         {
+            bool exists = false;
             Console.WriteLine("Enter a bus license number: ");
             string busNum = Console.ReadLine();
-            foreach (string x in busStringArray) //check if the bus exists ---> need to look in list fleet 
-                if (busNum.Contains(x))
-                    break;
-                else Console.WriteLine("ERROR: bus does not exist.");
-
-            Random rnd = new Random();
-            int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
-            if ((getMileage() + length > 20000) || (getFuel() - length < 0) //if there is not enough fuel or the mileage is too high 
+            for (int i = 0; i < Busfleet.Count(); i++)
             {
-                Console.WriteLine("The trip is not possible.");
-                return;
+                if (Busfleet[i].BusLicense.Equals(busNum))
+                {
+                    exists = true;
+                    i = (Busfleet.Count() - 1);
+                }
+                else 
+                { 
+                    exists = false;
+                }
+             
             }
-            setMileage(getMileage() + length); //updates the files
-            setFuel(getFuel() - length);
 
+            if (exists) 
+            {
+                Random rnd = new Random();
+                int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
+                if ((BusMileage + length > 20000) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
+                {
+                    Console.WriteLine("The trip is not possible.");
+                    return;
+                }
+               BusMileage = (BusMileage + length); //updates the files
+               BusFuel = (BusFuel - length);
+
+            }
+            else { Console.WriteLine("ERROR: bus does not exist."); }
+            
+            // bus does not exists and user is sent back to the main menu
         }
+          
 
         /* Menu Option C: */
 
