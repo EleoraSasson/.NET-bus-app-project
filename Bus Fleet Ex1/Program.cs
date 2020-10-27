@@ -23,40 +23,8 @@ namespace Bus_Fleet_Ex1
         public string BusLicense
         {
             get { return license; }
-            set
-            {
-                string license;
-                string licenseTry;
-                var date2018 = DateTime.MinValue;
-                var date = DateTime.MinValue;
-                if (DateTime.TryParse("2018/01/01", out date))  //set the date to be the beginning of 2018
-                {
-                    date2018 = date; ;
-                }
-
-                if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
-                {
-                    Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
-                    licenseTry = Console.ReadLine();
-                    while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
-                    {
-                        Console.WriteLine("ERROR: license number is in the wrong format. ");
-                        licenseTry = Console.ReadLine();
-                    }
-                    license = licenseTry;
-                }
-                else   //8 digits format --> 123-45-678 
-                {
-                    Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
-                    licenseTry = Console.ReadLine();
-                    while (!Regex.IsMatch(licenseTry, @"[0-9]{3}\.-\.[0-9]{2}\.-.\[0-9]{3}"))  //using Regex to check the format
-                    {
-                        Console.WriteLine("ERROR: license number is in the wrong format. ");
-                        licenseTry = Console.ReadLine();
-                    }
-                    license = value;
-                }
-            }
+            set { license = value; }
+            
         }
 
         private DateTime startDate; //start date registered for bus (uses the struct DateTime to have correct format)
@@ -66,7 +34,6 @@ namespace Bus_Fleet_Ex1
             get { return startDate; }
             set { startDate = DateTime.Now; }
         }
-
 
         private float mileage; //mileage - the total kilometerage
 
@@ -85,54 +52,69 @@ namespace Bus_Fleet_Ex1
             set { fuel = value; }
         }
 
-        //public class Maintenance
-        //{
-        //    private float kmTraveled;
+        private DateTime maintenanceDate; //passing the date as a string
 
-        //    public float BuskmTraveled
-        //    {
-        //        get { return kmTraveled; }
-        //        set { kmTraveled = value; }
-        //    }
-
-        //    private DateTime serviceTime;
-
-        //    public DateTime BusServiceTime
-        //    {
-        //        get { return serviceTime; }
-        //        set { serviceTime = value; }
-        //    }
-
-
-        //};
-
-        /* CLASS METHODS */
-        /* Road Worthy Test: */
-
-        /* Method: isBusDangerous
-         * Description: returns if bus is dangerous becuase it is in need of service
-         * Return Type: bool
-         */
-
-        protected struct Maintenance
+        public DateTime lastMaintenanceDate
         {
-            float BuskmTraveled;
-            DateTime BusServiceTime;
+            get { return maintenanceDate; }
+            set { maintenanceDate = value; }
         }
 
-        public bool isBusDangerous(float km, DateTime dateToday)
+        public void setLicenseNum()
         {
-            float newkm = BuskmTraveled + km;
-
-            DateTime AnnualDate = BusServiceTime.AddYears(1);
-
-            if ((newkm >= 20000) || (AnnualDate >= dateToday))
+            string license;
+            string licenseTry;
+            var date2018 = DateTime.MinValue;
+            var date = DateTime.MinValue;
+            if (DateTime.TryParse("2018/01/01", out date))  //set the date to be the beginning of 2018
             {
-                Console.WriteLine("Warning! Bus requires maintenance check\n");
+                date2018 = date; ;
+            }
+
+            if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
+            {
+                Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
+                licenseTry = Console.ReadLine();
+                while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
+                {
+                    Console.WriteLine("ERROR: license number is in the wrong format. ");
+                    licenseTry = Console.ReadLine();
+                }
+                license = licenseTry;
+            }
+            else   //8 digits format --> 123-45-678 
+            {
+                Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
+                licenseTry = Console.ReadLine();
+                while (!Regex.IsMatch(licenseTry, @"[0-9]{3}\.-\.[0-9]{2}\.-.\[0-9]{3}"))  //using Regex to check the format
+                {
+                    Console.WriteLine("ERROR: license number is in the wrong format. ");
+                    licenseTry = Console.ReadLine();
+                }
+                license = licenseTry;
+            }
+        }
+            
+        /* this method returns true if the bus needs a maintenance*/
+        public bool Maintenance(Bus bus)     
+        {
+            var dateToday = DateTime.MinValue;
+            var today = DateTime.MinValue;
+            if (DateTime.TryParse (DateTime.Now.ToString("M/d/yyyy"), out dateToday))
+            {
+                today = dateToday;
+            }
+            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   //ADD METHOD
+
+            if ((BusMileage % 20000 == 0) && (BusMileage != 0) && (ts.Days > 365))
+            {
+                Console.WriteLine("DANGER: the bus needs to go to maintenance!");
+                lastMaintenanceDate = today;
                 return true;
             }
             return false;
         }
+
 
         /* Menu Option A: */
 
@@ -144,7 +126,7 @@ namespace Bus_Fleet_Ex1
         void addBus(List<Bus> Busfleet)
         {
             Console.WriteLine(" Enter the license number: ");
-            license = Console.ReadLine();
+            setLicenseNum();
             Console.WriteLine("Enter the mileage: ");  //can we say that in english??
             string mileage = Console.ReadLine();
             int number = 0;
@@ -180,14 +162,13 @@ namespace Bus_Fleet_Ex1
 
             Console.WriteLine(" Enter the start date of the activity (DD/MM/YYYY): ");
             string date = Console.ReadLine();
-            DateTime datevalue;
-            if (DateTime.TryParse(date, out datevalue))
+            DateTime dateValue;
+            if (DateTime.TryParse(date, out dateValue))
             {
-                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel, BusMaintenance = 0 }); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
+                lastMaintenanceDate = dateValue;
+                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = dateValue, BusMileage = newMileage, BusFuel = newFuel}); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
             }
         }
-
-
 
         /* Menu Option B: */
 
@@ -200,11 +181,13 @@ namespace Bus_Fleet_Ex1
             bool exists = false;
             Console.WriteLine("Enter a bus license number: ");
             string busNum = Console.ReadLine();
+            int busCount = 0;
             for (int i = 0; i < Busfleet.Count(); i++)
             {
                 if (Busfleet[i].BusLicense.Equals(busNum))
                 {
                     exists = true;
+                    busCount = i;
                     i = (Busfleet.Count() - 1);
                 }
                 else
@@ -219,7 +202,7 @@ namespace Bus_Fleet_Ex1
                 DateTime dateCurrent = DateTime.Now;
                 Random rnd = new Random();
                 int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
-                if ((isBusDangerous(length, dateCurrent)) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
+                if ((!Maintenance(Busfleet[busCount])) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
                 {
                     Console.WriteLine("The trip is not possible.");
                     return;
@@ -228,9 +211,10 @@ namespace Bus_Fleet_Ex1
                 BusFuel = (BusFuel - length);
 
             }
-            else { Console.WriteLine("ERROR: bus does not exist."); }
-
-            // bus does not exists and user is sent back to the main menu
+            else // bus does not exists and user is sent back to the main menu
+            {
+                Console.WriteLine("ERROR: bus does not exist.");
+             }  
         }
 
 
@@ -309,7 +293,7 @@ namespace Bus_Fleet_Ex1
 
         void exit()
         {
-            //return 0; 
+           return 0; 
         }
 
     }
@@ -390,12 +374,4 @@ namespace Bus_Fleet_Ex1
 * D. display of mileage since last maintenance STILL CHECK
 * E. exit
 */
-
-/* Objectives for 26/10/2020:
- * * dateTime struct (together)
- * * insure class members are written properly to hold correct info (together)
- * fix current methods so they operate
- * divvy up rest of work
- */
-
 
