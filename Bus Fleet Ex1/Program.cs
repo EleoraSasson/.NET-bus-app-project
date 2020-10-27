@@ -75,7 +75,8 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
+                //while (!Regex.IsMatch(licenseTry, @"^[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}$"))  //using Regex to check the format
+                while (!Regex.IsMatch(licenseTry, (@"^d{2}\-?\d{3}\-?\d{2}")))
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
@@ -130,7 +131,6 @@ namespace Bus_Fleet_Ex1
 
         public void addBus(List<Bus> Busfleet)
         {
-            Console.WriteLine(" Enter the license number: ");
             setLicenseNum();
             Console.WriteLine("Enter the mileage: ");  //can we say that in english??
             string mileage = Console.ReadLine();
@@ -310,7 +310,9 @@ namespace Bus_Fleet_Ex1
                 {
                     case BusOptions.Add:
                         Console.WriteLine("Add");
-                        fleet[fleet.Count].addBus(fleet);
+                        Bus addedBus = new Bus();
+                        fleet.Add(addedBus);
+                        addedBus.addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
                         Console.WriteLine("Choose");
