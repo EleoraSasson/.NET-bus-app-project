@@ -8,6 +8,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Bus_Fleet_Ex1
 {
@@ -22,16 +23,37 @@ namespace Bus_Fleet_Ex1
         public string BusLicense
         {
             get { return license; }
-            set 
+            set
             {
-                if (BusStartDate < 2018) /* date 2018*/
+                string license;
+                string licenseTry;
+                var date2018 = DateTime.MinValue;
+                var date = DateTime.MinValue;
+                if (DateTime.TryParse("2018/01/01", out date))  //set the date to be the beginning of 2018
                 {
-                    /*7 didgits format --> 12-345-67 */ 
-                    license = value;
+                    date2018 = date; ;
                 }
-                else // >2018
+
+                if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
                 {
-                    /*8 didgits format --> 12-345-678 */
+                   Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
+                   licenseTry = Console.ReadLine();
+                    while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
+                    {
+                        Console.WriteLine("ERROR: license number is in the wrong format. ");
+                        licenseTry = Console.ReadLine();
+                    }
+                    license = licenseTry;
+                }
+                else   //8 digits format --> 123-45-678 
+                {
+                    Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
+                    licenseTry = Console.ReadLine();
+                    while (!Regex.IsMatch(licenseTry, @"[0-9]{3}\.-\.[0-9]{2}\.-.\[0-9]{3}"))  //using Regex to check the format
+                    {
+                        Console.WriteLine("ERROR: license number is in the wrong format. ");
+                        licenseTry = Console.ReadLine();
+                    }
                     license = value;
                 }
             }
@@ -52,7 +74,7 @@ namespace Bus_Fleet_Ex1
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = value;}
+            { mileage = value; }
         }
 
         private float fuel; //fuel value
@@ -63,12 +85,11 @@ namespace Bus_Fleet_Ex1
             set { fuel = value; }
         }
 
-        private float maintenance; //memeber keeps track of bus maintenace, specifically how long since last maintenance and if bus is dangerous
+        private struct maintenance; //memeber keeps track of bus maintenace, specifically how long since last maintenance and if bus is dangerous
 
-        public float BusMaintenance
+        public struct BusMaintenance
         {
-            get { return maintenance; }
-            set { maintenance = value; }
+          if 
         }
 
         /* CLASS METHODS */
@@ -86,7 +107,7 @@ namespace Bus_Fleet_Ex1
             license = Console.ReadLine();
             Console.WriteLine("Enter the mileage: ");  //can we say that in english??
             string mileage = Console.ReadLine();
-            int number = 0; 
+            int number = 0;
             int newMileage = 0;
             if (Int32.TryParse(mileage, out number))
             {
@@ -122,7 +143,7 @@ namespace Bus_Fleet_Ex1
             DateTime datevalue;
             if (DateTime.TryParse(date, out datevalue))
             {
-               Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel }); //create a new Bus and add it to the list
+                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel, BusMaintenance = 0 }); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
             }
         }
 
@@ -146,14 +167,14 @@ namespace Bus_Fleet_Ex1
                     exists = true;
                     i = (Busfleet.Count() - 1);
                 }
-                else   
-                { 
+                else
+                {
                     exists = false;
                 }
-             
+
             }
 
-            if (exists) 
+            if (exists)
             {
                 Random rnd = new Random();
                 int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
@@ -162,12 +183,12 @@ namespace Bus_Fleet_Ex1
                     Console.WriteLine("The trip is not possible.");
                     return;
                 }
-               BusMileage = (BusMileage + length); //updates the files
-               BusFuel = (BusFuel - length);
+                BusMileage = (BusMileage + length); //updates the files
+                BusFuel = (BusFuel - length);
 
             }
             else { Console.WriteLine("ERROR: bus does not exist."); }
-            
+
             // bus does not exists and user is sent back to the main menu
         }
 
@@ -175,7 +196,7 @@ namespace Bus_Fleet_Ex1
         /* Menu Option C: */
 
         /* Method: refuelMaintenance
-         * Discription: Bus License is entered by user. user selects either refueling or maintenance. 
+         * Description: Bus License is entered by user. user selects either refueling or maintenance. 
          *  i. For refueling, bus didtance allowed is updated to allow for maximum distance traveled.
          *  ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
          * Return Type: void
@@ -261,40 +282,43 @@ namespace Bus_Fleet_Ex1
             var fleet = new List<Bus>();
 
             Console.WriteLine("Welcome to our Bus Fleet \nPlease select an option from the menu:");
-       
+
             Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
 
-            BusOptions b = (BusOptions) Console.Read(); //added this line so the switch could work // that is Brilliant!!! Thank you Eleora!
-
-            //NOTE: we have to loop through the menu and allow user to select an option more than once! Therefore need a while statement!
-            // also need to add function calls
-            switch (b) //works but nothing shows up on the console when we run it
+            int choice;
+            while (int.TryParse(Console.ReadLine(), out choice))
+                Console.WriteLine("ERROR: please enter a number again.");
+            while (choice != 0)
             {
-                case BusOptions.Add: 
-                    Console.WriteLine("add");
-                    Console.ReadKey();
-                    break;
-                case BusOptions.Choose: 
-                    Console.WriteLine("choose");
-                    break;
-                case BusOptions.Refuel:
-                    Console.WriteLine("refuel");
-                    break;
-                case BusOptions.Mileage: // calling on the mileageDisplay method for every bus in the fleet
-                    for (int i = 0; i < fleet.Count; i++)
-                    {
-                        //call on method  
-                    }
-                    Console.WriteLine("mileage");
-                    break;
-                case BusOptions.Exit:
-                    Console.WriteLine("exit");
-                    break;
-                default:
-                    Console.WriteLine("default");
-                    break;
-            }
+                switch ((BusOptions)choice)
+                {
+                    case BusOptions.Add:
+                        Console.WriteLine("add");
+                        Console.ReadKey();
+                        break;
+                    case BusOptions.Choose:
+                        Console.WriteLine("choose");
+                        break;
+                    case BusOptions.Refuel:
+                        Console.WriteLine("refuel");
+                        break;
+                    case BusOptions.Mileage: // calling on the mileageDisplay method for every bus in the fleet
+                        for (int i = 0; i < fleet.Count; i++)
+                        {
+                            //call on method  
+                        }
+                        Console.WriteLine("mileage");
+                        break;
+                    case BusOptions.Exit:
+                        Console.WriteLine("exit");
+                        break;
+                    default:
+                        Console.WriteLine("default");
+                        break;
+                }
 
+            }
+            int.TryParse(Console.ReadLine(), out choice);
         }
     }
 }
