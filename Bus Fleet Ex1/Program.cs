@@ -100,7 +100,7 @@ namespace Bus_Fleet_Ex1
         {
             var dateToday = DateTime.MinValue;
             var today = DateTime.MinValue;
-            if (DateTime.TryParse (DateTime.Now.ToString("M/d/yyyy"), out dateToday))
+            if (DateTime.TryParse (DateTime.Now.ToString("dd/mm/yyyy"), out dateToday))
             {
                 today = dateToday;
             }
