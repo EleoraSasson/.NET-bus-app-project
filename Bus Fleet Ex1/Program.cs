@@ -352,36 +352,5 @@ namespace Bus_Fleet_Ex1
 
 
 
-//*PLAN WHAT TO DO*//
-
-//main
-/*define list of buses (class)
- * switch statement for the main (menu of options for the user)
- * print the menu so the user can select the function
- */
-
-//bus class
-/*license number
- * mileage
- * fuel information
- * start date 
- * date and time
- */
-
-//menu:
-/* 
-* A.adding a bus (Eleora)
-* B. choosing a bus  DONE YAY :)
-* C. refuel or maintenance (Gila)
-* D. display of mileage since last maintenance STILL CHECK
-* E. exit
-*/
-
-/* Objectives for 26/10/2020:
- * * dateTime struct (together)
- * * insure class members are written properly to hold correct info (together)
- * fix current methods so they operate
- * divvy up rest of work
- */
 
 
