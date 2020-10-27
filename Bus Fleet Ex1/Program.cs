@@ -181,7 +181,7 @@ namespace Bus_Fleet_Ex1
          * Description: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
          * Return Type: void 
          */
-        void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
+        public void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
         {
             bool exists = false;
             Console.WriteLine("Enter a bus license number: ");
@@ -232,7 +232,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void refuelMaintenance(List<Bus> Busfleet)
+        public void refuelMaintenance(List<Bus> Busfleet)
         {
             bool notFound = true;
             Console.WriteLine("Enter the Bus License number:");
@@ -252,8 +252,7 @@ namespace Bus_Fleet_Ex1
                     }
                     if (AorB == 66) //option B
                     {
-                        BusServiceTime = BusServiceTime.ToLocalTime();
-                        BuskmTraveled = 0;
+                        Maintenance(Busfleet[i]);
                     }
                     i = (Busfleet.Count() - 1); //exit for loop
                 }
@@ -276,7 +275,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void mileageDisplay()
+        public void mileageDisplay()
         {
             // seeing as only the main program has the entire fleet of buses listed, I was thinking that in the
             // method all it should do is print the mileage and license number of this bus
@@ -286,18 +285,6 @@ namespace Bus_Fleet_Ex1
             Console.WriteLine(BusLicense); //calls on the getter method of the BusLicense which will return the license of bus
             Console.WriteLine("Mileage: ");
             Console.WriteLine(BusMileage); //calls on the getter method of the BusMileage which will return the mileage of bus
-        }
-
-        /* Menu Option E: */
-
-        /* Method: exit
-         * Description: closes the menu console (ends the program)
-         * Return Type: void
-         */
-
-        void exit()
-        {
-           return 0; 
         }
 
     }
@@ -314,39 +301,43 @@ namespace Bus_Fleet_Ex1
 
             Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
 
+           
             int choice;
-            while (int.TryParse(Console.ReadLine(), out choice))
-                Console.WriteLine("ERROR: please enter a number again.");
-            while (choice != 0)
+            do
             {
+                int.TryParse(Console.ReadLine(), out choice);
                 switch ((BusOptions)choice)
                 {
                     case BusOptions.Add:
+                        Console.WriteLine("Add");
                         fleet[fleet.Count].addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
+                        Console.WriteLine("Choose");
                         fleet[0].chooseBus(fleet);
                         break;
                     case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
+                        Console.WriteLine("Refuel");
                         fleet[0].refuelMaintenance(fleet);
                         break;
                     case BusOptions.Mileage: // void mileageDisplay()
+                        Console.WriteLine("Mileage");
                         for (int i = 0; i < fleet.Count; i++)
                         {
-                            fleet[i].mileageDisplay(); 
+                            fleet[i].mileageDisplay();
                         }
-                        
                         break;
                     case BusOptions.Exit:
-                        fleet[0].exit();
+                        Console.WriteLine("close");
+                        System.Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Error: Invalid Input");
                         break;
                 }
-
             }
-            int.TryParse(Console.ReadLine(), out choice);
+            while (choice != 0);
+            
         }
     }
 }
