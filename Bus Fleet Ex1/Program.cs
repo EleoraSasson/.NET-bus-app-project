@@ -116,6 +116,11 @@ namespace Bus_Fleet_Ex1
         }
 
 
+        
+
+        /* CLASS METHODS */
+
+  
         /* Menu Option A: */
 
         /* Method: addBus
@@ -123,7 +128,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void addBus(List<Bus> Busfleet)
+        public void addBus(List<Bus> Busfleet)
         {
             Console.WriteLine(" Enter the license number: ");
             setLicenseNum();
@@ -247,9 +252,8 @@ namespace Bus_Fleet_Ex1
                     }
                     if (AorB == 66) //option B
                     {
-
-                        //need to complete this
-                        //ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
+                        BusServiceTime = BusServiceTime.ToLocalTime();
+                        BuskmTraveled = 0;
                     }
                     i = (Busfleet.Count() - 1); //exit for loop
                 }
@@ -318,27 +322,26 @@ namespace Bus_Fleet_Ex1
                 switch ((BusOptions)choice)
                 {
                     case BusOptions.Add:
-                        Console.WriteLine("add");
-                        Console.ReadKey();
+                        fleet[fleet.Count].addBus(fleet);
                         break;
-                    case BusOptions.Choose:
-                        Console.WriteLine("choose");
+                    case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
+                        fleet[0].chooseBus(fleet);
                         break;
-                    case BusOptions.Refuel:
-                        Console.WriteLine("refuel");
+                    case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
+                        fleet[0].refuelMaintenance(fleet);
                         break;
-                    case BusOptions.Mileage: // calling on the mileageDisplay method for every bus in the fleet
+                    case BusOptions.Mileage: // void mileageDisplay()
                         for (int i = 0; i < fleet.Count; i++)
                         {
-                            //call on method  
+                            fleet[i].mileageDisplay(); 
                         }
-                        Console.WriteLine("mileage");
+                        
                         break;
                     case BusOptions.Exit:
-                        Console.WriteLine("exit");
+                        fleet[0].exit();
                         break;
                     default:
-                        Console.WriteLine("default");
+                        Console.WriteLine("Error: Invalid Input");
                         break;
                 }
 
