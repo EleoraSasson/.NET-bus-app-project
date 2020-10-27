@@ -63,15 +63,48 @@ namespace Bus_Fleet_Ex1
             set { fuel = value; }
         }
 
-        private float maintenance; //memeber keeps track of bus maintenace, specifically how long since last maintenance and if bus is dangerous
-
-        public float BusMaintenance
+        protected class Maintenance
         {
-            get { return maintenance; }
-            set { maintenance = value; }
-        }
+            private float kmTraveled;
+
+            public float BuskmTraveled
+            {
+                get { return kmTraveled; }
+                set { kmTraveled = value; }
+            }
+
+            private DateTime serviceTime;
+
+            public DateTime BusServiceTime
+            {
+                get { return serviceTime; }
+                set { serviceTime = value; }
+            }
+
+            /* Road Worthy Test: */
+
+            /* Method: isBusDangerous
+             * Description: returns if bus is dangerous becuase it is in need of service
+             * Return Type: bool
+             */
+
+            bool isBusDangerous(Bus bus, float km, DateTime dateToday)
+            {
+                BuskmTraveled = BuskmTraveled + km;
+
+                DateTime AnnualDate = BusServiceTime.AddYears(1);
+
+                if ((BuskmTraveled>20000)||(AnnualDate >= dateToday))
+                {
+                    return true;
+                }
+                return false;
+            }
+        };
 
         /* CLASS METHODS */
+
+       
 
         /* Menu Option A: */
 
@@ -296,6 +329,7 @@ namespace Bus_Fleet_Ex1
             }
 
         }
+ 
     }
 }
 
@@ -332,5 +366,4 @@ namespace Bus_Fleet_Ex1
  * fix current methods so they operate
  * divvy up rest of work
  */
-
 
