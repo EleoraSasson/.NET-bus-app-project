@@ -85,42 +85,33 @@ namespace Bus_Fleet_Ex1
             set { fuel = value; }
         }
 
-        //public class Maintenance
-        //{
-        //    private float kmTraveled;
+        //members for maintenance tracking
+        private float kmTraveled;
 
-        //    public float BuskmTraveled
-        //    {
-        //        get { return kmTraveled; }
-        //        set { kmTraveled = value; }
-        //    }
+        public float BuskmTraveled
+        {
+            get { return kmTraveled; }
+            set { kmTraveled = value; }
+        }
 
-        //    private DateTime serviceTime;
+        private DateTime serviceTime;
 
-        //    public DateTime BusServiceTime
-        //    {
-        //        get { return serviceTime; }
-        //        set { serviceTime = value; }
-        //    }
+        public DateTime BusServiceTime
+        {
+            get { return serviceTime; }
+            set { serviceTime = value; }
+        }
 
-
-        //};
-
-        /* CLASS METHODS */
+            
         /* Road Worthy Test: */
 
         /* Method: isBusDangerous
-         * Description: returns if bus is dangerous becuase it is in need of service
-         * Return Type: bool
-         */
+            * Description: returns if bus is dangerous becuase it is in need of service
+            * Return Type: bool
+            */
 
-        protected struct Maintenance
-        {
-            float BuskmTraveled;
-            DateTime BusServiceTime;
-        }
 
-        public bool isBusDangerous(float km, DateTime dateToday)
+        public bool IsBusDangerous(float km, DateTime dateToday)
         {
             float newkm = BuskmTraveled + km;
 
@@ -133,7 +124,11 @@ namespace Bus_Fleet_Ex1
             }
             return false;
         }
+        
 
+        /* CLASS METHODS */
+
+  
         /* Menu Option A: */
 
         /* Method: addBus
@@ -141,7 +136,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void addBus(List<Bus> Busfleet)
+        public void addBus(List<Bus> Busfleet)
         {
             Console.WriteLine(" Enter the license number: ");
             license = Console.ReadLine();
@@ -183,7 +178,7 @@ namespace Bus_Fleet_Ex1
             DateTime datevalue;
             if (DateTime.TryParse(date, out datevalue))
             {
-                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel, BusMaintenance = 0 }); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
+                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel, BusServiceTime = datevalue, BuskmTraveled = 0 }); //assumes that a bus being added to fleet undergoes maintenance then.
             }
         }
 
@@ -195,41 +190,34 @@ namespace Bus_Fleet_Ex1
          * Description: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
          * Return Type: void 
          */
-        void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
+        public void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
         {
-            bool exists = false;
+            bool exists = true;
             Console.WriteLine("Enter a bus license number: ");
             string busNum = Console.ReadLine();
             for (int i = 0; i < Busfleet.Count(); i++)
             {
                 if (Busfleet[i].BusLicense.Equals(busNum))
                 {
-                    exists = true;
-                    i = (Busfleet.Count() - 1);
-                }
-                else
-                {
+                    DateTime dateCurrent = DateTime.Now;
+                    Random rnd = new Random();
+                    int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
+                    if ((Busfleet[i].IsBusDangerous(length, dateCurrent)) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
+                    {
+                        Console.WriteLine("The trip is not possible.");
+                        return;
+                    }
+                    BuskmTraveled = (BuskmTraveled + length); //updates the files
+                    BusFuel = (BusFuel - length);
                     exists = false;
+                    i = (Busfleet.Count() - 1); //exit for loop
                 }
-
             }
-
             if (exists)
             {
-                DateTime dateCurrent = DateTime.Now;
-                Random rnd = new Random();
-                int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
-                if ((isBusDangerous(length, dateCurrent)) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
-                {
-                    Console.WriteLine("The trip is not possible.");
-                    return;
-                }
-                BusMileage = (BusMileage + length); //updates the files
-                BusFuel = (BusFuel - length);
-
+                Console.WriteLine("ERROR: bus does not exist.");
             }
-            else { Console.WriteLine("ERROR: bus does not exist."); }
-
+         
             // bus does not exists and user is sent back to the main menu
         }
 
@@ -243,7 +231,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void refuelMaintenance(List<Bus> Busfleet)
+        public void refuelMaintenance(List<Bus> Busfleet)
         {
             bool notFound = true;
             Console.WriteLine("Enter the Bus License number:");
@@ -263,9 +251,8 @@ namespace Bus_Fleet_Ex1
                     }
                     if (AorB == 66) //option B
                     {
-
-                        //need to complete this
-                        //ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
+                        BusServiceTime = BusServiceTime.ToLocalTime();
+                        BuskmTraveled = 0;
                     }
                     i = (Busfleet.Count() - 1); //exit for loop
                 }
@@ -288,7 +275,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void mileageDisplay()
+        public void mileageDisplay()
         {
             // seeing as only the main program has the entire fleet of buses listed, I was thinking that in the
             // method all it should do is print the mileage and license number of this bus
@@ -307,7 +294,7 @@ namespace Bus_Fleet_Ex1
          * Return Type: void
          */
 
-        void exit()
+        public void exit()
         {
             //return 0; 
         }
@@ -321,7 +308,7 @@ namespace Bus_Fleet_Ex1
         {
             // create a list of buses
             var fleet = new List<Bus>();
-
+           
             Console.WriteLine("Welcome to our Bus Fleet \nPlease select an option from the menu:");
 
             Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
@@ -334,27 +321,26 @@ namespace Bus_Fleet_Ex1
                 switch ((BusOptions)choice)
                 {
                     case BusOptions.Add:
-                        Console.WriteLine("add");
-                        Console.ReadKey();
+                        fleet[fleet.Count].addBus(fleet);
                         break;
-                    case BusOptions.Choose:
-                        Console.WriteLine("choose");
+                    case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
+                        fleet[0].chooseBus(fleet);
                         break;
-                    case BusOptions.Refuel:
-                        Console.WriteLine("refuel");
+                    case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
+                        fleet[0].refuelMaintenance(fleet);
                         break;
-                    case BusOptions.Mileage: // calling on the mileageDisplay method for every bus in the fleet
+                    case BusOptions.Mileage: // void mileageDisplay()
                         for (int i = 0; i < fleet.Count; i++)
                         {
-                            //call on method  
+                            fleet[i].mileageDisplay(); 
                         }
-                        Console.WriteLine("mileage");
+                        
                         break;
                     case BusOptions.Exit:
-                        Console.WriteLine("exit");
+                        fleet[0].exit();
                         break;
                     default:
-                        Console.WriteLine("default");
+                        Console.WriteLine("Error: Invalid Input");
                         break;
                 }
 
