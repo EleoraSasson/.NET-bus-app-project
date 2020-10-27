@@ -36,8 +36,8 @@ namespace Bus_Fleet_Ex1
 
                 if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
                 {
-                   Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
-                   licenseTry = Console.ReadLine();
+                    Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
+                    licenseTry = Console.ReadLine();
                     while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
                     {
                         Console.WriteLine("ERROR: license number is in the wrong format. ");
@@ -74,7 +74,7 @@ namespace Bus_Fleet_Ex1
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = value;}
+            { mileage = value; }
         }
 
         private float fuel; //fuel value
@@ -85,48 +85,54 @@ namespace Bus_Fleet_Ex1
             set { fuel = value; }
         }
 
-        protected class Maintenance
-        {
-            private float kmTraveled;
+        //public class Maintenance
+        //{
+        //    private float kmTraveled;
 
-            public float BuskmTraveled
-            {
-                get { return kmTraveled; }
-                set { kmTraveled = value; }
-            }
+        //    public float BuskmTraveled
+        //    {
+        //        get { return kmTraveled; }
+        //        set { kmTraveled = value; }
+        //    }
 
-            private DateTime serviceTime;
+        //    private DateTime serviceTime;
 
-            public DateTime BusServiceTime
-            {
-                get { return serviceTime; }
-                set { serviceTime = value; }
-            }
+        //    public DateTime BusServiceTime
+        //    {
+        //        get { return serviceTime; }
+        //        set { serviceTime = value; }
+        //    }
 
-            /* Road Worthy Test: */
 
-            /* Method: isBusDangerous
-             * Description: returns if bus is dangerous becuase it is in need of service
-             * Return Type: bool
-             */
-
-            bool isBusDangerous(Bus bus, float km, DateTime dateToday)
-            {
-                BuskmTraveled = BuskmTraveled + km;
-
-                DateTime AnnualDate = BusServiceTime.AddYears(1);
-
-                if ((BuskmTraveled>20000)||(AnnualDate >= dateToday))
-                {
-                    return true;
-                }
-                return false;
-            }
-        };
+        //};
 
         /* CLASS METHODS */
+        /* Road Worthy Test: */
 
-       
+        /* Method: isBusDangerous
+         * Description: returns if bus is dangerous becuase it is in need of service
+         * Return Type: bool
+         */
+
+        protected struct Maintenance
+        {
+            float BuskmTraveled;
+            DateTime BusServiceTime;
+        }
+
+        public bool isBusDangerous(float km, DateTime dateToday)
+        {
+            float newkm = BuskmTraveled + km;
+
+            DateTime AnnualDate = BusServiceTime.AddYears(1);
+
+            if ((newkm >= 20000) || (AnnualDate >= dateToday))
+            {
+                Console.WriteLine("Warning! Bus requires maintenance check\n");
+                return true;
+            }
+            return false;
+        }
 
         /* Menu Option A: */
 
@@ -210,9 +216,10 @@ namespace Bus_Fleet_Ex1
 
             if (exists)
             {
+                DateTime dateCurrent = DateTime.Now;
                 Random rnd = new Random();
                 int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
-                if ((BusMileage + length > 20000) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
+                if ((isBusDangerous(length, dateCurrent)) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
                 {
                     Console.WriteLine("The trip is not possible.");
                     return;
