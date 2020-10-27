@@ -46,13 +46,13 @@ namespace Bus_Fleet_Ex1
         }
 
 
-        private float mileage; //mileage
+        private float mileage; //mileage - the total kilometerage
 
         public float BusMileage
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = 0; }
+            { mileage = value;}
         }
 
         private float fuel; //fuel value
@@ -61,6 +61,14 @@ namespace Bus_Fleet_Ex1
         {
             get { return fuel; }
             set { fuel = value; }
+        }
+
+        private float maintenance; //memeber keeps track of bus maintenace, specifically how long since last maintenance and if bus is dangerous
+
+        public float BusMaintenance
+        {
+            get { return maintenance; }
+            set { maintenance = value; }
         }
 
         /* CLASS METHODS */
@@ -78,7 +86,7 @@ namespace Bus_Fleet_Ex1
          * Discription: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
          * Return Type: void 
          */
-        void chooseBus(List<Bus> Busfleet) //--> note: need to change ethod calls to new names to keep data encapsulation
+        void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
         {
             bool exists = false;
             Console.WriteLine("Enter a bus license number: ");
@@ -90,7 +98,7 @@ namespace Bus_Fleet_Ex1
                     exists = true;
                     i = (Busfleet.Count() - 1);
                 }
-                else 
+                else   
                 { 
                     exists = false;
                 }
@@ -114,14 +122,60 @@ namespace Bus_Fleet_Ex1
             
             // bus does not exists and user is sent back to the main menu
         }
-          
+
 
         /* Menu Option C: */
 
-        /* Method: 
-         * Discription:
-         * Return Type: 
+        /* Method: refuelMaintenance
+         * Discription: Bus License is entered by user. user selects either refueling or maintenance. 
+         *  i. For refueling, bus didtance allowed is updated to allow for maximum distance traveled.
+         *  ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
+         * Return Type: void
          */
+
+        void refuelMaintenance(List<Bus> Busfleet)
+        {
+            bool exists = false;
+            Console.WriteLine("Enter the Bus License number:");
+            string Blicense = Console.ReadLine();
+            for (int i = 0; i < Busfleet.Count(); i++)
+            {
+                if (Busfleet[i].BusLicense.Equals(Blicense))
+                {
+                    exists = true;
+                    i = (Busfleet.Count() - 1);
+                }
+                else
+                {
+                    exists = false;
+                }
+
+            }
+
+            if (exists)
+            {
+                Console.WriteLine("Type 'A' to select the refueling option or 'B'to select maintenance option.");
+                TryParse(Console.ReadLine(), out int AorB);
+                if (AorB == 65) //option A
+                {
+                    BusFuel = 1200;
+                    //1200KM max distance allowed to travel after refueling
+                    Console.WriteLine("The bus has been refueled.");
+                }
+                if (AorB == 66) //option B
+                {
+
+
+                    //ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
+                }
+            }
+            else { Console.WriteLine("ERROR: bus does not exist - refueling and maintenance options are not available."); }
+        }
+
+        private int TryParse(string v, out int result) // so that we can use the TryParse Method
+        {
+            throw new NotImplementedException();
+        }
 
         /* Menu Option D: */
 
@@ -170,6 +224,8 @@ namespace Bus_Fleet_Ex1
 
             BusOptions b = (BusOptions) Console.Read(); //added this line so the switch could work // that is Brilliant!!! Thank you Eleora!
 
+            //NOTE: we have to loop through the menu and allow user to select an option more than once! Therefore need a while statement!
+            // also need to add function calls
             switch (b) //works but nothing shows up on the console when we run it
             {
                 case BusOptions.Add: 
