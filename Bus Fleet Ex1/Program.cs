@@ -183,41 +183,35 @@ namespace Bus_Fleet_Ex1
 
         void refuelMaintenance(List<Bus> Busfleet)
         {
-            bool exists = false;
+            bool notFound = true;
             Console.WriteLine("Enter the Bus License number:");
             string Blicense = Console.ReadLine();
             for (int i = 0; i < Busfleet.Count(); i++)
             {
-                if (Busfleet[i].BusLicense.Equals(Blicense))
+                if (Busfleet[i].BusLicense.Equals(Blicense)) //bus is found in fleet
                 {
-                    exists = true;
-                    i = (Busfleet.Count() - 1);
-                }
-                else
-                {
-                    exists = false;
-                }
+                    notFound = false;
+                    Console.WriteLine("Type 'A' to select the refueling option or 'B'to select maintenance option.");
+                    TryParse(Console.ReadLine(), out int AorB);
+                    if (AorB == 65) //option A
+                    {
+                        BusFuel = 1200;
+                        //1200KM max distance allowed to travel after refueling
+                        Console.WriteLine("The bus has been refueled.");
+                    }
+                    if (AorB == 66) //option B
+                    {
 
+                        //need to complete this
+                        //ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
+                    }
+                    i = (Busfleet.Count() - 1); //exit for loop
+                }
             }
-
-            if (exists)
+            if (notFound) //bus not in fleet
             {
-                Console.WriteLine("Type 'A' to select the refueling option or 'B'to select maintenance option.");
-                TryParse(Console.ReadLine(), out int AorB);
-                if (AorB == 65) //option A
-                {
-                    BusFuel = 1200;
-                    //1200KM max distance allowed to travel after refueling
-                    Console.WriteLine("The bus has been refueled.");
-                }
-                if (AorB == 66) //option B
-                {
-
-
-                    //ii. For maintenance, update the current date and the mileage of the vehicle, when the tune-up took place.
-                }
+                Console.WriteLine("ERROR: bus does not exist - refueling and maintenance options are not available.");
             }
-            else { Console.WriteLine("ERROR: bus does not exist - refueling and maintenance options are not available."); }
         }
 
         private int TryParse(string v, out int result) // so that we can use the TryParse Method
