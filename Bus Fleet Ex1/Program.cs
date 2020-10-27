@@ -24,7 +24,7 @@ namespace Bus_Fleet_Ex1
             get { return license; }
             set 
             {
-                if (BusStartDate < /* date 2018*/)
+                if (BusStartDate < 2018) /* date 2018*/
                 {
                     /*7 didgits format --> 12-345-67 */ 
                     license = value;
@@ -75,15 +75,63 @@ namespace Bus_Fleet_Ex1
 
         /* Menu Option A: */
 
-        /* Method: 
-         * Discription:
-         * Return Type: 
+        /* Method: addBus
+         * Description: adds a bus to the fleet (license and start date of the activity)
+         * Return Type: void
          */
+
+        void addBus(List<Bus> Busfleet)
+        {
+            Console.WriteLine(" Enter the license number: ");
+            license = Console.ReadLine();
+            Console.WriteLine("Enter the mileage: ");  //can we say that in english??
+            string mileage = Console.ReadLine();
+            int number = 0; 
+            int newMileage = 0;
+            if (Int32.TryParse(mileage, out number))
+            {
+                if (number < 0 || number > 1000000)
+                {
+                    Console.WriteLine("ERROR: value is not possible."); //if the value is not possible, set it to be the default value
+                    newMileage = 0;
+                }
+                else
+                {
+                    newMileage = number;
+                }
+            }
+            Console.WriteLine("Enter the distance of the trip that can be made with the current quantity of fuel: ");
+            string fuel = Console.ReadLine();
+            int num = 0;
+            int newFuel = 1200;
+            if (Int32.TryParse(fuel, out num))
+            {
+                if (num < 0 || num > 1200)
+                {
+                    Console.WriteLine("ERROR: value is not possible."); //if the value is not possible, set it to be the default value
+                    newFuel = 1200;
+                }
+                else
+                {
+                    newFuel = num;
+                }
+            }
+
+            Console.WriteLine(" Enter the start date of the activity (DD/MM/YYYY): ");
+            string date = Console.ReadLine();
+            DateTime datevalue;
+            if (DateTime.TryParse(date, out datevalue))
+            {
+               Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = datevalue, BusMileage = newMileage, BusFuel = newFuel }); //create a new Bus and add it to the list
+            }
+        }
+
+
 
         /* Menu Option B: */
 
         /* Method: chooseBus
-         * Discription: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
+         * Description: user inputs a license number. If the bus exists and the trip is possible, then the fields are updated
          * Return Type: void 
          */
         void chooseBus(List<Bus> Busfleet) //--> note: need to change method calls to new names to keep data encapsulation
@@ -180,7 +228,7 @@ namespace Bus_Fleet_Ex1
         /* Menu Option D: */
 
         /* Method: mileageDisplay
-         * Discription: displays the kilometerage and license numbers of all buses in the fleet.
+         * Description: displays the kilometerage and license numbers of all buses in the fleet.
          * Return Type: void
          */
 
@@ -199,7 +247,7 @@ namespace Bus_Fleet_Ex1
         /* Menu Option E: */
 
         /* Method: exit
-         * Discription: closes the menu cosole (ends the program)
+         * Description: closes the menu console (ends the program)
          * Return Type: void
          */
 
