@@ -71,7 +71,7 @@ namespace Bus_Fleet_Ex1
 
         public string setLicenseNum()
         {
-            Console.WriteLine("Please enter the manufacture date of the Bus:");
+            Console.WriteLine("Please enter the manufacture date of the Bus in the format dd/mm/yyyy:");
             var userDate = Console.ReadLine();
             string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$"; 
             bool dateVerified = false;
@@ -170,10 +170,10 @@ namespace Bus_Fleet_Ex1
             {
                 if (number < 0 || number > 1000000)
                 {
-                    Console.WriteLine("ERROR: value is not possible."); //if the value is not possible, set it to be the default value
+                    Console.WriteLine("ERROR: value is not possible. Mileage has been set to 0."); //if the value is not possible, set it to be the default value
                     newMileage = 0;
                 }
-                else
+                 else
                 {
                     newMileage = number;
                 }
@@ -189,7 +189,7 @@ namespace Bus_Fleet_Ex1
             {
                 if (num < 0 || num > 1200)
                 {
-                    Console.WriteLine("ERROR: value is not possible."); //if the value is not possible, set it to be the default value
+                    Console.WriteLine("ERROR: value is not possible. Distance has been set to 1200."); //if the value is not possible, set it to be the default value
                     newFuel = 1200;
                 }
                 else
@@ -198,7 +198,7 @@ namespace Bus_Fleet_Ex1
                 }
                 BusFuel = newFuel;//update bus to have correct fuel as opposed to default 
             }
-            Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
+            Console.WriteLine("Enter the date of the last maintenance check (dd/mm/yyyy): ");
             string date = Console.ReadLine();
             string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$";
             bool dateVerified = false;
@@ -250,7 +250,7 @@ namespace Bus_Fleet_Ex1
             {
                 DateTime dateCurrent = DateTime.Now;
                 Random rnd = new Random();
-                int length = rnd.Next(1, 5000); //assuming the length of the trip is between 1 and 4999 km
+                int length = rnd.Next(1, 1201); //assuming the length of the trip is between 1 and 1200 km
                 if ((!Maintenance(Busfleet[busCount])) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
                 {
                     Console.WriteLine("The trip is not possible.");
