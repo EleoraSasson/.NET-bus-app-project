@@ -17,6 +17,7 @@ namespace Bus_Fleet_Ex1
     {
         /* CLASS MEMBERS */
 
+        Bus() { BusLicense = license; BusStartDate = startDate; BusMileage = mileage; BusFuel = fuel; }
         //information of each bus - each member is private with a public method that accesses and update the private member:
         private string license; //license number
 
@@ -296,10 +297,10 @@ namespace Bus_Fleet_Ex1
         {
             // create a list of buses
             var fleet = new List<Bus>();
-
+           
             Console.WriteLine("Welcome to our Bus Fleet \nPlease select an option from the menu:");
 
-            Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
+            Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
 
            
             int choice;
@@ -310,7 +311,7 @@ namespace Bus_Fleet_Ex1
                 {
                     case BusOptions.Add:
                         Console.WriteLine("Add");
-                        fleet[fleet.Count].addBus(fleet);
+                        fleet[0].addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
                         Console.WriteLine("Choose");
