@@ -41,7 +41,14 @@ namespace Bus_Fleet_Ex1
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = value; }
+            {
+                if (value<0) //stop mileage reader from being set backwards
+                {
+                    Console.WriteLine("Error: mileage cannot be decreased or negative");
+                    mileage = 0;
+                } 
+                else mileage = value;
+            }
         }
 
         private float fuel; //fuel value
