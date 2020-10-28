@@ -357,7 +357,8 @@ namespace Bus_Fleet_Ex1
                         break;
                     case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
                         Console.WriteLine("Refuel"); //comment out
-                        fleet[0].refuelMaintenance(fleet);
+                        try { fleet[0].refuelMaintenance(fleet); }
+                        catch { Console.WriteLine("Error: fleet is empty - no options of refueling or maintenance are available.\n"); }
                         break;
                     case BusOptions.Mileage: // void mileageDisplay()
                         Console.WriteLine("Mileage"); //comment out
