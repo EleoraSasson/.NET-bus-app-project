@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Configuration; //this can be used to validate strings
 using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;//this can be used to validate strings
 
 namespace Bus_Fleet_Ex1
 {
@@ -75,24 +75,29 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                //while (!Regex.IsMatch(licenseTry, @"^[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}$"))  //using Regex to check the format
-                while (!Regex.IsMatch(licenseTry, (@"^d{2}\-?\d{3}\-?\d{2}")))
+                string pattern1 = @"^[0-9][0-9][-][0-9][0-9][0-9][-][0-9][0-9]$";
+                bool verified1 = false;
+                verified1 = (Regex.IsMatch(licenseTry, pattern1)); //first check
+                while (verified1 == false)
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
+                    verified1 = (Regex.IsMatch(licenseTry, pattern1)); //if license is valid verified will be true and program will continue
                 }
-                license = licenseTry;
             }
             else   //8 digits format --> 123-45-678 
             {
                 Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
                 licenseTry = Console.ReadLine();
-                while (!Regex.IsMatch(licenseTry, @"[0-9]{3}\.-\.[0-9]{2}\.-.\[0-9]{3}"))  //using Regex to check the format
+                string pattern2 = @"^[0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9][0-9]$";
+                bool verified2 = false;
+                verified2 = (Regex.IsMatch(licenseTry, pattern2)); //first check
+                while (verified2 == false)
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
+                    verified2 = (Regex.IsMatch(licenseTry, pattern2)); //if license is valid verified will be true and program will continue
                 }
-                license = licenseTry;
             }
         }
             
@@ -309,28 +314,28 @@ namespace Bus_Fleet_Ex1
                 switch ((BusOptions)choice)
                 {
                     case BusOptions.Add:
-                        Console.WriteLine("Add");
+                        Console.WriteLine("Add"); //comment out
                         Bus addedBus = new Bus();
                         fleet.Add(addedBus);
                         addedBus.addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
-                        Console.WriteLine("Choose");
+                        Console.WriteLine("Choose"); //comment out
                         fleet[0].chooseBus(fleet);
                         break;
                     case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
-                        Console.WriteLine("Refuel");
+                        Console.WriteLine("Refuel"); //comment out
                         fleet[0].refuelMaintenance(fleet);
                         break;
                     case BusOptions.Mileage: // void mileageDisplay()
-                        Console.WriteLine("Mileage");
+                        Console.WriteLine("Mileage"); //comment out
                         for (int i = 0; i < fleet.Count; i++)
                         {
                             fleet[i].mileageDisplay();
                         }
                         break;
                     case BusOptions.Exit:
-                        Console.WriteLine("close");
+                        Console.WriteLine("close"); //comment out
                         System.Environment.Exit(0);
                         break;
                     default:
