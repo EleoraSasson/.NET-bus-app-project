@@ -1,4 +1,6 @@
-﻿using System;
+﻿/* Exercise 2 | Windoes Project | Bus Application | Eleora & Gila */
+// This Program holds the information for a fleet of buses and allows the user to do various operations on this fleet from a menu.
+using System;
 using System.Collections.Generic;
 using System.Configuration; //this can be used to validate strings
 using System.Diagnostics.Eventing.Reader;
