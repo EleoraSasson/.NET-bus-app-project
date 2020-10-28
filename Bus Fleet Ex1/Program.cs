@@ -60,11 +60,11 @@ namespace Bus_Fleet_Ex1
             set { maintenanceDate = value; }
         }
 
-        public void setLicenseNum()
+        public string setLicenseNum()
         {
             Console.WriteLine("Please enter the manufacture date of the Bus:");
             var userDate = Console.ReadLine();
-            string patternDate = @"^(3[01]|[12][0-9]|[1-9])[/](1[0-2]|[1-9])[/]\d{4}$";
+            string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$"; 
             bool dateVerified = false;
             dateVerified = (Regex.IsMatch(userDate, patternDate));
             while (dateVerified == false) //check if date is valid
@@ -98,6 +98,7 @@ namespace Bus_Fleet_Ex1
                     licenseTry = Console.ReadLine();
                     verified1 = (Regex.IsMatch(licenseTry, pattern1)); //if license is valid verified will be true and program will continue
                 }
+                return licenseTry;
             }
             else  
             {
@@ -112,6 +113,7 @@ namespace Bus_Fleet_Ex1
                     licenseTry = Console.ReadLine();
                     verified2 = (Regex.IsMatch(licenseTry, pattern2)); //if license is valid verified will be true and program will continue
                 }
+                return licenseTry;
             }
         }
             
@@ -124,8 +126,7 @@ namespace Bus_Fleet_Ex1
             {
                 today = dateToday;
             }
-            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   //ADD METHOD
-
+            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   
             if ((BusMileage % 20000 == 0) && (BusMileage != 0) && (ts.Days > 365))
             {
                 Console.WriteLine("DANGER: the bus needs to go to maintenance!");
@@ -150,8 +151,8 @@ namespace Bus_Fleet_Ex1
 
         public void addBus(List<Bus> Busfleet)
         {
-            setLicenseNum();
-            Console.WriteLine("Enter the mileage: ");  //can we say that in english??
+            string license = setLicenseNum();
+            Console.WriteLine("Enter the mileage: ");  
             string mileage = Console.ReadLine();
             int number = 0;
             int newMileage = 0;
@@ -183,6 +184,24 @@ namespace Bus_Fleet_Ex1
                     newFuel = num;
                 }
             }
+            Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
+            string date = Console.ReadLine();
+            string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$";
+            bool dateVerified = false;
+            dateVerified = (Regex.IsMatch(date, patternDate));
+            while (dateVerified == false) //check if date is valid
+            {
+                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n");
+                date = Console.ReadLine();
+                dateVerified = (Regex.IsMatch(date, patternDate));
+            }
+            DateTime dateValue;
+            if (DateTime.TryParse(date, out dateValue))
+            {
+                lastMaintenanceDate = dateValue;
+                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = dateValue, BusMileage = newMileage, BusFuel = newFuel }); //create a new Bus and add it to the list
+            }
+            Console.WriteLine("Bus successfully added to fleet.");
         }
 
         /* Menu Option B: */
@@ -287,10 +306,6 @@ namespace Bus_Fleet_Ex1
 
         public void mileageDisplay()
         {
-            // seeing as only the main program has the entire fleet of buses listed, I was thinking that in the
-            // method all it should do is print the mileage and license number of this bus
-            // in the switch we can then call this method on the count of the busses in the fleet
-
             Console.WriteLine("Bus License: ");
             Console.WriteLine(BusLicense); //calls on the getter method of the BusLicense which will return the license of bus
             Console.WriteLine("Mileage: ");
@@ -318,7 +333,7 @@ namespace Bus_Fleet_Ex1
                 int.TryParse(Console.ReadLine(), out choice);
                 switch ((BusOptions)choice)
                 {
-                    case BusOptions.Add:
+                    case BusOptions.Add: //adds bus to fleet
                         Console.WriteLine("Add"); //comment out
                         Bus addedBus = new Bus();
                         fleet.Add(addedBus);
@@ -326,7 +341,8 @@ namespace Bus_Fleet_Ex1
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
                         Console.WriteLine("Choose"); //comment out
-                        fleet[0].chooseBus(fleet);
+                        try { fleet[0].chooseBus(fleet); }
+                        catch { Console.WriteLine("Error: fleet is empty - there are no buses to choose from.\n"); }
                         break;
                     case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
                         Console.WriteLine("Refuel"); //comment out
@@ -334,10 +350,14 @@ namespace Bus_Fleet_Ex1
                         break;
                     case BusOptions.Mileage: // void mileageDisplay()
                         Console.WriteLine("Mileage"); //comment out
-                        for (int i = 0; i < fleet.Count; i++)
+                        int check = 0;
+                        for (int i = 1; i < fleet.Count; i++)
                         {
                             fleet[i].mileageDisplay();
+                            check++;
                         }
+                        if(check == 0)
+                            Console.WriteLine("Error: fleet is empty.\n");
                         break;
                     case BusOptions.Exit:
                         Console.WriteLine("close"); //comment out
