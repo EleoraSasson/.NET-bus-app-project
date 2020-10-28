@@ -75,8 +75,9 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                //while (!Regex.IsMatch(licenseTry, @"^[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}$"))  //using Regex to check the format
-                while (!Regex.IsMatch(licenseTry, (@"^d{2}\-?\d{3}\-?\d{2}")))
+                 
+                    while (!Regex.IsMatch(licenseTry, @"(^\d{2}-\d{3}-\d{2}$)"))  //using Regex to check the format
+                                                                                 
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
@@ -87,7 +88,7 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
                 licenseTry = Console.ReadLine();
-                while (!Regex.IsMatch(licenseTry, @"[0-9]{3}\.-\.[0-9]{2}\.-.\[0-9]{3}"))  //using Regex to check the format
+                while (!Regex.IsMatch(licenseTry, @"(^\d{3}-\d{2}-\d{3}$)"))  //using Regex to check the format
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
