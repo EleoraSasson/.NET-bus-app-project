@@ -1,6 +1,8 @@
-﻿using System;
+﻿/* Exercise 2 | Windoes Project | Bus Application | Eleora & Gila */
+// This Program holds the information for a fleet of buses and allows the user to do various operations on this fleet from a menu.
+using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Configuration; //this can be used to validate strings
 using System.Diagnostics.Eventing.Reader;
 using System.Dynamic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;//this can be used to validate strings
 
 namespace Bus_Fleet_Ex1
 {
@@ -41,7 +43,14 @@ namespace Bus_Fleet_Ex1
         {
             get { return mileage; }
             set //increase milleage each time a certain distance is traveled... cannot subtract
-            { mileage = value; }
+            {
+                if (value<0) //stop mileage reader from being set backwards
+                {
+                    Console.WriteLine("Error: mileage cannot be decreased or negative");
+                    mileage = 0;
+                } 
+                else mileage = value;
+            }
         }
 
         private float fuel; //fuel value
@@ -60,9 +69,21 @@ namespace Bus_Fleet_Ex1
             set { maintenanceDate = value; }
         }
 
-        public void setLicenseNum()
+        public string setLicenseNum()
         {
-            string license;
+            Console.WriteLine("Please enter the manufacture date of the Bus:");
+            var userDate = Console.ReadLine();
+            string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$"; 
+            bool dateVerified = false;
+            dateVerified = (Regex.IsMatch(userDate, patternDate));
+            while (dateVerified == false) //check if date is valid
+            {
+                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n");
+                userDate = Console.ReadLine();
+                dateVerified = (Regex.IsMatch(userDate, patternDate));
+            }
+            var manufactureDate = DateTime.Now;
+            DateTime.TryParse(userDate, out manufactureDate);
             string licenseTry;
             var date2018 = DateTime.MinValue;
             var date = DateTime.MinValue;
@@ -71,29 +92,37 @@ namespace Bus_Fleet_Ex1
                 date2018 = date; ;
             }
 
-            if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
+            int compare = DateTime.Compare(manufactureDate, date2018);
+
+            if (compare <= 0)  //manufactered before 2018
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                 
-                    while (!Regex.IsMatch(licenseTry, @"(^\d{2}-\d{3}-\d{2}$)"))  //using Regex to check the format
-                                                                                 
+                string pattern1 = @"^\d{2}[-]\d{3}[-]\d{2}$";
+                bool verified1 = false;
+                verified1 = (Regex.IsMatch(licenseTry, pattern1)); //first check
+                while (verified1 == false)
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
+                    verified1 = (Regex.IsMatch(licenseTry, pattern1)); //if license is valid verified will be true and program will continue
                 }
-                license = licenseTry;
+                return licenseTry;
             }
-            else   //8 digits format --> 123-45-678 
+            else  
             {
                 Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
                 licenseTry = Console.ReadLine();
-                while (!Regex.IsMatch(licenseTry, @"(^\d{3}-\d{2}-\d{3}$)"))  //using Regex to check the format
+                string pattern2 = @"^\d{3}[-]\d{2}[-]\d{3}$";
+                bool verified2 = false;
+                verified2 = (Regex.IsMatch(licenseTry, pattern2)); //first check
+                while (verified2 == false)
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
+                    verified2 = (Regex.IsMatch(licenseTry, pattern2)); //if license is valid verified will be true and program will continue
                 }
-                license = licenseTry;
+                return licenseTry;
             }
         }
             
@@ -106,8 +135,7 @@ namespace Bus_Fleet_Ex1
             {
                 today = dateToday;
             }
-            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   //ADD METHOD
-
+            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   
             if ((BusMileage % 20000 == 0) && (BusMileage != 0) && (ts.Days > 365))
             {
                 Console.WriteLine("DANGER: the bus needs to go to maintenance!");
@@ -132,8 +160,9 @@ namespace Bus_Fleet_Ex1
 
         public void addBus(List<Bus> Busfleet)
         {
-            setLicenseNum();
-            Console.WriteLine("Enter the mileage: ");  //can we say that in english??
+            string license = setLicenseNum();
+            BusLicense = license; //update bus to have correct license as opposed to default 
+            Console.WriteLine("Enter the mileage: ");  
             string mileage = Console.ReadLine();
             int number = 0;
             int newMileage = 0;
@@ -148,6 +177,7 @@ namespace Bus_Fleet_Ex1
                 {
                     newMileage = number;
                 }
+                BusMileage = newMileage; //update bus to have correct mileage as opposed to default 
             }
             Console.WriteLine("Enter the distance of the trip that can be made with the current quantity of fuel: ");
             string fuel = Console.ReadLine();
@@ -164,16 +194,27 @@ namespace Bus_Fleet_Ex1
                 {
                     newFuel = num;
                 }
+                BusFuel = newFuel;//update bus to have correct fuel as opposed to default 
             }
-
-            Console.WriteLine(" Enter the start date of the activity (DD/MM/YYYY): ");
+            Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
             string date = Console.ReadLine();
+            string patternDate = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{4}$";
+            bool dateVerified = false;
+            dateVerified = (Regex.IsMatch(date, patternDate));
+            while (dateVerified == false) //check if date is valid
+            {
+                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n");
+                date = Console.ReadLine();
+                dateVerified = (Regex.IsMatch(date, patternDate));
+            }
             DateTime dateValue;
             if (DateTime.TryParse(date, out dateValue))
             {
-                lastMaintenanceDate = dateValue;
-                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = dateValue, BusMileage = newMileage, BusFuel = newFuel}); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
+                lastMaintenanceDate = dateValue; //update bus to have correct maintenance as opposed to default 
+                BusStartDate = dateValue; //update bus to have correct startdate as opposed to default 
+
             }
+            Console.WriteLine("Bus successfully added to fleet.");
         }
 
         /* Menu Option B: */
@@ -243,19 +284,27 @@ namespace Bus_Fleet_Ex1
                 if (Busfleet[i].BusLicense.Equals(Blicense)) //bus is found in fleet
                 {
                     notFound = false;
-                    Console.WriteLine("Type 'A' to select the refueling option or 'B'to select maintenance option.");
-                    TryParse(Console.ReadLine(), out int AorB);
-                    if (AorB == 65) //option A
+                    Console.WriteLine("Type '1' to select the refueling option or '2' to select maintenance option.");
+                  
+                    if (Int32.TryParse(Console.ReadLine(), out int number))
                     {
-                        BusFuel = 1200;
-                        //1200KM max distance allowed to travel after refueling
-                        Console.WriteLine("The bus has been refueled.");
+                        if (number == 1)
+                        {
+                            BusFuel = 1200;
+                            Console.WriteLine("The bus has been refueled.");
+                        }
+                        if (number == 2)
+                        {
+                            Maintenance(this);
+                            Console.WriteLine("The bus has undergone a maintenance check.");
+                        }
+                        i = (Busfleet.Count() - 1); //exit for loop
                     }
-                    if (AorB == 66) //option B
+                    else
                     {
-                        Maintenance(Busfleet[i]);
+                        Console.WriteLine("Error: invalid input");
+                        i = (Busfleet.Count() - 1); //exit for loop
                     }
-                    i = (Busfleet.Count() - 1); //exit for loop
                 }
             }
             if (notFound) //bus not in fleet
@@ -264,10 +313,6 @@ namespace Bus_Fleet_Ex1
             }
         }
 
-        private int TryParse(string v, out int result) // so that we can use the TryParse Method
-        {
-            throw new NotImplementedException();
-        }
 
         /* Menu Option D: */
 
@@ -278,14 +323,10 @@ namespace Bus_Fleet_Ex1
 
         public void mileageDisplay()
         {
-            // seeing as only the main program has the entire fleet of buses listed, I was thinking that in the
-            // method all it should do is print the mileage and license number of this bus
-            // in the switch we can then call this method on the count of the busses in the fleet
-
             Console.WriteLine("Bus License: ");
-            Console.WriteLine(BusLicense); //calls on the getter method of the BusLicense which will return the license of bus
+            Console.WriteLine(BusLicense);
             Console.WriteLine("Mileage: ");
-            Console.WriteLine(BusMileage); //calls on the getter method of the BusMileage which will return the mileage of bus
+            Console.WriteLine(BusMileage);
         }
 
     }
@@ -309,38 +350,44 @@ namespace Bus_Fleet_Ex1
                 int.TryParse(Console.ReadLine(), out choice);
                 switch ((BusOptions)choice)
                 {
-                    case BusOptions.Add:
-                        Console.WriteLine("Add");
+                    case BusOptions.Add: //adds bus to fleet
+                        Console.WriteLine("Add"); //comment out
                         Bus addedBus = new Bus();
                         fleet.Add(addedBus);
                         addedBus.addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
-                        Console.WriteLine("Choose");
-                        fleet[0].chooseBus(fleet);
+                        Console.WriteLine("Choose"); //comment out
+                        try { fleet[0].chooseBus(fleet); }
+                        catch { Console.WriteLine("Error: fleet is empty - there are no buses to choose from.\n"); }
                         break;
                     case BusOptions.Refuel: //  void refuelMaintenance(List<Bus> Busfleet)
-                        Console.WriteLine("Refuel");
-                        fleet[0].refuelMaintenance(fleet);
+                        Console.WriteLine("Refuel"); //comment out
+                        try { fleet[0].refuelMaintenance(fleet); }
+                        catch { Console.WriteLine("Error: fleet is empty - no options of refueling or maintenance are available.\n"); }
                         break;
                     case BusOptions.Mileage: // void mileageDisplay()
-                        Console.WriteLine("Mileage");
-                        for (int i = 0; i < fleet.Count; i++)
+                        Console.WriteLine("Mileage"); //comment out
+                        int check = 0;
+                        foreach (Bus bus in fleet)
                         {
-                            fleet[i].mileageDisplay();
+                            bus.mileageDisplay();
+                            check++;
                         }
+                        if(check == 0)
+                            Console.WriteLine("Error: fleet is empty.\n");
                         break;
                     case BusOptions.Exit:
-                        Console.WriteLine("close");
+                        Console.WriteLine("close"); //comment out
                         System.Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Error: Invalid Input");
                         break;
                 }
+                Console.WriteLine("Select another option from the menu:\n");
             }
             while (choice != 0);
-            
         }
     }
 }
