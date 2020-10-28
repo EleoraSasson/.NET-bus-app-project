@@ -17,7 +17,6 @@ namespace Bus_Fleet_Ex1
     {
         /* CLASS MEMBERS */
 
-        Bus() { BusLicense = license; BusStartDate = startDate; BusMileage = mileage; BusFuel = fuel; }
         //information of each bus - each member is private with a public method that accesses and update the private member:
         private string license; //license number
 
@@ -76,7 +75,8 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                while (!Regex.IsMatch(licenseTry, @"[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}"))  //using Regex to check the format
+                //while (!Regex.IsMatch(licenseTry, @"^[0-9]{2}\.-\.[0-9]{3}\.-.\[0-9]{2}$"))  //using Regex to check the format
+                while (!Regex.IsMatch(licenseTry, (@"^d{2}\-?\d{3}\-?\d{2}")))
                 {
                     Console.WriteLine("ERROR: license number is in the wrong format. ");
                     licenseTry = Console.ReadLine();
@@ -131,7 +131,6 @@ namespace Bus_Fleet_Ex1
 
         public void addBus(List<Bus> Busfleet)
         {
-            Console.WriteLine(" Enter the license number: ");
             setLicenseNum();
             Console.WriteLine("Enter the mileage: ");  //can we say that in english??
             string mileage = Console.ReadLine();
@@ -297,10 +296,10 @@ namespace Bus_Fleet_Ex1
         {
             // create a list of buses
             var fleet = new List<Bus>();
-           
+
             Console.WriteLine("Welcome to our Bus Fleet \nPlease select an option from the menu:");
 
-            Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
+            Console.WriteLine(" 1. Adding a Bus \n 2. Choosing a Bus a for Travel \n 3. Refueling/Bus Maintenance \n 4. Mileage Display of Bus Fleet \n 5. Exit");
 
            
             int choice;
@@ -311,7 +310,9 @@ namespace Bus_Fleet_Ex1
                 {
                     case BusOptions.Add:
                         Console.WriteLine("Add");
-                        fleet[0].addBus(fleet);
+                        Bus addedBus = new Bus();
+                        fleet.Add(addedBus);
+                        addedBus.addBus(fleet);
                         break;
                     case BusOptions.Choose: // void chooseBus(List<Bus> Busfleet) 
                         Console.WriteLine("Choose");
