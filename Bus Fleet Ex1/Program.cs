@@ -178,7 +178,9 @@ namespace Bus_Fleet_Ex1
                     newMileage = number;
                 }
                 BusMileage = newMileage; //update bus to have correct mileage as opposed to default 
-            }
+            } 
+           
+            BusMileage = newMileage;
             Console.WriteLine("Enter the distance of the trip that can be made with the current quantity of fuel: ");
             string fuel = Console.ReadLine();
             int num = 0;
