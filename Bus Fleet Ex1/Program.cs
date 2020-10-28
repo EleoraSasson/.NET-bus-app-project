@@ -62,7 +62,10 @@ namespace Bus_Fleet_Ex1
 
         public void setLicenseNum()
         {
-            string license;
+            Console.WriteLine("Please enter the manufacture date of the Bus:");
+            var userDate = Console.ReadLine();
+            var manufactureDate = DateTime.Now;
+            DateTime.TryParse(userDate, out manufactureDate);
             string licenseTry;
             var date2018 = DateTime.MinValue;
             var date = DateTime.MinValue;
@@ -71,7 +74,9 @@ namespace Bus_Fleet_Ex1
                 date2018 = date; ;
             }
 
-            if (BusStartDate < date2018)   //7 digits format --> 12-345-67 
+            int compare = DateTime.Compare(manufactureDate, date2018);
+
+            if (compare <= 0)  //manufactered before 2018
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
@@ -85,7 +90,7 @@ namespace Bus_Fleet_Ex1
                     verified1 = (Regex.IsMatch(licenseTry, pattern1)); //if license is valid verified will be true and program will continue
                 }
             }
-            else   //8 digits format --> 123-45-678 
+            else  
             {
                 Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
                 licenseTry = Console.ReadLine();
@@ -168,15 +173,6 @@ namespace Bus_Fleet_Ex1
                 {
                     newFuel = num;
                 }
-            }
-
-            Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
-            string date = Console.ReadLine();
-            DateTime dateValue;
-            if (DateTime.TryParse(date, out dateValue))
-            {
-                lastMaintenanceDate = dateValue;
-                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = dateValue, BusMileage = newMileage, BusFuel = newFuel}); //create a new Bus and add it to the list (assuming the maintenance is done at the start date)
             }
         }
 
