@@ -152,6 +152,7 @@ namespace Bus_Fleet_Ex1
         public void addBus(List<Bus> Busfleet)
         {
             string license = setLicenseNum();
+            BusLicense = license; //update bus to have correct license as opposed to default 
             Console.WriteLine("Enter the mileage: ");  
             string mileage = Console.ReadLine();
             int number = 0;
@@ -167,6 +168,7 @@ namespace Bus_Fleet_Ex1
                 {
                     newMileage = number;
                 }
+                BusMileage = newMileage; //update bus to have correct mileage as opposed to default 
             }
             Console.WriteLine("Enter the distance of the trip that can be made with the current quantity of fuel: ");
             string fuel = Console.ReadLine();
@@ -183,6 +185,7 @@ namespace Bus_Fleet_Ex1
                 {
                     newFuel = num;
                 }
+                BusFuel = newFuel;//update bus to have correct fuel as opposed to default 
             }
             Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
             string date = Console.ReadLine();
@@ -198,8 +201,9 @@ namespace Bus_Fleet_Ex1
             DateTime dateValue;
             if (DateTime.TryParse(date, out dateValue))
             {
-                lastMaintenanceDate = dateValue;
-                Busfleet.Add(new Bus() { BusLicense = license, BusStartDate = dateValue, BusMileage = newMileage, BusFuel = newFuel }); //create a new Bus and add it to the list
+                lastMaintenanceDate = dateValue; //update bus to have correct maintenance as opposed to default 
+                BusStartDate = dateValue; //update bus to have correct startdate as opposed to default 
+
             }
             Console.WriteLine("Bus successfully added to fleet.");
         }
@@ -307,9 +311,9 @@ namespace Bus_Fleet_Ex1
         public void mileageDisplay()
         {
             Console.WriteLine("Bus License: ");
-            Console.WriteLine(BusLicense); //calls on the getter method of the BusLicense which will return the license of bus
+            Console.WriteLine(BusLicense);
             Console.WriteLine("Mileage: ");
-            Console.WriteLine(BusMileage); //calls on the getter method of the BusMileage which will return the mileage of bus
+            Console.WriteLine(BusMileage);
         }
 
     }
@@ -351,9 +355,9 @@ namespace Bus_Fleet_Ex1
                     case BusOptions.Mileage: // void mileageDisplay()
                         Console.WriteLine("Mileage"); //comment out
                         int check = 0;
-                        for (int i = 1; i < fleet.Count; i++)
+                        foreach (Bus bus in fleet)
                         {
-                            fleet[i].mileageDisplay();
+                            bus.mileageDisplay();
                             check++;
                         }
                         if(check == 0)
