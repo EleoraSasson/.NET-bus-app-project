@@ -129,14 +129,10 @@ namespace Bus_Fleet_Ex1
         /* this method returns true if the bus needs a maintenance*/
         public bool Maintenance(Bus bus)     
         {
-            var dateToday = DateTime.MinValue;
-            var today = DateTime.MinValue;
-            if (DateTime.TryParse (DateTime.Now.ToString("dd/mm/yyyy"), out dateToday))
-            {
-                today = dateToday;
-            }
-            TimeSpan ts = today.Subtract(lastMaintenanceDate);                   
-            if ((BusMileage % 20000 == 0) && (BusMileage != 0) && (ts.Days > 365))
+            var today = DateTime.Now;
+            int days = (today - lastMaintenanceDate).Days;
+
+            if (((BusMileage % 20000) == 0) || (BusMileage != 0) || (days > 365)) 
             {
                 Console.WriteLine("DANGER: the bus needs to go to maintenance!");
                 lastMaintenanceDate = today;
