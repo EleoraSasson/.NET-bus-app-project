@@ -170,7 +170,7 @@ namespace Bus_Fleet_Ex1
                 }
             }
 
-            Console.WriteLine(" Enter the start date of the activity (DD/MM/YYYY): ");
+            Console.WriteLine("Enter the start date of the activity (DD/MM/YYYY): ");
             string date = Console.ReadLine();
             DateTime dateValue;
             if (DateTime.TryParse(date, out dateValue))
@@ -342,9 +342,9 @@ namespace Bus_Fleet_Ex1
                         Console.WriteLine("Error: Invalid Input");
                         break;
                 }
+                Console.WriteLine("Select another option from the menu:\n");
             }
             while (choice != 0);
-            
         }
     }
 }
