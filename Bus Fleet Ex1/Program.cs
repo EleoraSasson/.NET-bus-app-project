@@ -126,7 +126,7 @@ namespace Bus_Fleet_Ex1
             }
         }
             
-        /* this method returns true if the bus needs a maintenance*/
+        /* this method returns true if the bus needs a maintenance */
         public bool Maintenance(Bus bus)     
         {
             var today = DateTime.Now;
