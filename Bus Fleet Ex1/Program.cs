@@ -64,6 +64,15 @@ namespace Bus_Fleet_Ex1
         {
             Console.WriteLine("Please enter the manufacture date of the Bus:");
             var userDate = Console.ReadLine();
+            string patternDate = @"^(3[01]|[12][0-9]|[1-9])[/](1[0-2]|[1-9])[/]\d{4}$";
+            bool dateVerified = false;
+            dateVerified = (Regex.IsMatch(userDate, patternDate));
+            while (dateVerified == false) //check if date is valid
+            {
+                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n");
+                userDate = Console.ReadLine();
+                dateVerified = (Regex.IsMatch(userDate, patternDate));
+            }
             var manufactureDate = DateTime.Now;
             DateTime.TryParse(userDate, out manufactureDate);
             string licenseTry;
@@ -80,7 +89,7 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XX-XXX-XX: ");
                 licenseTry = Console.ReadLine();
-                string pattern1 = @"^[0-9][0-9][-][0-9][0-9][0-9][-][0-9][0-9]$";
+                string pattern1 = @"^\d{2}[-]\d{3}[-]\d{2}$";
                 bool verified1 = false;
                 verified1 = (Regex.IsMatch(licenseTry, pattern1)); //first check
                 while (verified1 == false)
@@ -94,7 +103,7 @@ namespace Bus_Fleet_Ex1
             {
                 Console.WriteLine("Enter the license number following the format XXX-XX-XXX: ");
                 licenseTry = Console.ReadLine();
-                string pattern2 = @"^[0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9][0-9]$";
+                string pattern2 = @"^\d{3}[-]\d{2}[-]\d{3}$";
                 bool verified2 = false;
                 verified2 = (Regex.IsMatch(licenseTry, pattern2)); //first check
                 while (verified2 == false)
