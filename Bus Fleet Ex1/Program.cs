@@ -282,19 +282,27 @@ namespace Bus_Fleet_Ex1
                 if (Busfleet[i].BusLicense.Equals(Blicense)) //bus is found in fleet
                 {
                     notFound = false;
-                    Console.WriteLine("Type 'A' to select the refueling option or 'B'to select maintenance option.");
-                    TryParse(Console.ReadLine(), out int AorB);
-                    if (AorB == 65) //option A
+                    Console.WriteLine("Type '1' to select the refueling option or '2' to select maintenance option.");
+                  
+                    if (Int32.TryParse(Console.ReadLine(), out int number))
                     {
-                        BusFuel = 1200;
-                        //1200KM max distance allowed to travel after refueling
-                        Console.WriteLine("The bus has been refueled.");
+                        if (number == 1)
+                        {
+                            BusFuel = 1200;
+                            Console.WriteLine("The bus has been refueled.");
+                        }
+                        if (number == 2)
+                        {
+                            Maintenance(this);
+                            Console.WriteLine("The bus has undergone a maintenance check.");
+                        }
+                        i = (Busfleet.Count() - 1); //exit for loop
                     }
-                    if (AorB == 66) //option B
+                    else
                     {
-                        Maintenance(Busfleet[i]);
+                        Console.WriteLine("Error: invalid input");
+                        i = (Busfleet.Count() - 1); //exit for loop
                     }
-                    i = (Busfleet.Count() - 1); //exit for loop
                 }
             }
             if (notFound) //bus not in fleet
@@ -303,10 +311,6 @@ namespace Bus_Fleet_Ex1
             }
         }
 
-        private int TryParse(string v, out int result) // so that we can use the TryParse Method
-        {
-            throw new NotImplementedException();
-        }
 
         /* Menu Option D: */
 
