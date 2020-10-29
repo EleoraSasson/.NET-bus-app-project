@@ -201,7 +201,7 @@ namespace Bus_Fleet_Ex1
             dateVerified = (Regex.IsMatch(date, patternDate));
             while (dateVerified == false) //check if date is valid
             {
-                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n");
+                Console.WriteLine("Error: Invalid Date - Must be in format dd/mm/yyyy.\n"); 
                 date = Console.ReadLine();
                 dateVerified = (Regex.IsMatch(date, patternDate));
             }
