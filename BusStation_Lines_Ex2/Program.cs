@@ -28,15 +28,32 @@ namespace BusStation_Lines_Ex2
             }
 
             private float longitude; //longitude 
+
             public float BusLongitude
             {
                 get { return longitude; }
                 set { longitude = value; }
             }
+
+            public BusStop (int key, float lat, float lon) //had to add a constructor to create new objects later
+            {
+                BusStationKey = key;
+                BusLatitude = lat;
+                BusLongitude = lon;
+            }
             // ToString method ??? to override for inheritance
         }
         class BusRoutes : BusStop //derived Class
         {
+            public BusRoutes (int l, string a, List <BusStop> b, int key, float lat, float lon) : base (key, lat, lon)   //go over it
+            {
+                BusLine = l;
+                BusArea = a;
+                //BusStop b
+                BusStationKey = key;
+                BusLatitude = lat;
+                BusLongitude = lon;
+            }
             private int line; //lines
 
             public int BusLine
@@ -63,13 +80,26 @@ namespace BusStation_Lines_Ex2
 
             /*METHODS*/
 
+            //overriding ToString?
 
-            /* Method: 
-             * Description: 
-             * Return Type:
+            /* Method: addStop
+             * Description: adds a bus stattion to a route
+             * Return Type: void
              */
-            void addStop() //Eleora
+            void addStop(List <BusStop> bus) 
             {
+                Console.WriteLine("Enter the bus station ID: ");
+                int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
+                //random latitude
+                Random rd = new Random();
+                var num = rd.Next(31000000, 33300001);
+                float lat = (float)num / 1000000;
+                //random longitude
+                Random r = new Random();
+                var n = r.Next(34300000, 35500001);
+                float lon = (float)n / 1000000;
+                BusStop stop = new BusStop(BusStationKey = key, BusLatitude = lat, BusLongitude = lon);
+                BusStations.Add(stop); //add the new stop to the list of stops
 
             }
 
@@ -82,13 +112,18 @@ namespace BusStation_Lines_Ex2
 
             }
 
-            /* Method: 
-            * Description: 
-            * Return Type:
+            /* Method: isStopOnRoute
+            * Description: returns true if the stop is on the route
+            * Return Type: bool
             */
             bool isStopOnRoute(int busLine) //Eleora
             {
-                return true;
+                int index = BusStations.FindIndex(stop => stop.BusStationKey == busLine);
+                if (index >= 0) //if the bus station is on the route
+                {
+                    return true;
+                }
+                else return false;
             }
             /* Method: 
             * Description: 
@@ -99,9 +134,9 @@ namespace BusStation_Lines_Ex2
             {
                 return 1;
             }
-            /* Method: 
-            * Description: 
-            * Return Type:
+            /* Method: routeTime
+            * Description: returns the travel time between 2 stations on the line
+            * Return Type: DateTime
             */
             DateTime routeTime() //Eleora
             {
