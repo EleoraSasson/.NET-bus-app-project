@@ -271,7 +271,7 @@ namespace BusStation_Lines_Ex2
                     case BusLineOptions.Exit:
                         break;
                     default:
-                        break;
+                        break; 
                 }
                 Console.WriteLine("Select another option from the menu:\n");
             }
