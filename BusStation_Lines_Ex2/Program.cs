@@ -27,25 +27,20 @@ namespace BusStation_Lines_Ex2
             public double BusLatitude
             {
                 get { return latitude; }
-                set 
-                {
-                    Random rlat = new Random();
-                    double rand_latitude =  rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
-                    latitude = rand_latitude;
-                }
+                set { latitude = value;}
             }
              
             private double longitude; //longitude 
             public double BusLongitude
             {
                 get { return longitude; }
-                set
-                {
-                    Random rlong = new Random();
-                    double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
-                    longitude = rand_longitude;
-                }
-
+                set { longitude = value; }
+            }
+            public BusStop(int key, double lat, double lon) //had to add a constructor to create new objects later
+            {
+                BusStationKey = key;
+                BusLatitude = lat;
+                BusLongitude = lon;
             }
 
             public virtual void Print() //this should be changed to a ethod that overrides the ToString Method (see comment below)
@@ -60,14 +55,12 @@ namespace BusStation_Lines_Ex2
         }
         class BusRoutes : BusStop //derived Class
         {
-            public BusRoutes (int l, string a, List <BusStop> b, int key, float lat, float lon) : base (key, lat, lon)   //go over it
+            public BusRoutes(int l, string a, List<BusStop> b, int key, double lat, double lon) : base (key, lat, lon)   //go over it
             {
                 BusLine = l;
                 BusArea = a;
-                //BusStop b
-                BusStationKey = key;
-                BusLatitude = lat;
-                BusLongitude = lon;
+                BusStop bus = new BusStop(key,lat,lon);
+                BusStations.Add(bus);
             }
             private int line; //lines
 
@@ -104,39 +97,42 @@ namespace BusStation_Lines_Ex2
             void addStop(List <BusStop> bus) 
             {
                 Console.WriteLine("Enter the bus station ID: ");
+                //key:
                 int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
-                //random latitude
-                Random rd = new Random();
-                var num = rd.Next(31000000, 33300001);
-                float lat = (float)num / 1000000;
-                //random longitude
-                Random r = new Random();
-                var n = r.Next(34300000, 35500001);
-                float lon = (float)n / 1000000;
-                BusStop stop = new BusStop(BusStationKey = key, BusLatitude = lat, BusLongitude = lon);
-                BusStations.Add(stop); //add the new stop to the list of stops
+                // add check that key does not already exist
 
+                //latitude:
+                Random rlat = new Random();
+                double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
+
+                //longitude:
+                Random rlong = new Random();
+                double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
+               
+                BusStop stop = new BusStop(key, rand_latitude, rand_longitude);
+                BusStations.Add(stop); //add the new stop to the list of stops
             }
 
             /* Method: removeStop
-            * Description: Searches for busKey in agiven route and if found removes the bus station with taht bus key.
+            * Description: Searches for busKey in a given route and if found removes the bus station with that bus key.
             * Return Type: void 
             */
             void removeStop(int busKey) //Gila 
             {
-                bool notFound = false;
+                bool notFound = true;
 
                 for (int i = 0; i < BusStations.Count; i++) //search for stop
                 {
                     if (busKey == BusStations[i].BusStationKey)
                     {
                         BusStations.RemoveAt(i); //remove stop
+                        notFound = false;
                     }
                 }
 
                 if (notFound) // true that it hasn't been found
                 {
-                    Console.WriteLine("Error: Bus stop does not exists in route.");
+                    Console.WriteLine("Error: Bus stop does not exist in the route.");
                 }
             }
 
@@ -144,15 +140,16 @@ namespace BusStation_Lines_Ex2
             * Description: returns true if the stop is on the route
             * Return Type: bool
             */
-            bool isStopOnRoute(int busLine) //Eleora
+            bool isStopOnRoute(int busKey) //Eleora
             {
-                int index = BusStations.FindIndex(stop => stop.BusStationKey == busLine);
+                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey);
                 if (index >= 0) //if the bus station is on the route
                 {
                     return true;
                 }
                 else return false;
             }
+
             /* Method: 
             * Description: 
             * Return Type:
@@ -190,7 +187,7 @@ namespace BusStation_Lines_Ex2
             * Description: 
             * Return Type:
             */
-            void addLine()
+            void addLine() //gila
             {
 
             }
@@ -199,7 +196,7 @@ namespace BusStation_Lines_Ex2
             * Description: 
             * Return Type:
             */
-            void removeLine(int busLine)
+            void removeLine(int busLine) //eleora
             {
 
             }
@@ -208,7 +205,7 @@ namespace BusStation_Lines_Ex2
             * Description: 
             * Return Type:
             */
-            List<BusRoutes> linesThroughStation( /*send station number*/)
+            List<BusRoutes> linesThroughStation( /*send station number*/) //gila
             {
                 return ;///return list of lines that pass through the station
             }
@@ -217,7 +214,7 @@ namespace BusStation_Lines_Ex2
            * Description: 
            * Return Type:
            */
-            void sortLines()
+            void sortLines() //eleora
             {
 
             }
@@ -226,7 +223,7 @@ namespace BusStation_Lines_Ex2
            * Description: 
            * Return Type:
            */
-            int doesExist()
+            int doesExist() //gila
             {
                 //?????
                 return 0;
@@ -237,7 +234,7 @@ namespace BusStation_Lines_Ex2
            * Return Type:
            */
 
-            void printLines(List<BusRoutes> BusDatabase)
+            void printLines(List<BusRoutes> BusDatabase) //eleora 
             {
                 //traverse list with a foreach loop!
             }
@@ -305,3 +302,13 @@ namespace BusStation_Lines_Ex2
         }
     }
 }
+
+
+////random latitude
+//Random rd = new Random();
+//var num = rd.Next(31000000, 33300001);
+//float lat = (float)num / 1000000;
+////random longitude
+//Random r = new Random();
+//var n = r.Next(34300000, 35500001);
+//float lon = (float)n / 1000000;
