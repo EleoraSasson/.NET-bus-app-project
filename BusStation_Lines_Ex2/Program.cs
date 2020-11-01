@@ -138,7 +138,7 @@ namespace BusStation_Lines_Ex2
             * Description: returns the travel time between 2 stations on the line
             * Return Type: DateTime
             */
-            DateTime routeTime() //Eleora
+            DateTime routeTime() //
             {
                 var time = Console.ReadLine();
                 return time;
