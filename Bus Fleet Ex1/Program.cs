@@ -1,4 +1,4 @@
-﻿/* Exercise 2 | Windoes Project | Bus Application | Eleora & Gila */
+﻿/* Exercise 2 | Windows Project | Bus Application | Eleora & Gila */
 // This Program holds the information for a fleet of buses and allows the user to do various operations on this fleet from a menu.
 using System;
 using System.Collections.Generic;

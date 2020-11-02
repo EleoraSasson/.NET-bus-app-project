@@ -51,7 +51,7 @@ namespace Ex2_BusLineCollection
             /*
              * A) override ToString
              * B1) add stop
-             * B2) remove stop
+             * B2) remove stop      
              * C) isStation on Route?
              * D) returns distance (passes the two station to the class DistanceTime)
              * E) returns travel time (passes the two station to the class DistanceTime)

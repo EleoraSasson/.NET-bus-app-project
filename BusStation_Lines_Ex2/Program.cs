@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;//this can be used to validate strings
 using System.Xml;
 using System.Runtime.InteropServices;
 using Microsoft.SqlServer.Server;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BusStation_Lines_Ex2
 {
@@ -38,6 +39,14 @@ namespace BusStation_Lines_Ex2
                 set { longitude = value; }
             }
 
+            private DateTime travelTime; //travel time between this stop and the next time
+
+            public DateTime BusTravelTime
+            {
+                get { return travelTime; }
+                set { travelTime = value; }
+            }
+
             private string address; //added this as the updates hw sheet has an address input too -- do we want this to be legit from he lon and lat?
 
             public string StopAddress
@@ -45,15 +54,9 @@ namespace BusStation_Lines_Ex2
                 get { return address; }
                 set { address = value; }
             }
-            public BusStop(int key, double lat, double lon, string adr) //had to add a constructor to create new objects later
-            {
-                BusStationKey = key;
-                BusLatitude = lat;
-                BusLongitude = lon;
-                StopAddress = adr;
-            }
+            public BusStop(int key, double lat, double lon, string adr) 
 
-            public virtual void Print() //this should be changed to a ethod that overrides the ToString Method (see comment below)
+            public virtual void Print() //this should be changed to a method that overrides the ToString Method (see comment below)
             {
                 Console.WriteLine("Bus Station Code: ", BusStationKey,BusLatitude, "N " , BusLongitude, "E\n" ); //Bus Station Code: 123456, 31.766101N 35.192826 E
             }
@@ -65,7 +68,7 @@ namespace BusStation_Lines_Ex2
         }
         class BusRoutes : BusStop //derived Class
         {
-            public BusRoutes(int l, string a, List<BusStop> b, BusStop first, BusStop last, int key, double lat, double lon, string adr) : base (key, lat, lon, adr)   //go over it
+            public BusRoutes(int l, string a, List<BusStop> b, BusStop first, BusStop last, int key, double lat, double lon, string adr) : base (key, lat, lon, adr)   
             {
                 BusLine = l;
                 BusArea = a;
@@ -127,7 +130,12 @@ namespace BusStation_Lines_Ex2
                 Console.WriteLine("Enter the bus station ID: ");
                 //key:
                 int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
-                // add check that key does not already exist
+                int index = bus.FindIndex(item => item.BusStationKey == key);
+                if (index < 0)
+                {
+                    Console.WriteLine("ERROR: bus station already exists.");
+                    return;
+                }
 
                 //latitude:
                 Random rlat = new Random();
@@ -146,7 +154,7 @@ namespace BusStation_Lines_Ex2
                     firstStop = stop; // the stop you added is also the first stop of route
                     lastStop = stop; // it is also the last stop on the route
                 }
-                else // the sation you add now will become the last stop of the route
+                else // the station you add now will become the last stop of the route
                 {
                     BusStations.Add(stop); //add the new stop to the list of stops
                     lastStop = stop;
@@ -204,10 +212,22 @@ namespace BusStation_Lines_Ex2
             * Description: returns the travel time between 2 stations on the line
             * Return Type: DateTime
             */
-            DateTime routeTime() //
+            DateTime routeTime() //added a field to the class
             {
-                var time = Console.ReadLine();
-                return time;
+                Console.WriteLine("Please enter the travel time between the 2 stations in the format: hh:mm:ss");
+                var userTime = Console.ReadLine();
+                string patternTime = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{2}$";
+                bool dateVerified = false;
+                dateVerified = (Regex.IsMatch(userTime, patternTime));
+                while (dateVerified == false) //check if date is valid
+                {
+                    Console.WriteLine("Error: Invalid Time - Must be in format hh:mm:ss.\n");
+                    userTime = Console.ReadLine();
+                    dateVerified = (Regex.IsMatch(userTime, patternTime));
+                }
+                DateTime travelTime = DateTime.ParseExact(userTime, "HH:mm:ss tt", null); //converts the string to a DateTime
+                BusTravelTime = travelTime; //set the stop's field
+                return travelTime;
             }
             /* Method: 
             * Description: 
@@ -220,8 +240,18 @@ namespace BusStation_Lines_Ex2
 
         }
 
-        class BusLines
+         class BusLines : BusRoutes //add a constructor?? a collection?
         {
+            public BusLines (List <BusRoutes> b,   )//(int l, string a, List<BusStop> b, BusStop first, BusStop last, int key, double lat, double lon, string adr) : base(key, lat, lon, adr)
+            {
+                BusLine = l;
+                BusArea = a;
+                firstStop = first;
+                lastStop = last;
+                BusStop bus = new BusStop(key, lat, lon, adr);
+                BusStations.Add(bus);
+            }
+
             List<BusRoutes> BusDatabase = new List<BusRoutes>();//collection of bus routes
 
             /* Method: addLine
@@ -256,13 +286,27 @@ namespace BusStation_Lines_Ex2
                 BusStations.Add(bus);
             }*/
 
-            /* Method: 
-            * Description: 
-            * Return Type:
+            /* Method: removeLine
+            * Description: removes a bus line from the collection
+            * Return Type: void
             */
-            void removeLine(int busLine) //eleora
+            void removeLine(int lineToRemove) //changed the name of the variable to make it less confusing
             {
+                bool notFound = true;
 
+                for (int i = 0; i < BusDatabase.Count; i++) //search for stop
+                {
+                    if (lineToRemove == BusDatabase[i].BusLine)
+                    {
+                        BusDatabase.RemoveAt(i); //remove line
+                        notFound = false;
+                    }
+                }
+
+                if (notFound) // it hasn't been found
+                {
+                    Console.WriteLine("Error: Bus stop does not exist in the route.");
+                }
             }
 
             /* Method: 
@@ -274,13 +318,53 @@ namespace BusStation_Lines_Ex2
                 return ;///return list of lines that pass through the station
             }
 
-            /* Method: 
-           * Description: 
-           * Return Type:
+            /* Method: sortLines
+           * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
+           * Return Type: void
            */
-            void sortLines() //eleora
+
+            private DateTime BusTotalTime;
+
+            public DateTime totalTime
+            {
+                set { BusTotalTime = totalTimeTravel(bus b); } // go over it
+                get { return BusTotalTime; }
+            }
+            public DateTime totalTimeTravel (BusRoutes bus)
+                {
+                    int hours = 0;
+                    int minutes = 0;
+                    int seconds = 0;
+                    for (int i = 0; i < BusStations.Count; i++) //loop to get the total travel time of a line
+                    {
+                        hours += BusStations[i].BusTravelTime.Hour;
+                        minutes += BusStations[i].BusTravelTime.Minute;
+                        seconds += BusStations[i].BusTravelTime.Second;
+                    }
+                    DateTime total = new DateTime(hours, minutes, seconds);
+                    return total;
+                }
+                
+           
+
+            public class TimeComparer:IComparer <BusRoutes>
+            {
+                public int Compare (BusRoutes x, BusRoutes y)
+                {
+                    if (object.ReferenceEquals(x, y))
+                        return 0;
+                    if (x == null)
+                        return -1;
+                    if (y == null)
+                        return 1;
+                    return x.totalTime.CompareTo(y.totalTime); //go over it
+                }
+
+            };
+            void sortLines() //have to add a total time
             {
 
+                BusDatabase.Sort((x, y) => x.totalTime.CompareTo(y.totalTime))
             }
 
             /* Method: 
@@ -293,15 +377,21 @@ namespace BusStation_Lines_Ex2
                 return 0;
             }
 
-            /* Method: 
-           * Description: 
-           * Return Type:
+            public override string ToString()
+            {
+                return "Line number: " + BusLine; //what do we need to add?
+            }
+            /* Method: printLines
+           * Description: prints objects of the class using a foreach loop
+           * Return Type: void
            */
 
-            void printLines(List<BusRoutes> BusDatabase) //eleora 
+            void printLines(List<BusRoutes> BusDatabase)  
             {
-                //traverse list with a foreach loop!
-            }
+                foreach (BusRoutes element in BusDatabase) //traverse list with a foreach loop!
+                {
+                    Console.WriteLine(element.ToString());
+                }
         }
         
         public enum BusLineOptions { Add = 1, Remove, Search, Print, Exit };
