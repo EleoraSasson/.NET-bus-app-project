@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;//this can be used to validate strings
 using System.Xml;
 using System.Runtime.InteropServices;
+using Microsoft.SqlServer.Server;
 
 namespace BusStation_Lines_Ex2
 {
@@ -36,11 +37,20 @@ namespace BusStation_Lines_Ex2
                 get { return longitude; }
                 set { longitude = value; }
             }
-            public BusStop(int key, double lat, double lon) //had to add a constructor to create new objects later
+
+            private string address; //added this as the updates hw sheet has an address input too -- do we want this to be legit from he lon and lat?
+
+            public string StopAddress
+            {
+                get { return address; }
+                set { address = value; }
+            }
+            public BusStop(int key, double lat, double lon, string adr) //had to add a constructor to create new objects later
             {
                 BusStationKey = key;
                 BusLatitude = lat;
                 BusLongitude = lon;
+                StopAddress = adr;
             }
 
             public virtual void Print() //this should be changed to a ethod that overrides the ToString Method (see comment below)
@@ -55,11 +65,13 @@ namespace BusStation_Lines_Ex2
         }
         class BusRoutes : BusStop //derived Class
         {
-            public BusRoutes(int l, string a, List<BusStop> b, int key, double lat, double lon) : base (key, lat, lon)   //go over it
+            public BusRoutes(int l, string a, List<BusStop> b, BusStop first, BusStop last, int key, double lat, double lon, string adr) : base (key, lat, lon, adr)   //go over it
             {
                 BusLine = l;
                 BusArea = a;
-                BusStop bus = new BusStop(key,lat,lon);
+                firstStop = first;
+                lastStop = last;
+                BusStop bus = new BusStop(key,lat,lon, adr);
                 BusStations.Add(bus);
             }
             private int line; //lines
@@ -78,6 +90,22 @@ namespace BusStation_Lines_Ex2
                 set { area = value; }
             }
 
+            private BusStop first; //first station on bus route
+
+            public BusStop firstStop 
+            {
+                get { return first; }
+                set { first = value; }
+            }
+
+            private BusStop last; //last station on bus route
+
+            public BusStop lastStop
+            {
+                get { return last; }
+                set { last = value; }
+            }
+
             private List<BusStop> stations; //stations
 
             public List<BusStop> BusStations
@@ -89,7 +117,7 @@ namespace BusStation_Lines_Ex2
             /*METHODS*/
 
             //overriding ToString?
-
+            
             /* Method: addStop
              * Description: adds a bus stattion to a route
              * Return Type: void
@@ -108,9 +136,22 @@ namespace BusStation_Lines_Ex2
                 //longitude:
                 Random rlong = new Random();
                 double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
+
+                //address:
+                string address = "address"; //how do we want to deal with the address?
+                BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
+                if (bus.First() == null) //if first element is empty
+                {
+                    BusStations.Add(stop); //add the new stop to the list of stops
+                    firstStop = stop; // the stop you added is also the first stop of route
+                    lastStop = stop; // it is also the last stop on the route
+                }
+                else // the sation you add now will become the last stop of the route
+                {
+                    BusStations.Add(stop); //add the new stop to the list of stops
+                    lastStop = stop;
+                }
                
-                BusStop stop = new BusStop(key, rand_latitude, rand_longitude);
-                BusStations.Add(stop); //add the new stop to the list of stops
             }
 
             /* Method: removeStop
@@ -183,14 +224,37 @@ namespace BusStation_Lines_Ex2
         {
             List<BusRoutes> BusDatabase = new List<BusRoutes>();//collection of bus routes
 
-            /* Method: 
-            * Description: 
-            * Return Type:
+            /* Method: addLine
+            * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
+            * Return Type: void
             */
-            void addLine() //gila
+            void addLine() //gila ... how do we want to deal with there and back being lines? maybe each line number should be 0___ and 1___ if back?
             {
+                Console.WriteLine("Please enter the line number you wish to add: ");
+                int lineNum = Convert.ToInt32(Console.ReadLine());
+                foreach (BusRoutes busR in BusDatabase)
+                {
+                    if (busR.BusLine == lineNum) //if line already exists
+                    {
+                        Console.WriteLine("Error: bus line already exists in database.");
+                    }
+                    // bus line is new
+                    Console.WriteLine("Enter Area   ");
+                    BusRoutes busLine = new BusRoutes(lineNum,);
+                    BusDatabase.Add(busLine);
+
+                }
 
             }
+           /* public BusRoutes(int l, string a, List<BusStop> b, BusStop first, BusStop last, int key, double lat, double lon, string adr) : base(key, lat, lon, adr)   //go over it
+            {
+                BusLine = l;
+                BusArea = a;
+                firstStop = first;
+                lastStop = last;
+                BusStop bus = new BusStop(key, lat, lon, adr);
+                BusStations.Add(bus);
+            }*/
 
             /* Method: 
             * Description: 
