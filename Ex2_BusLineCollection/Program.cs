@@ -76,6 +76,7 @@ namespace Ex2_BusLineCollection
              */ //note IEnumerable
         }
 
+        public enum BusLineOptions { Insert =1 , Delete, Search, Print, Exit}; //idea can change
         static void Main(string[] args)
         {
             /*
@@ -106,6 +107,33 @@ namespace Ex2_BusLineCollection
             E. Exit.
 
              */
+
+            var BusCollection = new List<BusRoutes>();
+
+            Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
+
+            int choice;
+            do
+            {
+                int.TryParse(Console.ReadLine(), out choice);
+                switch ((BusLineOptions)choice)
+                {
+                    case BusLineOptions.Insert:
+                        break;
+                    case BusLineOptions.Delete:
+                        break;
+                    case BusLineOptions.Search:
+                        break;
+                    case BusLineOptions.Print:
+                        break;
+                    case BusLineOptions.Exit:
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine("Select another option from the menu:\n");
+            } while (choice!=0);
+
         }
     }
 }
