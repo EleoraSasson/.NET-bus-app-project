@@ -3,77 +3,438 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;//this can be used to validate strings
+using System.Xml;
+using System.Runtime.InteropServices;
+using Microsoft.SqlServer.Server;
+using System.Collections.Specialized;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
+using System.Runtime.Remoting;
 
 namespace Ex2_BusLineCollection
 {
     class Program
     {
+        /*CLASS MEMBERS*/
         class BusStop
         {
-            //class members
-            /*
-             * stationKey [int]
-             * location: [maybe struct]
-             *  latitude [double]
-             *  longitude [double]
-             *  address [string]
-             */ 
-            //class methods
-             //override ToString for prnting info accurately
+            private int stationKey; // bus key
+
+            public int BusStationKey
+            {
+                get { return stationKey; }
+                set { stationKey = value; } //NOTE: in order to avoid a case where a station is added that already exists 
+                //this should be checked in the main as we cannot check here as busStop does not know info about other instances of BusStops
+            }
+
+            //Location Information (maybe turn into struct)
+            private double latitude; //latitude
+
+            public double BusLatitude
+            {
+                get { return latitude; }
+                set { latitude = value; }
+            }
+
+            private double longitude; //longitude 
+            public double BusLongitude
+            {
+                get { return longitude; }
+                set { longitude = value; }
+            }
+
+            private string address; //added this as the updates hw sheet has an address input too -- do we want this to be legit from he lon and lat?
+
+            public string BusAddress
+            {
+                get { return address; }
+                set { address = value; }
+            }
+
+            /*CLASS CTORS*/
+            
+            public BusStop(int key, double lat, double lon, string adr) //ctor
+            {
+                BusStationKey = key;
+                BusLatitude = lat;
+                BusLongitude = lon;
+                BusAddress = adr;
+            }
+
+            public BusStop() //defualt ctor 
+            {
+                BusStationKey = 0;
+                BusLatitude = 0.0;
+                BusLongitude = 0.0;
+                BusAddress = "No Address Assigned";
+            }
+
+            /*CLASS METHODS*/
+            //override ToString
         }
 
-        class DistanceTime : BusStop
+        class BusRouteInfo : BusStop
          /*contains the BusStop info and additional info of Distnace and Time */
         {
-            //class members
-            /*
-             * inherits from BusStop
-             */
-            //class methods
-            /*
-             * distance - return distance between two points
-             * time between stations
-             */
+            /*CLASS MEMBERS*/
+            private float distance; //distance betweeen bus stations
+
+            public float BusDistance
+            {
+                get { return distance; }
+                set { distance = value; }
+            }
+
+            private TimeSpan time; //time it takes to get from one stop to another
+
+            public TimeSpan BusTime
+            {
+                get { return time; }
+                set { time = value; }
+            }
+
+            /*CLASS CTOR*/
+
+            public BusRouteInfo():base() //default ctor
+            {
+                BusDistance = 0;
+                var t = new TimeSpan(0,0,0,0);
+                BusTime = t;
+            }
+
+            public BusRouteInfo(float dist, TimeSpan t , int key, double lat, double lon, string adr) : base(key, lat, lon, adr) // ctor
+            {
+                BusDistance = dist;
+                BusTime = t;
+            }
+            /*CLASS METHODS*/
+            //potentially add method that return distance/time between stations
+
         }
 
         public enum Areas { North = 1, South, Centre, General}; //idea can change
-        class BusRoutes
+        class BusLine : BusRouteInfo 
         {
-            //class members
-            /*
-             * routeNumber [int] 
-             * area [calls an enum type Area]
-             * firstStop [BusStop] //can be updated as you add &remove stops
-             * lastStop [BusStop] //can be updated as you add &remove stops
-             * stations [List<BusStop>]
+            /*CLASS MEMBERS*/
+
+            private int lineNum; //line number
+            public int BusLineNum 
+            {
+                get { return lineNum; }
+                set { lineNum = value; }
+            }
+
+            private Areas area; //area of line
+
+            public Areas BusArea
+            {
+                get { return area; }
+                set { area = value; }
+            }
+
+            private BusRouteInfo first; //first station on bus route
+
+            public BusRouteInfo firstStop
+            {
+                get { return first; }
+                set { first = value; }
+            }
+
+            private List<BusRouteInfo> stations; //stations
+
+            public List<BusRouteInfo> BusStations
+            {
+                get { return stations; }
+                set { stations = value; }
+            }
+
+            private BusRouteInfo last; //last station on bus route
+
+            public BusRouteInfo lastStop
+            {
+                get { return last; }
+                set { last = value; }
+            }
+
+            /*CLASS CTORS*/
+            public BusLine() : base() //default ctor
+            {
+                BusLineNum = 0;
+                BusArea = 0;
+                firstStop = BusStations[0];
+                lastStop = BusStations[0];
+            }
+
+            public BusLine(int l, Areas a, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+            {
+                BusLineNum = l;
+                BusArea = a;
+                firstStop = first;
+                lastStop = last;
+            }
+
+            /*CLASS METHODS*/
+
+            /*A overriding ToString*/
+            //ELEORA
+
+            /*B adding/removing stops*/
+
+            /* Method: addStop
+             * Description: adds a bus stattion to a route
+             * Return Type: void
              */
-            //class methods
-            /*
-             * A) override ToString
-             * B1) add stop
-             * B2) remove stop      
-             * C) isStation on Route?
-             * D) returns distance (passes the two station to the class DistanceTime)
-             * E) returns travel time (passes the two station to the class DistanceTime)
-             * F) subroute of route
-             * G) passenger compare two route (see hw sheet) IComparable
-             */ //remember to throw exceptions where no data
+            void addStop(List<BusRouteInfo> bus) //ELEORA
+            {
+                Console.WriteLine("Enter the bus station ID: ");
+                //key:
+                int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
+                int index = bus.FindIndex(item => item.BusStationKey == key);
+                if (index < 0)
+                {
+                    Console.WriteLine("ERROR: bus station already exists.");
+                    return;
+                }
+
+                //latitude:
+                Random rlat = new Random();
+                double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
+
+                //longitude:
+                Random rlong = new Random();
+                double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
+
+                //address:
+                string address = "address"; //how do we want to deal with the address?
+                BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
+                if (bus.First() == null) //if first element is empty
+                {
+                    BusStations.Add(stop); //add the new stop to the list of stops
+                    firstStop = stop; // the stop you added is also the first stop of route
+                    lastStop = stop; // it is also the last stop on the route
+                }
+                else // the station you add now will become the last stop of the route
+                {
+                    BusStations.Add(stop); //add the new stop to the list of stops
+                    lastStop = stop;
+                }
+
+            }
+
+            /* Method: removeStop
+            * Description: Searches for busKey in a given route and if found removes the bus station with that bus key.
+            * Return Type: void 
+            */
+            void removeStop(int busKey) //GILA
+            {
+                bool notFound = true;
+
+                for (int i = 0; i < BusStations.Count; i++) //search for stop
+                {
+                    if (busKey == BusStations[i].BusStationKey)
+                    {
+                        BusStations.RemoveAt(i); //remove stop
+                        notFound = false;
+                    }
+                }
+
+                if (notFound) // true that it hasn't been found
+                {
+                    Console.WriteLine("Error: Bus stop does not exist in the route.");
+                }
+            }
+
+            /*C is station/stop on line*/
+
+            /* Method: isStopOnRoute
+            * Description: returns true if the stop is on the route
+            * Return Type: bool
+            */
+            bool isStopOnRoute(int busKey) //ELEORA
+            {
+                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey);
+                if (index >= 0) //if the bus station is on the route
+                {
+                    return true;
+                }
+                else return false;
+            }
+
+            /*D distance between stops*/
+            //GILA
+
+            /*E travel time*/
+            //eleora check
+
+           /* Method: routeTime
+           * Description: returns the travel time between 2 stations on the line
+           * Return Type: DateTime
+           */
+            DateTime routeTime() //added a field to the class ELEORA
+            {
+                Console.WriteLine("Please enter the travel time between the 2 stations in the format: hh:mm:ss");
+                var userTime = Console.ReadLine();
+                string patternTime = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{2}$";
+                bool dateVerified = false;
+                dateVerified = (Regex.IsMatch(userTime, patternTime));
+                while (dateVerified == false) //check if date is valid
+                {
+                    Console.WriteLine("Error: Invalid Time - Must be in format hh:mm:ss.\n");
+                    userTime = Console.ReadLine();
+                    dateVerified = (Regex.IsMatch(userTime, patternTime));
+                }
+                DateTime travelTime = DateTime.ParseExact(userTime, "HH:mm:ss tt", null); //converts the string to a DateTime
+                BusTravelTime = travelTime; //set the stop's field
+                return travelTime;
+            }
+            /*F subroute of route (AKA line)*/
+            //still must do
+
+            /*G comparing routes (IComparable)*/
+            //still must do
         }
 
-        class BusLines
+        class BusDataBase
         {
-            //class members
-            /*
-             * lineDataBase [List<BusRoutes>]
-             */
-            //class methods
-            /*
-             * A1) add bus line to collection
-             * A2) remove bus line from collection
-             * B) returns list of bus lines passing through a given station
-             * C) sorts lines according to time
-             * D) indexer - checks for line number (NOTE can use in other methods!)
-             */ //note IEnumerable
+
+            /*CLASS MEMBERS*/
+            List<BusLine> database = new List<BusLine>();//database of bus lines
+
+            /*A add/remove line*/
+            /* Method: addLine
+            * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
+            * Return Type: void
+            */
+            void addLine() //GILA ... how do we want to deal with there and back being lines? maybe each line number should be 0___ and 1___ if back?
+            {
+                Console.WriteLine("Please enter the line number you wish to add: ");
+                int lineNum = Convert.ToInt32(Console.ReadLine());
+                foreach (BusRoutes busR in BusDatabase)
+                {
+                    if (busR.BusLine == lineNum) //if line already exists
+                    {
+                        Console.WriteLine("Error: bus line already exists in database.");
+                    }
+                    // bus line is new
+                    Console.WriteLine("Enter Area   ");
+                    BusRoutes busLine = new BusRoutes(); //how do i fill in the rest of the cctor?
+                    BusDatabase.Add(busLine);
+
+                }
+
+            }
+
+           /* Method: removeLine
+           * Description: removes a bus line from the collection
+           * Return Type: void
+           */ //ELEORA
+            void removeLine(int lineToRemove) //changed the name of the variable to make it less confusing
+            {
+                bool notFound = true;
+
+                for (int i = 0; i < BusDatabase.Count; i++) //search for stop
+                {
+                    if (lineToRemove == BusDatabase[i].BusLine)
+                    {
+                        BusDatabase.RemoveAt(i); //remove line
+                        notFound = false;
+                    }
+                }
+
+                if (notFound) // it hasn't been found
+                {
+                    Console.WriteLine("Error: Bus stop does not exist in the route.");
+                }
+            }
+
+            /*B returns list of bus lines passing through a given station*/
+            /* Method: linesThroughStation
+           * Description: recieves bus station key and returns a list of bus routes that pass through that station
+           * Return Type: List<BusRoutes>
+           */
+            List<BusLines> linesThroughStation(int StationKey) //gILA
+            {
+                bool keyMatch = false;
+                var LinesThruStation = new List<BusLines>();
+                foreach (BusStop busStop in BusStations) // for every bus in our list of bus stations
+                {
+                    if (busStop.BusStationKey != StationKey) // if we don't find a matching key
+                    {
+                        keyMatch = true;
+                    }
+                    else//key found - now search Bus Routes to find any bus lines that go through that station
+                    {
+                        foreach (BusLines busRoutes in BusDatabase) //for every busroute in our list of bus lines
+                        {
+                            if (busRoutes.BusStationKey == StationKey)
+                            {
+                                BusLines bLine = new BusLines();//cctor??
+                                LinesThruStation.Add(bLine);
+                            }
+                        }
+                    }
+                }
+                if (keyMatch)//if key not found bus stop does not exist
+                {
+                    Console.WriteLine("Error: Bus Key does not match any Bus Station in the directory.\n");
+                }
+
+                return LinesThruStation;///return list of lines that pass through the station
+            }
+
+            /*C sorts lines according to time*/
+            /* Method: sortLines
+           * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
+           * Return Type: void
+           */
+            //TOGETHER
+            private DateTime BusTotalTime;
+
+            public DateTime totalTime
+            {
+                set { BusTotalTime = totalTimeTravel(bus b); } // go over it
+                get { return BusTotalTime; }
+            }
+            public DateTime totalTimeTravel(BusRoutes bus)
+            {
+                int hours = 0;
+                int minutes = 0;
+                int seconds = 0;
+                for (int i = 0; i < BusStations.Count; i++) //loop to get the total travel time of a line
+                {
+                    hours += BusStations[i].BusTravelTime.Hour;
+                    minutes += BusStations[i].BusTravelTime.Minute;
+                    seconds += BusStations[i].BusTravelTime.Second;
+                }
+                DateTime total = new DateTime(hours, minutes, seconds);
+                return total;
+            }
+
+
+
+            public class TimeComparer : IComparer<BusRoutes>
+            {
+                public int Compare(BusRoutes x, BusRoutes y)
+                {
+                    if (object.ReferenceEquals(x, y))
+                        return 0;
+                    if (x == null)
+                        return -1;
+                    if (y == null)
+                        return 1;
+                    return x.totalTime.CompareTo(y.totalTime); //go over it
+                }
+
+            };
+            void sortLines() //have to add a total time
+            {
+
+                BusDatabase.Sort((x, y) => x.totalTime.CompareTo(y.totalTime))
+            }
+
+            /*D indexer - checks for line number*/
+            //do indexer GILA --- INUMERABLE
         }
 
         public enum BusLineOptions { Insert =1 , Delete, Search, Print, Exit}; //idea can change
