@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;//this can be used to validate strings
 using System.Xml;
 using System.Runtime.InteropServices;
 using Microsoft.SqlServer.Server;
+using System.Collections.Specialized;
 
 namespace BusStation_Lines_Ex2
 {
