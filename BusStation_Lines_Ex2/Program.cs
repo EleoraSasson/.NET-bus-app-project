@@ -10,6 +10,9 @@ using Microsoft.SqlServer.Server;
 using System.Collections.Specialized;
 using System.Security.Cryptography.X509Certificates;
 
+/*GENERAL NOTE: I think we should re look at how we are doing our cctors, 
+ * perhaps we should create more than one type - like a defualt one to make our lives easier when initialising new bus anything*/
+
 namespace BusStation_Lines_Ex2
 {
     class Program
@@ -277,7 +280,7 @@ namespace BusStation_Lines_Ex2
                     }
                     // bus line is new
                     Console.WriteLine("Enter Area   ");
-                    BusRoutes busLine = new BusRoutes(lineNum,);
+                    BusRoutes busLine = new BusRoutes(lineNum,); //how do i fill in the rest of the cctor?
                     BusDatabase.Add(busLine);
 
                 }
@@ -316,14 +319,45 @@ namespace BusStation_Lines_Ex2
                 }
             }
 
-            /* Method: 
-            * Description: 
-            * Return Type:
+            /* Method: linesThroughStation
+            * Description: recieves bus station key and returns a list of bus routes that pass through that station
+            * Return Type: List<BusRoutes>
             */
-            List<BusRoutes> linesThroughStation( /*send station number*/) //gila
+            List<BusLines> linesThroughStation(int StationKey) //gila
             {
-                return ;///return list of lines that pass through the station
+                bool keyMatch = false;
+                var LinesThruStation = new List<BusLines>();
+                foreach (BusStop busStop in BusStations) // for every bus in our list of bus stations
+                {
+                    if (busStop.BusStationKey != StationKey) // if we don't find a matching key
+                    {
+                        keyMatch = true;
+                    }
+                    else//key found - now search Bus Routes to find any bus lines that go through that station
+                    {
+                        foreach (BusLines busRoutes in BusDatabase) //for every busroute in our list of bus lines
+                        {
+                            if (busRoutes.BusStationKey == StationKey)
+                            {
+                                BusLines bLine = new BusLines();//cctor??
+                                LinesThruStation.Add(bLine);
+                            }
+                        }
+                    }
+                }
+                if (keyMatch)//if key not found bus stop does not exist
+                {
+                    Console.WriteLine("Error: Bus Key does not match any Bus Station in the directory.\n");
+                }
+
+                return LinesThruStation;///return list of lines that pass through the station
             }
+            /*
+            A method that receives a bus stop ID number(code) 
+            and returns a list of bus lines that pass through that station.
+            If there are no lines passing through the station, an exception will be thrown.*/
+
+
 
             /* Method: sortLines
            * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
@@ -378,11 +412,12 @@ namespace BusStation_Lines_Ex2
            * Description: 
            * Return Type:
            */
-            int doesExist() //gila
+            int doesExist() //gila .. reasearching it
             {
                 //?????
                 return 0;
             }
+           // D.Indexer that receives a line number and returns the instance.If no such line exits it returns throws an exception.
 
             public override string ToString()
             {
