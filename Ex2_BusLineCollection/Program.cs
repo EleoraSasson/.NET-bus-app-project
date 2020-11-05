@@ -72,6 +72,10 @@ namespace Ex2_BusLineCollection
 
             /*CLASS METHODS*/
             //override ToString
+            public override string ToString()
+            {
+                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E "); //do we need to add the address?
+            }
         }
 
         class BusRouteInfo : BusStop
@@ -174,10 +178,21 @@ namespace Ex2_BusLineCollection
                 lastStop = last;
             }
 
+            //Note: The FirstStation and LastStation must be compatible with the beginning and endling stations in the list??
+
             /*CLASS METHODS*/
 
             /*A overriding ToString*/
-            //ELEORA
+            public override string ToString()
+            {
+                StringBuilder str = new StringBuilder();
+                foreach (var BusStationKey in BusStations) //create a list
+                {
+                    str.AppendLine(BusStationKey.ToString());
+                }
+
+                return ("Bus Line: " + BusLineNum + ": " + BusArea); //list?? have to use myEnumerable
+            }
 
             /*B adding/removing stops*/
 
@@ -185,7 +200,7 @@ namespace Ex2_BusLineCollection
              * Description: adds a bus stattion to a route
              * Return Type: void
              */
-            void addStop(List<BusRouteInfo> bus) //ELEORA
+            void addStop(List<BusRouteInfo> bus) 
             {
                 Console.WriteLine("Enter the bus station ID: ");
                 //key:
@@ -210,14 +225,14 @@ namespace Ex2_BusLineCollection
                 BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
                 if (bus.First() == null) //if first element is empty
                 {
-                    BusStations.Add(stop); //add the new stop to the list of stops
-                    firstStop = stop; // the stop you added is also the first stop of route
-                    lastStop = stop; // it is also the last stop on the route
+                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops   //do you know why (BusRouteInfo)??
+                    firstStop = (BusRouteInfo)stop; // the stop you added is also the first stop of route
+                    lastStop = (BusRouteInfo)stop; // it is also the last stop on the route
                 }
                 else // the station you add now will become the last stop of the route
                 {
-                    BusStations.Add(stop); //add the new stop to the list of stops
-                    lastStop = stop;
+                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
+                    lastStop = (BusRouteInfo)stop;
                 }
 
             }
@@ -251,9 +266,9 @@ namespace Ex2_BusLineCollection
             * Description: returns true if the stop is on the route
             * Return Type: bool
             */
-            bool isStopOnRoute(int busKey) //ELEORA
+            bool isStopOnRoute(int busKey) 
             {
-                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey);
+                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey); 
                 if (index >= 0) //if the bus station is on the route
                 {
                     return true;
@@ -271,22 +286,14 @@ namespace Ex2_BusLineCollection
            * Description: returns the travel time between 2 stations on the line
            * Return Type: DateTime
            */
-            DateTime routeTime() //added a field to the class ELEORA
+            TimeSpan routeTime() //added a field to the class 
             {
                 Console.WriteLine("Please enter the travel time between the 2 stations in the format: hh:mm:ss");
-                var userTime = Console.ReadLine();
-                string patternTime = @"^(3[01]|[12][0-9]|0[1-9])[/](1[0-2]|0[1-9])[/]\d{2}$";
-                bool dateVerified = false;
-                dateVerified = (Regex.IsMatch(userTime, patternTime));
-                while (dateVerified == false) //check if date is valid
-                {
-                    Console.WriteLine("Error: Invalid Time - Must be in format hh:mm:ss.\n");
-                    userTime = Console.ReadLine();
-                    dateVerified = (Regex.IsMatch(userTime, patternTime));
-                }
-                DateTime travelTime = DateTime.ParseExact(userTime, "HH:mm:ss tt", null); //converts the string to a DateTime
-                BusTravelTime = travelTime; //set the stop's field
-                return travelTime;
+                int hours = Convert.ToInt32(Console.ReadLine());
+                int minutes = Convert.ToInt32(Console.ReadLine());
+                int seconds = Convert.ToInt32(Console.ReadLine());
+                TimeSpan time = new TimeSpan(hours, minutes, seconds);
+                return time;
             }
             /*F subroute of route (AKA line)*/
             //still must do
@@ -295,7 +302,7 @@ namespace Ex2_BusLineCollection
             //still must do
         }
 
-        class BusDataBase
+        class BusDataBase : BusLine //must inherit?
         {
 
             /*CLASS MEMBERS*/
@@ -328,16 +335,16 @@ namespace Ex2_BusLineCollection
            /* Method: removeLine
            * Description: removes a bus line from the collection
            * Return Type: void
-           */ //ELEORA
+           */ 
             void removeLine(int lineToRemove) //changed the name of the variable to make it less confusing
             {
                 bool notFound = true;
 
-                for (int i = 0; i < BusDatabase.Count; i++) //search for stop
+                for (int i = 0; i < database.Count; i++) //search for stop
                 {
-                    if (lineToRemove == BusDatabase[i].BusLine)
+                    if (lineToRemove == database[i].BusLineNum)
                     {
-                        BusDatabase.RemoveAt(i); //remove line
+                        database.RemoveAt(i); //remove line
                         notFound = false;
                     }
                 }
