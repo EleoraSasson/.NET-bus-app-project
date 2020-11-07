@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Runtime.Remoting;
+using System.Data;
 
 namespace Ex2_BusLineCollection
 {
@@ -73,7 +74,8 @@ namespace Ex2_BusLineCollection
 
             /*CLASS METHODS*/
 
-            public int setKey(List<BusRouteInfo> bus) //chekc that stationKey is 6 digits
+            //sets key
+            public int setKey(List<BusRouteInfo> bus) 
             {
                 bool enterKey = false;
                 while (enterKey == false)
@@ -97,6 +99,15 @@ namespace Ex2_BusLineCollection
                     }
                     else { enterKey = true; return sKey; }
                 }
+            }
+            //sets address
+            public string setAddress(List<BusRouteInfo> bus) //for the moment the address does not conform to the latitude and longitude set
+                //if we want to we need to do something called "reverse geocoding"
+            {
+                Console.WriteLine("Enter Physical Address in the format - StreetName St , Number, Town/City";
+                var address = Console.ReadLine();
+                string AdrCheck = @"^$"; //do regex check 
+                return 0;//string
             }
             public override string ToString()
             {
@@ -234,7 +245,8 @@ namespace Ex2_BusLineCollection
                 double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
 
                 //address:
-                string address = "address"; //how do we want to deal with the address?
+                string address = setAddress(bus); //sets address of station
+                
                 BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
                 if (bus.First() == null) //if first element is empty
                 {
