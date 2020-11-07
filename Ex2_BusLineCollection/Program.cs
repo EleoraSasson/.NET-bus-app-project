@@ -57,7 +57,7 @@ namespace Ex2_BusLineCollection
             /*CLASS CTORS*/
             public BusStop() //defualt ctor 
             {
-                BusStationKey = 0;
+                BusStationKey = 000000;
                 BusLatitude = 0.0;
                 BusLongitude = 0.0;
                 BusAddress = "No Address Assigned";
@@ -73,6 +73,31 @@ namespace Ex2_BusLineCollection
 
             /*CLASS METHODS*/
 
+            public int setKey(List<BusRouteInfo> bus) //chekc that stationKey is 6 digits
+            {
+                bool enterKey = false;
+                while (enterKey == false)
+                {
+                    Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
+                    string key = Console.ReadLine();
+                    string correct = @"^[0-9]\d{6}$";
+                    bool keyVerified = false;
+                    keyVerified = (Regex.IsMatch(key, correct));
+                    while (keyVerified == false) //check if key is valid
+                    {
+                        Console.WriteLine("Error: Invalid Key - Must be 6 digits long\n");
+                        key = Console.ReadLine();
+                        keyVerified = (Regex.IsMatch(key, correct));
+                    }
+                    int sKey = Convert.ToInt32(key); //assuming we can convert without the tryParse
+                    int index = bus.FindIndex(item => item.BusStationKey == sKey);
+                    if (index < 0)
+                    {
+                        Console.WriteLine("ERROR: bus station already exists.");
+                    }
+                    else { enterKey = true; return sKey; }
+                }
+            }
             public override string ToString()
             {
                 return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E "); //do we need to add the address? i think yes
@@ -198,16 +223,8 @@ namespace Ex2_BusLineCollection
              */
             void addStop(List<BusRouteInfo> bus) 
             {
-                Console.WriteLine("Enter the bus station ID: ");
-                //key:
-                int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
-                int index = bus.FindIndex(item => item.BusStationKey == key);
-                if (index < 0)
-                {
-                    Console.WriteLine("ERROR: bus station already exists.");
-                    return;
-                }
-
+                int key = setKey(bus); //sets key of station
+               
                 //latitude:
                 Random rlat = new Random();
                 double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
@@ -221,7 +238,7 @@ namespace Ex2_BusLineCollection
                 BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
                 if (bus.First() == null) //if first element is empty
                 {
-                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops   //do you know why (BusRouteInfo)??
+                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
                     firstStop = (BusRouteInfo)stop; // the stop you added is also the first stop of route
                     lastStop = (BusRouteInfo)stop; // it is also the last stop on the route
                 }
