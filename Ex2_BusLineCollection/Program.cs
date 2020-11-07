@@ -15,20 +15,21 @@ using System.Runtime.Remoting;
 namespace Ex2_BusLineCollection
 {
     class Program
-    {
-        /*CLASS MEMBERS*/
-        class BusStop
+    { 
+        //*BUS_STOP*//
+        class BusStop //object made: Bus Station/Stop
         {
-            private int stationKey; // bus key
+            /*CLASS MEMBERS*/
+            private int stationKey; // bus key (to identify bus stop)
 
             public int BusStationKey
             {
                 get { return stationKey; }
-                set { stationKey = value; } //NOTE: in order to avoid a case where a station is added that already exists 
-                //this should be checked in the main as we cannot check here as busStop does not know info about other instances of BusStops
+                set { stationKey = value; } 
             }
 
-            //Location Information (maybe turn into struct)
+            //location information of stops:
+
             private double latitude; //latitude
 
             public double BusLatitude
@@ -44,24 +45,16 @@ namespace Ex2_BusLineCollection
                 set { longitude = value; }
             }
 
-            private string address; //added this as the updates hw sheet has an address input too -- do we want this to be legit from he lon and lat?
+            private string address;//physical address
 
             public string BusAddress
             {
                 get { return address; }
                 set { address = value; }
             }
-
-            /*CLASS CTORS*/
             
-            public BusStop(int key, double lat, double lon, string adr) //ctor
-            {
-                BusStationKey = key;
-                BusLatitude = lat;
-                BusLongitude = lon;
-                BusAddress = adr;
-            }
-
+            
+            /*CLASS CTORS*/
             public BusStop() //defualt ctor 
             {
                 BusStationKey = 0;
@@ -70,19 +63,27 @@ namespace Ex2_BusLineCollection
                 BusAddress = "No Address Assigned";
             }
 
+            public BusStop(int key, double lat, double lon, string adr) //ctor
+            {
+                BusStationKey = key;
+                BusLatitude = lat;
+                BusLongitude = lon;
+                BusAddress = adr;
+            }
+
             /*CLASS METHODS*/
-            //override ToString
+
             public override string ToString()
             {
-                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E "); //do we need to add the address?
+                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E "); //do we need to add the address? i think yes
             }
         }
 
-        class BusRouteInfo : BusStop
-         /*contains the BusStop info and additional info of Distnace and Time */
+        //*BUS_STOP W DISTANCE&TIME*//
+        class BusRouteInfo : BusStop //object made: a bus stop with distance and time properties added
         {
             /*CLASS MEMBERS*/
-            private float distance; //distance betweeen bus stations
+            private float distance; //distance from prev stop
 
             public float BusDistance
             {
@@ -90,7 +91,7 @@ namespace Ex2_BusLineCollection
                 set { distance = value; }
             }
 
-            private TimeSpan time; //time it takes to get from one stop to another
+            private TimeSpan time; //time since prev stop
 
             public TimeSpan BusTime
             {
@@ -99,7 +100,6 @@ namespace Ex2_BusLineCollection
             }
 
             /*CLASS CTOR*/
-
             public BusRouteInfo():base() //default ctor
             {
                 BusDistance = 0;
@@ -112,18 +112,16 @@ namespace Ex2_BusLineCollection
                 BusDistance = dist;
                 BusTime = t;
             }
-            /*CLASS METHODS*/
-            //potentially add method that return distance/time between stations
-
         }
 
-        public enum Areas { North = 1, South, Centre, General}; //idea can change
-        class BusLine : BusRouteInfo 
+        //*BUS_LINES*//
+        public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat}; //unknown indicates area has not yet been set
+        class BusLine : BusRouteInfo //object made: Lines (list of BusStops) w area info
         {
             /*CLASS MEMBERS*/
-
-            private int lineNum; //line number
-            public int BusLineNum 
+            
+            private int lineNum; //line number 
+            public int BusLineNum
             {
                 get { return lineNum; }
                 set { lineNum = value; }
@@ -170,15 +168,13 @@ namespace Ex2_BusLineCollection
                 lastStop = BusStations[0];
             }
 
-            public BusLine(int l, Areas a, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
             {
-                BusLineNum = l;
-                BusArea = a;
+                BusLineNum = lineN;
+                BusArea = area;
                 firstStop = first;
                 lastStop = last;
             }
-
-            //Note: The FirstStation and LastStation must be compatible with the beginning and endling stations in the list??
 
             /*CLASS METHODS*/
 
@@ -302,12 +298,20 @@ namespace Ex2_BusLineCollection
             //still must do
         }
 
-        class BusDataBase : BusLine //must inherit?
+        //*BUS_ROUTES IN DATABASE*//
+        class BusDatabase : BusLine //object made: database of bus routes (list of selected lines)
         {
 
             /*CLASS MEMBERS*/
-            List<BusLine> database = new List<BusLine>();//database of bus lines
+            List<BusLine> BusRoutes = new List<BusLine>();
 
+            /*CLASS CTOR*/
+            BusDatabase() //default cctor
+            {
+
+            }
+            public BusDatabase(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) :base (lineN,area,b, first, last,dist,t,key,lat,lon,adr) { }
+           
             /*A add/remove line*/
             /* Method: addLine
             * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
@@ -360,7 +364,7 @@ namespace Ex2_BusLineCollection
            * Description: recieves bus station key and returns a list of bus routes that pass through that station
            * Return Type: List<BusRoutes>
            */
-            List<BusLines> linesThroughStation(int StationKey) //gILA
+            List<BusLine> linesThroughStation(int StationKey) //gILA
             {
                 bool keyMatch = false;
                 var LinesThruStation = new List<BusLines>();
@@ -403,7 +407,7 @@ namespace Ex2_BusLineCollection
                 set { BusTotalTime = totalTimeTravel(bus b); } // go over it
                 get { return BusTotalTime; }
             }
-            public DateTime totalTimeTravel(BusRoutes bus)
+            public DateTime totalTimeTravel(BusLine bus)
             {
                 int hours = 0;
                 int minutes = 0;
@@ -420,9 +424,9 @@ namespace Ex2_BusLineCollection
 
 
 
-            public class TimeComparer : IComparer<BusRoutes>
+            public class TimeComparer : IComparer<BusLine>
             {
-                public int Compare(BusRoutes x, BusRoutes y)
+                public int Compare(BusLine x, BusLine y)
                 {
                     if (object.ReferenceEquals(x, y))
                         return 0;
@@ -476,7 +480,7 @@ namespace Ex2_BusLineCollection
 
              */
 
-            var BusCollection = new List<BusRoutes>();
+            var BusCollection = new List<BusDatabase>();
 
             Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
