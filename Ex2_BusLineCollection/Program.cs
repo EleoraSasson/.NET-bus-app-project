@@ -13,6 +13,11 @@ using System.Security.Permissions;
 using System.Runtime.Remoting;
 using System.Data;
 
+/*GENERAL NOTES:
+ * have not dealt with the fact that a line has two directions so when adding route which line? should we add a member to chk?
+ * have not fixed input for address is it made up or reverse geo-stuff?
+ * B returns list of bus lines passing through a given station <-- is this still a needed method, if yes fix (line 402)
+*/
 namespace Ex2_BusLineCollection
 {
     class Program
@@ -78,6 +83,7 @@ namespace Ex2_BusLineCollection
             public int setKey(List<BusRouteInfo> bus) 
             {
                 bool enterKey = false;
+                int sKey = 0;
                 while (enterKey == false)
                 {
                     Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
@@ -91,14 +97,15 @@ namespace Ex2_BusLineCollection
                         key = Console.ReadLine();
                         keyVerified = (Regex.IsMatch(key, correct));
                     }
-                    int sKey = Convert.ToInt32(key); //assuming we can convert without the tryParse
+                    sKey = Convert.ToInt32(key); //assuming we can convert without the tryParse
                     int index = bus.FindIndex(item => item.BusStationKey == sKey);
                     if (index < 0)
                     {
                         Console.WriteLine("ERROR: bus station already exists.");
                     }
-                    else { enterKey = true; return sKey; }
+                    else { enterKey = true; }
                 }
+                return sKey;
             }
             //sets address
             public string setAddress(List<BusRouteInfo> bus) //for the moment the address does not conform to the latitude and longitude set
@@ -332,7 +339,14 @@ namespace Ex2_BusLineCollection
         {
 
             /*CLASS MEMBERS*/
-            List<BusLine> BusRoutes = new List<BusLine>();
+            private List<BusLine> routes;
+
+            public List<BusLine>  BusRoutes
+            {
+                get { return routes; }
+                set { routes = value; }
+            }
+
 
             /*CLASS CTOR*/
             BusDatabase() //default cctor
@@ -346,38 +360,35 @@ namespace Ex2_BusLineCollection
             * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
             * Return Type: void
             */
-            void addLine() //GILA ... how do we want to deal with there and back being lines? maybe each line number should be 0___ and 1___ if back?
+            void addLine() 
             {
                 Console.WriteLine("Please enter the line number you wish to add: ");
                 int lineNum = Convert.ToInt32(Console.ReadLine());
-                foreach (BusRoutes busR in BusDatabase)
+                foreach (BusLine bus in BusRoutes)
                 {
-                    if (busR.BusLine == lineNum) //if line already exists
+                    if (bus.BusLineNum == lineNum)//if line already exists
                     {
                         Console.WriteLine("Error: bus line already exists in database.");
                     }
-                    // bus line is new
-                    Console.WriteLine("Enter Area   ");
-                    BusRoutes busLine = new BusRoutes(); //how do i fill in the rest of the cctor?
-                    BusDatabase.Add(busLine);
-
+                    //bus line is new
+                    BusLine busLine = new BusLine();
+                    BusRoutes.Add(busLine);
                 }
-
             }
 
            /* Method: removeLine
            * Description: removes a bus line from the collection
            * Return Type: void
            */ 
-            void removeLine(int lineToRemove) //changed the name of the variable to make it less confusing
+            void removeLine(int lineToRemove)
             {
                 bool notFound = true;
 
-                for (int i = 0; i < database.Count; i++) //search for stop
+                for (int i = 0; i < BusRoutes.Count; i++) //search for stop
                 {
-                    if (lineToRemove == database[i].BusLineNum)
+                    if (lineToRemove == BusRoutes[i].BusLineNum)
                     {
-                        database.RemoveAt(i); //remove line
+                        BusRoutes.RemoveAt(i); //remove line
                         notFound = false;
                     }
                 }
@@ -390,10 +401,10 @@ namespace Ex2_BusLineCollection
 
             /*B returns list of bus lines passing through a given station*/
             /* Method: linesThroughStation
-           * Description: recieves bus station key and returns a list of bus routes that pass through that station
-           * Return Type: List<BusRoutes>
-           */
-            List<BusLine> linesThroughStation(int StationKey) //gILA
+             * Description: recieves bus station key and returns a list of bus routes that pass through that station
+             * Return Type: List<BusRoutes>
+             */
+            List<BusLine> linesThroughStation(int StationKey)
             {
                 bool keyMatch = false;
                 var LinesThruStation = new List<BusLines>();
