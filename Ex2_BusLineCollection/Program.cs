@@ -14,6 +14,12 @@ using System.Runtime.Remoting;
 using System.Data;
 using System.Device.Location; //is used for location coordinates
 
+/*IEnumerable (time) (Gila)
+ * IComparable (distance) (Eleora)
+ * Indexer (Gila)
+ * Passenger (Eleora)
+ * Main (with exceptions) (Eleora)
+ */
 
 /*GENERAL NOTES:
  * have not dealt with the fact that a line has two directions so when adding route which line? should we add a member to chk?
@@ -591,20 +597,25 @@ namespace Ex2_BusLineCollection
 //•	Make sure at least one bus line passes through each station
 //•	At least 10 stations have more than one bus line
 
-            var BusCollection = new List<BusDataBase>();
+            var BusDatabase = new List<BusLine>();
             for (int i = 0; i < 40; i++)
             {
                 Random rd = new Random();
                 int key = rd.Next(100000, 1000000); //creates a 6 digits key
+                BusDatabase[i].BusStationKey = key;
 
                 Random rlat = new Random();
-                double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
-
+                BusDatabase[i].BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30;
                 //longitude:
                 Random rlong = new Random();
-                double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5    
-
-                BusStop b = new BusStop(key, rand_latitude, rand_longitude); //constructor takes no address, should we put them in a list?
+                BusDatabase[i].BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
+            }
+            var BusCollection = new List<BusDatabase>();
+        
+            for
+            for (int k = 0; k < 10; k++)
+            {
+                BusCollection.Add(BusDatabase[rand]);
             }
             Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
@@ -619,8 +630,8 @@ namespace Ex2_BusLineCollection
                         Console.WriteLine("Enter 0 to add a new bus line, enter 1 to add a station to a bus line: ");
                         ch = Convert.ToInt32(Console.ReadLine());
                         if (ch == 0)
-                        {//call constructor? 
-                            addLine(); //why can't we use line methods in the main?
+                        {
+                            BusCollection[indexer].addLine(); 
 
                         }
                         else if (ch == 1)
@@ -643,14 +654,23 @@ namespace Ex2_BusLineCollection
                         {
                             Console.WriteLine("Enter the number of the line to remove: ");
                             int line = Convert.ToInt32(Console.ReadLine());
-                            removeLine(line);
+                            try
+                            {
+                                BusCollection[0].removeLine(line);
+                            } 
+                            catch { Console.WriteLine("Error: BusCollection is empty."); }
 
                         }
                         else if (ch == 1)
                         {
                             Console.WriteLine("Enter the ID of the station to delete: ");
                             int key = Convert.ToInt32(Console.ReadLine());
-                            removeStop(key);
+                            try
+                            {
+                                BusCollection[0].removeStop(key);
+                            }
+                            catch { Console.WriteLine("Error: BusCollection is empty."); }
+                           
                         }
                         else
                         {
