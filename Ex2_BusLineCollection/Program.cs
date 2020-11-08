@@ -44,14 +44,16 @@ namespace Ex2_BusLineCollection
                 set { location = value; }
             }
 
-            public void setLocation()
+            public void setLocation(BusStop stop)
             {
-                var locate = new GeoCoordinate();
                 Random rlat = new Random();
-                locate.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
+                stop.BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
                 Random rlong = new Random();
-                locate.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
+                stop.BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
+                stop.BusLocation.Speed = 6; //around 20 km/hr
             }
+
+
 
             private string address;//physical address
 
@@ -78,7 +80,6 @@ namespace Ex2_BusLineCollection
 
             /*CLASS CTORS*/
             
-            public BusStop(int key, double lat, double lon /*string adr*/) //ctor (without address)
             public BusStop() //defualt ctor 
             {
                 BusStationKey = 000000;
@@ -98,7 +99,7 @@ namespace Ex2_BusLineCollection
             /*CLASS METHODS*/
 
             //sets key
-            public int setKey(List<BusRouteInfo> bus) 
+            public void setKey(List<BusRouteInfo> bus, BusStop stop) 
             {
                 bool enterKey = false;
                 int sKey = 0;
@@ -123,10 +124,10 @@ namespace Ex2_BusLineCollection
                     }
                     else { enterKey = true; }
                 }
-                return sKey;
+                stop.BusStationKey = sKey;
             }
             //sets address
-            public string setAddress(List<BusRouteInfo> bus) 
+            public void setAddress(List<BusRouteInfo> bus, BusStop stop) 
             {
                 Console.WriteLine("Enter Physical Address:");
                 var address = Console.ReadLine();
@@ -138,7 +139,7 @@ namespace Ex2_BusLineCollection
                     address = Console.ReadLine();
                     verifyAdr = (Regex.IsMatch(address, AdrCheck));
                 }
-                return address;
+                stop.BusAddress = address;
             }
             public override string ToString()
             {
@@ -183,7 +184,7 @@ namespace Ex2_BusLineCollection
         }
 
         //*BUS_LINES*//
-        public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat}; //unknown indicates area has not yet been set
+        public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National}; //unknown indicates area has not yet been set & National implies bus goes throughout country
         class BusLine : BusRouteInfo //object made: Lines (list of BusStops) w area info
         {
             /*CLASS MEMBERS*/
@@ -231,7 +232,7 @@ namespace Ex2_BusLineCollection
             public BusLine() : base() //default ctor
             {
                 BusLineNum = 0;
-                BusArea = 0;
+                BusArea = 0; //aka Unknown
                 firstStop = BusStations[0];
                 lastStop = BusStations[0];
             }
@@ -245,16 +246,6 @@ namespace Ex2_BusLineCollection
             }
 
             /*CLASS METHODS*/
-
-            public TimeSpan travelTime()
-            {
-                var finalTime = new TimeSpan(); //we want to 
-                for (int i = 0; i < length; i++)
-                {
-
-                }
-                return finalTime; 
-            }
 
             /*A overriding ToString*/
             public override string ToString()
@@ -280,22 +271,12 @@ namespace Ex2_BusLineCollection
              * Description: adds a bus station to a route
              * Return Type: void
              */
-            void addStop(List<BusRouteInfo> bus) //see if it adds a stop to the line w gila
+            void addStop(List<BusRouteInfo> bus)
             {
-                int key = setKey(bus); //sets key of station
-
-                //latitude:
-                Random rlat = new Random();
-                double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
-
-                //longitude:
-                Random rlong = new Random();
-                double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
-
-            address:
-                string address = setAddress(bus); //sets address of station
-                
-                BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
+                var stop = new BusStop();
+                setKey(bus,stop); //sets key of station
+                setLocation(stop); //sets location and speed
+                setAddress(bus,stop); //sets address of station
                 if (bus.First() == null) //if first element is empty
                 {
                     BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
