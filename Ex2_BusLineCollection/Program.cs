@@ -11,24 +11,31 @@ using System.Collections.Specialized;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Runtime.Remoting;
+using System.Data;
 
+/*GENERAL NOTES:
+ * have not dealt with the fact that a line has two directions so when adding route which line? should we add a member to chk?
+ * have not fixed input for address is it made up or reverse geo-stuff?
+ * B returns list of bus lines passing through a given station <-- is this still a needed method, if yes fix (line 402)
+*/
 namespace Ex2_BusLineCollection
 {
     class Program
-    {
-        /*CLASS MEMBERS*/
-        class BusStop
+    { 
+        //*BUS_STOP*//
+        class BusStop //object made: Bus Station/Stop
         {
-            private int stationKey; // bus key
+            /*CLASS MEMBERS*/
+            private int stationKey; // bus key (to identify bus stop)
 
             public int BusStationKey
             {
                 get { return stationKey; }
-                set { stationKey = value; } //NOTE: in order to avoid a case where a station is added that already exists 
-                //this should be checked in the main as we cannot check here as busStop does not know info about other instances of BusStops
+                set { stationKey = value; } 
             }
 
-            //Location Information (maybe turn into struct)
+            //location information of stops:
+
             private double latitude; //latitude
 
             public double BusLatitude
@@ -44,17 +51,27 @@ namespace Ex2_BusLineCollection
                 set { longitude = value; }
             }
 
-            private string address; //added this as the updates hw sheet has an address input too -- do we want this to be legit from he lon and lat?
+            private string address;//physical address
 
             public string BusAddress
             {
                 get { return address; }
                 set { address = value; }
             }
-
+            
+            
             /*CLASS CTORS*/
             
             public BusStop(int key, double lat, double lon /*string adr*/) //ctor (without address)
+            public BusStop() //defualt ctor 
+            {
+                BusStationKey = 000000;
+                BusLatitude = 0.0;
+                BusLongitude = 0.0;
+                BusAddress = "No Address Assigned";
+            }
+
+            public BusStop(int key, double lat, double lon, string adr) //ctor
             {
                 BusStationKey = key;
                 BusLatitude = lat;
@@ -62,27 +79,56 @@ namespace Ex2_BusLineCollection
                // BusAddress = adr;
             }
 
-            public BusStop() //defualt ctor 
-            {
-                BusStationKey = 0;
-                BusLatitude = 0.0;
-                BusLongitude = 0.0;
-                BusAddress = "No Address Assigned";
-            }
-
             /*CLASS METHODS*/
-            //override ToString
+
+            //sets key
+            public int setKey(List<BusRouteInfo> bus) 
+            {
+                bool enterKey = false;
+                int sKey = 0;
+                while (enterKey == false)
+                {
+                    Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
+                    string key = Console.ReadLine();
+                    string correct = @"^[0-9]\d{6}$";
+                    bool keyVerified = false;
+                    keyVerified = (Regex.IsMatch(key, correct));
+                    while (keyVerified == false) //check if key is valid
+                    {
+                        Console.WriteLine("Error: Invalid Key - Must be 6 digits long\n");
+                        key = Console.ReadLine();
+                        keyVerified = (Regex.IsMatch(key, correct));
+                    }
+                    sKey = Convert.ToInt32(key); //assuming we can convert without the tryParse
+                    int index = bus.FindIndex(item => item.BusStationKey == sKey);
+                    if (index < 0)
+                    {
+                        Console.WriteLine("ERROR: bus station already exists.");
+                    }
+                    else { enterKey = true; }
+                }
+                return sKey;
+            }
+            //sets address
+            public string setAddress(List<BusRouteInfo> bus) //for the moment the address does not conform to the latitude and longitude set
+                //if we want to we need to do something called "reverse geocoding"
+            {
+                Console.WriteLine("Enter Physical Address in the format - StreetName St , Number, Town/City";
+                var address = Console.ReadLine();
+                string AdrCheck = @"^$"; //do regex check 
+                return 0;//string
+            }
             public override string ToString()
             {
                 return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E, " + BusAddress); 
             }
         }
 
-        class BusRouteInfo : BusStop
-         /*contains the BusStop info and additional info of Distnace and Time */
+        //*BUS_STOP W DISTANCE&TIME*//
+        class BusRouteInfo : BusStop //object made: a bus stop with distance and time properties added
         {
             /*CLASS MEMBERS*/
-            private float distance; //distance betweeen bus stations
+            private float distance; //distance from prev stop
 
             public float BusDistance
             {
@@ -90,7 +136,7 @@ namespace Ex2_BusLineCollection
                 set { distance = value; }
             }
 
-            private TimeSpan time; //time it takes to get from one stop to another
+            private TimeSpan time; //time since prev stop
 
             public TimeSpan BusTime
             {
@@ -112,18 +158,16 @@ namespace Ex2_BusLineCollection
                 BusDistance = dist;
                 BusTime = t;
             }
-            /*CLASS METHODS*/
-            //potentially add method that return distance/time between stations
-
         }
 
-        public enum Areas { North = 1, South, Centre, General}; //idea can change
-        class BusLine : BusRouteInfo 
+        //*BUS_LINES*//
+        public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat}; //unknown indicates area has not yet been set
+        class BusLine : BusRouteInfo //object made: Lines (list of BusStops) w area info
         {
             /*CLASS MEMBERS*/
-
-            private int lineNum; //line number
-            public int BusLineNum 
+            
+            private int lineNum; //line number 
+            public int BusLineNum
             {
                 get { return lineNum; }
                 set { lineNum = value; }
@@ -170,15 +214,13 @@ namespace Ex2_BusLineCollection
                 lastStop = BusStations[0];
             }
 
-            public BusLine(int l, Areas a, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
             {
-                BusLineNum = l;
-                BusArea = a;
+                BusLineNum = lineN;
+                BusArea = area;
                 firstStop = first;
                 lastStop = last;
             }
-
-            //Note: The FirstStation and LastStation must be compatible with the beginning and endling stations in the list??
 
             /*CLASS METHODS*/
 
@@ -208,16 +250,8 @@ namespace Ex2_BusLineCollection
              */
             void addStop(List<BusRouteInfo> bus) //see if it adds a stop to the line w gila
             {
-                Console.WriteLine("Enter the bus station ID: ");
-                //key:
-                int key = Convert.ToInt32(Console.ReadLine()); //assuming we can convert without the tryParse
-                int index = bus.FindIndex(item => item.BusStationKey == key);
-                if (index < 0)
-                {
-                    Console.WriteLine("ERROR: bus station already exists.");
-                    return;
-                }
-
+                int key = setKey(bus); //sets key of station
+               
                 //latitude:
                 Random rlat = new Random();
                 double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
@@ -227,11 +261,12 @@ namespace Ex2_BusLineCollection
                 double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5                     
 
                 //address:
-                string address = "address"; //how do we want to deal with the address?
+                string address = setAddress(bus); //sets address of station
+                
                 BusStop stop = new BusStop(key, rand_latitude, rand_longitude, address);
                 if (bus.First() == null) //if first element is empty
                 {
-                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops   //do you know why (BusRouteInfo)??
+                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
                     firstStop = (BusRouteInfo)stop; // the stop you added is also the first stop of route
                     lastStop = (BusRouteInfo)stop; // it is also the last stop on the route
                 }
@@ -308,49 +343,61 @@ namespace Ex2_BusLineCollection
             //still must do
         }
 
-        class BusDataBase : BusLine //must inherit?
+        //*BUS_ROUTES IN DATABASE*//
+        class BusDatabase : BusLine //object made: database of bus routes (list of selected lines)
         {
 
             /*CLASS MEMBERS*/
-            List<BusLine> database = new List<BusLine>();//database of bus lines
+            private List<BusLine> routes;
 
+            public List<BusLine>  BusRoutes
+            {
+                get { return routes; }
+                set { routes = value; }
+            }
+
+
+            /*CLASS CTOR*/
+            BusDatabase() //default cctor
+            {
+
+            }
+            public BusDatabase(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) :base (lineN,area,b, first, last,dist,t,key,lat,lon,adr) { }
+           
             /*A add/remove line*/
             /* Method: addLine
             * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
             * Return Type: void
             */
-            void addLine() //GILA ... how do we want to deal with there and back being lines? maybe each line number should be 0___ and 1___ if back?
+            void addLine() 
             {
                 Console.WriteLine("Please enter the line number you wish to add: ");
                 int lineNum = Convert.ToInt32(Console.ReadLine());
-                foreach (BusRoutes busR in BusDatabase)
+                foreach (BusLine bus in BusRoutes)
                 {
-                    if (busR.BusLine == lineNum) //if line already exists
+                    if (bus.BusLineNum == lineNum)//if line already exists
                     {
                         Console.WriteLine("Error: bus line already exists in database.");
                     }
-                    // bus line is new
-                    Console.WriteLine("Enter Area   ");
-                    BusRoutes busLine = new BusRoutes(); //how do i fill in the rest of the cctor?
-                    BusDatabase.Add(busLine);
-
+                    //bus line is new
+                    BusLine busLine = new BusLine();
+                    BusRoutes.Add(busLine);
                 }
-
             }
 
            /* Method: removeLine
            * Description: removes a bus line from the collection
            * Return Type: void
            */ 
-            void removeLine(int lineToRemove) //changed the name of the variable to make it less confusing
+            void removeLine(int lineToRemove)
             {
                 bool notFound = true;
 
-                for (int i = 0; i < database.Count; i++) //search for stop
+                for (int i = 0; i < BusRoutes.Count; i++) //search for stop
                 {
-                    if (lineToRemove == database[i].BusLineNum)
+                    if (lineToRemove == BusRoutes[i].BusLineNum)
                     {
-                        database.RemoveAt(i); //remove line
+                        BusRoutes.RemoveAt(i); //remove line
                         notFound = false;
                     }
                 }
@@ -363,10 +410,10 @@ namespace Ex2_BusLineCollection
 
             /*B returns list of bus lines passing through a given station*/
             /* Method: linesThroughStation
-           * Description: recieves bus station key and returns a list of bus routes that pass through that station
-           * Return Type: List<BusRoutes>
-           */
-            List<BusLines> linesThroughStation(int StationKey) //gILA
+             * Description: recieves bus station key and returns a list of bus routes that pass through that station
+             * Return Type: List<BusRoutes>
+             */
+            List<BusLine> linesThroughStation(int StationKey)
             {
                 bool keyMatch = false;
                 var LinesThruStation = new List<BusLines>();
@@ -409,7 +456,7 @@ namespace Ex2_BusLineCollection
                 set { BusTotalTime = totalTimeTravel(bus b); } // go over it
                 get { return BusTotalTime; }
             }
-            public DateTime totalTimeTravel(BusRoutes bus)
+            public DateTime totalTimeTravel(BusLine bus)
             {
                 int hours = 0;
                 int minutes = 0;
@@ -428,7 +475,7 @@ namespace Ex2_BusLineCollection
 
             public class TimeComparer : IComparer<BusLine>
             {
-                public int Compare(BusRoutes x, BusRoutes y)
+                public int Compare(BusLine x, BusLine y)
                 {
                     if (object.ReferenceEquals(x, y))
                         return 0;
