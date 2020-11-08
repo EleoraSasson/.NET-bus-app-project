@@ -54,12 +54,12 @@ namespace Ex2_BusLineCollection
 
             /*CLASS CTORS*/
             
-            public BusStop(int key, double lat, double lon, string adr) //ctor
+            public BusStop(int key, double lat, double lon /*string adr*/) //ctor (without address)
             {
                 BusStationKey = key;
                 BusLatitude = lat;
                 BusLongitude = lon;
-                BusAddress = adr;
+               // BusAddress = adr;
             }
 
             public BusStop() //defualt ctor 
@@ -74,7 +74,7 @@ namespace Ex2_BusLineCollection
             //override ToString
             public override string ToString()
             {
-                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E "); //do we need to add the address?
+                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E, " + BusAddress); 
             }
         }
 
@@ -182,25 +182,31 @@ namespace Ex2_BusLineCollection
 
             /*CLASS METHODS*/
 
-            /*A overriding ToString*/
+            /*A overriding ToString*/ 
             public override string ToString()
             {
                 StringBuilder str = new StringBuilder();
-                foreach (var BusStationKey in BusStations) //create a list
+                foreach (var BusStationKey in stations) //create a list //see if it still works
                 {
                     str.AppendLine(BusStationKey.ToString());
                 }
+                for (int i = stations.Count - 1; i >= 0; i--) //iterates through the list backwars
+                {
+                    str.AppendLine(stations[i].BusStationKey.ToString());
+                }
 
-                return ("Bus Line: " + BusLineNum + ": " + BusArea); //list?? have to use myEnumerable
+                return ("Bus Line: " + BusLineNum + ": " + BusArea + str.ToString()); //check if it works
+                // return string.Join(",", this.Employees.Select(employee => $"Employee: {employee.FullName}"));
+
             }
 
             /*B adding/removing stops*/
 
             /* Method: addStop
-             * Description: adds a bus stattion to a route
+             * Description: adds a bus station to a route
              * Return Type: void
              */
-            void addStop(List<BusRouteInfo> bus) 
+            void addStop(List<BusRouteInfo> bus) //see if it adds a stop to the line w gila
             {
                 Console.WriteLine("Enter the bus station ID: ");
                 //key:
@@ -420,7 +426,7 @@ namespace Ex2_BusLineCollection
 
 
 
-            public class TimeComparer : IComparer<BusRoutes>
+            public class TimeComparer : IComparer<BusLine>
             {
                 public int Compare(BusRoutes x, BusRoutes y)
                 {
@@ -476,23 +482,85 @@ namespace Ex2_BusLineCollection
 
              */
 
-            var BusCollection = new List<BusRoutes>();
+//            •	There is no need for all lines to go through all the stations.
+//•	Make sure at least one bus line passes through each station
+//•	At least 10 stations have more than one bus line
 
+            var BusCollection = new List<BusDataBase>();
+            for (int i = 0; i < 40; i++)
+            {
+                Random rd = new Random();
+                int key = rd.Next(100000, 1000000); //creates a 6 digits key
+
+                Random rlat = new Random();
+                double rand_latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30                       
+
+                //longitude:
+                Random rlong = new Random();
+                double rand_longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5    
+
+                BusStop b = new BusStop(key, rand_latitude, rand_longitude); //constructor takes no address, should we put them in a list?
+            }
             Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
             int choice;
             do
             {
                 int.TryParse(Console.ReadLine(), out choice);
+                int ch;
                 switch ((BusLineOptions)choice)
                 {
                     case BusLineOptions.Insert:
+                        Console.WriteLine("Enter 0 to add a new bus line, enter 1 to add a station to a bus line: ");
+                        ch = Convert.ToInt32(Console.ReadLine());
+                        if (ch == 0)
+                        {//call constructor? 
+                            addLine(); //why can't we use line methods in the main?
+
+                        }
+                        else if (ch == 1)
+                        {
+                            addStop(List < BusRouteInfo > bus)
+                        }
+                        else
+                        {
+                            while (ch != 0 && ch != 1)
+                            {
+                                 ch = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+
                         break;
                     case BusLineOptions.Delete:
+                        Console.WriteLine("Enter 0 to remove a bus line, enter 1 to delete a station from a bus route: ");
+                        ch = Convert.ToInt32(Console.ReadLine());
+                        if (ch == 0)
+                        {
+                            Console.WriteLine("Enter the number of the line to remove: ");
+                            int line = Convert.ToInt32(Console.ReadLine());
+                            removeLine(line);
+
+                        }
+                        else if (ch == 1)
+                        {
+                            Console.WriteLine("Enter the ID of the station to delete: ");
+                            int key = Convert.ToInt32(Console.ReadLine());
+                            removeStop(key);
+                        }
+                        else
+                        {
+                            while (ch != 0 && ch != 1)
+                            {
+                                ch = Convert.ToInt32(Console.ReadLine());
+                            }
+                        }
+
                         break;
                     case BusLineOptions.Search:
+
                         break;
                     case BusLineOptions.Print:
+
                         break;
                     case BusLineOptions.Exit:
                         break;
