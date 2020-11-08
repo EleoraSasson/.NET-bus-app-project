@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusStation_Lines_Ex2", "Bus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex2_BusLineCollection", "Ex2_BusLineCollection\Ex2_BusLineCollection.csproj", "{AD0A4CD1-5D23-42B5-9531-D747B1D4D9C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex2_BusCollection_geo", "Ex2_BusCollection_geo\Ex2_BusCollection_geo.csproj", "{6638574B-08C3-44E4-8AFA-04353A066E2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AD0A4CD1-5D23-42B5-9531-D747B1D4D9C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD0A4CD1-5D23-42B5-9531-D747B1D4D9C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD0A4CD1-5D23-42B5-9531-D747B1D4D9C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6638574B-08C3-44E4-8AFA-04353A066E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6638574B-08C3-44E4-8AFA-04353A066E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6638574B-08C3-44E4-8AFA-04353A066E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6638574B-08C3-44E4-8AFA-04353A066E2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

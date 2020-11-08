@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD0A4CD1-5D23-42B5-9531-D747B1D4D9C4}</ProjectGuid>
+    <ProjectGuid>{6638574B-08C3-44E4-8AFA-04353A066E2F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Ex2_BusLineCollection</RootNamespace>
-    <AssemblyName>Ex2_BusLineCollection</AssemblyName>
+    <RootNamespace>Ex2_BusCollection_geo</RootNamespace>
+    <AssemblyName>Ex2_BusCollection_geo</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Device" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
