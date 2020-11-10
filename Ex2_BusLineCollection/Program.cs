@@ -13,17 +13,19 @@ using System.Security.Permissions;
 using System.Runtime.Remoting;
 using System.Data;
 using System.Device.Location; //is used for location coordinates
+using System.Collections;
 
-/*IEnumerable (time) (Gila)
+/*IEnumerable (time) (Gila) - created IEnumerable, therefore each BusStations can now be called just as stations directly 
+ * not sure if the return time is most sccurate as it is a bit general using your idea of speed as oppsed to finidng the line the bus is on.
  * IComparable (distance) (Eleora)
- * Indexer (Gila)
+ * Indexer (Gila) - created it, assuming it works we should use it more
  * Passenger (Eleora)
  * Main (with exceptions) (Eleora)
+ * NOTE: in order to sort things according to time i also made an IeEnumerable for the routes too and changed all instances of this (BusRoutes - routes)
  */
 
 /*GENERAL NOTES:
  * have not dealt with the fact that a line has two directions so when adding route which line? should we add a member to chk?
- * have not fixed input for address is it made up or reverse geo-stuff?
  * B returns list of bus lines passing through a given station <-- is this still a needed method, if yes fix (line 402)
 */
 namespace Ex2_BusLineCollection
@@ -68,21 +70,6 @@ namespace Ex2_BusLineCollection
                 get { return address; }
                 set { address = value; }
             }
-
-            //private double latitude; //latitude
-
-            //public double BusLatitude
-            //{
-            //    get { return latitude; }
-            //    set { latitude = value; }
-            //}
-
-            //private double longitude; //longitude 
-            //public double BusLongitude
-            //{
-            //    get { return longitude; }
-            //    set { longitude = value; }
-            //}
 
             /*CLASS CTORS*/
             
@@ -187,8 +174,9 @@ namespace Ex2_BusLineCollection
                 BusDistance = dist;
                 BusTime = t;
             }
-        }
 
+        }
+      
         //*BUS_LINES*//
         public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National}; //unknown indicates area has not yet been set & National implies bus goes throughout country
         class BusLine : BusRouteInfo //object made: Lines (list of BusStops) w area info
@@ -220,10 +208,40 @@ namespace Ex2_BusLineCollection
 
             private List<BusRouteInfo> stations; //stations
 
-            public List<BusRouteInfo> BusStations
+            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
             {
-                get { return stations; }
-                set { stations = value; }
+                BusLineNum = lineN;
+                BusArea = area;
+                firstStop = first;
+                lastStop = last;
+            }
+
+            //Implementatiion of IEnumerable Interface
+            public class BusStations : IEnumerator, IEnumerable
+            {
+                public List<BusRouteInfo> stations = new List<BusRouteInfo>;
+                int position = -1;
+                //IEnumerator and IEnumerable require these methods.
+                public IEnumerator GetEnumerator()
+                {
+                    return (IEnumerator)this;
+                }
+                //IEnumerator
+                public bool MoveNext()
+                {
+                    position++;
+                    return (position < stations.Count);
+                }
+                //IEnumerable
+                public void Reset()
+                {
+                    position = 0;
+                }
+                //IEnumerable
+                public object Current
+                {
+                    get { return stations[position]; }
+                }
             }
 
             private BusRouteInfo last; //last station on bus route
@@ -239,16 +257,8 @@ namespace Ex2_BusLineCollection
             {
                 BusLineNum = 0;
                 BusArea = 0; //aka Unknown
-                firstStop = BusStations[0];
-                lastStop = BusStations[0];
-            }
-
-            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
-            {
-                BusLineNum = lineN;
-                BusArea = area;
-                firstStop = first;
-                lastStop = last;
+                firstStop = stations[0];
+                lastStop = stations[0];
             }
 
             /*CLASS METHODS*/
@@ -285,13 +295,13 @@ namespace Ex2_BusLineCollection
                 setAddress(bus,stop); //sets address of station
                 if (bus.First() == null) //if first element is empty
                 {
-                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
+                    stations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
                     firstStop = (BusRouteInfo)stop; // the stop you added is also the first stop of route
                     lastStop = (BusRouteInfo)stop; // it is also the last stop on the route
                 }
                 else // the station you add now will become the last stop of the route
                 {
-                    BusStations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
+                    stations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
                     lastStop = (BusRouteInfo)stop;
                 }
 
@@ -305,11 +315,11 @@ namespace Ex2_BusLineCollection
             {
                 bool notFound = true;
 
-                for (int i = 0; i < BusStations.Count; i++) //search for stop
+                for (int i = 0; i < stations.Count; i++) //search for stop
                 {
-                    if (busKey == BusStations[i].BusStationKey)
+                    if (busKey == stations[i].BusStationKey)
                     {
-                        BusStations.RemoveAt(i); //remove stop
+                        stations.RemoveAt(i); //remove stop
                         notFound = false;
                     }
                 }
@@ -328,17 +338,13 @@ namespace Ex2_BusLineCollection
             */
             bool isStopOnRoute(int busKey) 
             {
-                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey); 
+                int index = stations.FindIndex(stop => stop.BusStationKey == busKey); 
                 if (index >= 0) //if the bus station is on the route
                 {
                     return true;
                 }
                 else return false;
             }
-
-            /*D.	A method that returns the distance between 2 stations on the line ( not necessarily adjacent stops)
-            E.	A method that returns the travel time between 2 stations on the line ( not necessarily adjacent stops)
-            */
 
             /*D distance between stops*/
 
@@ -359,41 +365,21 @@ namespace Ex2_BusLineCollection
              * Description: returns the travel time between two stops given their keys
              * Return Type: TimeSpan
              */
-
-            public TimeSpan routeTime(List<BusRouteInfo> busLines, int keyStart, int kayEnd)
+           
+            public TimeSpan routeTime(List<BusRouteInfo> busLines, int keyStart, int keyEnd)
+            //either find which line each stop is on (use ienumerable to find stops)or...
             {
-                //given the start of the line we want to send it just the line we are looking at 
-                foreach (BusLine bus in busLines)
-                {
-                    if (bus.firstStop.BusStationKey == keyStart)
-                    {
-                        TimeSpan time = travelTime();
-                    }
-                    else { Console.WriteLine("Error: line does not exist"); }
-                }
-                
-                return 0; //time value
+                //need to find index of busStation keys...
+                int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
+                int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
+                double totalDist =  routeDistance(stations[startIndex].BusLocation, stations[endIndex].BusLocation);
+                double aveSpeed = ((stations[startIndex].BusLocation.Speed) + (stations[endIndex].BusLocation.Speed)) / 2;
+                double time = aveSpeed / totalDist;  //Note: time = speed/distance
+                var travelTime = new TimeSpan();
+                travelTime = TimeSpan.FromMinutes(time);
+                return travelTime; 
             }
-          
 
-            /* Method: routeTime
-            * Description: returns the travel time between 2 stations on the line
-            * Return Type: DateTime
-            */
-            //TimeSpan routeTime() //added a field to the class 
-            //{
-            //    Console.WriteLine("Please enter the travel time between the 2 stations in the format: hh:mm:ss");
-            //    int hours = Convert.ToInt32(Console.ReadLine());
-            //    int minutes = Convert.ToInt32(Console.ReadLine());
-            //    int seconds = Convert.ToInt32(Console.ReadLine());
-            //    TimeSpan time = new TimeSpan(hours, minutes, seconds);
-            //    return time;
-            //}
-            /*F subroute of route (AKA line)*/
-            //still must do
-
-            /*G comparing routes (IComparable)*/
-            //still must do
         }
 
         //*BUS_ROUTES IN DATABASE*//
@@ -403,13 +389,33 @@ namespace Ex2_BusLineCollection
             /*CLASS MEMBERS*/
             private List<BusLine> routes;
 
-            public List<BusLine>  BusRoutes
+            //IEnumerable implementation
+            public class BusRoutes : IEnumerator, IEnumerable
             {
-                get { return routes; }
-                set { routes = value; }
+                public List<BusRoutes> routes = new List<BusRouteInfo>;
+                int position = -1;
+                //IEnumerator and IEnumerable require these methods.
+                public IEnumerator GetEnumerator()
+                {
+                    return (IEnumerator)this;
+                }
+                //IEnumerator
+                public bool MoveNext()
+                {
+                    position++;
+                    return (position < routes.Count);
+                }
+                //IEnumerable
+                public void Reset()
+                {
+                    position = 0;
+                }
+                //IEnumerable
+                public object Current
+                {
+                    get { return routes[position]; }
+                }
             }
-
-
             /*CLASS CTOR*/
             BusDatabase() //default cctor
             {
@@ -426,7 +432,7 @@ namespace Ex2_BusLineCollection
             {
                 Console.WriteLine("Please enter the line number you wish to add: ");
                 int lineNum = Convert.ToInt32(Console.ReadLine());
-                foreach (BusLine bus in BusRoutes)
+                foreach (BusLine bus in routes)
                 {
                     if (bus.BusLineNum == lineNum)//if line already exists
                     {
@@ -434,7 +440,7 @@ namespace Ex2_BusLineCollection
                     }
                     //bus line is new
                     BusLine busLine = new BusLine();
-                    BusRoutes.Add(busLine);
+                    routes.Add(busLine);
                 }
             }
 
@@ -446,11 +452,11 @@ namespace Ex2_BusLineCollection
             {
                 bool notFound = true;
 
-                for (int i = 0; i < BusRoutes.Count; i++) //search for stop
+                for (int i = 0; i < routes.Count; i++) //search for stop
                 {
-                    if (lineToRemove == BusRoutes[i].BusLineNum)
+                    if (lineToRemove == routes[i].BusLineNum)
                     {
-                        BusRoutes.RemoveAt(i); //remove line
+                        routes.RemoveAt(i); //remove line
                         notFound = false;
                     }
                 }
@@ -462,6 +468,7 @@ namespace Ex2_BusLineCollection
             }
 
             /*B returns list of bus lines passing through a given station*/
+
             /* Method: linesThroughStation
              * Description: recieves bus station key and returns a list of bus routes that pass through that station
              * Return Type: List<BusRoutes>
@@ -470,7 +477,7 @@ namespace Ex2_BusLineCollection
             {
                 bool keyMatch = false;
                 var LinesThruStation = new List<BusLine>();
-                foreach (BusStop busStop in BusStations) // for every bus in our list of bus stations
+                foreach (BusStop busStop in routes) // for every bus in our list of bus stations
                 {
                     if (busStop.BusStationKey != StationKey) // if we don't find a matching key
                     {
@@ -478,7 +485,7 @@ namespace Ex2_BusLineCollection
                     }
                     else//key found - now search Bus Routes to find any bus lines that go through that station
                     {
-                        foreach (BusLine busRoutes in BusRoutes) //for every busline in our list of busroutes
+                        foreach (BusLine busRoutes in routes) //for every busline in our list of busroutes
                         {
                             if (busRoutes.BusStationKey == StationKey)
                             {
@@ -497,18 +504,21 @@ namespace Ex2_BusLineCollection
             }
 
             /*C sorts lines according to time*/
-            /* Method: sortLines
+           /* Method: sortLines
            * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
            * Return Type: void
            */
             public void sortLines(List<BusLine> busRoutes)
             {
-                prevLine
-                foreach (BusLine bus in busRoutes)
+                foreach (BusDatabase line in routes)//for each line in our database
                 {
-                    BusTime.CompareTo(prevLine);
+                    double totalDist = 0;
+                    double totalSpeed = 0;
+                    for (int i = 0; i < routes.Count; i++)
+                    {
+                         
+                    }
                 }
-
             }
 
 
@@ -558,7 +568,21 @@ namespace Ex2_BusLineCollection
             //}
 
             /*D indexer - checks for line number*/
-            //do indexer GILA --- INUMERABLE
+
+            /* Method: BusIndexer
+            * Description: Indexer that receives a line number and returns the instance. If no such line exits it returns throws an exception.
+            * Return Type: int
+            */
+            public int BusIndexer(int lineNum) //if this work we should call it in our main and other methods aswell
+            {
+                int index = 0;
+                try //locate line and find index
+                {
+                       index = routes.FindIndex(bus => bus.BusLineNum == lineNum);
+                } //line not found
+                catch { Console.WriteLine("Error: no such line exists"); throw; }
+                return index;
+            }
         }
 
         public enum BusLineOptions { Insert =1 , Delete, Search, Print, Exit}; //idea can change
