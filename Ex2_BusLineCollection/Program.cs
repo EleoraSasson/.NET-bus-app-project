@@ -347,8 +347,12 @@ namespace Ex2_BusLineCollection
              * Return Type: float
              */
 
-            public double routeDistance(GeoCoordinate loc_1, GeoCoordinate loc_2) //do this for each two stops on the line ... foreach
+            public double routeDistance(List<BusRouteInfo> busLines, int keyStart, int keyEnd) //do this for each two stops on the line ... foreach
             {
+                int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
+                var loc_1 = busLines[startIndex].BusLocation;
+                int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
+                var loc_2 = busLines[endIndex].BusLocation;
                 var distance = loc_1.GetDistanceTo(loc_2);
                 return distance;
             }
@@ -360,18 +364,27 @@ namespace Ex2_BusLineCollection
              * Return Type: TimeSpan
              */
            
-            public TimeSpan routeTime(List<BusRouteInfo> busLines, int keyStart, int keyEnd)
-            //either find which line each stop is on (use ienumerable to find stops)or...
+            public TimeSpan routeTime(List<BusRouteInfo> busroutes, int keyStart, int keyEnd)
             {
                 //need to find index of busStation keys...
+                //int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
+                //int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
+                //double totalDist =  routeDistance(busLines,keyStart,keyEnd);
+                //double aveSpeed = ((stations[startIndex].BusLocation.Speed) + (stations[endIndex].BusLocation.Speed)) / 2;
+                //double time = aveSpeed / totalDist;  //Note: time = speed/distance
+                //var travelTime = new TimeSpan();
+                //travelTime = TimeSpan.FromMinutes(time);
+                //return travelTime;
+
+                //option2:
+                var travelTime = new TimeSpan();
                 int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
                 int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
-                double totalDist =  routeDistance(stations[startIndex].BusLocation, stations[endIndex].BusLocation);
-                double aveSpeed = ((stations[startIndex].BusLocation.Speed) + (stations[endIndex].BusLocation.Speed)) / 2;
-                double time = aveSpeed / totalDist;  //Note: time = speed/distance
-                var travelTime = new TimeSpan();
-                travelTime = TimeSpan.FromMinutes(time);
-                return travelTime; 
+                for (int i = startIndex; i < endIndex; i++)
+                {
+                    travelTime += busroutes[i].BusTime; //increment time as you go along route
+                }
+                return travelTime;
             }
 
             private TimeSpan totalTime;
