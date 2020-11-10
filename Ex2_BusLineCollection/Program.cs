@@ -31,7 +31,7 @@ using System.Collections;
 namespace Ex2_BusLineCollection
 {
     class Program
-    { 
+    {
         //*BUS_STOP*//
         class BusStop //object made: Bus Station/Stop
         {
@@ -41,7 +41,7 @@ namespace Ex2_BusLineCollection
             public int BusStationKey
             {
                 get { return stationKey; }
-                set { stationKey = value; } 
+                set { stationKey = value; }
             }
 
             private GeoCoordinate location;  //location information of stops
@@ -72,11 +72,11 @@ namespace Ex2_BusLineCollection
             }
 
             /*CLASS CTORS*/
-            
+
             public BusStop() //defualt ctor 
             {
                 BusStationKey = 000000;
-                BusLocation.Latitude= 0.0;
+                BusLocation.Latitude = 0.0;
                 BusLocation.Longitude = 0.0;
                 BusAddress = "No Address Assigned";
             }
@@ -92,7 +92,7 @@ namespace Ex2_BusLineCollection
             /*CLASS METHODS*/
 
             //sets key
-            public void setKey(List<BusRouteInfo> bus, BusStop stop) 
+            public void setKey(List<BusRouteInfo> bus, BusStop stop)
             {
                 bool enterKey = false;
                 int sKey = 0;
@@ -120,7 +120,7 @@ namespace Ex2_BusLineCollection
                 stop.BusStationKey = sKey;
             }
             //sets address
-            public void setAddress(List<BusRouteInfo> bus, BusStop stop) 
+            public void setAddress(List<BusRouteInfo> bus, BusStop stop)
             {
                 Console.WriteLine("Enter Physical Address:");
                 var address = Console.ReadLine();
@@ -136,7 +136,7 @@ namespace Ex2_BusLineCollection
             }
             public override string ToString()
             {
-                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E, " + BusAddress); 
+                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E, " + BusAddress);
             }
         }
 
@@ -162,23 +162,23 @@ namespace Ex2_BusLineCollection
 
             /*CLASS CTOR*/
 
-            public BusRouteInfo():base() //default ctor
+            public BusRouteInfo() : base() //default ctor
             {
                 BusDistance = 0;
-                var t = new TimeSpan(0,0,0,0);
+                var t = new TimeSpan(0, 0, 0, 0);
                 BusTime = t;
             }
 
-            public BusRouteInfo(float dist, TimeSpan t , int key, double lat, double lon, string adr) : base(key, lat, lon, adr) // ctor
+            public BusRouteInfo(float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(key, lat, lon, adr) // ctor
             {
                 BusDistance = dist;
                 BusTime = t;
             }
         }
-
+    
         //*BUS_LINES*//
         public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National}; //unknown indicates area has not yet been set & National implies bus goes throughout country
-        class BusLine : IComparable //object made: Lines (list of BusStops) w area info //Do we really need inheritance? else how we implement iComparable
+        class BusLine : BusRouteInfo //IComparable //object made: Lines (list of BusStops) w area info //Do we really need inheritance? else how we implement iComparable
         {
             /*CLASS MEMBERS*/
             
@@ -218,7 +218,7 @@ namespace Ex2_BusLineCollection
             //Implementatiion of IEnumerable Interface
             public class BusStations : IEnumerator, IEnumerable
             {
-                public List<BusRouteInfo> stations = new List<BusRouteInfo>;
+                public List<BusRouteInfo> stations = new List<BusRouteInfo>();
                 int position = -1;
                 //IEnumerator and IEnumerable require these methods.
                 public IEnumerator GetEnumerator()
@@ -292,6 +292,7 @@ namespace Ex2_BusLineCollection
                 setKey(bus,stop); //sets key of station
                 setLocation(stop); //sets location and speed
                 setAddress(bus,stop); //sets address of station
+                setTotalTime(bus, stop);
                 if (bus.First() == null) //if first element is empty
                 {
                     stations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
@@ -312,11 +313,11 @@ namespace Ex2_BusLineCollection
             */
             void removeStop(int busKey) 
             {
-                for (int i = 0; i < BusStations.Count; i++) //search for stop
+                for (int i = 0; i < stations.Count; i++) //search for stop
                 {
-                        if (busKey == BusStations[i].BusStationKey)
+                        if (busKey == stations[i].BusStationKey)
                         {
-                            BusStations.RemoveAt(i); //remove stop
+                            stations.RemoveAt(i); //remove stop
                             return;
                         }
                 } 
@@ -331,16 +332,13 @@ namespace Ex2_BusLineCollection
             */
             bool isStopOnRoute(int busKey)
             {
-                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey);
-                try
+                int index = stations.FindIndex(stop => stop.BusStationKey == busKey);
+                if (index >= 0)
                 {
-                    if (index >= 0) //if the bus station is on the route
-                    {
-                        return true;
-                    }
-                    else return false; //throw exceptions (does it make sense to do it on a bool?)
+                    return true;
                 }
-             }
+                else {return false ; }         
+            }
 
             /*D distance between stops*/
 
@@ -349,7 +347,7 @@ namespace Ex2_BusLineCollection
              * Return Type: float
              */
 
-            public double routeDistance(GeoCoordinate loc_1, GeoCoordinate loc_2)
+            public double routeDistance(GeoCoordinate loc_1, GeoCoordinate loc_2) //do this for each two stops on the line ... foreach
             {
                 var distance = loc_1.GetDistanceTo(loc_2);
                 return distance;
@@ -376,34 +374,31 @@ namespace Ex2_BusLineCollection
                 return travelTime; 
             }
 
+            private TimeSpan totalTime;
 
-            /* Method: routeTime
-            * Description: returns the travel time between 2 stations on the line
-            * Return Type: DateTime
-            */
-            //TimeSpan routeTime() //added a field to the class 
-            //{
-            //    Console.WriteLine("Please enter the travel time between the 2 stations in the format: hh:mm:ss");
-            //    int hours = Convert.ToInt32(Console.ReadLine());
-            //    int minutes = Convert.ToInt32(Console.ReadLine());
-            //    int seconds = Convert.ToInt32(Console.ReadLine());
-            //    TimeSpan time = new TimeSpan(hours, minutes, seconds);
-            //    return time;
-            //}
-            /*F subroute of route (AKA line)*/
-            //still must do
+            public TimeSpan BusTotalTime
+            {
+                get { return totalTime; }
+                set { totalTime = value; } 
+            }
+
+            public void setTotalTime(List<BusRouteInfo> bus, BusStop stop)
+            {
+                int index = bus.FindIndex(busS => busS.BusStationKey == stop.BusStationKey);
+                BusTotalTime += bus[index].BusTime;
+            }
 
             /*G comparing routes (IComparable)*/
         public int CompareTo(BusLine x)
         {
             BusLine b = (BusLine)x;
-            return routeTime.CompareTo(b.routeTime); //See if it works with the time       
+            return BusTotalTime.CompareTo(b.BusTotalTime); //See if it works with the time       
         }
 
         public BusLine compareLines (BusLine a, BusLine b)
-            {
-                IComparable c1 = a;
-                IComparable c2 = b;
+        {
+                IComparable c1 = (IComparable)a;
+                IComparable c2 = (IComparable)b;
                 if (c1.CompareTo(c2) == 0)
                 {
                     throw new ArgumentException("Same travel time.");
@@ -413,8 +408,8 @@ namespace Ex2_BusLineCollection
                 else if (c1.CompareTo(c2) == -1)
                     return b;
                 else
-                    throw new ArgumentException("Comparaison failed.");
-            }
+                    throw new ArgumentException("Comparison failed.");
+        }
                 
             
 
@@ -428,7 +423,7 @@ namespace Ex2_BusLineCollection
             //IEnumerable implementation
             public class BusRoutes : IEnumerator, IEnumerable
             {
-                public List<BusRoutes> routes = new List<BusRouteInfo>;
+                public List<BusRoutes> routes = new List<BusRoutes>();
                 int position = -1;
                 //IEnumerator and IEnumerable require these methods.
                 public IEnumerator GetEnumerator()
@@ -546,52 +541,13 @@ namespace Ex2_BusLineCollection
            */
             public void sortLines(List<BusLine> busRoutes)
             {
-                foreach (BusDatabase line in routes)//for each line in our database
-                {
-                    double totalDist = 0;
-                    double totalSpeed = 0;
                     for (int i = 0; i < routes.Count; i++)
                     {
-                         
+                        var longerRoute = busRoutes[i].CompareTo(busRoutes[i+1]);
+                        
                     }
-                }
             }
-
-
-            //TOGETHER
-            //private DateTime BusTotalTime;
-
-            //public DateTime totalTime
-            //{
-            //    set { BusTotalTime = totalTimeTravel(bus b); } // go over it
-            //    get { return BusTotalTime; }
-            //}
-            //public DateTime totalTimeTravel(BusLine bus)
-            //{
-            //    int hours = 0;
-            //    int minutes = 0;
-            //    int seconds = 0;
-            //    for (int i = 0; i < BusStations.Count; i++) //loop to get the total travel time of a line
-            //    {
-            //        hours += BusStations[i].BusTravelTime.Hour;
-            //        minutes += BusStations[i].BusTravelTime.Minute;
-            //        seconds += BusStations[i].BusTravelTime.Second;
-            //    }
-            //    DateTime total = new DateTime(hours, minutes, seconds);
-            //    return total;
-            //}
-
-
-
-
-
-            //};
-            //void sortLines() //have to add a total time
-            //{
-
-            //    BusDatabase.Sort((x, y) => x.totalTime.CompareTo(y.totalTime))
-            //}
-
+            
             /*D indexer - checks for line number*/
 
             /* Method: BusIndexer
@@ -609,6 +565,11 @@ namespace Ex2_BusLineCollection
                 return index;
             }
         }
+            //generic exceptions:
+            public class BusExceptions : Exception
+            {
+                public BusExceptions(string message) : base(message) {}
+            }
 
         public enum BusLineOptions { Insert =1 , Delete, Search, Print, Exit}; //idea can change
         static void Main(string[] args)
@@ -661,7 +622,6 @@ namespace Ex2_BusLineCollection
             }
             var BusCollection = new List<BusDatabase>();
         
-            for
             for (int k = 0; k < 10; k++)
             {
                 BusCollection.Add(BusDatabase[rand]);
