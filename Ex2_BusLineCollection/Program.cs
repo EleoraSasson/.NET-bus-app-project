@@ -31,7 +31,7 @@ namespace Ex2_BusLineCollection
     class Program
     { 
         //*BUS_STOP*//
-        class BusStop //object made: Bus Station/Stop
+        class BusStop   //object made: Bus Station/Stop
         {
             /*CLASS MEMBERS*/
             private int stationKey; // bus key (to identify bus stop)
@@ -191,7 +191,7 @@ namespace Ex2_BusLineCollection
 
         //*BUS_LINES*//
         public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National}; //unknown indicates area has not yet been set & National implies bus goes throughout country
-        class BusLine : BusRouteInfo //object made: Lines (list of BusStops) w area info
+        class BusLine : IComparable //object made: Lines (list of BusStops) w area info //Do we really need inheritance? else how we implement iComparable
         {
             /*CLASS MEMBERS*/
             
@@ -303,21 +303,15 @@ namespace Ex2_BusLineCollection
             */
             void removeStop(int busKey) 
             {
-                bool notFound = true;
-
                 for (int i = 0; i < BusStations.Count; i++) //search for stop
                 {
-                    if (busKey == BusStations[i].BusStationKey)
-                    {
-                        BusStations.RemoveAt(i); //remove stop
-                        notFound = false;
-                    }
-                }
-
-                if (notFound) // true that it hasn't been found
-                {
-                    Console.WriteLine("Error: Bus stop does not exist in the route.");
-                }
+                        if (busKey == BusStations[i].BusStationKey)
+                        {
+                            BusStations.RemoveAt(i); //remove stop
+                            return;
+                        }
+                } 
+                throw new ArgumentException("Stop to remove is not in the line.");//if bus is not found
             }
 
             /*C is station/stop on line*/
@@ -326,15 +320,18 @@ namespace Ex2_BusLineCollection
             * Description: returns true if the stop is on the route
             * Return Type: bool
             */
-            bool isStopOnRoute(int busKey) 
+            bool isStopOnRoute(int busKey)
             {
-                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey); 
-                if (index >= 0) //if the bus station is on the route
+                int index = BusStations.FindIndex(stop => stop.BusStationKey == busKey);
+                try
                 {
-                    return true;
+                    if (index >= 0) //if the bus station is on the route
+                    {
+                        return true;
+                    }
+                    else return false; //throw exceptions (does it make sense to do it on a bool?)
                 }
-                else return false;
-            }
+             }
 
             /*D.	A method that returns the distance between 2 stations on the line ( not necessarily adjacent stops)
             E.	A method that returns the travel time between 2 stations on the line ( not necessarily adjacent stops)
@@ -374,7 +371,7 @@ namespace Ex2_BusLineCollection
                 
                 return 0; //time value
             }
-          
+
 
             /* Method: routeTime
             * Description: returns the travel time between 2 stations on the line
@@ -393,8 +390,29 @@ namespace Ex2_BusLineCollection
             //still must do
 
             /*G comparing routes (IComparable)*/
-            //still must do
+        public int CompareTo(BusLine x)
+        {
+            BusLine b = (BusLine)x;
+            return routeTime.CompareTo(b.routeTime); //See if it works with the time       
         }
+
+        public BusLine compareLines (BusLine a, BusLine b)
+            {
+                IComparable c1 = a;
+                IComparable c2 = b;
+                if (c1.CompareTo(c2) == 0)
+                {
+                    throw new ArgumentException("Same travel time.");
+                }
+                else if (c1.CompareTo(c2) == 1)
+                    return a; //a's travel time is greater than b's
+                else if (c1.CompareTo(c2) == -1)
+                    return b;
+                else
+                    throw new ArgumentException("Comparaison failed.");
+            }
+                
+            
 
         //*BUS_ROUTES IN DATABASE*//
         class BusDatabase : BusLine //object made: database of bus routes (list of selected lines)
@@ -537,29 +555,18 @@ namespace Ex2_BusLineCollection
 
 
 
-            //public class TimeComparer : IComparer<BusLine>
-            //{
-            //    public int Compare(BusLine x, BusLine y)
-            //    {
-            //        if (object.ReferenceEquals(x, y))
-            //            return 0;
-            //        if (x == null)
-            //            return -1;
-            //        if (y == null)
-            //            return 1;
-            //        return x.totalTime.CompareTo(y.totalTime); //go over it
-            //    }
 
-            //};
-            //void sortLines() //have to add a total time
-            //{
 
-            //    BusDatabase.Sort((x, y) => x.totalTime.CompareTo(y.totalTime))
-            //}
+                //};
+                //void sortLines() //have to add a total time
+                //{
 
-            /*D indexer - checks for line number*/
-            //do indexer GILA --- INUMERABLE
-        }
+                //    BusDatabase.Sort((x, y) => x.totalTime.CompareTo(y.totalTime))
+                //}
+
+                /*D indexer - checks for line number*/
+                //do indexer GILA --- INUMERABLE
+            }
 
         public enum BusLineOptions { Insert =1 , Delete, Search, Print, Exit}; //idea can change
         static void Main(string[] args)
