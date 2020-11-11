@@ -313,7 +313,7 @@ namespace Ex2_BusLineCollection
             * Description: Searches for busKey in a given route and if found removes the bus station with that bus key.
             * Return Type: void 
             */
-            void removeStop(int busKey)
+            public void removeStop(int busKey)
             {
                 for (int i = 0; i < stations.Count; i++) //search for stop
                 {
@@ -473,7 +473,7 @@ namespace Ex2_BusLineCollection
                     }
                 }
                 /*CLASS CTOR*/
-                BusDatabase() //default cctor
+                public BusDatabase() //default cctor
                 {
 
                 }
@@ -484,7 +484,7 @@ namespace Ex2_BusLineCollection
                 * Description: recieves a line number and adds the line to the database (keeping in mind that each line appears twice - to and from )
                 * Return Type: void
                 */
-                void addLine()
+                public void addLine()
                 {
                     Console.WriteLine("Please enter the line number you wish to add: ");
                     int lineNum = Convert.ToInt32(Console.ReadLine());
@@ -504,7 +504,7 @@ namespace Ex2_BusLineCollection
                 * Description: removes a bus line from the collection
                 * Return Type: void
                 */
-                void removeLine(int lineToRemove)
+                public void removeLine(int lineToRemove)
                 {
                     bool notFound = true;
 
@@ -655,13 +655,15 @@ namespace Ex2_BusLineCollection
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
-                                BusRouteInfo newBus = new BusRouteInfo();
-                                newBus.addBus(BusLines);
-                                BusLines.Add(newBus);
+                                BusLine newBus = new BusLine();
+                                newBus.addStop(BusLines);
+                                BusRoutes.Add(newBus);
                             }
                             else if (ch == 1)
                             {
-                                addLine();
+                                BusDatabase newLine = new BusDatabase();
+                                newLine.addLine();
+                                BusCollection.Add(newLine);
                             }
                             else //which should we do??
                             {
@@ -676,11 +678,17 @@ namespace Ex2_BusLineCollection
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
-
+                                Console.WriteLine("Ënter stationKey of the bus stop that you want removed.\n");
+                                int key = Int32.Parse(Console.ReadLine());
+                                try { BusRoutes[0].removeStop(key); } 
+                                catch { throw new ArgumentException("Error: There are no bus stops listed to remove.\n"); }
                             }
                             else if (ch == 1)
                             {
-
+                                Console.WriteLine("Ënter line number of the bus line that you want removed.\n");
+                                int num = Int32.Parse(Console.ReadLine());
+                                try { BusCollection[0].removeLine(num); } 
+                                catch { throw new ArgumentException("Error: There are no bus stops listed to remove.\n"); }
                             }
                             else //which should we do??
                             {
