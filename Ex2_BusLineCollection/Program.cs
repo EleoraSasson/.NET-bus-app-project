@@ -665,10 +665,8 @@ namespace Ex2_BusLineCollection
                                 newLine.addLine();
                                 BusCollection.Add(newLine);
                             }
-                            else //which should we do??
+                            else 
                             {
-                                Console.WriteLine("Error: Invalid Input - Enter 0 to add a bus stop or 1 to add a bus line:\n");
-                                ch = Int32.Parse(Console.ReadLine());
                                 throw new ArgumentException("Error: Invalid Input.");
                             }
                             break;
@@ -690,10 +688,8 @@ namespace Ex2_BusLineCollection
                                 try { BusCollection[0].removeLine(num); } 
                                 catch { throw new ArgumentException("Error: There are no bus stops listed to remove.\n"); }
                             }
-                            else //which should we do??
+                            else 
                             {
-                                Console.WriteLine("Error: Invalid Input - Enter 0 to add a bus stop or 1 to add a bus line:\n");
-                                ch = Int32.Parse(Console.ReadLine());
                                 throw new ArgumentException("Error: Invalid Input.");
                             }
                             break;
