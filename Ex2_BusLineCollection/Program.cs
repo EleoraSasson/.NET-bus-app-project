@@ -1,4 +1,5 @@
-﻿using System;
+﻿//DELETE COMMENTS
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,20 +15,8 @@ using System.Runtime.Remoting;
 using System.Data;
 using System.Device.Location; //is used for location coordinates
 using System.Collections;
+using System.CodeDom;
 
-/*IEnumerable (time) (Gila) - created IEnumerable, therefore each BusStations can now be called just as stations directly 
- * not sure if the return time is most sccurate as it is a bit general using your idea of speed as oppsed to finidng the line the bus is on.
- * IComparable (distance) (Eleora)
- * Indexer (Gila) - created it, assuming it works we should use it more
- * Passenger (Eleora)
- * Main (with exceptions) (Eleora)
- * NOTE: in order to sort things according to time i also made an IeEnumerable for the routes too and changed all instances of this (BusRoutes - routes)
- */
-
-/*GENERAL NOTES:
- * have not dealt with the fact that a line has two directions so when adding route which line? should we add a member to chk?
- * B returns list of bus lines passing through a given station <-- is this still a needed method, if yes fix (line 402)
-*/
 namespace Ex2_BusLineCollection
 {
     class Program
@@ -529,7 +518,7 @@ namespace Ex2_BusLineCollection
                  * Description: recieves bus station key and returns a list of bus routes that pass through that station
                  * Return Type: List<BusRoutes>
                  */
-                List<BusLine> linesThroughStation(int StationKey)
+                public List<BusLine> linesThroughStation(int StationKey)
                 {
                     bool keyMatch = false;
                     var LinesThruStation = new List<BusLine>();
@@ -564,7 +553,7 @@ namespace Ex2_BusLineCollection
                 * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
                 * Return Type: void
                 */
-                public void sortLines(List<BusLine> busRoutes)
+                public void sortLines(List<BusDatabase> busRoutes)
                 {
                     for (int i = 0; i < routes.Count; i++)
                     {
@@ -695,9 +684,20 @@ namespace Ex2_BusLineCollection
                             break;
                         case BusLineOptions.Search:
                             Console.WriteLine("SEARCH:");//COMMENT OUT!!
-                            Console.WriteLine("Enter the station key for the station that you are looking for:\n");
-                            Console.WriteLine("Enter the sation key of the Start Station:\n");
-                            Console.WriteLine("Enter the sation key of the End Station:\n");
+                            Console.WriteLine("Enter 0 to search for lines that go through a specific station or 1 to show potential travel options given a strat and end station:\n");
+                            ch = Int32.Parse(Console.ReadLine());
+                            if (ch == 0)
+                            {
+                                List<BusLine> lines = FindRoutes(BusCollection);
+                            }
+                            else if (ch == 1)
+                            {
+                                FindTravelOptions(BusRoutes);
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Error: Invalid Input.");
+                            }
                             break;
                         case BusLineOptions.Print:
                             Console.WriteLine("Bus Line in the BusCollection:\n");
@@ -714,6 +714,50 @@ namespace Ex2_BusLineCollection
                     Console.WriteLine("Select another option from the menu:\n");
                     Console.WriteLine("1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
                 } while (choice != 0);
+            }
+
+            private static List<BusLine> FindRoutes(List<BusDatabase> BusCollection)
+            {
+                Console.WriteLine("Enter the station key for the station that you are looking for:\n");
+                int station = Int32.Parse(Console.ReadLine());
+                var lines = BusCollection[0].linesThroughStation(station); //finding possible routes user can take
+                Console.WriteLine("These are the lines which pass through your selected station:\n");
+                for (int i = 0; i < lines.Count; i++)//print routes can take
+                {
+                    Console.WriteLine(lines);
+                }
+
+                return lines;
+            }
+
+            private static void FindTravelOptions(List<BusLine> lines)
+            {
+                Console.WriteLine("Enter the station key of the Start Station:\n");
+                int startStation = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Enter the station key of the End Station:\n");
+                int endStation = Int32.Parse(Console.ReadLine());
+
+                var travelOptions = new List<BusDatabase>();
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    if (lines[i].isStopOnRoute(startStation))//is their startStaion on one of the lines
+                    {
+                        if (lines[i].isStopOnRoute(endStation))//is the endstation on the same line
+                        {
+                            travelOptions.Add((BusDatabase)lines[i]); //add that line to options
+                        }
+                    }
+                }
+
+                bool isEmpty = !travelOptions.Any();
+                if (isEmpty)
+                {
+                    throw new ArgumentException("Error: No travel options are available.\n");
+                }
+
+                travelOptions[0].sortLines(travelOptions);//sort lines
+                Console.WriteLine("Your travel options are:\n");
+                Console.WriteLine(travelOptions);//print result
             }
         }
     }
