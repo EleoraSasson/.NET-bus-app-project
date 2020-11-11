@@ -65,8 +65,7 @@ namespace Ex2_BusLineCollection
             public BusStop() //defualt ctor 
             {
                 BusStationKey = 000000;
-                BusLocation.Latitude = 0.0;
-                BusLocation.Longitude = 0.0;
+                BusLocation = new GeoCoordinate(0,0);
                 BusAddress = "No Address Assigned";
             }
 
@@ -88,15 +87,11 @@ namespace Ex2_BusLineCollection
                 while (enterKey == false)
                 {
                     Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
-                    string key = Console.ReadLine();
-                    string correct = @"^[0-9]\d{6}$";
-                    bool keyVerified = false;
-                    keyVerified = (Regex.IsMatch(key, correct));
-                    while (keyVerified == false) //check if key is valid
+                    int key = Convert.ToInt32(Console.ReadLine());
+                    while (key < 100000 || key > 1000000) //check if key is valid
                     {
                         Console.WriteLine("Error: Invalid Key - Must be 6 digits long\n");
-                        key = Console.ReadLine();
-                        keyVerified = (Regex.IsMatch(key, correct));
+                        key = Convert.ToInt32(Console.ReadLine());
                     }
                     sKey = Convert.ToInt32(key); //assuming we can convert without the tryParse
                     int index = bus.FindIndex(item => item.BusStationKey == sKey);
@@ -247,8 +242,8 @@ namespace Ex2_BusLineCollection
             {
                 BusLineNum = 0;
                 BusArea = 0; //aka Unknown
-                firstStop = stations[0];
-                lastStop = stations[0];
+                firstStop = new BusRouteInfo();
+                lastStop = firstStop;
             }
 
             /*CLASS METHODS*/
@@ -594,6 +589,8 @@ namespace Ex2_BusLineCollection
 
                 for (int i = 0; i < 40; i++) //random list of 40 stations
                 {
+                    var stop = new BusRouteInfo();
+                    BusLines.Add(stop);
                     //setting station key (6 digits)
                     Random rd = new Random();
                     int busKey = rd.Next(100000, 1000000);
@@ -606,7 +603,7 @@ namespace Ex2_BusLineCollection
                     BusLines[i].BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30;
                     //set speed (10km/h - 200km/h)
                     Random spd = new Random();
-                    BusLines[i].BusLocation.Speed = spd.Next() * (200 - 10) + 10;
+                    BusLines[i].BusLocation.Speed = (spd.Next(1, 201));
                     //setting address to default unknown
                 }
 
@@ -614,18 +611,18 @@ namespace Ex2_BusLineCollection
                 {
                     //generate the random number of stops that there will be per line
                     Random randS = new Random();
-                    int numStops = randS.Next() * (6 - 1) + 1;
+                    int numStops = randS.Next(1, 7);
                     for (int j = 0; j < numStops; j++) //adding the BusStops to the line
                     {
                         Random randL = new Random();
-                        int k = randL.Next() * (40 - 1) + 1;
-                        BusRoutes.Add((BusLine)BusLines[j + k]);
+                        int k = (randL.Next(1, 41));
+                        BusRoutes.Add(BusLines[k] as BusLine);
                     }
                 }
 
                 for (int  i = 0;  i < 10;  i++) //adding all the lines to our collection
                 {
-                    BusCollection.Add((BusDatabase)BusLines[i]);
+                    BusCollection.Add(BusLines[i] as BusDatabase);
                 }
 
                 Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
