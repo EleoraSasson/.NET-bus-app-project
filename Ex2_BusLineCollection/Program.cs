@@ -349,14 +349,20 @@ namespace Ex2_BusLineCollection
              * Return Type: float
              */
 
-            public double routeDistance(List<BusRouteInfo> busLines, int keyStart, int keyEnd) //do this for each two stops on the line ... foreach
+            public double routeDistance(List<BusRouteInfo> busLines, int keyStart, int keyEnd)
             {
+                double totalDist = 0;
+
                 int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
-                var loc_1 = busLines[startIndex].BusLocation;
                 int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
-                var loc_2 = busLines[endIndex].BusLocation;
-                var distance = loc_1.GetDistanceTo(loc_2);
-                return distance;
+                for (int i = startIndex; i < endIndex; i++)
+                {
+                    var loc_x = busLines[i].BusLocation;
+                    var loc_y = busLines[i+1].BusLocation;
+                    var distance = loc_x.GetDistanceTo(loc_y);
+                    totalDist += distance;
+                }
+                return totalDist;
             }
 
             /*E travel time between stops*/
@@ -365,20 +371,8 @@ namespace Ex2_BusLineCollection
              * Description: returns the travel time between two stops given their keys
              * Return Type: TimeSpan
              */
-
             public TimeSpan routeTime(List<BusRouteInfo> busroutes, int keyStart, int keyEnd)
             {
-                //need to find index of busStation keys...
-                //int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
-                //int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
-                //double totalDist =  routeDistance(busLines,keyStart,keyEnd);
-                //double aveSpeed = ((stations[startIndex].BusLocation.Speed) + (stations[endIndex].BusLocation.Speed)) / 2;
-                //double time = aveSpeed / totalDist;  //Note: time = speed/distance
-                //var travelTime = new TimeSpan();
-                //travelTime = TimeSpan.FromMinutes(time);
-                //return travelTime;
-
-                //option2:
                 var travelTime = new TimeSpan();
                 int startIndex = stations.FindIndex(bus => bus.BusStationKey == keyStart);
                 int endIndex = stations.FindIndex(bus => bus.BusStationKey == keyEnd);
@@ -624,8 +618,7 @@ namespace Ex2_BusLineCollection
                     //set speed (10km/h - 200km/h)
                     Random spd = new Random();
                     BusLines[i].BusLocation.Speed = spd.Next() * (200 - 10) + 10;
-                    //setting address
-                    BusLines[i].setAddress(BusLines, BusLines[i]);
+                    //setting address to default unknown
                 }
 
                 for (int i = 0; i < 10; i++) //creating 10 lines
@@ -641,8 +634,10 @@ namespace Ex2_BusLineCollection
                     }
                 }
 
-                //currently we have bus lines/routes and bus stops, we do not have any buses in our collection 
-                //(we have not yet selected which of the 10 lines we want to use) 
+                for (int  i = 0;  i < 10;  i++) //adding all the lines to our collection
+                {
+                    BusCollection.Add((BusDatabase)BusLines[i]);
+                }
 
                 Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
@@ -660,11 +655,13 @@ namespace Ex2_BusLineCollection
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
-                                    
+                                BusRouteInfo newBus = new BusRouteInfo();
+                                newBus.addBus(BusLines);
+                                BusLines.Add(newBus);
                             }
                             else if (ch == 1)
                             {
-
+                                addLine();
                             }
                             else //which should we do??
                             {
