@@ -207,6 +207,8 @@ namespace Ex2_BusLineCollection
 
             private List<BusRouteInfo> stations; //stations
 
+
+
             public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
             {
                 BusLineNum = lineN;
@@ -424,15 +426,14 @@ namespace Ex2_BusLineCollection
         }
 
             /*F sub route of the line*/
-            public List <BusLine> routeLine (BusStop a, BusStop b)
+            public BusLine routeLine (BusStop a, BusStop b)
             {
-                foreach (BusRouteInfo bus in BusLine) //we don't have a list of busLines?
+                foreach (BusLine bus in stations) //we don't have a list of busLines?
                 {
                     if (bus.firstStop == a && bus.lastStop == b)
                         return bus;
                 }
-
-
+                throw new ArgumentException("Error: Invalid Input.");
             }
 
             /*G comparing routes (IComparable)*/
