@@ -47,10 +47,8 @@ namespace Ex2_BusLineCollection
                 stop.BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
                 Random rlong = new Random();
                 stop.BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
-                stop.BusLocation.Speed = 6; //around 20 km/hr
+                //stop.BusLocation.Speed = 6;
             }
-
-
 
             private string address;//physical address
 
@@ -84,7 +82,6 @@ namespace Ex2_BusLineCollection
             {
                 bool enterKey = false;
                 int key = 0;
-                bool exists = false;
                 while (enterKey == false)
                 {
                     Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
@@ -111,16 +108,9 @@ namespace Ex2_BusLineCollection
             {
                 Console.WriteLine("Enter Physical Address:");
                 var address = Console.ReadLine();
-                string AdrCheck = @"\d{ 1,3}.?\d{ 0,3}\s[a - zA - Z]{ 2,30}\s[a - zA - Z]{ 2,15}";
-                bool verifyAdr = Regex.IsMatch(address, AdrCheck);
-                if (verifyAdr == false)
-                {
-                    Console.WriteLine("Error: Invalid address format");
-                    address = Console.ReadLine();
-                    verifyAdr = (Regex.IsMatch(address, AdrCheck));
-                }
                 stop.BusAddress = address;
             }
+            //tostring override
             public override string ToString()
             {
                 return ("Bus Station Code: " + BusStationKey + ", " + BusLocation.Latitude + " N " + BusLocation.Longitude + " E, " + BusAddress);
@@ -192,23 +182,31 @@ namespace Ex2_BusLineCollection
                 set { first = value; }
             }
 
-            private List<BusRouteInfo> stations; //stations
+            private BusRouteInfo last; //last station on bus route
 
-
-
-            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+            public BusRouteInfo lastStop
             {
-                BusLineNum = lineN;
-                BusArea = area;
-                firstStop = first;
-                lastStop = last;
+                get { return last; }
+                set { last = value; }
+            }
+
+
+
+            private List<BusRouteInfo> stations;//stations
+
+            public List<BusRouteInfo> setStations
+            {
+                get { return stations; }
+                set 
+                { var stops = new List<BusRouteInfo>();
+                this.stations = stops;}
             }
 
             //Implementatiion of IEnumerable Interface
             public class BusStations : IEnumerator, IEnumerable
             {
                 public List<BusRouteInfo> stations = new List<BusRouteInfo>();
-                int position = -1;
+                int position = 0;
                 //IEnumerator and IEnumerable require these methods.
                 public IEnumerator GetEnumerator()
                 {
@@ -232,14 +230,13 @@ namespace Ex2_BusLineCollection
                 }
             }
 
-            private BusRouteInfo last; //last station on bus route
-
-            public BusRouteInfo lastStop
+            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
             {
-                get { return last; }
-                set { last = value; }
+                BusLineNum = lineN;
+                BusArea = area;
+                firstStop = first;
+                lastStop = last;
             }
-
             /*CLASS CTORS*/
             public BusLine() : base() //default ctor
             {
@@ -247,6 +244,7 @@ namespace Ex2_BusLineCollection
                 BusArea = 0; //aka Unknown
                 firstStop = new BusRouteInfo();
                 lastStop = firstStop;
+               
             }
 
             /*CLASS METHODS*/
@@ -290,8 +288,8 @@ namespace Ex2_BusLineCollection
                 }
                 else // the station you add now will become the last stop of the route
                 {
-                    stations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
-                    lastStop = (BusRouteInfo)stop;
+                    bus.Add(stop as BusRouteInfo); //add the new stop to the list of stops
+                    lastStop = (stop as BusRouteInfo);
                 }
 
             }
@@ -438,10 +436,18 @@ namespace Ex2_BusLineCollection
             {
 
                 /*CLASS MEMBERS*/
-                private List<BusLine> routes;
+            
+            private List<BusLine> routes;
 
-                //IEnumerable implementation
-                public class BusRoutes : IEnumerator, IEnumerable
+            public List<BusLine>  BusRoutesMem
+            {
+                get { return routes; }
+                set { var newRoute = new List<BusLine>();
+                    this.routes = newRoute;}
+            }
+
+            //IEnumerable implementation
+            public class BusRoutes : IEnumerator, IEnumerable
                 {
                     public List<BusRoutes> routes = new List<BusRoutes>();
                     int position = -1;
@@ -597,40 +603,22 @@ namespace Ex2_BusLineCollection
                 var BusCollection = new List<BusDatabase>();//list of selected lines/routes you chose
                 var BusRoutes = new List<BusLine>(); //list of all lines/routes available
                 var BusLines = new List<BusRouteInfo>(); //list of stations in possible lines/routes
-                
-
+                Random rd = new Random();
+                Random rlat = new Random();
+                Random rlong = new Random();
+                Random spd = new Random();
                 for (int i = 0; i < 40; i++) //random list of 40 stations
                 {
-                    //var noDuplicatesKey = new List<int>();
-                    //bool repeat = true;
                     var stop = new BusRouteInfo();
                     BusLines.Add(stop);
                     //setting station key (6 digits)
-                    Random rd = new Random();
                     int busKey = rd.Next(100000, 1000000);
                     BusLines[i].BusStationKey = busKey;
-                    
-                    //while (repeat)
-                    //{
-                    //    Random rd = new Random();
-                    //    int busKey = rd.Next(100000, 1000000);
-                    //    if (noDuplicatesKey.Contains(busKey))
-                    //    {
-                    //        rd = new Random();
-                    //        busKey = rd.Next(100000, 1000000);
-                    //    }
-                    //    noDuplicatesKey.Add(busKey);//add to duplicate list 
-                    //    BusLines[i].BusStationKey = busKey;
-                    //}
                     //setting latitude (31.30 - 33.30)
-                    Random rlat = new Random();
                     BusLines[i].BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30;
                     //setting longitude (34.30 - 35.50)
-                    Random rlong = new Random();
                     BusLines[i].BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30;
-                    
                     //set speed (10km/h - 200km/h)
-                    Random spd = new Random();
                     BusLines[i].BusLocation.Speed = (spd.Next(1, 201));
                     //setting address to default unknown
                 }
@@ -688,12 +676,14 @@ namespace Ex2_BusLineCollection
                                 BusLine newBus = new BusLine();
                                 newBus.addStop(BusLines);
                                 BusRoutes.Add(newBus);
+                                Console.WriteLine("Bus stop successfully added.\n");
                             }
                             else if (ch == 1)
                             {
                                 BusDatabase newLine = new BusDatabase();
                                 newLine.addLine();
                                 BusCollection.Add(newLine);
+                                Console.WriteLine("Bus line successfully added.\n");
                             }
                             else 
                             {
