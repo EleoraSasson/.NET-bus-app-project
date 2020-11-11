@@ -388,7 +388,6 @@ namespace Ex2_BusLineCollection
                 BusTotalTime += bus[index].BusTime;
             }
 
-            /*G comparing routes (IComparable)*/
         public int CompareTo(BusLine x)
         {
             BusLine b = (BusLine)x;
@@ -410,11 +409,29 @@ namespace Ex2_BusLineCollection
                 else
                     throw new ArgumentException("Comparison failed.");
         }
-                
-            
 
-        //*BUS_ROUTES IN DATABASE*//
-        class BusDatabase : BusLine //object made: database of bus routes (list of selected lines)
+            /*F sub route of the line*/
+            public List <BusLine> routeLine (BusStop a, BusStop b)
+            {
+                foreach (BusRouteInfo bus in BusLine) //we don't have a list of busLines?
+                {
+                    if (bus.firstStop == a && bus.lastStop == b)
+                        return bus;
+                }
+
+
+            }
+
+            /*G comparing routes (IComparable)*/
+            public BusLine shortestTravelTime (BusLine a, BusLine b)
+            {
+                return compareLines(a, b);
+            }
+
+
+
+            //*BUS_ROUTES IN DATABASE*//
+            class BusDatabase : BusLine //object made: database of bus routes (list of selected lines)
         {
 
             /*CLASS MEMBERS*/
