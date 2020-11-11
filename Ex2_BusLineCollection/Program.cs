@@ -617,8 +617,7 @@ namespace Ex2_BusLineCollection
                     //set speed (10km/h - 200km/h)
                     Random spd = new Random();
                     BusLines[i].BusLocation.Speed = spd.Next() * (200 - 10) + 10;
-                    //setting address
-                    BusLines[i].setAddress(BusLines, BusLines[i]);
+                    //setting address to default unknown
                 }
 
                 for (int i = 0; i < 10; i++) //creating 10 lines
@@ -634,8 +633,10 @@ namespace Ex2_BusLineCollection
                     }
                 }
 
-                //currently we have bus lines/routes and bus stops, we do not have any buses in our collection 
-                //(we have not yet selected which of the 10 lines we want to use) 
+                for (int  i = 0;  i < 10;  i++) //adding all the lines to our collection
+                {
+                    BusCollection.Add((BusDatabase)BusLines[i]);
+                }
 
                 Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
@@ -656,11 +657,6 @@ namespace Ex2_BusLineCollection
                                 BusRouteInfo newBus = new BusRouteInfo();
                                 newBus.addBus(BusLines);
                                 BusLines.Add(newBus);
-                                newBus
-                                BusLines.Add(addStop())
-                                    Bus addedBus = new Bus();
-                                fleet.Add(addedBus);
-                                addedBus.addBus(fleet);
                             }
                             else if (ch == 1)
                             {
