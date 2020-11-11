@@ -120,7 +120,7 @@ namespace Ex2_BusLineCollection
                 stop.BusStationKey = sKey;
             }
             //sets address
-            public void setAddress(List<BusRouteInfo> bus, BusRouteInfo stop)
+            public void setAddress(List<BusRouteInfo> bus, BusStop stop)
             {
                 Console.WriteLine("Enter Physical Address:");
                 var address = Console.ReadLine();
@@ -136,7 +136,7 @@ namespace Ex2_BusLineCollection
             }
             public override string ToString()
             {
-                return ("Bus Station Code: " + BusStationKey + ", " + BusAddress + " N " + BusLongitude + " E, " + BusAddress);
+                return ("Bus Station Code: " + BusStationKey + ", " + BusLocation.Latitude + " N " + BusLocation.Longitude + " E, " + BusAddress);
             }
         }
 
