@@ -230,13 +230,6 @@ namespace Ex2_BusLineCollection
                 }
             }
 
-            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
-            {
-                BusLineNum = lineN;
-                BusArea = area;
-                firstStop = first;
-                lastStop = last;
-            }
             /*CLASS CTORS*/
             public BusLine() : base() //default ctor
             {
@@ -244,9 +237,17 @@ namespace Ex2_BusLineCollection
                 BusArea = 0; //aka Unknown
                 firstStop = new BusRouteInfo();
                 lastStop = firstStop;
-               
+               //stations?
             }
 
+            public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+            {
+                BusLineNum = lineN;
+                BusArea = area;
+                firstStop = first;
+                lastStop = last;
+            }
+            
             /*CLASS METHODS*/
 
             /*A overriding ToString*/
@@ -291,7 +292,6 @@ namespace Ex2_BusLineCollection
                     bus.Add(stop as BusRouteInfo); //add the new stop to the list of stops
                     lastStop = (stop as BusRouteInfo);
                 }
-
             }
 
             /* Method: removeStop
@@ -320,6 +320,7 @@ namespace Ex2_BusLineCollection
             bool isStopOnRoute(int busKey)
             {
                 int index = stations.FindIndex(stop => stop.BusStationKey == busKey);
+               
                 if (index >= 0)
                 {
                     return true;
@@ -439,7 +440,7 @@ namespace Ex2_BusLineCollection
             
             private List<BusLine> routes;
 
-            public List<BusLine>  BusRoutesMem
+            public List<BusLine>  setRoutes
             {
                 get { return routes; }
                 set { var newRoute = new List<BusLine>();
@@ -474,11 +475,8 @@ namespace Ex2_BusLineCollection
                     }
                 }
                 /*CLASS CTOR*/
-                public BusDatabase() //default cctor
-                {
-
-                }
-                public BusDatabase(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(lineN, area, b, first, last, dist, t, key, lat, lon, adr) { }
+                public BusDatabase():base() { } //default ctor
+                public BusDatabase(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(lineN, area, b, first, last, dist, t, key, lat, lon, adr) { } //ctor
 
                 /*A add/remove line*/
                 /* Method: addLine
@@ -489,18 +487,20 @@ namespace Ex2_BusLineCollection
                 {
                     Console.WriteLine("Please enter the line number you wish to add: ");
                     int lineNum = Convert.ToInt32(Console.ReadLine());
-                    foreach (BusLine bus in routes)
+                    for (int i = 0; i < routes.Count; i++)
                     {
-                        if (bus.BusLineNum == lineNum)//if line already exists
+                        if (routes[i].BusLineNum == lineNum)//if line already exists
                         {
                             Console.WriteLine("Error: bus line already exists in database.");
                         }
-                        //bus line is new
-                        BusLine busLine = new BusLine();
-                        routes.Add(busLine);
-                    }
-                }
+                        else { i = routes.Count; }//exit for loop
 
+                    }
+                    //bus line is new
+                    BusLine busLine = new BusLine();
+                    routes.Add(busLine);
+                }
+                
                 /* Method: removeLine
                 * Description: removes a bus line from the collection
                 * Return Type: void
@@ -591,12 +591,8 @@ namespace Ex2_BusLineCollection
                     return index;
                 }
             }
-            //generic exceptions:
-            public class BusExceptions : Exception
-            {
-                public BusExceptions(string message) : base(message) { }
-            }
-
+           
+            //*MAIN*//
             public enum BusLineOptions { Insert = 1, Delete, Search, Print, Exit }; //idea can change
             static void Main(string[] args)
             {
@@ -607,7 +603,9 @@ namespace Ex2_BusLineCollection
                 Random rlat = new Random();
                 Random rlong = new Random();
                 Random spd = new Random();
-                for (int i = 0; i < 40; i++) //random list of 40 stations
+
+                //random list of 40 stations:
+                for (int i = 0; i < 40; i++) 
                 {
                     var stop = new BusRouteInfo();
                     BusLines.Add(stop);
@@ -623,7 +621,8 @@ namespace Ex2_BusLineCollection
                     //setting address to default unknown
                 }
 
-                for (int i = 0; i < 10; i++) //creating 10 lines
+                //creating 10 lines:
+                for (int i = 0; i < 10; i++) 
                 {
                     var noDuplicates = new List<int>();
                     bool repeat = true;
@@ -651,12 +650,14 @@ namespace Ex2_BusLineCollection
                     }
                 }
 
-            
-                for (int  i = 0;  i < 10;  i++) //adding all the lines to our collection
+                //adding all the lines to our collection:
+                for (int  i = 0;  i < 10;  i++) 
                 {
                     BusCollection.Add(BusLines[i] as BusDatabase);
                 }
 
+                //print to screen:
+                Console.WriteLine("Select an option from the menu below:");
                 Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
 
                 int choice;
@@ -669,7 +670,7 @@ namespace Ex2_BusLineCollection
                     {
                         case BusLineOptions.Insert:
                             Console.WriteLine("INSERT:");//COMMENT OUT!!
-                            Console.WriteLine("Enter 0 to add a bus stop or 1 to add a bus line:\n");
+                            Console.WriteLine("Enter 0 to add a bus stop or 1 to add a bus line:");
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
@@ -692,11 +693,11 @@ namespace Ex2_BusLineCollection
                             break;
                         case BusLineOptions.Delete:
                             Console.WriteLine("DELETE:");//COMMENT OUT!!
-                            Console.WriteLine("Enter 0 to remove a bus stop or 1 to remove a bus line:\n");
+                            Console.WriteLine("Enter 0 to remove a bus stop or 1 to remove a bus line:");
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
-                                Console.WriteLine("Ënter stationKey of the bus stop that you want removed.\n");
+                                Console.WriteLine("Enter the station key of the bus stop that you want removed:");
                                 int key = Int32.Parse(Console.ReadLine());
                                 try { BusRoutes[0].removeStop(key); } 
                                 catch { throw new ArgumentException("Error: There are no bus stops listed to remove.\n"); }
@@ -715,7 +716,7 @@ namespace Ex2_BusLineCollection
                             break;
                         case BusLineOptions.Search:
                             Console.WriteLine("SEARCH:");//COMMENT OUT!!
-                            Console.WriteLine("Enter 0 to search for lines that go through a specific station or 1 to show potential travel options given a strat and end station:\n");
+                            Console.WriteLine("Enter 0 to search for lines that go through a specific station or 1 to show potential travel options given a strat and end station:");
                             ch = Int32.Parse(Console.ReadLine());
                             if (ch == 0)
                             {
@@ -743,11 +744,17 @@ namespace Ex2_BusLineCollection
                             Console.WriteLine("Invalid option.\n");
                             break;
                     }
-                    Console.WriteLine("Select another option from the menu:\n");
-                    Console.WriteLine("1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
+                    Console.WriteLine("Select another option from the menu:");
+                    Console.WriteLine(" 1. Add a Bus Line \n 2. Remove a Bus Line \n 3. Search for a Bus Line \n 4. Print Bus Lines \n 5. Exit");
                 } while (choice != 0);
             }
 
+            //*METHODS USED IN THE MAIN*//
+
+            /* Method: FindRoutes
+                * Description: FInds all the routes that pass through a given station, returns a list of those routes
+                * Return Type: List<BusLine>
+                */
             private static List<BusLine> FindRoutes(List<BusDatabase> BusCollection)
             {
                 Console.WriteLine("Enter the station key for the station that you are looking for:\n");
@@ -761,7 +768,11 @@ namespace Ex2_BusLineCollection
 
                 return lines;
             }
-
+            
+            /* Method: FindTravelOptions
+                * Description: Given start and end stations, this method finds all possible travel options available and prints them out.
+                * Return Type: void
+                */
             private static void FindTravelOptions(List<BusLine> lines)
             {
                 Console.WriteLine("Enter the station key of the Start Station:\n");
