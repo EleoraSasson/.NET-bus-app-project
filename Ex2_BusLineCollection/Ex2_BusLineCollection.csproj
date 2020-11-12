@@ -44,6 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusDatabase.cs" />
+    <Compile Include="BusLine.cs" />
+    <Compile Include="BusRouteInfo.cs" />
+    <Compile Include="BusStop.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
