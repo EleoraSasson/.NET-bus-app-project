@@ -19,7 +19,7 @@ using System.CodeDom;
 namespace Ex2_BusLineCollection
 {
     public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National }; //unknown indicates area has not yet been set & National implies bus goes throughout country
-    class BusLine : BusRouteInfo, IEnumerable, IEnumerator, IComparable
+    class BusLine : IEnumerable, IEnumerator, IComparable
     {
         /*CLASS MEMBERS*/
 
@@ -103,18 +103,69 @@ namespace Ex2_BusLineCollection
         /*CLASS CTORS*/
         public BusLine() : base() //default ctor
         {
-            BusLineNum = 0;
-            BusArea = 0; //aka Unknown
-            firstStop = new BusRouteInfo();
-            lastStop = firstStop;
+            Random lnum = new Random();
+            Random area = new Random();
+
+            var randLnum = lnum.Next(1,89); //bus line 1 to 89
+            var randArea = area.Next(1,7); //randomly select an area
+
+            BusLineNum = randLnum;
+            BusArea = (Areas)randArea;
         }
 
-        public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(dist, t, key, lat, lon, adr)
+        public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base()
         {
             BusLineNum = lineN;
             BusArea = area;
             firstStop = first;
             lastStop = last;
+            //add stop?
+        }
+
+
+        //sets key
+        public void setKey(List<BusRouteInfo> bus, BusStop stop)
+        {
+            bool enterKey = false;
+            int key = 0;
+            while (enterKey == false)
+            {
+                Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
+                key = Convert.ToInt32(Console.ReadLine());
+                while (key < 99999 || key > 1000000) //check if key is valid
+                {
+                    Console.WriteLine("Error: Invalid Key - Must be 6 digits long\n");
+                    key = Convert.ToInt32(Console.ReadLine());
+                }
+
+                foreach (var Bstop in bus)
+                {
+                    if (Bstop.BusStationKey == key)
+                    {
+                        Console.WriteLine("ERROR: bus station already exists.");
+                    }
+                    else { enterKey = true; }
+                }
+            }
+            stop.BusStationKey = key;
+        }
+
+        //sets address
+        public void setAddress(List<BusRouteInfo> bus, BusStop stop)
+        {
+            Console.WriteLine("Enter Physical Address:");
+            var address = Console.ReadLine();
+            stop.BusAddress = address;
+        }
+
+        //sets location
+        public void setLocation(BusStop stop)
+        {
+            Random rlat = new Random();
+            stop.BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
+            Random rlong = new Random();
+            stop.BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
+                                                                                       //stop.BusLocation.Speed = 6;
         }
 
         /*CLASS METHODS*/
@@ -123,7 +174,7 @@ namespace Ex2_BusLineCollection
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
-            foreach (var BusStationKey in stations) //create a list //see if it still works
+            foreach (var BusStationKey in stations) //create a list /
             {
                 str.AppendLine(BusStationKey.ToString());
             }
@@ -132,15 +183,15 @@ namespace Ex2_BusLineCollection
                 str.AppendLine(stations[i].BusStationKey.ToString());
             }
 
-            return ("Bus Line: " + BusLineNum + ": " + BusArea + str.ToString()); //check if it works
-                                                                                  // return string.Join(",", this.Employees.Select(employee => $"Employee: {employee.FullName}"));
+            return ("Bus Line: " + BusLineNum + ": " + BusArea + str.ToString()); 
+                                                                                 
 
         }
 
         /*B adding/removing stops*/
 
         /* Method: addStop
-         * Description: adds a bus station to a route
+         * Description: adds a bus station to a line
          * Return Type: void
          */
         public void addStop(List<BusRouteInfo> bus)
@@ -162,6 +213,7 @@ namespace Ex2_BusLineCollection
                 lastStop = (stop as BusRouteInfo);
             }
         }
+
 
         /* Method: removeStop
         * Description: Searches for busKey in a given route and if found removes the bus station with that bus key.
@@ -284,14 +336,19 @@ namespace Ex2_BusLineCollection
         }
 
         /*F sub route of the line*/
-        public BusLine routeLine(BusStop a, BusStop b)
+        public List<BusRouteInfo> routeLine(BusStop a, BusStop b)
         {
-            foreach (BusLine bus in stations) //we don't have a list of busLines?
+            var subRoute = new List<BusRouteInfo>();
+            
+            int start  = stations.FindIndex(stop => stop.BusStationKey == a.BusStationKey);
+            int end = stations.FindIndex(stop => stop.BusStationKey == b.BusStationKey);
+            
+            for (int i = start; i < (end +1); i++)
             {
-                if (bus.firstStop == a && bus.lastStop == b)
-                    return bus;
+                subRoute.Add(stations[i]);
             }
-            throw new ArgumentException("Error: Invalid Input.");
+
+            return subRoute;
         }
 
         /*G comparing routes (IComparable)*/

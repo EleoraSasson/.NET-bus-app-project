@@ -43,9 +43,15 @@ namespace Ex2_BusLineCollection
 
         public BusRouteInfo() : base() //default ctor
         {
-            BusDistance = 0;
-            var t = new TimeSpan(0, 0, 0, 0);
-            BusTime = t;
+            Random dist = new Random();
+            Random time = new Random();
+
+            var randDist = dist.Next(1, 800); //1 to 800 KM
+            var RTime = time.Next(10, 120); //in minutes
+            var randTime = TimeSpan.FromMinutes(RTime); //changing to TimeSpan type
+
+            BusDistance = randDist;
+            BusTime = randTime;
         }
 
         public BusRouteInfo(float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(key, lat, lon, adr) // ctor

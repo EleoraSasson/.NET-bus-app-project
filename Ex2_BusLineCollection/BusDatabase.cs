@@ -30,14 +30,16 @@ namespace Ex2_BusLineCollection
 
         public List<BusLine> setRoutes
         {
-            get { return routes; }
+            get
+            {
+                return routes;
+            }
             set
             {
                 var Route = new List<BusLine>();
                 this.routes = Route;
             }
         }
-       
 
         //IEnumerable implementation
 
@@ -84,7 +86,7 @@ namespace Ex2_BusLineCollection
                     throw new ArgumentException("Error: line already exists.\n");
                 }
             }
-               
+
             BusLine busLine = new BusLine();
             routes.Add(busLine);
         }
@@ -118,34 +120,29 @@ namespace Ex2_BusLineCollection
          * Description: recieves bus station key and returns a list of bus routes that pass through that station
          * Return Type: List<BusRoutes>
          */
-        public List<BusLine> linesThroughStation(int StationKey)
+        public List<int> linesThroughStation(int StationKey)
         {
             bool keyMatch = false;
-            var LinesThruStation = new List<BusLine>();
-            foreach (BusStop busStop in routes) // for every bus in our list of bus stations
+            var LinesThruStation = new List<int>();
+
+            for (int i = 0; i < routes.Count; i++)
             {
-                if (busStop.BusStationKey != StationKey) // if we don't find a matching key
+                foreach (BusStop stop in routes[i])
                 {
-                    keyMatch = true;
-                }
-                else//key found - now search Bus Routes to find any bus lines that go through that station
-                {
-                    foreach (BusLine busRoutes in routes) //for every busline in our list of busroutes
+                    if (stop.BusStationKey == StationKey) // if we don't find a matching key
                     {
-                        if (busRoutes.BusStationKey == StationKey)
-                        {
-                            BusLine bLine = new BusLine();//cctor??
-                            LinesThruStation.Add(bLine);
-                        }
+                        var bLine = BusLineNum;
+                        LinesThruStation.Add(bLine);
                     }
                 }
             }
-            if (keyMatch)//if key not found bus stop does not exist
+
+            if (LinesThruStation.Count == 0)
             {
-                Console.WriteLine("Error: Bus Key does not match any Bus Station in the directory.\n");
+                Console.WriteLine("Error: no line goes through given station - station not found.");
             }
 
-            return LinesThruStation;///return list of lines that pass through the station
+            return LinesThruStation;
         }
 
         /*C sorts lines according to time*/
@@ -153,12 +150,12 @@ namespace Ex2_BusLineCollection
         * Description: sorts the bus lines according to the total time of the route, from shortest time to longest time
         * Return Type: void
         */
-        public void sortLines(List<BusDatabase> busRoutes)
+        public void sortLines(List<BusLine> busRoutes)
         {
             for (int i = 0; i < routes.Count; i++)
             {
                 var longerRoute = busRoutes[i].CompareTo(busRoutes[i + 1]);
-
+                
             }
         }
 
