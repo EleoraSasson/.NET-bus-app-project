@@ -28,15 +28,17 @@ namespace Ex2_BusLineCollection
 
             var busStops = new List<BusRouteInfo>();
 
-            for (int i = 0; i < 40; i++)
             {
-                var stop = new BusRouteInfo();
-                busStops.Add(stop);
-            }
+                for (int i = 0; i < 40; i++)
+                {
+                    var stop = new BusRouteInfo();
+                    busStops.Add(stop);
+                }
 
-            for (int i = 0; i < 10; i++)
-            {
-                BusCollection.addLine(); //adding 10 lines to BusCollection
+                for (int i = 0; i < 10; i++)
+                {
+                    BusCollection.addLine(); //adding 10 lines to BusCollection
+                }
             }
 
             

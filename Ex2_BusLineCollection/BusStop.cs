@@ -33,9 +33,13 @@ namespace Ex2_BusLineCollection
         public GeoCoordinate BusLocation
         {
             get { return location; }
-            private set { location = value; }
+            set { location = value;
+                location.Latitude = 0;
+                location.Longitude = 0;
+            }
+           
         }
-
+  
         private string address;//physical address
 
         public string BusAddress
@@ -52,10 +56,12 @@ namespace Ex2_BusLineCollection
             Random lat = new Random();
             Random lon = new Random();
 
-            var randKey = key.Next(99999,100000);// 6 digit key
+            var randKey = key.Next(99999,1000000);// 6 digit key
             var randLat = lat.NextDouble() * (33.30 - 31.30) + 31.30; 
             var randLong = lon.NextDouble() * (35.50 - 34.30) + 34.30;
 
+            var loc = new GeoCoordinate();
+            BusLocation = loc;
             BusStationKey = randKey;
             BusLocation.Latitude = randLat;
             BusLocation.Longitude = randLong;
@@ -66,7 +72,6 @@ namespace Ex2_BusLineCollection
         { 
             BusStationKey = key;
             BusLocation.Latitude = lat;
-            Console.WriteLine(lat);
             BusLocation.Longitude = lon;
             BusAddress = adr;
         }

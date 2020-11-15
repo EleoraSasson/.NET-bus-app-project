@@ -165,7 +165,8 @@ namespace Ex2_BusLineCollection
             stop.BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
             Random rlong = new Random();
             stop.BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
-                                                                                       //stop.BusLocation.Speed = 6;
+                                                                       //stop.BusLocation.Speed = 6;
+           
         }
 
         /*CLASS METHODS*/
