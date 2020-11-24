@@ -1,74 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;//this can be used to validate strings
-using System.Xml;
-using System.Runtime.InteropServices;
-using Microsoft.SqlServer.Server;
-using System.Collections.Specialized;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Permissions;
-using System.Runtime.Remoting;
-using System.Data;
-using System.Device.Location; //is used for location coordinates
+﻿
+using System;
 using System.Collections;
-using System.CodeDom;
-
-namespace Ex2_BusLineCollection
+using System.Collections.Generic;
+namespace Ex3a_GUI
 {
+
     //*BUS_ROUTES IN DATABASE*//
 
-
-    class BusDatabase : BusLine, IEnumerator,IEnumerable//object made: database of bus routes (list of selected lines)
+    class BusDatabase : IEnumerable//object made: database of bus routes (list of selected lines)
     {
+
+        /*CLASS CTOR*/
+        public BusDatabase() { routes = new List<BusLine>(); } //default ctor
 
         /*CLASS MEMBERS*/
 
-        private List<BusLine> routes;
+        public List<BusLine> routes;
 
-        public List<BusLine> setRoutes
+        //IEnumerator and IEnumerable Implementation:
+        public IEnumerator GetEnumerator()
         {
-            get
+            return new AIEnumerator(this);
+        }
+
+        private class AIEnumerator : IEnumerator
+        {
+            private BusDatabase instance;
+            private int position = -1;
+
+            public AIEnumerator(BusDatabase inst)
             {
-                return routes;
+                this.instance = inst;
             }
-            set
+
+            //IEnumerator
+            public bool MoveNext()
             {
-                var Route = new List<BusLine>();
-                this.routes = Route;
+                position++;
+                return (position < instance.routes.Count);
+            }
+            //IEnumerable
+            public void Reset()
+            {
+                position = -1;
+            }
+            //IEnumerable
+            public object Current
+            {
+                get { return instance.routes[position]; }
             }
         }
 
-        //IEnumerable implementation
-
-        int position = -1;
-        //IEnumerator and IEnumerable require these methods.
-        public new IEnumerator GetEnumerator()
-        {
-            return (IEnumerator)this;
-        }
-        //IEnumerator
-        public new bool MoveNext()
-        {
-            position++;
-            return (position < routes.Count);
-        }
-        //IEnumerable
-        public new void Reset()
-        {
-            position = 0;
-        }
-        //IEnumerable
-        public new object Current
-        {
-            get { return routes[position]; }
-        }
-       
-        /*CLASS CTOR*/
-        public BusDatabase() : base() {} //default ctor
-        public BusDatabase(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(lineN, area, b, first, last, dist, t, key, lat, lon, adr) { } //ctor
+        /*CLASS METHODS*/
 
         /*A add/remove line*/
         /* Method: addLine
@@ -86,8 +69,18 @@ namespace Ex2_BusLineCollection
                     throw new ArgumentException("Error: line already exists.\n");
                 }
             }
+            Console.WriteLine("Please indicate which area your BusLine is in:");
+            Console.WriteLine("1) North Golan, 2) North Haifa, 3) Center Tel-Aviv, 4) Center Jerusalem, 5) South Beer-Sheva, 6) South Eilat, 7) National");
+            int area = Convert.ToInt32(Console.ReadLine());
+            while (area < 1 || area > 7)
+            {
+                Console.WriteLine("ERROR: invalid area, please indicate area again: ");
+                area = Convert.ToInt32(Console.ReadLine());
 
-            BusLine busLine = new BusLine();
+            }
+
+
+            BusLine busLine = new BusLine(lineNum, (Areas)area);
             routes.Add(busLine);
         }
 
@@ -118,29 +111,36 @@ namespace Ex2_BusLineCollection
         /*B returns list of bus lines passing through a given station*/
 
         /* Method: linesThroughStation
-         * Description: recieves bus station key and returns a list of bus routes that pass through that station
-         * Return Type: List<BusRoutes>
-         */
+            * Description: recieves bus station key and returns a list of bus routes that pass through that station
+            * Return Type: List<BusRoutes>
+            */
         public List<int> linesThroughStation(int StationKey)
         {
-            bool keyMatch = false;
             var LinesThruStation = new List<int>();
 
             for (int i = 0; i < routes.Count; i++)
             {
-                foreach (BusStop stop in routes[i])
+                //foreach (BusLine bl in routes[i])
+                for (int k = 0; k < routes[i].stations.Count; k++)
                 {
-                    if (stop.BusStationKey == StationKey) // if we don't find a matching key
+                    //foreach (BusStop stop in bl)
+                    foreach (BusStop stop in routes[i].stations)
                     {
-                        var bLine = BusLineNum;
-                        LinesThruStation.Add(bLine);
+                        if (stop.BusStationKey == StationKey)
+                        {
+                            if (!LinesThruStation.Contains(routes[i].BusLineNum))
+                            {
+                                LinesThruStation.Add(routes[i].BusLineNum); //assuming each station is only once in routes
+                            }
+                        }
+
                     }
                 }
             }
 
-            if (LinesThruStation.Count == 0)
+            if (LinesThruStation.Count < 0)
             {
-                Console.WriteLine("Error: no line goes through given station - station not found.");
+                throw new ArgumentException("Error: no line goes through given station - station not found.");
             }
 
             return LinesThruStation;
@@ -153,10 +153,10 @@ namespace Ex2_BusLineCollection
         */
         public void sortLines(List<BusLine> busRoutes)
         {
-            for (int i = 0; i < routes.Count; i++)
+            for (int i = 0; i < (routes.Count - 1); i++)
             {
                 var longerRoute = busRoutes[i].CompareTo(busRoutes[i + 1]);
-                
+
             }
         }
 
@@ -173,8 +173,9 @@ namespace Ex2_BusLineCollection
             {
                 index = routes.FindIndex(bus => bus.BusLineNum == lineNum);
             } //line not found
-            catch { Console.WriteLine("Error: no such line exists"); throw; }
+            catch { Console.WriteLine("Error: no such line exists"); index = -1; }
             return index;
         }
     }
+    
 }

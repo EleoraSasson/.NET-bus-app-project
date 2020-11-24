@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ex3a_GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="640" Width="800">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "50*"/>
+            <RowDefinition Height = "400*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+           VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment= "Stretch" Margin="46,12,32,10" VerticalAlignment="Stretch" Width="120" SelectionChanged="cbBusLines_SelectionChanged" FontFamily="HP Simplified" FontSize="14">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="#FFE5E5E5" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
+            <TextBox Name ="tbBusLines" Grid.Column= "0" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Bus Line Number:" VerticalAlignment="Stretch" Margin="71,24,0,22" FontFamily="HP Simplified" FontSize="16" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}" />
+            <TextBox Name ="tbArea" Grid.Column="3" HorizontalAlignment= "Stretch" Height="23" TextWrapping="Wrap" Text="{Binding Path= Area}" VerticalAlignment="Stretch" Margin="10,23,10,22" BorderBrush="#FF111111" FontFamily="HP Simplified" FontSize="14" />
+
+            <TextBox x:Name ="tbAreaText" Grid.Column= "2" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Area:" VerticalAlignment="Stretch" Margin="136,24,134,22" FontFamily="HP Simplified" FontWeight="Bold" BorderBrush="{x:Null}" FontSize="16" Grid.ColumnSpan="2" Background="{x:Null}" />
+        </Grid>
+        <ListBox Name ="lbBusLineStations" HorizontalAlignment="Left" Height="446" Margin="84,38,0,0" Grid.Row="1" VerticalAlignment="Top" Width="313" ItemsSource="{Binding}" FontFamily="HP Simplified Light" BorderBrush="#FF6C6F78"/>
+
     </Grid>
 </Window>

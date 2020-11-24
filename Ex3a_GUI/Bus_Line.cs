@@ -16,15 +16,15 @@ using System.Device.Location; //is used for location coordinates
 using System.Collections;
 using System.CodeDom;
 
-namespace Ex2_BusLineCollection
+namespace Ex3a_GUI
 {
     public enum Areas { Unknown, North_Golan, North_Haifa, Center_TelAviv, Center_Jerusalem, South_BeerSheva, South_Eilat, National }; //unknown indicates area has not yet been set & National implies bus goes throughout country
-    class BusLine : IEnumerable, IEnumerator, IComparable
+    class BusLine : IComparable, IEnumerable
     {
         /*CLASS MEMBERS*/
 
         //line number:
-        private int lineNum; 
+        private int lineNum;
         public int BusLineNum
         {
             get { return lineNum; }
@@ -32,7 +32,7 @@ namespace Ex2_BusLineCollection
         }
 
         //area of line:
-        private Areas area; 
+        private Areas area;
         public Areas BusArea
         {
             get { return area; }
@@ -40,7 +40,7 @@ namespace Ex2_BusLineCollection
         }
 
         //first station on bus route:
-        private BusRouteInfo first; 
+        private BusRouteInfo first;
 
         public BusRouteInfo firstStop
         {
@@ -49,7 +49,7 @@ namespace Ex2_BusLineCollection
         }
 
         //last station on bus route:
-        private BusRouteInfo last; 
+        private BusRouteInfo last;
 
         public BusRouteInfo lastStop
         {
@@ -58,116 +58,62 @@ namespace Ex2_BusLineCollection
         }
 
         //stations:
-        private List<BusRouteInfo> stations;
-
-        public List<BusRouteInfo> setStations
-        {
-            get { return stations; }
-            set
-            {
-                var stops = new List<BusRouteInfo>();
-                this.stations = stops;
-            }
-        }
-
-
-        //IEnumerator and IEnumerable require these methods.
-
-        int position = 0;
-        
-        public IEnumerator GetEnumerator()
-        {
-            return (IEnumerator)this;
-        }
-
-        //IEnumerator
-        public bool MoveNext()
-        {
-            position++;
-            return (position < stations.Count);
-        }
-
-        //IEnumerable
-        public void Reset()
-        {
-            position = 0;
-        }
-
-        //IEnumerable
-        public object Current
-        {
-            get { return stations[position]; }
-        }
-      
+        public List<BusRouteInfo> stations;
 
         /*CLASS CTORS*/
-        public BusLine() : base() //default ctor
+
+        public BusLine(int lineNum, Areas lineArea)
+        {
+            BusLineNum = lineNum;
+            BusArea = lineArea;
+            stations = new List<BusRouteInfo>();
+        }
+        public BusLine()  //default ctor
         {
             Random lnum = new Random();
             Random area = new Random();
 
-            var randLnum = lnum.Next(1,89); //bus line 1 to 89
-            var randArea = area.Next(1,7); //randomly select an area
+            var randLnum = lnum.Next(1, 89); //bus line 1 to 89
+            var randArea = area.Next(1, 7); //randomly select an area
 
             BusLineNum = randLnum;
             BusArea = (Areas)randArea;
         }
 
-        public BusLine(int lineN, Areas area, List<BusRouteInfo> b, BusRouteInfo first, BusRouteInfo last, float dist, TimeSpan t, int key, double lat, double lon, string adr) : base()
+        //IEnumerator and IEnumerable Implementation:
+        public IEnumerator GetEnumerator()
         {
-            BusLineNum = lineN;
-            BusArea = area;
-            firstStop = first;
-            lastStop = last;
-            //add stop?
+            return new AIEnumerator(this);
         }
 
-
-        //sets key
-        public void setKey(List<BusRouteInfo> bus, BusStop stop)
+        private class AIEnumerator : IEnumerator
         {
-            bool enterKey = false;
-            int key = 0;
-            while (enterKey == false)
+            private BusLine instance;
+            private int position = -1;
+
+            public AIEnumerator(BusLine inst)
             {
-                Console.WriteLine("Enter the bus station ID (must be 6 digits): ");
-                key = Convert.ToInt32(Console.ReadLine());
-                while (key < 99999 || key > 1000000) //check if key is valid
-                {
-                    Console.WriteLine("Error: Invalid Key - Must be 6 digits long\n");
-                    key = Convert.ToInt32(Console.ReadLine());
-                }
-
-                foreach (var Bstop in bus)
-                {
-                    if (Bstop.BusStationKey == key)
-                    {
-                        Console.WriteLine("ERROR: bus station already exists.");
-                    }
-                    else { enterKey = true; }
-                }
+                this.instance = inst;
             }
-            stop.BusStationKey = key;
+
+            //IEnumerator
+            public bool MoveNext()
+            {
+                position++;
+                return (position < instance.stations.Count);
+            }
+            //IEnumerable
+            public void Reset()
+            {
+                position = -1;
+            }
+            //IEnumerable
+            public object Current
+            {
+                get { return instance.stations[position]; }
+            }
         }
 
-        //sets address
-        public void setAddress(List<BusRouteInfo> bus, BusStop stop)
-        {
-            Console.WriteLine("Enter Physical Address:");
-            var address = Console.ReadLine();
-            stop.BusAddress = address;
-        }
-
-        //sets location
-        public void setLocation(BusStop stop)
-        {
-            Random rlat = new Random();
-            stop.BusLocation.Latitude = rlat.NextDouble() * (33.30 - 31.30) + 31.30; //returns random variable between 31.30 and 33.30 and sets it as latitude
-            Random rlong = new Random();
-            stop.BusLocation.Longitude = rlong.NextDouble() * (35.50 - 34.30) + 34.30; //returns random variable between 34.3 and 35.5  
-                                                                       //stop.BusLocation.Speed = 6;
-           
-        }
 
         /*CLASS METHODS*/
 
@@ -179,39 +125,38 @@ namespace Ex2_BusLineCollection
             {
                 str.AppendLine(BusStationKey.ToString());
             }
-            for (int i = stations.Count - 1; i >= 0; i--) //iterates through the list backwars
-            {
-                str.AppendLine(stations[i].BusStationKey.ToString());
-            }
+            //for (int i = stations.Count - 1; i >= 0; i--) //iterates through the list backwards
+            //{
+            //    str.AppendLine(stations[i].BusStationKey.ToString());
+            //}
 
-            return ("Bus Line: " + BusLineNum + ": " + BusArea + str.ToString()); 
-                                                                                 
+            return ("Bus Line: " + BusLineNum + "\n" + "Area: " + BusArea + "\n" + str.ToString());
+
 
         }
 
         /*B adding/removing stops*/
 
         /* Method: addStop
-         * Description: adds a bus station to a line
-         * Return Type: void
-         */
-        public void addStop(List<BusRouteInfo> bus)
+            * Description: adds a bus station to a line
+            * Return Type: void
+            */
+        public void addStop()
         {
-            var stop = new BusStop();
-            setKey(bus, stop); //sets key of station
-            setLocation(stop); //sets location and speed
-            setAddress(bus, stop); //sets address of station
-            setTotalTime(bus, stop);
-            if (bus.First() == null) //if first element is empty
+            var stop = new BusRouteInfo();
+            int k = stop.setKey(stations);
+            stop = new BusRouteInfo(k);
+            //setTotalTime(bus, stop);
+            if (!(stations.Any())) //if first element is empty
             {
-                stations.Add((BusRouteInfo)stop); //add the new stop to the list of stops
-                firstStop = (BusRouteInfo)stop; // the stop you added is also the first stop of route
-                lastStop = (BusRouteInfo)stop; // it is also the last stop on the route
+                stations.Add(stop); //add the new stop to the list of stops
+                firstStop = (stop);// the stop you added is also the first stop of route
+                lastStop = (stop); // it is also the last stop on the route
             }
             else // the station you add now will become the last stop of the route
             {
-                bus.Add(stop as BusRouteInfo); //add the new stop to the list of stops
-                lastStop = (stop as BusRouteInfo);
+                stations.Add(stop); //add the new stop to the list of stops
+                lastStop = (stop);
             }
         }
 
@@ -220,17 +165,18 @@ namespace Ex2_BusLineCollection
         * Description: Searches for busKey in a given route and if found removes the bus station with that bus key.
         * Return Type: void 
         */
-        public void removeStop(int busKey)
+        public void removeStop(int key)
         {
             for (int i = 0; i < stations.Count; i++) //search for stop
             {
-                if (busKey == stations[i].BusStationKey)
+                if (key == stations[i].BusStationKey)
                 {
                     stations.RemoveAt(i); //remove stop
                     return;
                 }
             }
-            throw new ArgumentException("Stop to remove is not in the line.");//if bus is not found
+            //throw new ArgumentException("Stop to remove is not in the line.");//if bus is not found
+
         }
 
         /*C is station/stop on line*/
@@ -253,9 +199,9 @@ namespace Ex2_BusLineCollection
         /*D distance between stops*/
 
         /* Method: routeDistance
-         * Description: returns the distance between two stops given their locations
-         * Return Type: float
-         */
+            * Description: returns the distance between two stops given their locations
+            * Return Type: float
+            */
 
         public double routeDistance(List<BusRouteInfo> busLines, int keyStart, int keyEnd)
         {
@@ -276,9 +222,9 @@ namespace Ex2_BusLineCollection
         /*E travel time between stops*/
 
         /* Method: routeTime
-         * Description: returns the travel time between two stops given their keys
-         * Return Type: TimeSpan
-         */
+            * Description: returns the travel time between two stops given their keys
+            * Return Type: TimeSpan
+            */
         public TimeSpan routeTime(List<BusRouteInfo> busroutes, int keyStart, int keyEnd)
         {
             var travelTime = new TimeSpan();
@@ -299,21 +245,7 @@ namespace Ex2_BusLineCollection
             set { totalTime = value; }
         }
 
-        public void setTotalTime(List<BusRouteInfo> bus, BusStop stop)
-        {
-            //int index = bus.FindIndex(busS => busS.BusStationKey == stop.BusStationKey);
-            for (int i = 0; i < bus.Count; i++)
-            {
-                if (bus[i].BusStationKey == stop.BusStationKey)//if found increment time
-                {
-                    BusTotalTime += bus[i].BusTime;
-                }
-                else { }
-            }
-
-        }
-
-        //IComaparable
+        //IComparable
         public int CompareTo(BusLine x)
         {
             BusLine b = (BusLine)x;
@@ -340,11 +272,11 @@ namespace Ex2_BusLineCollection
         public List<BusRouteInfo> routeLine(BusStop a, BusStop b)
         {
             var subRoute = new List<BusRouteInfo>();
-            
-            int start  = stations.FindIndex(stop => stop.BusStationKey == a.BusStationKey);
+
+            int start = stations.FindIndex(stop => stop.BusStationKey == a.BusStationKey);
             int end = stations.FindIndex(stop => stop.BusStationKey == b.BusStationKey);
-            
-            for (int i = start; i < (end +1); i++)
+
+            for (int i = start; i < (end + 1); i++)
             {
                 subRoute.Add(stations[i]);
             }
@@ -362,5 +294,7 @@ namespace Ex2_BusLineCollection
         {
             return BusTotalTime.CompareTo(obj);
         }
+
     }
+    
 }

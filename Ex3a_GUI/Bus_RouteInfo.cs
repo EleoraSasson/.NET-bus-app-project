@@ -15,17 +15,17 @@ using System.Data;
 using System.Device.Location; //is used for location coordinates
 using System.Collections;
 using System.CodeDom;
-namespace Ex2_BusLineCollection
+
+namespace Ex3a_GUI
 {
-    class BusRouteInfo //: BusStop //object made: a bus stop with distance and time properties added
+  
+    
+    class BusRouteInfo : BusStop //object made: a bus stop with distance and time properties added
     {
         /*CLASS MEMBERS*/
 
-        //BusRouteInfo HAS A BusSTop:
-        public BusStop stop;
-
         //distance from prev stop:
-        private float distance; 
+        private float distance;
 
         public float BusDistance
         {
@@ -34,7 +34,7 @@ namespace Ex2_BusLineCollection
         }
 
         //time since prev stop:
-        private TimeSpan time; 
+        private TimeSpan time;
 
         public TimeSpan BusTime
         {
@@ -57,10 +57,24 @@ namespace Ex2_BusLineCollection
             BusTime = randTime;
         }
 
+        public BusRouteInfo(int k) : base(k) //default ctor
+        {
+            Random dist = new Random();
+            Random time = new Random();
+
+            var randDist = dist.Next(1, 800); //1 to 800 KM
+            var RTime = time.Next(10, 120); //in minutes
+            var randTime = TimeSpan.FromMinutes(RTime); //changing to TimeSpan type
+
+            BusDistance = randDist;
+            BusTime = randTime;
+        }
+
         public BusRouteInfo(float dist, TimeSpan t, int key, double lat, double lon, string adr) : base(key, lat, lon, adr) // ctor
         {
             BusDistance = dist;
             BusTime = t;
         }
     }
+    
 }

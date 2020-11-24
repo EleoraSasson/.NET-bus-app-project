@@ -24,5 +24,6 @@ namespace Ex3a_GUI
         {
             InitializeComponent();
         }
+
     }
 }
