@@ -68,15 +68,11 @@ namespace Ex3a_GUI
             BusArea = lineArea;
             stations = new List<BusRouteInfo>();
         }
-        public BusLine()  //default ctor
+        public BusLine(int lnum)  //random ctor
         {
-            Random lnum = new Random();
             Random area = new Random();
-
-            var randLnum = lnum.Next(1, 89); //bus line 1 to 89
             var randArea = area.Next(1, 7); //randomly select an area
-
-            BusLineNum = randLnum;
+            BusLineNum = lnum;
             BusArea = (Areas)randArea;
         }
 
@@ -147,6 +143,22 @@ namespace Ex3a_GUI
             int k = stop.setKey(stations);
             stop = new BusRouteInfo(k);
             //setTotalTime(bus, stop);
+            if (!(stations.Any())) //if first element is empty
+            {
+                stations.Add(stop); //add the new stop to the list of stops
+                firstStop = (stop);// the stop you added is also the first stop of route
+                lastStop = (stop); // it is also the last stop on the route
+            }
+            else // the station you add now will become the last stop of the route
+            {
+                stations.Add(stop); //add the new stop to the list of stops
+                lastStop = (stop);
+            }
+        }
+
+        public void randAddStop()
+        {
+            var stop = new BusRouteInfo();
             if (!(stations.Any())) //if first element is empty
             {
                 stations.Add(stop); //add the new stop to the list of stops

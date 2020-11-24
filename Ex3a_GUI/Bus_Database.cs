@@ -85,6 +85,14 @@ namespace Ex3a_GUI
         }
 
 
+        public void randAddLine()
+        {
+            Random num = new Random();
+            int randNum = num.Next(1, 100); //maybe check if already exists?
+            BusLine bus = new BusLine(randNum);
+            routes.Add(bus);
+        }
+
         /* Method: removeLine
         * Description: removes a bus line from the collection
         * Return Type: void

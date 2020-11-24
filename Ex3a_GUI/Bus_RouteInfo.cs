@@ -44,7 +44,7 @@ namespace Ex3a_GUI
 
         /*CLASS CTOR*/
 
-        public BusRouteInfo() : base() //default ctor
+        public BusRouteInfo() : base() //random ctor
         {
             Random dist = new Random();
             Random time = new Random();

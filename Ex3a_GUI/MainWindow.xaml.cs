@@ -23,6 +23,11 @@ namespace Ex3a_GUI
         public MainWindow()
         {
             InitializeComponent();
+            cbHostList.ItemsSource = busLines;
+            cbHostList.DisplayMemberPath = " BusLineNum ";
+            cbHostList.SelectedIndex = 0;
+            ShowBusLine(..........)
+
         }
 
         private void lbBusLineStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -32,7 +37,20 @@ namespace Ex3a_GUI
 
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var lineCollection = new BusDatabase();
+            
+            for (int i = 0; i < 10; i++) //randomly creates 10 lines
+            {
+                lineCollection.randAddLine();
+            }
 
+            foreach (BusLine bl in lineCollection)
+            {
+                for (int i = 0; i < 10; i++) //random number of stations as well??
+                {
+                    bl.randAddStop();
+                }
+            }
         }
 
         private void tbBusLines_TextChanged(object sender, TextChangedEventArgs e)
