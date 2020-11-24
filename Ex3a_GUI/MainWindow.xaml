@@ -28,12 +28,12 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <TextBox Name ="tbBusLines" Grid.Column= "0" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Bus Line Number:" VerticalAlignment="Stretch" Margin="71,24,0,22" FontFamily="HP Simplified" FontSize="16" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}" />
-            <TextBox Name ="tbArea" Grid.Column="3" HorizontalAlignment= "Stretch" Height="23" TextWrapping="Wrap" Text="{Binding Path= Area}" VerticalAlignment="Stretch" Margin="10,23,10,22" BorderBrush="#FF111111" FontFamily="HP Simplified" FontSize="14" />
+            <TextBox Name ="tbBusLines" Grid.Column= "0" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Bus Line Number:" VerticalAlignment="Stretch" Margin="71,24,0,22" FontFamily="HP Simplified" FontSize="16" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}" TextChanged="tbBusLines_TextChanged" />
+            <TextBox Name ="tbArea" Grid.Column="3" HorizontalAlignment= "Stretch" Height="23" TextWrapping="Wrap" Text="{Binding Path= Area}" VerticalAlignment="Stretch" Margin="10,23,10,22" BorderBrush="#FF111111" FontFamily="HP Simplified" FontSize="14" TextChanged="tbArea_TextChanged" />
 
-            <TextBox x:Name ="tbAreaText" Grid.Column= "2" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Area:" VerticalAlignment="Stretch" Margin="136,24,134,22" FontFamily="HP Simplified" FontWeight="Bold" BorderBrush="{x:Null}" FontSize="16" Grid.ColumnSpan="2" Background="{x:Null}" />
+            <TextBox x:Name ="tbAreaText" Grid.Column= "2" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Area:" VerticalAlignment="Stretch" Margin="136,24,134,22" FontFamily="HP Simplified" FontWeight="Bold" BorderBrush="{x:Null}" FontSize="16" Grid.ColumnSpan="2" Background="{x:Null}" TextChanged="tbAreaText_TextChanged" />
         </Grid>
-        <ListBox Name ="lbBusLineStations" HorizontalAlignment="Left" Height="446" Margin="84,38,0,0" Grid.Row="1" VerticalAlignment="Top" Width="313" ItemsSource="{Binding}" FontFamily="HP Simplified Light" BorderBrush="#FF6C6F78"/>
+        <ListBox Name ="lbBusLineStations" HorizontalAlignment="Left" Height="446" Margin="84,38,0,0" Grid.Row="1" VerticalAlignment="Top" Width="313" ItemsSource="{Binding}" FontFamily="HP Simplified Light" BorderBrush="#FF6C6F78" SelectionChanged="lbBusLineStations_SelectionChanged"/>
 
     </Grid>
 </Window>

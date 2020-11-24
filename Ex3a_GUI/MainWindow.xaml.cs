@@ -25,13 +25,37 @@ namespace Ex3a_GUI
             InitializeComponent();
         }
 
+        private void lbBusLineStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void tbBusLines_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void tbArea_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void tbAreaText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
     //Below is the main program class from our previous project use as needed.
     class Program
     {
         public enum BusLineOptions { Insert = 1, Delete, Search, Print, Exit }; //idea can change
 
-        static void Main(string[] args)
+        static void OldCode(string[] args)
         {
             var BusCollection = new BusDatabase();
 
