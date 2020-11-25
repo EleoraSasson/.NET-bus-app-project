@@ -84,11 +84,10 @@ namespace Ex3a_GUI
             routes.Add(busLine);
         }
 
-
         public void randAddLine()
         {
-            Random num = new Random();
-            int randNum = num.Next(1, 100); //maybe check if already exists?
+            var rand = new Random();
+            int randNum = rand.Next(1, 100); 
             BusLine bus = new BusLine(randNum);
             routes.Add(bus);
         }

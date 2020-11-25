@@ -46,8 +46,8 @@ namespace Ex3a_GUI
 
         public BusRouteInfo() : base() //random ctor
         {
-            Random dist = new Random();
-            Random time = new Random();
+            var dist = new Random();
+            var time = new Random();
 
             var randDist = dist.Next(1, 800); //1 to 800 KM
             var RTime = time.Next(10, 120); //in minutes

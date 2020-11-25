@@ -74,6 +74,7 @@ namespace Ex3a_GUI
             var randArea = area.Next(1, 7); //randomly select an area
             BusLineNum = lnum;
             BusArea = (Areas)randArea;
+            stations = new List<BusRouteInfo>();
         }
 
         //IEnumerator and IEnumerable Implementation:
