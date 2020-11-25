@@ -20,25 +20,12 @@ namespace Ex3a_GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+       // public CollectionContainer BusCollection = new CollectionContainer();
+        
         public MainWindow()
         {
-            InitializeComponent();
-            cbHostList.ItemsSource = busLines;
-            cbHostList.DisplayMemberPath = " BusLineNum ";
-            cbHostList.SelectedIndex = 0;
-            ShowBusLine(..........)
-
-        }
-
-        private void lbBusLineStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var lineCollection = new BusDatabase();
-            
+            //creating our busCollection
+            BusDatabase lineCollection = new BusDatabase();
             for (int i = 0; i < 10; i++) //randomly creates 10 lines
             {
                 lineCollection.randAddLine();
@@ -51,23 +38,32 @@ namespace Ex3a_GUI
                     bl.randAddStop();
                 }
             }
+
+            //component initialisation:
+            InitializeComponent();
+            //adding the selectionChanged event for the cbBusLines:
+            this.cbBusLines.SelectionChanged += cbBusLines_SelectionChanged; 
+
+        }
+        //combo box of BusLines - Selection Changed event 
+        private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbBusLines.SelectedIndex = 0;
+            ShowBusLine((cbBusLines.SelectedValue as BusLine).BusLineNum);//displays the selection of BusLineNum's
         }
 
-        private void tbBusLines_TextChanged(object sender, TextChangedEventArgs e)
+        private void ShowBusLine(int busLineNum) //method which displays the information connected to the selected BusLineNum
+        {
+            //search for line you need
+            
+        }
+
+        private void lbBusLineStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void tbArea_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void tbAreaText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-    }
+       
     //Below is the main program class from our previous project use as needed.
     class Program
     {
