@@ -5,39 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ex3a_GUI"
         mc:Ignorable="d"
-        Title="BusCollection Information" Height="640" Width="800">
+        Title ="Bus Collection Information" FontFamily ="HP Simplified" FontSize="14" FontStyle="Normal" FontWeight="Bold" Height="640" Width="800" Icon="location.ico">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="White"/>
+            <GradientStop Color="#FF527ABF" Offset="0.396"/>
+            <GradientStop Color="#FF88AAE6" Offset="0.162"/>
+            <GradientStop Color="#FF4B80DA" Offset="0.658"/>
+            <GradientStop Color="#FF245BBB" Offset="0.877"/>
+            <GradientStop Color="#FF1557CB" Offset="0.985"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
     <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="251*"/>
+            <ColumnDefinition Width="133*"/>
+            <ColumnDefinition Width="12*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height = "50*"/>
             <RowDefinition Height = "400*"/>
         </Grid.RowDefinitions>
 
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-           VerticalAlignment="Stretch" Width="auto">
+           VerticalAlignment="Stretch" Width="auto" Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="68*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="122*"/>
+                <ColumnDefinition Width="76*"/>
+                <ColumnDefinition Width="93*"/>
+                <ColumnDefinition Width="105*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment= "Left" Margin="78,12,0,10" VerticalAlignment="Stretch" Width="120" SelectionChanged="cbBusLines_SelectionChanged" FontFamily="HP Simplified" FontSize="14" IsSynchronizedWithCurrentItem="True" IsReadOnly="True">
+            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment= "Left" Margin="10,35,0,8" VerticalAlignment="Stretch" Width="120" SelectionChanged="cbBusLines_SelectionChanged" FontFamily="HP Simplified" FontSize="14" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" RenderTransformOrigin="0.383,0.333" AllowDrop="True" MaxDropDownHeight="100" FontWeight="SemiBold">
+
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="#FFF0F0F0" Offset="0"/>
-                        <GradientStop Color="#FFE5E5E5" Offset="1"/>
+                        <GradientStop Color="#FFE6E6E6" Offset="1"/>
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <TextBox Name ="tbBusLines" Grid.Column= "0" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap" Text="Bus Line Number:" VerticalAlignment="Stretch" Margin="71,24,176.333,22" FontFamily="HP Simplified" FontSize="16" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}" TextChanged="tbBusLines_TextChanged" Grid.ColumnSpan="2" IsEnabled="False" />
-            <TextBox Name ="tbArea" Grid.Column="3" HorizontalAlignment= "Stretch" Height="23" TextWrapping="Wrap" Text="{Binding Path= BusArea}" VerticalAlignment="Stretch" Margin="9.667,23,10.333,22" BorderBrush="#FF111111" FontFamily="HP Simplified" FontSize="14" TextChanged="TbArea_TextChanged"/>
 
-            <TextBox x:Name ="tbAreaText" Grid.Column= "2" HorizontalAlignment="Stretch" Height="22" TextWrapping="NoWrap"  VerticalAlignment="Stretch" Margin="135.667,24,134.333,22" FontFamily="HP Simplified" FontWeight="Bold" BorderBrush="{x:Null}" FontSize="16" Grid.ColumnSpan="2" Background="{x:Null}" TextChanged="tbAreaText_TextChanged" Text="Area" IsEnabled="False" />
+            <TextBox Name ="tbBusLines" Grid.Column= "0" HorizontalAlignment="Stretch" TextWrapping="NoWrap" Text="Bus Line Number:" VerticalAlignment="Stretch" Margin="104,37,122,8" FontFamily="HP Simplified" FontSize="18" FontWeight="Bold" BorderBrush="{x:Null}" Background="{x:Null}" TextChanged="tbBusLines_TextChanged" IsEnabled="False" Grid.ColumnSpan="2" />
+
+            <TextBox Name ="tbArea" Grid.Column="3" HorizontalAlignment= "Stretch" TextWrapping="Wrap" Text="{Binding Path= BusArea}" VerticalAlignment="Stretch" Margin="0,37,20,8" BorderBrush="#FFCECFD1" FontFamily="HP Simplified" FontSize="16" TextChanged="TbArea_TextChanged" Background="#FFE6E6E6" IsEnabled="False" FontWeight="Bold"/>
+
+            <TextBox x:Name ="tbAreaText" Grid.Column= "2" HorizontalAlignment="Stretch" TextWrapping="NoWrap"  VerticalAlignment="Stretch" Margin="98,37,10,8" FontFamily="HP Simplified" FontWeight="Bold" BorderBrush="{x:Null}" FontSize="18" Background="{x:Null}" TextChanged="tbAreaText_TextChanged" Text="Area" IsEnabled="False" />
+            <Image x:Name="Image_locSym" HorizontalAlignment="Left" Height="73" Margin="24,10,0,-15" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.03,-0.132" Source="Loc_Image.png" Grid.RowSpan="2"/>
         </Grid>
-        <ListBox Name ="lbBusLineStations" HorizontalAlignment="Left" Height="446" Margin="84,38,0,0" Grid.Row="1" VerticalAlignment="Top" Width="547" FontFamily="HP Simplified Light" BorderBrush="#FF6C6F78" SelectionChanged="lbBusLineStations_SelectionChanged" ItemsSource="{Binding}"/>
+        <ListBox Name ="lbBusLineStations" HorizontalAlignment="Left" Height="331" Margin="81,113,0,0" Grid.Row="1" VerticalAlignment="Top" Width="636" FontFamily="HP Simplified Light" BorderBrush="#FFB8BABD" SelectionChanged="lbBusLineStations_SelectionChanged" ItemsSource="{Binding}" Background="#FFB8BABD" FontSize="16" Grid.ColumnSpan="2" FontWeight="SemiBold" FontStretch="SemiCondensed"/>
 
     </Grid>
 </Window>

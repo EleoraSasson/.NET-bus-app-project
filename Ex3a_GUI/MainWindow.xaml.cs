@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Mini Project in Windows System - Eleora & Gila
+ This WPF Program displays the BuslineCollection Information. The user is able to select a bus line from the drop-down menu.
+This Results in the Bus Station Information and Area Information to be displayed.*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,16 +44,29 @@ namespace Ex3a_GUI
 
         private void RandomiseListCollection()
         {
+
             //filling our busCollection
             for (int i = 0; i < 10; i++) //randomly creates 10 lines
             {
                 lineCollection.randAddLine();
+                
+                /*pause program for a small amount of time so that subsequent random numbers 
+                 * that are generated will be different as use a new seed*/
+                System.Threading.Thread.Sleep(50); 
+
+
                 for (int k = 0; k < 10; k++) //randomly fills the 10 lines with 10 stations
                 {
                     lineCollection.routes[i].randAddStop();
+
+                    /*pause program for a small amount of time so that subsequent random numbers 
+                * that are generated will be different as use a new seed*/
+
+                    System.Threading.Thread.Sleep(50);
                 }
             }
         }
+
 
         //combo box of BusLines - Selection Changed event:
         private void cbBusLines_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,50 +85,6 @@ namespace Ex3a_GUI
             }
             else throw new KeyNotFoundException();
         }
-        //private void ShowBusLine(int index)
-        //{
-        //    currentDisplayBusLine = lineCollection.routes[index];
-        //    UpGrid.DataContext = currentDisplayBusLine;
-
-        //    lbBusLineStations.DataContext = currentDisplayBusLine.stations;
-        //}
-
-
-        //method which displays the information connected to the selected BusLineNum
-        //private void ShowBusLine(int busLineNum) 
-        //{
-        //    //search for busLine:
-        //    //var FindLine = lineCollection.routes.FindIndex(bus => bus.BusLineNum == busLineNum);
-        //    bool found = false;
-        //    foreach (BusLine line in lineCollection)
-        //    {
-        //        if (line.BusLineNum == busLineNum)
-        //        {
-        //            found = true;
-        //            currentDisplayBusLine = line; //saves current line
-        //            break;
-        //        }
-        //    }
-        //    if (found)
-        //    {
-        //        UpGrid.DataContext = currentDisplayBusLine;
-        //        lbBusLineStations.DataContext = currentDisplayBusLine.stations;
-        //    }
-        //    else
-        //    {
-        //        throw new ArgumentException("Error: BusLine not in lineCollection.");
-        //    }
-        //    //if ((FindLine == (-1))) //index not found
-        //    //{
-        //    //    throw new ArgumentException("Error: BusLine not in lineCollection.");
-        //    //}
-        //    //else
-        //    //{
-        //    //    currentDisplayBusLine = lineCollection.routes[FindLine];
-        //    UpGrid.DataContext = currentDisplayBusLine;
-        //    lbBusLineStations.DataContext = currentDisplayBusLine.stations;
-        //}
-        //}
 
         private void tbBusLines_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -131,7 +104,7 @@ namespace Ex3a_GUI
 
         private void lbBusLineStations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+           
         }
     }
 
