@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex2_BusLineCollection", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex3a_GUI", "Ex3a_GUI\Ex3a_GUI.csproj", "{8DAB0811-7936-4F1A-9779-79A0DBA616F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex3b_GUI", "Ex3b_GUI\Ex3b_GUI.csproj", "{41A0C2A2-9549-4C56-98E2-7616C4E112C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8DAB0811-7936-4F1A-9779-79A0DBA616F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DAB0811-7936-4F1A-9779-79A0DBA616F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DAB0811-7936-4F1A-9779-79A0DBA616F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41A0C2A2-9549-4C56-98E2-7616C4E112C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41A0C2A2-9549-4C56-98E2-7616C4E112C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41A0C2A2-9549-4C56-98E2-7616C4E112C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41A0C2A2-9549-4C56-98E2-7616C4E112C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
