@@ -6,7 +6,36 @@
         xmlns:local="clr-namespace:Ex3b_GUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="2*" x:Name="TopBorder"/>
+            <RowDefinition Height ="1*" x:Name="Headings"/>
+            <RowDefinition Height ="10*" x:Name="BodyOfWindow"/>
+            <RowDefinition Height ="1*" x:Name="BottomBorder"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
+            <ColumnDefinition Width="30*" x:Name="ListOfBuses"/>
+            <ColumnDefinition Width="10*" x:Name="SendOnTrip"/>
+            <ColumnDefinition Width="10*" x:Name="RefuelBus"/>
+            <ColumnDefinition Width="10*" x:Name="SendForMaintenance"/>
+            <ColumnDefinition Width="1*" x:Name="RightBorder"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="LB_Buses" Grid.Row="2" Grid.Column="1">
+            
+        </ListBox>
+
+        <TextBox x:Name="TB_BusesH" Grid.Row="1" Grid.Column="1" Text="List of Buses in Company Fleet:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Center">
+        </TextBox>
+        <TextBox x:Name="TB_TravelH" Grid.Row="1" Grid.Column="2" Text="Send on a Travel Route:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
+        </TextBox>
+        <TextBox x:Name="TB_RefuelH" Grid.Row="1" Grid.Column="3" Text="Send for Refueling:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
+        </TextBox>
+        <TextBox x:Name="TB_MaintenanceH" Grid.Row="1" Grid.Column="4" Text="Send for Maintenance:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
+        </TextBox>
+       
+
     </Grid>
 </Window>
