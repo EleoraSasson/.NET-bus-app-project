@@ -8,34 +8,41 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid x:Name="MainGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height ="2*" x:Name="TopBorder"/>
-            <RowDefinition Height ="1*" x:Name="Headings"/>
-            <RowDefinition Height ="10*" x:Name="BodyOfWindow"/>
-            <RowDefinition Height ="1*" x:Name="BottomBorder"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
-            <ColumnDefinition Width="30*" x:Name="ListOfBuses"/>
-            <ColumnDefinition Width="10*" x:Name="SendOnTrip"/>
-            <ColumnDefinition Width="10*" x:Name="RefuelBus"/>
-            <ColumnDefinition Width="10*" x:Name="SendForMaintenance"/>
+            <ColumnDefinition Width="30*" x:Name="BodyColumn"/>
             <ColumnDefinition Width="1*" x:Name="RightBorder"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" x:Name="TopBorder"/>
+            <RowDefinition Height="5*" x:Name="Heading"/>
+            <RowDefinition Height="25*" x:Name="BodyRow"/>
+            <RowDefinition Height="3*" x:Name="ButtonRow"/>
+            <RowDefinition Height="1*" x:Name="BottomBorder"/>
+        </Grid.RowDefinitions>
 
-        <ListBox x:Name="LB_Buses" Grid.Row="2" Grid.Column="1">
-            
+        <ListBox x:Name="LB_Buses" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" x:Name="LicenseNum"/>
+                            <ColumnDefinition Width="1*" x:Name="DriverName"/>
+                            <ColumnDefinition Width="1*" x:Name="Mileage"/>
+                            <ColumnDefinition Width="1*" x:Name="Status"/>
+                            <ColumnDefinition Width="1*" x:Name="Options"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" x:Name="Headings"/>
+                            <RowDefinition Height="20*" x:Name="Body"/>
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="TB_LicenseNum" Text="License Number:" Grid.Column="0" Grid.Row="0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
+        <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="641,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="25" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal"/>
 
-        <TextBox x:Name="TB_BusesH" Grid.Row="1" Grid.Column="1" Text="List of Buses in Company Fleet:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Center">
-        </TextBox>
-        <TextBox x:Name="TB_TravelH" Grid.Row="1" Grid.Column="2" Text="Send on a Travel Route:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
-        </TextBox>
-        <TextBox x:Name="TB_RefuelH" Grid.Row="1" Grid.Column="3" Text="Send for Refueling:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
-        </TextBox>
-        <TextBox x:Name="TB_MaintenanceH" Grid.Row="1" Grid.Column="4" Text="Send for Maintenance:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
-        </TextBox>
-       
 
     </Grid>
 </Window>
