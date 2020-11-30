@@ -41,9 +41,11 @@ namespace Ex3b_GUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-
+    
     public partial class MainWindow : Window
     {
+        private Bus currentDisplayBus; //current Bus we are looking at 
+
         public List <Bus> BusList = new List<Bus>(); //whyyy
         //put bus into collection
         private void randomBus()
@@ -64,8 +66,7 @@ namespace Ex3b_GUI
         public MainWindow()
         {
             InitializeComponent();
-            
-           
+            DG_Buses.ItemsSource = BusList;
         }
 
         public DateTime startDate;
@@ -86,9 +87,41 @@ namespace Ex3b_GUI
              addWin.Show();
         }
 
+        private void LB_Buses_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        private void ShowBuses(List<Bus> buses)
+        {
+            foreach (Bus bus in buses) ///foreach bus in the list of buses
+            {
+                currentDisplayBus = bus;
+                DataContext = currentDisplayBus;
+            }
+
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
         //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         //{
         //    licenseNum = AddBusText.Text;
         //}
+
+        //private void ShowBusLine(int bl)
+        //{
+        //    var index = lineCollection.BusIndexer(bl);
+        //    if (index >= 0)
+        //    {
+        //        currentDisplayBusLine = lineCollection.routes[index];
+        //        UpGrid.DataContext = currentDisplayBusLine;
+        //        lbBusLineStations.DataContext = currentDisplayBusLine.stations;
+        //    }
+        //    else throw new KeyNotFoundException();
+        //}
+
     }
 }
