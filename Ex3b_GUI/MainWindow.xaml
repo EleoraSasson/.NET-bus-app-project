@@ -23,9 +23,7 @@
             <ColumnDefinition Width="1*" x:Name="RightBorder"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="LB_Buses" Grid.Row="2" Grid.Column="1">
-            
-        </ListBox>
+        <ListBox x:Name="LB_Buses" Grid.Row="2" Grid.Column="1"/>
 
         <TextBox x:Name="TB_BusesH" Grid.Row="1" Grid.Column="1" Text="List of Buses in Company Fleet:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Left" TextWrapping="NoWrap" VerticalAlignment="Center">
         </TextBox>
@@ -35,7 +33,9 @@
         </TextBox>
         <TextBox x:Name="TB_MaintenanceH" Grid.Row="1" Grid.Column="4" Text="Send for Maintenance:" FontFamily="HP Simplified" FontSize="12" FontWeight="SemiBold" FontStretch="Medium" FontStyle="Normal" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center">
         </TextBox>
-       
+        <Button x:Name="AddBusButton" Content="Add bus" Grid.Column="1" HorizontalAlignment="Left" Margin="217.333,10,0,0" VerticalAlignment="Top" Width="62" Click="Button_Click" Background="#FFD5CCCC" FontFamily="Dubai" FontSize="16" Height="26" Visibility="Hidden"/>
+        <Button x:Name="AddBusButton1" Content="Button" Grid.Column="1" HorizontalAlignment="Left" Margin="236.333,15,0,0" VerticalAlignment="Top" Width="75" Click="AddBusButton1_Click"/>
+
 
     </Grid>
 </Window>
