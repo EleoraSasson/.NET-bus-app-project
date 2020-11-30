@@ -66,7 +66,7 @@ namespace Ex3b_GUI
         public MainWindow()
         {
             InitializeComponent();
-            DG_Buses.ItemsSource = BusList;
+            
         }
 
         public DateTime startDate;
