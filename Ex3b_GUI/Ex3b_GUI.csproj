@@ -102,5 +102,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GaloreTravels.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GaloreTravels.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
