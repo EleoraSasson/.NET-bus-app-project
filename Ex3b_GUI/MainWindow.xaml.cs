@@ -18,6 +18,7 @@ using System.Windows.Shapes;
  * Take the bus system classes from exercise 1 
  * - randomise the busses there ensuring that at least 1 bus is after service date;
  * one is close to refueal & one close to reservice.
+ * 
  * - add to bus class the following:
  *  * status field (use ENUMS)
  *  * (?) available/unavailable
@@ -40,12 +41,54 @@ namespace Ex3b_GUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
+        public List <Bus> BusList = new List<Bus>(); //whyyy
+        //put bus into collection
+        private void randomBus()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Bus b = new Bus();
+                b.BusStartDate = b.randDate();
+                b.BusLicense = b.randLicense(b.BusStartDate);
+                b.BusMileage = b.randMileage();
+                b.BusFuel = b.randFuel();
+                b.BusState = b.randStatus();
+                BusList.Add(b);
+            }
+
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            
+           
         }
 
+        public DateTime startDate;
+        public string licenseNum;
+        public int mile;
+        public int fuelLeft;
+        // public Status status should be determined automatically?
+        public string driverName;   
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           
+            
+        }
+
+        private void AddBusButton1_Click(object sender, RoutedEventArgs e)
+        {
+             AddBusWindow addWin = new AddBusWindow();
+             addWin.Show();
+        }
+
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    licenseNum = AddBusText.Text;
+        //}
     }
 }

@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="93*"/>
                 <ColumnDefinition Width="105*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment= "Left" Margin="10,35,0,8" VerticalAlignment="Stretch" Width="120" SelectionChanged="cbBusLines_SelectionChanged" FontFamily="HP Simplified" FontSize="14" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" RenderTransformOrigin="0.383,0.333" AllowDrop="True" MaxDropDownHeight="100" FontWeight="SemiBold">
+            <ComboBox Name="cbBusLines" Grid.Column="1" HorizontalAlignment= "Left" Margin="30.333,33,0,10.333" VerticalAlignment="Stretch" Width="120" SelectionChanged="cbBusLines_SelectionChanged" FontFamily="HP Simplified" FontSize="14" IsSynchronizedWithCurrentItem="True" IsReadOnly="True" RenderTransformOrigin="0.383,0.333" AllowDrop="True" MaxDropDownHeight="100" FontWeight="SemiBold">
 
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
