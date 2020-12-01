@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,80 +45,64 @@ namespace Ex3b_GUI
     
     public partial class MainWindow : Window
     {
-        private Bus currentDisplayBus; //current Bus we are looking at 
-        public List<Bus> BusList = new List<Bus>();
+        /*RELEVANT VARIABLES & LISTS*/
+        
+        //public List <Bus> BusList = new List<Bus>();
+        public ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
 
-        //put bus into collection
         private void randomBus()
         {
             for (int i = 0; i < 10; i++)
             {
+                System.Threading.Thread.Sleep(10); //to allows for randomised values to be random
                 Bus b = new Bus();
-                b.BusStartDate = b.randDate();
+                b.randDate();
+                //b.BusStartDate = b.randDate();
+                b.BusLicense = b.randLicense();
                 b.BusDriver = b.randDriver();
-                b.BusLicense = b.randLicense(b.BusStartDate);
                 b.BusMileage = b.randMileage();
-                b.BusFuel = b.randFuel();
                 b.BusState = b.randStatus();
-                //BusList.Add(b);
+                b.BusFuel = b.randFuel();
+                BusList.Add(b);
             }
         }
+        
 
+        public DateTime startDate;
+        public string licenseNum;
+        public int mile;
+        public int fuelLeft;
+        public string driverName;
+
+        /*Main Window*/
         public MainWindow()
         {
             InitializeComponent();
-           // DG_Buses.ItemsSource = BusList;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-           
-            
+            //fill bus list with random values:
+            randomBus();
+            //print list to console:
+           lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
         }
 
         
 
-        private void LB_Buses_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
-
-        private void ShowBuses(List<Bus> buses)
-        {
-            foreach (Bus bus in buses) ///foreach bus in the list of buses
-            {
-                currentDisplayBus = bus;
-                DataContext = currentDisplayBus;
-            }
-
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void B_AddBus_Click(object sender, RoutedEventArgs e)
+    private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
             AddBusWindow addWin = new AddBusWindow();
             addWin.Show();
         }
-        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    licenseNum = AddBusText.Text;
-        //}
 
-        //private void ShowBusLine(int bl)
-        //{
-        //    var index = lineCollection.BusIndexer(bl);
-        //    if (index >= 0)
-        //    {
-        //        currentDisplayBusLine = lineCollection.routes[index];
-        //        UpGrid.DataContext = currentDisplayBusLine;
-        //        lbBusLineStations.DataContext = currentDisplayBusLine.stations;
-        //    }
-        //    else throw new KeyNotFoundException();
-        //}
-
+        private void B_Options_Click(object sender, RoutedEventArgs e)
+        {
+            //    foreach (Bus b in BusList)
+            //    {
+            //        if (b.available())
+            //        {
+            //            B
+            //        }
+            //    }
+            OptionsWindow optionsWin = new OptionsWindow();
+            optionsWin.Show();
+        }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ex3b_GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Gilore Travels" Height="450" Width="800" Icon ="GiloreTravels.ico">
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -21,19 +21,25 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="LB_Buses" Grid.Column="1" Grid.Row="2" SelectionChanged="LB_Buses_SelectionChanged">
-            <DataGrid x:Name ="DG_Buses" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="289" SelectionChanged="DataGrid_SelectionChanged" >
-                <DataGrid.Columns>
-                    <DataGridComboBoxColumn Header="License Number:" ItemsSource="{Binding BusLicense}"/>
-                    <DataGridComboBoxColumn Header="Driver:" ItemsSource="{Binding driverName}"/>
-                    <DataGridComboBoxColumn Header="Mileage:" ItemsSource="{Binding BusMileage}"/>
-                    <DataGridComboBoxColumn Header="Status" ItemsSource="{Binding BusState}"/>
-                    <DataGridComboBoxColumn Header="Select for more Options"/>
-                </DataGrid.Columns>
-                <TextBox x:Name="TB_LicenseNum" Text="License Number:" Grid.Column="0" Grid.Row="0"/>
-            </DataGrid>
-        </ListBox>
-        <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="641.333,7.333,0,3.667" Grid.Row="3" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click"/>
+        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="1" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding BusLicense}"/>
+                    <GridViewColumn Header="Bus Driver:" Width="100" DisplayMemberBinding="{Binding BusDriver}"/>
+                    <GridViewColumn Header="Mileage:" Width="100" DisplayMemberBinding="{Binding BusMileage}"/>
+                    <GridViewColumn Header="Bus Status:" Width="100" DisplayMemberBinding="{Binding BusState}"/>
+                    <GridViewColumn Header="Select for more Options:" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="True"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="641,7,0,4" Grid.Row="3" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click"/>
 
 
     </Grid>

@@ -24,9 +24,9 @@ namespace Ex3b_GUI
 
    
 
-    public enum StaffName { John, Sam, Ed, Sarah, Leah }
-    public enum StaffSurname { Owen, Riley, Snow, Perry, Ross }
-    public enum Status {ready, ride, refueling, serviced}
+    public enum StaffName { John, Sam, Sara, Dave, Libby }
+    public enum StaffSurname { Owens, Riley, Snow, Perry, Ross }
+    public enum Status {Available, Traveling , Refueling, AtService}
     public class Bus
     {
         /* CLASS MEMBERS */
@@ -162,7 +162,7 @@ namespace Ex3b_GUI
         }
 
         //returns random starting date
-        public DateTime randDate()
+        public void randDate()
         {
             Random y = new Random();
             int year = y.Next(2000, 2021); //random year
@@ -170,33 +170,29 @@ namespace Ex3b_GUI
             int month = m.Next(1, 13); //random month
             Random d = new Random();
             int day = d.Next(1, 32);
-            DateTime date = new DateTime(year, month, day);
-            return date;
-           
+            var NewDate = new DateTime(year, month, day);
+            this.BusStartDate = NewDate;
         }
 
         //returns random license number according to the manufacture year of the bus
-        public string randLicense(DateTime d)
+        public string randLicense()
         {
-            Random num1 = new Random();
-            Random num2 = new Random();
-            Random num3 = new Random();
-            if (d.Year < 2018) // license will have the format XX-XXX-XX
+            Random rand = new Random();
+            if (this.BusStartDate.Year < 2018) // license will have the format XX-XXX-XX
             {
-                int n1 = num1.Next(10, 98);
-                int n2 = num2.Next(100, 998);
-                int n3 = num3.Next(10, 98);
+                int l = rand.Next(10000000, 99999999);
+                string Blicense = Convert.ToString(l);
+                string license = Regex.Replace(Blicense, @"^(..)(...)(..)$", "$1-$2-$3");
+                return license;
             }
             else // license will have the format XXX-XX-XXX
             {
-                int n1 = num1.Next(100, 998);
-                int n2 = num2.Next(10, 98);
-                int n3 = num3.Next(100, 998);
-            }
-            string lic = num1 + "-" + num2 + "-" + num3;
-            return lic;
+                int l = rand.Next(10000000, 99999999);
+                string Blicense = Convert.ToString(l);
+                string license = Regex.Replace(Blicense, @"^(...)(..)(...)$", "$1-$2-$3");
+                return license;
+            } 
         }
-
         //returns random driver name
         public string randDriver()
         {
@@ -204,7 +200,7 @@ namespace Ex3b_GUI
             StaffName sn = (StaffName)rnd.Next(Enum.GetNames(typeof(StaffName)).Length);
             var rd = new Random();
             StaffSurname ssn = (StaffSurname)rd.Next(Enum.GetNames(typeof(StaffSurname)).Length);
-            string driver = sn.ToString() + ssn.ToString();
+            string driver = sn.ToString() + " " +  ssn.ToString();
             return driver;
         }
 
@@ -248,8 +244,8 @@ namespace Ex3b_GUI
         public Bus () //default constructor
         {
             BusStartDate = DateTime.Now;
-            BusLicense = "000-00-000";
             BusMileage = 0;
+            BusLicense = "00-000-00";
             BusFuel = 1200;
             BusState = 0;
             BusDriver = "Unknown";
