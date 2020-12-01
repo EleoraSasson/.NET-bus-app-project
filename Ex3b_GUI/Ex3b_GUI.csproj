@@ -115,5 +115,11 @@
   <ItemGroup>
     <Resource Include="GiloreTravels.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo_TransparentCanvas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogoFull.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

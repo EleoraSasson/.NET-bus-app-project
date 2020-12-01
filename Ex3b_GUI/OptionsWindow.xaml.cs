@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,10 @@ namespace Ex3b_GUI
     /// </summary>
     public partial class OptionsWindow : Window
     {
-        public OptionsWindow()
+        private ObservableCollection<Bus> _BusList;
+        public OptionsWindow(ObservableCollection<Bus> BusList)
         {
+            _BusList = BusList;
             InitializeComponent();
         }
 
@@ -29,7 +32,15 @@ namespace Ex3b_GUI
             string title = "Gilore Travels INFO: Refuel";
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus has been sent for a Refuel",title,buttons,icon);
+            MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel",title,buttons,icon);
+            if (result == MessageBoxResult.OK)
+            {
+                //change status of bus and use threading
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                //do not change bus status and close window
+            }
         }
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
@@ -37,7 +48,21 @@ namespace Ex3b_GUI
             string title = "Gilore Travels INFO: Maintenance";
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
+            MessageBoxResult result = MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
+            if (result == MessageBoxResult.OK)
+            {
+                //change status of bus and use threading
+                SendforMaintenance();
+            }
+            else if (result == MessageBoxResult.Cancel)
+            {
+                //do nothing other then close messageBox
+            }
+        }
+
+        private void SendforMaintenance(Bus bus)
+        {
+            
         }
     }
 }
