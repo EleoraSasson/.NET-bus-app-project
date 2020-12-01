@@ -88,7 +88,7 @@ namespace Ex3b_GUI
 
     private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
-            AddBusWindow addWin = new AddBusWindow();
+            AddBusWindow addWin = new AddBusWindow(BusList);
             addWin.Show();
         }
 

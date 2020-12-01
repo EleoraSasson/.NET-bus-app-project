@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ex3b_GUI"
         mc:Ignorable="d"
-        Title="AddBusWindow" Height="450" Width="800">
+        Title="Gilore Travels > Add Bus" Height="450" Width="800" Icon="GiloreTravels.ico">
     <Grid Margin="0,0,432.333,-0.333">
         <TextBox x:Name="LicenseNumTextBox" HorizontalAlignment="Left" Height="23" Margin="10,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="LicenseNumTextBox_TextChanged" RenderTransformOrigin="0.367,-2.311"/>
         <TextBox x:Name="DriverNameTextBox" HorizontalAlignment="Left" Height="23" Margin="10,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="DriverNameTextBox_TextChanged"/>

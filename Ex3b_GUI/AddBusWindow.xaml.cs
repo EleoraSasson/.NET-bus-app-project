@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Ex3b_GUI
     public partial class AddBusWindow : Window
     {
        // public List<Bus> BusList = new List<Bus>();
-        public AddBusWindow()
+        public AddBusWindow(ObservableCollection<Bus> BusList)
         {
             InitializeComponent();
         }
@@ -69,7 +70,7 @@ namespace Ex3b_GUI
             b.BusDriver = n;
             b.BusFuel = f;
             b.BusMileage = m;
-            BusList.Add(b);
+            //add to bus collection somehow
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
