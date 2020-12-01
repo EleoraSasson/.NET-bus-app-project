@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,22 +46,23 @@ namespace Ex3b_GUI
     public partial class MainWindow : Window
     {
         /*RELEVANT VARIABLES & LISTS*/
+        
+        //public List <Bus> BusList = new List<Bus>();
+        public ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
 
-        //private Bus currentDisplayBus; //current Bus we are looking at 
-
-        public List <Bus> BusList = new List<Bus>(); //whyyy
-        //put bus into collection
         private void randomBus()
         {
             for (int i = 0; i < 10; i++)
             {
+                System.Threading.Thread.Sleep(10); //to allows for randomised values to be random
                 Bus b = new Bus();
-                b.BusStartDate = b.randDate();
+                b.randDate();
+                //b.BusStartDate = b.randDate();
+                b.BusLicense = b.randLicense();
                 b.BusDriver = b.randDriver();
-                b.BusLicense = b.randLicense(b.BusStartDate);
                 b.BusMileage = b.randMileage();
-                b.BusFuel = b.randFuel();
                 b.BusState = b.randStatus();
+                b.BusFuel = b.randFuel();
                 BusList.Add(b);
             }
 
@@ -77,28 +79,31 @@ namespace Ex3b_GUI
         public MainWindow()
         {
             InitializeComponent();
-            this.DG_Buses.SelectionChanged += DG_Buses_SelectionChanged;
+            //fill bus list with random values:
+            randomBus();
+            //print list to console:
+           lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
         }
 
-        private void DG_Buses_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            foreach (Bus bus in BusList)
-            {
-                ShowBus(bus);
-            }
-        }
+        
 
-        private void ShowBus(Bus bus)
-        {
-            DataContext = bus;
-        }
-
-        private void B_AddBus_Click(object sender, RoutedEventArgs e)
+    private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
             AddBusWindow addWin = new AddBusWindow();
             addWin.Show();
         }
 
-
+        private void B_Options_Click(object sender, RoutedEventArgs e)
+        {
+            //    foreach (Bus b in BusList)
+            //    {
+            //        if (b.available())
+            //        {
+            //            B
+            //        }
+            //    }
+            OptionsWindow optionsWin = new OptionsWindow();
+            optionsWin.Show();
+        }
     }
 }
