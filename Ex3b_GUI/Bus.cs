@@ -22,7 +22,7 @@ namespace Ex3b_GUI
     //** add field for driver's name ??
     // *
 
-    //add name
+   
 
     public enum StaffName { John, Sam, Ed, Sarah, Leah }
     public enum StaffSurname { Owen, Riley, Snow, Perry, Ross }
@@ -33,6 +33,7 @@ namespace Ex3b_GUI
         //information of each bus - each member is private with a public method that accesses and update the private member:
         private string license; //license number
 
+       
         public string BusLicense
         {
             get { return license; }

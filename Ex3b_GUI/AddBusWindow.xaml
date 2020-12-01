@@ -7,12 +7,17 @@
         mc:Ignorable="d"
         Title="AddBusWindow" Height="450" Width="800">
     <Grid Margin="0,0,432.333,-0.333">
-        <TextBox x:Name="LicenseNumTextBox" HorizontalAlignment="Left" Height="23" Margin="10,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="LicenseNumTextBox_TextChanged"/>
-        <TextBox x:Name="DriverNameTextBox" HorizontalAlignment="Left" Height="23" Margin="10,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3"/>
-        <TextBox x:Name="FuelTextBox" HorizontalAlignment="Left" Height="23" Margin="10,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" TextChanged="TextBox_TextChanged" Background="#FFA3A3A3"/>
-        <TextBox x:Name="MileageTextBox" HorizontalAlignment="Left" Height="23" Margin="10,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3"/>
-        <TextBlock x:Name="txtblockDate" HorizontalAlignment="Left" Margin="10,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" FontSize="16"><Run Text="Bus "/><Run Text="starting date:"/></TextBlock>
-        <DatePicker x:Name="StartDateCalendar" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBox x:Name="LicenseNumTextBox" HorizontalAlignment="Left" Height="23" Margin="10,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="LicenseNumTextBox_TextChanged" RenderTransformOrigin="0.367,-2.311"/>
+        <TextBox x:Name="DriverNameTextBox" HorizontalAlignment="Left" Height="23" Margin="10,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="DriverNameTextBox_TextChanged"/>
+        <TextBox x:Name="FuelTextBox" HorizontalAlignment="Left" Height="23" Margin="10,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3"/>
+        <TextBox x:Name="MileageTextBox" HorizontalAlignment="Left" Height="23" Margin="10,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="MileageTextBox_TextChanged"/>
+        <TextBlock x:Name="txtblockDate" HorizontalAlignment="Left" Margin="10,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277" FontSize="14" Text="Enter bus starting date:"/>
+        <DatePicker x:Name="StartDateCalendar" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Width="100" DisplayDateStart="1/01/10" DisplayDateEnd="12/31/20" />
+        <TextBlock x:Name="LicensetextBlock" HorizontalAlignment="Left" Margin="10,57,-71,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="-1.737,0.911" FontSize ="14" Width="422" Height="49"><Run Text="Enter the license number (XX-XXX-XXX"/><Run Text=" before 2018, XXX-XX-XXX after)"/><Run Text=":"/></TextBlock>
+        <TextBlock x:Name="FuelTextBlock" HorizontalAlignment="Left" Margin="10,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277"  FontSize ="14"><Run Text="Enter the distance left with the fuel"/><Run Text=":"/></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,221,0,0" TextWrapping="Wrap" Text="Enter the mileage:" VerticalAlignment="Top" Width="266"  FontSize ="14"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,122,0,0" TextWrapping="Wrap" Text="Enter the driver's name:" VerticalAlignment="Top" Width="208"  FontSize ="14" RenderTransformOrigin="-0.148,0.161"/>
+        <Button x:Name="AddButton" Content="Add" HorizontalAlignment="Left" Margin="276,336,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
 
     </Grid>
 </Window>

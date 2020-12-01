@@ -33,7 +33,7 @@
                 <TextBox x:Name="TB_LicenseNum" Text="License Number:" Grid.Column="0" Grid.Row="0"/>
             </DataGrid>
         </ListBox>
-        <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="641,7,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="25" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal"/>
+        <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="641.333,7.333,0,3.667" Grid.Row="3" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click"/>
 
 
     </Grid>

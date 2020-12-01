@@ -45,8 +45,8 @@ namespace Ex3b_GUI
     public partial class MainWindow : Window
     {
         private Bus currentDisplayBus; //current Bus we are looking at 
+        public List<Bus> BusList = new List<Bus>();
 
-        public List <Bus> BusList = new List<Bus>(); //whyyy
         //put bus into collection
         private void randomBus()
         {
@@ -54,38 +54,28 @@ namespace Ex3b_GUI
             {
                 Bus b = new Bus();
                 b.BusStartDate = b.randDate();
+                b.BusDriver = b.randDriver();
                 b.BusLicense = b.randLicense(b.BusStartDate);
                 b.BusMileage = b.randMileage();
                 b.BusFuel = b.randFuel();
                 b.BusState = b.randStatus();
-                BusList.Add(b);
+                //BusList.Add(b);
             }
-
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            DG_Buses.ItemsSource = BusList;
+           // DG_Buses.ItemsSource = BusList;
         }
 
-        public DateTime startDate;
-        public string licenseNum;
-        public int mile;
-        public int fuelLeft;
-        // public Status status should be determined automatically?
-        public string driverName;   
         private void Button_Click(object sender, RoutedEventArgs e)
         {
            
             
         }
 
-        private void AddBusButton1_Click(object sender, RoutedEventArgs e)
-        {
-             AddBusWindow addWin = new AddBusWindow();
-             addWin.Show();
-        }
+        
 
         private void LB_Buses_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -105,6 +95,12 @@ namespace Ex3b_GUI
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void B_AddBus_Click(object sender, RoutedEventArgs e)
+        {
+            AddBusWindow addWin = new AddBusWindow();
+            addWin.Show();
         }
         //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         //{
