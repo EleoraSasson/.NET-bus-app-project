@@ -12,18 +12,6 @@ using System.Text.RegularExpressions;//this can be used to validate strings
 
 namespace Ex3b_GUI
 {
-    //    Take the bus system classes from exercise 1 
-    // * - randomise the busses there ensuring that at least 1 bus is after service date; V
-    // * one is close to refueal & one close to reservice.
-    // * 
-    // * - add to bus class the following:
-    // ** status field(use ENUMS) V
-    // ** (?) available/unavailable V
-    //** add field for driver's name ??
-    // *
-
-   
-
     public enum StaffName { John, Sam, Sara, Dave, Libby }
     public enum StaffSurname { Owens, Riley, Snow, Perry, Ross }
     public enum Status {Available, Traveling , Refueling, AtService}

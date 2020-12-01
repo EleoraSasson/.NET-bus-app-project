@@ -27,8 +27,8 @@
                 <ColumnDefinition x:Name="Maintenance" Width="4*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="B_Travel" Grid.Column="0" Content="Send on Trip" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal"/>
-            <Button x:Name="B_Fuel" Grid.Column="2" Content="Send for Refuel" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal"/>
-            <Button x:Name="B_Maintenance" Grid.Column="4" Content="Send for Maintenance" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal"/>
+            <Button x:Name="B_Fuel" Grid.Column="2" Content="Send for Refuel" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Click="B_Fuel_Click"/>
+            <Button x:Name="B_Maintenance" Grid.Column="4" Content="Send for Maintenance" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Click="B_Maintenance_Click"/>
         </Grid>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="45,46,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Please select one of the following option below:" VerticalAlignment="Top" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal"/>
     </Grid>

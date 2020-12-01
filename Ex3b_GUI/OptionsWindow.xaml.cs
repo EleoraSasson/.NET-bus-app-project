@@ -23,5 +23,21 @@ namespace Ex3b_GUI
         {
             InitializeComponent();
         }
+
+        private void B_Fuel_Click(object sender, RoutedEventArgs e)
+        {
+            string title = "Gilore Travels INFO: Refuel";
+            MessageBoxButton buttons = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus has been sent for a Refuel",title,buttons,icon);
+        }
+
+        private void B_Maintenance_Click(object sender, RoutedEventArgs e)
+        {
+            string title = "Gilore Travels INFO: Maintenance";
+            MessageBoxButton buttons = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
+        }
     }
 }
