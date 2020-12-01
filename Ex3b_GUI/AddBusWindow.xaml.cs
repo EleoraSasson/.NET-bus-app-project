@@ -47,7 +47,7 @@ namespace Ex3b_GUI
         private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             //if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            //{
+            //{ 
             //    e.Handled = true;
             //}
             mile = Convert.ToInt32(MileageTextBox.Text);
