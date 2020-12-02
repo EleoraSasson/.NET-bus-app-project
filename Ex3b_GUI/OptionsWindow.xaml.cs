@@ -52,7 +52,7 @@ namespace Ex3b_GUI
             if (result == MessageBoxResult.OK)
             {
                 //change status of bus and use threading
-                SendforMaintenance();
+                //SendforMaintenance();
             }
             else if (result == MessageBoxResult.Cancel)
             {
@@ -63,6 +63,12 @@ namespace Ex3b_GUI
         private void SendforMaintenance(Bus bus)
         {
             
+        }
+
+        private void B_Travel_Click(object sender, RoutedEventArgs e)
+        {
+            TravelWindow tw = new TravelWindow();//this);
+            tw.Show();
         }
     }
 }
