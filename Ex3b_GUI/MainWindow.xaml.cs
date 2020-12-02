@@ -67,7 +67,6 @@ namespace Ex3b_GUI
             }
         }
         
-
         public DateTime startDate;
         public string licenseNum;
         public int mile;

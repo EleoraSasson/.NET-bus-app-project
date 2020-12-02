@@ -20,8 +20,6 @@ namespace Ex3b_GUI
         /* CLASS MEMBERS */
         //information of each bus - each member is private with a public method that accesses and update the private member:
         private string license; //license number
-
-       
         public string BusLicense
         {
             get { return license; }
