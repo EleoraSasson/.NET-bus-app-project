@@ -23,9 +23,11 @@ namespace Ex3b_GUI
    
     public partial class AddBusWindow : Window
     {
-       // public List<Bus> BusList = new List<Bus>();
+        private ObservableCollection<Bus> _BusList;
+
         public AddBusWindow(ObservableCollection<Bus> BusList)
         {
+            _BusList = BusList;
             InitializeComponent();
         }
 
@@ -70,7 +72,7 @@ namespace Ex3b_GUI
             b.BusDriver = n;
             b.BusFuel = f;
             b.BusMileage = m;
-            //add to bus collection somehow
+            _BusList.Add(b);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

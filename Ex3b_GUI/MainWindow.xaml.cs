@@ -100,7 +100,7 @@ namespace Ex3b_GUI
             //            B
             //        }
             //    }
-            OptionsWindow optionsWin = new OptionsWindow();
+            OptionsWindow optionsWin = new OptionsWindow(BusList);
             optionsWin.Show();
         }
     }
