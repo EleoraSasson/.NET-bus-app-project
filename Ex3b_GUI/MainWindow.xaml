@@ -22,7 +22,7 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium">
+        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" MouseDoubleClick="lv_BusList_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding BusLicense}"/>
@@ -32,7 +32,7 @@
                     <GridViewColumn Header="Select for more Options:" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="True"/>
+                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="True" IsEnabledChanged="B_Options_IsEnabledChanged"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

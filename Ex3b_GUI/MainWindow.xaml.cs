@@ -81,12 +81,13 @@ namespace Ex3b_GUI
             //fill bus list with random values:
             randomBus();
             //print list to console:
-           lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
+            lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
+            //double click on mouse
+            lv_BusList.MouseDoubleClick += lv_BusList_MouseDoubleClick;
         }
 
-        
 
-    private void B_AddBus_Click(object sender, RoutedEventArgs e)
+        private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
             AddBusWindow addWin = new AddBusWindow(BusList);
             addWin.Show();
@@ -94,15 +95,29 @@ namespace Ex3b_GUI
 
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
-            //    foreach (Bus b in BusList)
-            //    {
-            //        if (b.available())
-            //        {
-            //            B
-            //        }
-            //    }
             OptionsWindow optionsWin = new OptionsWindow(BusList);
             optionsWin.Show();
+        }
+
+        private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            BusInformationWin busInformationWin = new BusInformationWin(BusList);
+            busInformationWin.Show();
+        }
+
+        private void B_Options_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e) //doesnt work
+        { foreach (Bus b in BusList)
+            {
+                if (b.BusState == 0)
+                {
+                    IsEnabled = true;
+                }
+                else
+                {
+                    IsEnabled = false;
+                }
+            }
+            
         }
     }
 }
