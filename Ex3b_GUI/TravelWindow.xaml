@@ -1,0 +1,14 @@
+﻿<Window x:Class="Ex3b_GUI.TravelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ex3b_GUI"
+        mc:Ignorable="d"
+        Title="Gilore Travels > TravelWindow" Height="200" Width="400" Icon="GiloreTravels.ico">
+    <Grid>
+        <TextBlock x:Name="TravelTxtB" HorizontalAlignment="Center" Margin="82,26,50.333,0" TextWrapping="Wrap" Text="Enter the length of the travel route:" VerticalAlignment="Top" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Width="261"/>
+        <TextBox x:Name="TravelMileTextBox" HorizontalAlignment="Left" Height="23" Margin="113,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3" TextChanged="TravelMileTextBox_TextChanged"/>
+        <Button Content="Drive" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Margin="299,135,28.333,9.667" Click="Button_Click"/>
+    </Grid>
+</Window>
