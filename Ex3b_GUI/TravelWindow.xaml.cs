@@ -20,21 +20,33 @@ namespace Ex3b_GUI
     public partial class TravelWindow : Window
     {
         int distance;
-        public TravelWindow()
+        private Bus theBus;
+        public TravelWindow(Bus _theBus)
         {
+            theBus = _theBus;
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string dist = TravelMileTextBox.Text;
             distance = Convert.ToInt32(dist);
-            //send distance to function, then  if...
+            if (theBus.BusFuel > distance)
+            {
+                theBus.BusMileage += distance;
+            }
+            else
+            {
+                MessageBox.Show("The bus does not contain enough fuel for this route.");
+            }
+           
             //check the input
-            string title = "Gilore Travels INFO: Travel";
-            MessageBoxButton buttons = MessageBoxButton.OK;
-            MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBoxResult result = MessageBox.Show("Bus has started its travel.", title, buttons, icon); 
+            //Then update the status after the thread 
+
+
+            //string title = "Gilore Travels INFO: Travel";
+            //MessageBoxButton buttons = MessageBoxButton.OK;
+            //MessageBoxImage icon = MessageBoxImage.Information;
+            //MessageBoxResult result = MessageBox.Show("Bus has started its travel.", title, buttons, icon); 
             //update mileage, status...
             this.Close();
         }

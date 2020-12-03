@@ -25,7 +25,7 @@ namespace Ex3b_GUI
         {
             _theBus = theBus;
             InitializeComponent();
-            MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
+           // MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
         }
 
         private void B_Fuel_Click(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ namespace Ex3b_GUI
 
         private void B_Travel_Click(object sender, RoutedEventArgs e)
         {
-            TravelWindow tw = new TravelWindow();//this);
+            TravelWindow tw = new TravelWindow(_theBus);
             tw.Show();
         }
     }
