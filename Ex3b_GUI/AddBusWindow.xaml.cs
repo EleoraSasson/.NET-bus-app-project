@@ -77,7 +77,9 @@ namespace Ex3b_GUI
 
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
-            AddBus(licenseNum, driverName, fuelLeft, mile);
+
+            MainWindow main = new MainWindow();
+            main.Show();
             this.Close(); //close the window when bus is added
         }
     }

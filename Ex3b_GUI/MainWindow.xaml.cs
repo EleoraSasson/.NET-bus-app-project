@@ -89,14 +89,13 @@ namespace Ex3b_GUI
         {
             AddBusWindow addWin = new AddBusWindow(BusList);
             addWin.Show();
+            this.Close();
         }
 
         //Select more Options Button:
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
-
             Bus selectedBus;
-
             ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
             if (lvi != null)
@@ -127,13 +126,11 @@ namespace Ex3b_GUI
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
         {
-
             if (element == null) return null;
 
             if (element.GetType() == type) return element;
 
             return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
-
         }
 
 
