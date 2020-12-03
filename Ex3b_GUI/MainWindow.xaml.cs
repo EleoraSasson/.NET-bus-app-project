@@ -114,11 +114,11 @@ namespace Ex3b_GUI
         {
             Bus selectedBus;
 
-            ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+            ListViewItem lvitem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
-            if (lvi != null)
+            if (lvitem != null)
             {
-                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
+                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 BusInfoWin infoWindow = new BusInfoWin(selectedBus);
                 infoWindow.Show();
