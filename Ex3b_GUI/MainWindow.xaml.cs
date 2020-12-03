@@ -81,17 +81,17 @@ namespace Ex3b_GUI
             randomBus();
             //print list to console:
             lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
-            //double click on mouse
-            lv_BusList.MouseDoubleClick += lv_BusList_MouseDoubleClick;
+        
         }
 
-
+        //Add Bus Button Click:
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
             AddBusWindow addWin = new AddBusWindow(BusList);
             addWin.Show();
         }
 
+        //Select more Options Button:
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
 
@@ -109,6 +109,22 @@ namespace Ex3b_GUI
             }
         }
 
+        // Double-Click on Bus
+        private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Bus selectedBus;
+
+            ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+
+            if (lvi != null)
+            {
+                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
+                selectedBus = (Bus)lv_BusList.SelectedItem;
+                BusInfoWin infoWindow = new BusInfoWin(selectedBus);
+                infoWindow.Show();
+
+            }
+        }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
         {
 
@@ -120,11 +136,6 @@ namespace Ex3b_GUI
 
         }
 
-        private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            BusInformationWin busInformationWin = new BusInformationWin(BusList);
-            busInformationWin.Show();
-        }
 
         private void B_Options_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e) //doesnt work
         { foreach (Bus b in BusList)
@@ -140,5 +151,6 @@ namespace Ex3b_GUI
             }
             
         }
+
     }
 }
