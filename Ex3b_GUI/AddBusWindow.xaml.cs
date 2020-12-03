@@ -75,7 +75,7 @@ namespace Ex3b_GUI
             _BusList.Add(b);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
 
             MainWindow main = new MainWindow();

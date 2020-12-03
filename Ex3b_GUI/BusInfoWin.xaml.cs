@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,17 +15,15 @@ using System.Windows.Shapes;
 namespace Ex3b_GUI
 {
     /// <summary>
-    /// Interaction logic for BusInformationWin.xaml
+    /// Interaction logic for BusInfoWin.xaml
     /// </summary>
-    public partial class BusInformationWin : Window
+    public partial class BusInfoWin : Window
     {
-        private ObservableCollection<Bus> _BusList;
-        public BusInformationWin(ObservableCollection<Bus> BusList)
+        private Bus _theBus;
+        public BusInfoWin(Bus bus)
         {
-            _BusList = BusList;
+            _theBus = bus;
             InitializeComponent();
-            //print bus info
-            lb_BusInfo.ItemsSource = _BusList;
         }
     }
 }
