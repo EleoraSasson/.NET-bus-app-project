@@ -32,11 +32,19 @@ namespace Ex3b_GUI
             distance = Convert.ToInt32(dist);
             if (theBus.BusFuel > distance)
             {
-                theBus.BusMileage += distance;
+                theBus.BusMileage += distance; //updates mileage
+                theBus.BusFuel -= distance; //updates fuel
+                string title = "Gilore Travels INFO: Travel";
+                MessageBoxButton button = MessageBoxButton.OK; 
+                MessageBoxImage icon = MessageBoxImage.Information;
+                MessageBox.Show("Bus has been sent on trip", title, button, icon);
             }
             else
             {
-                MessageBox.Show("The bus does not contain enough fuel for this route.");
+                string title = "Gilore Travels ERROR: Travel";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("The bus does not contain enough fuel for this route.", title, button, icon);
             }
            
             //check the input

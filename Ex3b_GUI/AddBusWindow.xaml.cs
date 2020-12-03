@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 
+
 namespace Ex3b_GUI
 {
     /// <summary>
@@ -30,12 +31,6 @@ namespace Ex3b_GUI
             _BusList = BusList;
             InitializeComponent();
         }
-
-        //private void StartDateCalendar(object sender, TextChangedEventArgs e)
-        //{
-        //    //StartDateTextBox.Text = "Please enter bus starting date: ";
-        //    startDate = StartDateCalendar.Value.Date;
-        //}
 
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -60,7 +55,6 @@ namespace Ex3b_GUI
         public string licenseNum;
         public int mile;
         public int fuelLeft;
-        // public Status status should be determined automatically?
         public string driverName;
 
         public void AddBus(string l, string n, int f, int m)
@@ -72,15 +66,28 @@ namespace Ex3b_GUI
             b.BusDriver = n;
             b.BusFuel = f;
             b.BusMileage = m;
+            b.BusState = Status.Available;
             _BusList.Add(b);
+
+            lv_BusList.ItemsSource = _BusList;
         }
 
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
-
             MainWindow main = new MainWindow();
             main.Show();
+           
+            main.lv_BusList.SourceUpdated += Lv_BusList_SourceUpdated;
             this.Close(); //close the window when bus is added
+        }
+
+        private void Lv_BusList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            var collection = new ObservableCollection<FooBar>();
+            collection.Add(fooBar1);
+
+            _listBox.ItemsSource = collection;
+
         }
     }
 }

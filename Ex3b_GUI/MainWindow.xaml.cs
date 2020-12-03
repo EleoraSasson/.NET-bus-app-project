@@ -149,5 +149,11 @@ namespace Ex3b_GUI
             
         }
 
+        private void lv_BusList_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            main.lv_BusList.ItemsSource = _BusList.OrderBy(state => state.BusState);
+        }
     }
+
+    
 }

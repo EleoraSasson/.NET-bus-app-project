@@ -33,6 +33,7 @@ namespace Ex3b_GUI
             string title = "Gilore Travels INFO: Refuel";
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
+            this.Close();
             MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel",title,buttons,icon);
             if (result == MessageBoxResult.OK)
             {
@@ -41,14 +42,14 @@ namespace Ex3b_GUI
             else if (result == MessageBoxResult.Cancel)
             {
                 //do not change bus status and close window
-            }
-        }
+            }        }
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
         {
             string title = "Gilore Travels INFO: Maintenance";
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
+            this.Close();
             MessageBoxResult result = MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
             if (result == MessageBoxResult.OK)
             {
@@ -70,6 +71,7 @@ namespace Ex3b_GUI
         {
             TravelWindow tw = new TravelWindow(_theBus);
             tw.Show();
+            this.Close();
         }
     }
 }
