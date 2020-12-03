@@ -20,11 +20,12 @@ namespace Ex3b_GUI
     /// </summary>
     public partial class OptionsWindow : Window
     {
-        private ObservableCollection<Bus> _BusList;
-        public OptionsWindow(ObservableCollection<Bus> BusList)
+        private Bus _theBus;
+        public OptionsWindow(Bus theBus)
         {
-            _BusList = BusList;
+            _theBus = theBus;
             InitializeComponent();
+            MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
         }
 
         private void B_Fuel_Click(object sender, RoutedEventArgs e)
@@ -52,12 +53,23 @@ namespace Ex3b_GUI
             if (result == MessageBoxResult.OK)
             {
                 //change status of bus and use threading
-
+                //SendforMaintenance();
             }
             else if (result == MessageBoxResult.Cancel)
             {
                 //do nothing other then close messageBox
             }
+        }
+
+        private void SendforMaintenance(Bus bus)
+        {
+            
+        }
+
+        private void B_Travel_Click(object sender, RoutedEventArgs e)
+        {
+            TravelWindow tw = new TravelWindow();//this);
+            tw.Show();
         }
     }
 }

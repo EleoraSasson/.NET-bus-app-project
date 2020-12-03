@@ -94,8 +94,30 @@ namespace Ex3b_GUI
 
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
-            OptionsWindow optionsWin = new OptionsWindow(BusList);
-            optionsWin.Show();
+
+            Bus selectedBus;
+
+            ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+
+            if (lvi != null)
+            {
+                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
+                selectedBus = (Bus)lv_BusList.SelectedItem;
+                OptionsWindow optionsWin = new OptionsWindow(selectedBus);
+                optionsWin.Show();
+
+            }
+        }
+
+        public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
+        {
+
+            if (element == null) return null;
+
+            if (element.GetType() == type) return element;
+
+            return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
+
         }
 
         private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

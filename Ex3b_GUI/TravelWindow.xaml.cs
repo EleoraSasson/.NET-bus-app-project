@@ -29,11 +29,20 @@ namespace Ex3b_GUI
         {
             string dist = TravelMileTextBox.Text;
             distance = Convert.ToInt32(dist);
+            //send distance to function, then  if...
+            //check the input
+            string title = "Gilore Travels INFO: Travel";
+            MessageBoxButton buttons = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBoxResult result = MessageBox.Show("Bus has started its travel.", title, buttons, icon); 
+            //update mileage, status...
+            this.Close();
         }
 
         private void TravelMileTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             //this.
+            
         }
     }
 }
