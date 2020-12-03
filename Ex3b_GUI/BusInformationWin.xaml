@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ex3b_GUI"
         mc:Ignorable="d"
-        Title="BusInformationWin" Height="450" Width="800">
+        Title="BusInformationWin" Height="200" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
@@ -15,13 +15,21 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" x:Name="TopBorder"/>
-            <RowDefinition Height="5*" x:Name="Heading"/>
-            <RowDefinition Height="25*" x:Name="BodyRow"/>
+            <RowDefinition Height="10*" x:Name="Heading"/>
+            <RowDefinition Height="20*" x:Name="BodyRow"/>
             <RowDefinition Height="3*" x:Name="ButtonRow"/>
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
-        <Image Grid.Column="1" Grid.Row="2" Source="LogoFull.PNG" Margin="0,0,0,210"/>
+        <Image Grid.Column="1" Grid.Row="2" Source="LogoFull.PNG"/>
         <Label x:Name="L_GiloreTravel" Grid.Row="1" Grid.Column="2" Content="- Bus Information -" FontFamily="Hp Simplified" FontSize="20" FontWeight="Medium" FontStyle="Normal" FontStretch="SemiExpanded"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FF0E246E"/>
-        <ListBox x:Name="lb_BusInfo" Grid.Row="2" Grid.Column="2" ItemsSource="{Binding}" FontFamily="Hp Simplified" FontSize="20" FontWeight="Medium" FontStyle="Normal"/>
+        <TextBlock x:Name="tb_busInfo" Grid.Column="2"  Grid.Row="2" TextWrapping="Wrap" Text="{Binding}" VerticalAlignment="Center" FontFamily="Hp Simplified" FontSize="20" FontWeight="Medium" FontStyle="Normal" FontStretch="SemiExpanded" IsEnabled="False"/>
+        <ListView x:Name="lv_BusInfo" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" MouseDoubleClick="lv_BusList_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Details of Bus:" Width="150" DisplayMemberBinding="{Binding Bus}">
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

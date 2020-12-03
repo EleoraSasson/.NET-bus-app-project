@@ -26,7 +26,7 @@ namespace Ex3b_GUI
             _BusList = BusList;
             InitializeComponent();
             //print bus info
-            lb_BusInfo.ItemsSource = _BusList;
+            lv_BusInfo.ItemsSource = BusList;
         }
     }
 }
