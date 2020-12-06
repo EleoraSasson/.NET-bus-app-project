@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace Ex3b_GUI
 {
@@ -34,15 +36,31 @@ namespace Ex3b_GUI
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
             this.Close();
-            MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel",title,buttons,icon);
+            MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel", title, buttons, icon);
             if (result == MessageBoxResult.OK)
             {
-                //change status of bus and use threading
+                BackgroundWorker fuelThread = new BackgroundWorker();
+                fuelThread.DoWork += FuelThread_DoWork;
             }
             else if (result == MessageBoxResult.Cancel)
             {
-                //do not change bus status and close window
-            }        }
+                //do not change bus status and close messagebox window
+            }
+        }
+
+        private void FuelThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            _theBus.Refuel(); //refueling the bus
+
+            Thread fuel = new Thread(Refueling);
+            fuel.Start(); //calls refueling func
+            fuel.Abort(); //stops thread
+        }
+        public void Refueling()
+        {
+            Thread.Sleep(12000);//time takes for the Bus to refuel "2hrs"
+            _theBus.BusState = Status.Available; //Bus is now available
+        }
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
         {
@@ -53,8 +71,8 @@ namespace Ex3b_GUI
             MessageBoxResult result = MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
             if (result == MessageBoxResult.OK)
             {
-                //change status of bus and use threading
-                //SendforMaintenance();
+                BackgroundWorker maintenanceThread = new BackgroundWorker();
+                maintenanceThread.DoWork += MaintenanceThread_DoWork;
             }
             else if (result == MessageBoxResult.Cancel)
             {
@@ -62,9 +80,19 @@ namespace Ex3b_GUI
             }
         }
 
-        private void SendforMaintenance(Bus bus)
+        private void MaintenanceThread_DoWork(object sender, DoWorkEventArgs e)
         {
-            
+            _theBus.Maintenance();
+
+            Thread maintenance = new Thread(AtService);
+            maintenance.Start();
+            maintenance.Abort();
+        }
+
+        public void AtService()
+        {
+            Thread.Sleep(144000);//time in at service
+            _theBus.BusState = Status.Available; //Bus is now available
         }
 
         private void B_Travel_Click(object sender, RoutedEventArgs e)

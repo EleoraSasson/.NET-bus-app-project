@@ -54,7 +54,7 @@ namespace Ex3b_GUI
         {
             for (int i = 0; i < 10; i++)
             {
-                System.Threading.Thread.Sleep(10); //to allows for randomised values to be random
+                System.Threading.Thread.Sleep(20); //to allows for randomised values to be random
                 Bus b = new Bus();
                 b.randDate();
                 //b.BusStartDate = b.randDate();

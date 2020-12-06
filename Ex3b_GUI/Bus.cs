@@ -428,5 +428,22 @@ namespace Ex3b_GUI
             Console.WriteLine(BusMileage);
         }
 
+        /*ADDITIONAL METHODS FOR WPF PROGRAM*/
+
+        //Refuels a bus by setting the tank to "full" can travel 1200km
+        public void Refuel()
+        {
+            this.BusState = Status.Refueling;
+            this.BusFuel = 1200;
+        }
+
+        //Send bus for Maintenance by resetting the dat and refueling the bus
+        public void Maintenance()
+        {
+            this.BusState = Status.AtService;
+            this.BusFuel = 1200; //refuels
+            DateTime current = DateTime.Today;
+            this.BusStartDate = current; //gives new date        
+        }
     }
 }
