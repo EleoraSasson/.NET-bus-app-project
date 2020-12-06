@@ -42,11 +42,11 @@ namespace Ex3b_GUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    
+
     public partial class MainWindow : Window
     {
         /*RELEVANT VARIABLES & LISTS*/
-        
+
         //public List <Bus> BusList = new List<Bus>();
         public ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
 
@@ -66,7 +66,7 @@ namespace Ex3b_GUI
                 BusList.Add(b);
             }
         }
-        
+
         public DateTime startDate;
         public string licenseNum;
         public int mile;
@@ -81,7 +81,7 @@ namespace Ex3b_GUI
             randomBus();
             //print list to console:
             lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
-        
+
         }
 
         //Add Bus Button Click:
@@ -135,7 +135,8 @@ namespace Ex3b_GUI
 
 
         private void B_Options_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e) //doesnt work
-        { foreach (Bus b in BusList)
+        {
+            foreach (Bus b in BusList)
             {
                 if (b.BusState == 0)
                 {
@@ -146,14 +147,12 @@ namespace Ex3b_GUI
                     IsEnabled = false;
                 }
             }
-            
+
         }
 
         private void lv_BusList_SourceUpdated(object sender, DataTransferEventArgs e)
         {
-            main.lv_BusList.ItemsSource = _BusList.OrderBy(state => state.BusState);
+            // main.lv_BusList.ItemsSource = _BusList.OrderBy(state => state.BusState);
         }
     }
-
-    
 }
