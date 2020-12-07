@@ -91,7 +91,7 @@ namespace Ex3b_GUI
 
         public void AtService()
         {
-            Thread.Sleep(144000);//time in at service
+            Thread.Sleep(144000);//time in at service //send msg box to tell user bus is back in service.
             _theBus.BusState = Status.Available; //Bus is now available
         }
 

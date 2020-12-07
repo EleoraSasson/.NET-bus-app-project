@@ -17,28 +17,61 @@ using System.Text.RegularExpressions;
 
 namespace Ex3b_GUI
 {
-    /// <summary>
-    /// Interaction logic for AddBusWindow.xaml
-    /// </summary>
-
-   
     public partial class AddBusWindow : Window
     {
-        private ObservableCollection<Bus> _BusList;
-
-        public AddBusWindow(ObservableCollection<Bus> BusList)
+        //creating Bus to add to fleet:
+        Bus NewBus = new Bus();
+        
+        //Intialising the AddBusWindow:
+        public AddBusWindow()
         {
-            _BusList = BusList;
             InitializeComponent();
         }
 
+        //Action done when Add Bus is selected:
+        private void B_AddBus_Click(object sender, RoutedEventArgs e)
+        {
+            AddBus(NewBus);
+            this.Close(); //close the window when bus is added
+        }
+
+        //add bus method:
+        public void AddBus(Bus b)
+        {
+            if (!checkText())
+            {
+                string title = "Gilore Travels ERROR: Add Bus";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("Error: Fields have been left Blank.", title, button, icon);
+                this.Close();
+            }
+            else
+            {
+                MainWindow.BusList.Add(b);
+            }
+        }
+
+        //Below are the reading in of user input from various elements in the add bus window:
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Regex regex = new Regex(@"^\d{2}[-]\d{3}[-]\d{2}$"); //
-            Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$"); //check according to the date?
+            //read in string
+            var userInput = LicenseNumTextBox.Text; //find out why it is reading only the first character and not allowing a whole string ... event called Validation
+            //check format
+            CheckLicenseNum(userInput);
+            //assign new license to the NewBus:
+            NewBus.BusLicense = LicenseNumTextBox.Text;
+        }
+
+        private void CheckLicenseNum(string userInput)
+        {
+
+            Regex regex = new Regex(@"^\d{2}[-]\d{3}[-]\d{2}$");
+            Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$");
+
             if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018)
             {
-                if (regex.IsMatch((LicenseNumTextBox.Text)))
+                if (regex.IsMatch((userInput)))
                 {
                     string title = "Gilore Travels ERROR: License number";
                     MessageBoxButton button = MessageBoxButton.OK;
@@ -47,7 +80,7 @@ namespace Ex3b_GUI
                     this.Close();
                 }
             }
-            else if (regex1.IsMatch((LicenseNumTextBox.Text)) && regex1.IsMatch(LicenseNumTextBox.Text))
+            else if (regex1.IsMatch((userInput)) && regex1.IsMatch(LicenseNumTextBox.Text))
             {
                 string title = "Gilore Travels ERROR: License number";
                 MessageBoxButton button = MessageBoxButton.OK;
@@ -56,8 +89,6 @@ namespace Ex3b_GUI
                 this.Close();
             }
             else this.Close();
-            
-            licenseNum = LicenseNumTextBox.Text; 
         }
 
         private void DriverNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -66,7 +97,7 @@ namespace Ex3b_GUI
             bool success = Int32.TryParse(MileageTextBox.Text, out number);
             if (!success)
             {
-                driverName = DriverNameTextBox.Text;
+                NewBus.BusDriver = DriverNameTextBox.Text;
             }
             else
             {
@@ -74,10 +105,9 @@ namespace Ex3b_GUI
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Wrong input format.", title, button, icon);
-                MainWindow m = new MainWindow();
-                m.Show();
                 this.Close();
             }
+
         }
 
         private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -86,7 +116,7 @@ namespace Ex3b_GUI
             bool success = Int32.TryParse(MileageTextBox.Text, out number);
             if (success)
             {
-                mile = number;
+                NewBus.BusMileage = number;
             }
             else
             {
@@ -94,17 +124,9 @@ namespace Ex3b_GUI
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Wrong input format.", title, button, icon);
-                MainWindow m = new MainWindow();
-                m.Show();
                 this.Close(); 
             }
         }
-
-        public DateTime startDate;
-        public string licenseNum;
-        public int mile;
-        public int fuelLeft; 
-        public string driverName;
 
         //check if the textbox have been provided with some values
         public bool checkText ()
@@ -113,51 +135,8 @@ namespace Ex3b_GUI
                 return false;
             else return true;
         }
-        public void AddBus(string l, string n, int f, int m)
-        {
-            if (!checkText())
-            {
-                string title = "Gilore Travels ERROR: Add Bus";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show("Not all...", title, button, icon); //ask gila for the correct syntax :)
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
-            else
-            {
-                Bus b = new Bus();
-                var date = StartDateCalendar.SelectedDate.Value.Date;
-                b.BusStartDate = date;
-                b.BusLicense = l;
-                b.BusDriver = n;
-                b.BusFuel = f;
-                b.BusMileage = m;
-                b.BusState = Status.Available;
-                _BusList.Add(b);
-            }
 
-           // lv_BusList.ItemsSource = _BusList;
-        }
-
-        private void B_AddBus_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow main = new MainWindow();
-            main.Show();
-           
-            main.lv_BusList.SourceUpdated += Lv_BusList_SourceUpdated;
-            this.Close(); //close the window when bus is added
-        }
-
-        private void Lv_BusList_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            //var collection = new ObservableCollection<FooBar>();
-            //collection.Add(fooBar1);
-
-            //_listBox.ItemsSource = collection;
-
-        }
+        
     }
 }
 

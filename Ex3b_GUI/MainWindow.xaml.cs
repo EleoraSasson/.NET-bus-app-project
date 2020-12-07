@@ -46,9 +46,8 @@ namespace Ex3b_GUI
     public partial class MainWindow : Window
     {
         /*RELEVANT VARIABLES & LISTS*/
-
-        //public List <Bus> BusList = new List<Bus>();
-        public ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
+       
+        public static ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
 
         private void randomBus()
         {
@@ -67,12 +66,6 @@ namespace Ex3b_GUI
             }
         }
 
-        public DateTime startDate;
-        public string licenseNum;
-        public int mile;
-        public int fuelLeft;
-        public string driverName;
-
         /*Main Window*/
         public MainWindow()
         {
@@ -81,15 +74,13 @@ namespace Ex3b_GUI
             randomBus();
             //print list to console:
             lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
-
         }
 
         //Add Bus Button Click:
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
-            AddBusWindow addWin = new AddBusWindow(BusList);
+            AddBusWindow addWin = new AddBusWindow();
             addWin.Show();
-            this.Close();
         }
 
         //Select more Options Button:
@@ -146,18 +137,5 @@ namespace Ex3b_GUI
             }
         }
 
-        //Bus selectedBus;
-        //ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
-
-        //if (lvi != null)
-        //{
-        //    lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
-        //    selectedBus = (Bus)lv_BusList.SelectedItem;
-        //    if (selectedBus.BusState == Status.Available)
-        //    {
-        //        IsEnabled = true;
-        //    }
-        //    else IsEnabled = false;
-        //}
     }
 }

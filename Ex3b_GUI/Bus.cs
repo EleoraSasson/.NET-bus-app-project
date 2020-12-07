@@ -443,7 +443,7 @@ namespace Ex3b_GUI
             this.BusState = Status.AtService;
             this.BusFuel = 1200; //refuels
             DateTime current = DateTime.Today;
-            this.BusStartDate = current; //gives new date        
+            this.BusStartDate = current; //gives new date    //service date    
         }
 
         public bool IsAvailable()
