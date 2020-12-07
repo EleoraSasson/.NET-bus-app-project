@@ -454,5 +454,11 @@ namespace Ex3b_GUI
             }
             else return false;
         }
+
+        public void Travel (int mile)
+        {
+            this.BusState = Status.Traveling;
+            this.BusMileage -= mile;
+        }
     }
 }

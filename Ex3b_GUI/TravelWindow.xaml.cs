@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace Ex3b_GUI
 {
@@ -35,9 +38,15 @@ namespace Ex3b_GUI
                 theBus.BusMileage += distance; //updates mileage
                 theBus.BusFuel -= distance; //updates fuel
                 string title = "Gilore Travels INFO: Travel";
-                MessageBoxButton button = MessageBoxButton.OK; 
+                MessageBoxButton buttons = MessageBoxButton.OKCancel;
                 MessageBoxImage icon = MessageBoxImage.Information;
-                MessageBox.Show("Bus has been sent on trip", title, button, icon);
+                this.Close();
+                MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
+                if (result == MessageBoxResult.OK)
+                {
+                    BackgroundWorker travelThread = new BackgroundWorker();
+                    travelThread.DoWork += travelThread_DoWork;
+                }
             }
             else
             {
@@ -46,23 +55,38 @@ namespace Ex3b_GUI
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("The bus does not contain enough fuel for this route.", title, button, icon);
             }
-           
-            //check the input
-            //Then update the status after the thread 
-
-
-            //string title = "Gilore Travels INFO: Travel";
-            //MessageBoxButton buttons = MessageBoxButton.OK;
-            //MessageBoxImage icon = MessageBoxImage.Information;
-            //MessageBoxResult result = MessageBox.Show("Bus has started its travel.", title, buttons, icon); 
-            //update mileage, status...
             this.Close();
+        }
+
+        private void travelThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            theBus.Travel(distance); //refueling the bus
+            Thread travel = new Thread(Travelling);
+            travel.Start(); //calls refueling func
+            travel.Abort(); //stops thread
+        }
+
+        public void Travelling()
+        {
+            int time = getTime(distance);
+            Thread.Sleep(time);//time takes for the Bus to refuel "2hrs"
+            theBus.BusState = Status.Available; //Bus is now available
+        }
+
+        //returns a random travel time for a speed between 20 and 50 km/h
+        public int getTime (int dist)
+        {
+            Random spe = new Random();
+            int speed = spe.Next(20, 49);
+            int time = (dist / speed); //implicitely converts the result into an int, in an hour form
+            int timeSecond = time * 3600; //converts time into seconds
+            return timeSecond * 100; //converts into milliseconds 
         }
 
         private void TravelMileTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //this.
-            
+           // if (e.KeyValue == 13)
+           //see how to do without button for bonus
         }
     }
 }
