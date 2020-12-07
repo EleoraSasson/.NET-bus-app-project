@@ -24,6 +24,8 @@ namespace Ex3b_GUI
         {
             _theBus = bus;
             InitializeComponent();
+            tb_BusInfo.Text = _theBus.ToString(); //print out the bus information
         }
+
     }
 }

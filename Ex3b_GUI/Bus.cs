@@ -151,7 +151,7 @@ namespace Ex3b_GUI
         public void randDate()
         {
             Random y = new Random();
-            int year = y.Next(2000, 2021); //random year
+            int year = y.Next(1999, 2020); //random year
             Random m = new Random();
             int month = m.Next(1, 13); //random month
             Random d = new Random();
@@ -201,7 +201,7 @@ namespace Ex3b_GUI
         public int randFuel()
         {
             Random fu = new Random();
-            int fue = fu.Next(0, 1999);
+            int fue = fu.Next(0, 1200);
             return fue;
         }
         //returns random status
@@ -243,7 +243,7 @@ namespace Ex3b_GUI
 
         public override string ToString()
         {
-            return ("Bus Information - Bus License Number:" + BusLicense + "\n Manufacture Date: "+ BusStartDate+ "\n Mileage:"+ BusMileage + "\n Fuel Amount:" + BusFuel + "Current Status: " + BusState + ", Assigned Driver:" + BusDriver);
+            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate+ "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
         }
         /* CLASS METHODS */
 
@@ -444,6 +444,15 @@ namespace Ex3b_GUI
             this.BusFuel = 1200; //refuels
             DateTime current = DateTime.Today;
             this.BusStartDate = current; //gives new date        
+        }
+
+        public bool IsAvailable()
+        {
+            if (this.BusState == Status.Available)
+            {
+                return true;
+            }
+            else return false;
         }
     }
 }

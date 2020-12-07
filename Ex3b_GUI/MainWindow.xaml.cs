@@ -104,7 +104,6 @@ namespace Ex3b_GUI
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 OptionsWindow optionsWin = new OptionsWindow(selectedBus);
                 optionsWin.Show();
-
             }
         }
 
@@ -121,7 +120,6 @@ namespace Ex3b_GUI
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 BusInfoWin infoWindow = new BusInfoWin(selectedBus);
                 infoWindow.Show();
-
             }
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
@@ -133,26 +131,33 @@ namespace Ex3b_GUI
             return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
         }
 
-
-        private void B_Options_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e) //doesnt work
+        //hover over bus
+        private void lv_BusList_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (Bus b in BusList)
+            Bus selectedBus;
+
+            ListViewItem lvitem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+
+            if (lvitem != null)
             {
-                if (b.BusState == 0)
-                {
-                    IsEnabled = true;
-                }
-                else
-                {
-                    IsEnabled = false;
-                }
+                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
+                selectedBus = (Bus)lv_BusList.SelectedItem;
+                //not finished
             }
-
         }
 
-        private void lv_BusList_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            // main.lv_BusList.ItemsSource = _BusList.OrderBy(state => state.BusState);
-        }
+        //Bus selectedBus;
+        //ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+
+        //if (lvi != null)
+        //{
+        //    lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
+        //    selectedBus = (Bus)lv_BusList.SelectedItem;
+        //    if (selectedBus.BusState == Status.Available)
+        //    {
+        //        IsEnabled = true;
+        //    }
+        //    else IsEnabled = false;
+        //}
     }
 }

@@ -26,7 +26,7 @@
                 <ColumnDefinition x:Name="space2" Width="*"/>
                 <ColumnDefinition x:Name="Maintenance" Width="4*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="B_Travel" Grid.Column="0" Content="Send on trip" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Height="23" Margin="0,0,0,-0.333" VerticalAlignment="Top" Click="B_Travel_Click" Foreground="#FF052066" BorderBrush="#FF3973F1"/>
+            <Button x:Name="B_Travel" Grid.Column="0" Content="Send on trip" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Height="23" Margin="0,-1,0,0" Click="B_Travel_Click" Foreground="#FF052066" BorderBrush="#FF3973F1"/>
             <Button x:Name="B_Fuel" Grid.Column="2" Content="Send for refuel" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Click="B_Fuel_Click" Foreground="#FF052066" BorderBrush="#FF3973F1"/>
             <Button x:Name="B_Maintenance" Grid.Column="4" Content="Send for maintenance" FontFamily="Hp Simplified" FontSize="12" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Click="B_Maintenance_Click" Foreground="#FF052066" BorderBrush="#FF3973F1"/>
         </Grid>

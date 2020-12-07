@@ -22,7 +22,8 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" SourceUpdated="lv_BusList_SourceUpdated"> 
+        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" MouseDown="lv_BusList_MouseDown">
+            
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding BusLicense}"/>
@@ -32,7 +33,7 @@
                     <GridViewColumn Header="Select for more Options:" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="True" IsEnabledChanged="B_Options_IsEnabledChanged"/>
+                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="{Binding Path=IsAvailable}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
