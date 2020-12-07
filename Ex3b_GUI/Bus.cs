@@ -445,5 +445,11 @@ namespace Ex3b_GUI
             DateTime current = DateTime.Today;
             this.BusStartDate = current; //gives new date        
         }
+
+        public void Travel (int mile)
+        {
+            this.BusState = Status.Traveling;
+            this.BusMileage -= mile;
+        }
     }
 }
