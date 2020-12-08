@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Gilore Travels" Height="500" Width="875" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1">
 
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
             <ColumnDefinition Width="5*" x:Name="Image"/>
@@ -22,18 +22,19 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick">
+        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" ItemsSource="{Binding}">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Source=BusState}" Value="Bus.BusState.Available">
-                            <Setter Property="Background" Value="Green"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <ToolTip>
+                                <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Bus."/>
+                            </ToolTip>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
-                
                 <GridView>
                     <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding BusLicense}"/>
                     <GridViewColumn Header="Bus Driver:" Width="100" DisplayMemberBinding="{Binding BusDriver}"/>
