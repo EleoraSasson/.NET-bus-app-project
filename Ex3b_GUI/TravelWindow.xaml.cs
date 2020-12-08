@@ -63,13 +63,17 @@ namespace Ex3b_GUI
             theBus.Travel(distance); //refueling the bus
             Thread travel = new Thread(Travelling);
             travel.Start(); //calls refueling func
-            travel.Abort(); //stops thread
+            travel.Abort(); //stops thread  
         }
 
         public void Travelling()
         {
             int time = getTime(distance);
             Thread.Sleep(time);//time takes for the Bus to refuel "2hrs"
+            string title = "Gilore Travels: Travel Information";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus " + theBus.BusLicense + "has finished its travel. ", title, button, icon);
             theBus.BusState = Status.Available; //Bus is now available
         }
 

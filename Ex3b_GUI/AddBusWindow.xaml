@@ -29,7 +29,7 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="LicenseNumTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="LicenseNumTextBox_TextChanged" RenderTransformOrigin="0.367,-2.311"/>
         <TextBox x:Name="DriverNameTextBox" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="DriverNameTextBox_TextChanged"/>
-        <TextBox x:Name="FuelTextBox" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6"/>
+        <TextBox x:Name="FuelTextBox" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="FuelTextBox_TextChanged"/>
         <TextBox x:Name="MileageTextBox" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="MileageTextBox_TextChanged"/>
         <TextBlock x:Name="txtblockDate" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="277" FontSize="14" Text="Enter bus starting date:" Foreground="#FF052066"/>
         <DatePicker x:Name="StartDateCalendar" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" DisplayDateStart="1/01/10" DisplayDateEnd="12/31/20" FontFamily="Hp Simplified" Foreground="#FF274F80"  >
