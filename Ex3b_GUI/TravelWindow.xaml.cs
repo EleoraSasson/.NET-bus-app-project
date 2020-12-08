@@ -29,35 +29,7 @@ namespace Ex3b_GUI
             theBus = _theBus;
             InitializeComponent();
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            string dist = TravelMileTextBox.Text;
-            distance = Convert.ToInt32(dist);
-            if (theBus.BusFuel > distance)
-            {
-                theBus.BusMileage += distance; //updates mileage
-                theBus.BusFuel -= distance; //updates fuel
-                string title = "Gilore Travels INFO: Travel";
-                MessageBoxButton buttons = MessageBoxButton.OKCancel;
-                MessageBoxImage icon = MessageBoxImage.Information;
-                this.Close();
-                MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
-                if (result == MessageBoxResult.OK)
-                {
-                    BackgroundWorker travelThread = new BackgroundWorker();
-                    travelThread.DoWork += travelThread_DoWork;
-                }
-            }
-            else
-            {
-                string title = "Gilore Travels ERROR: Travel";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show("The bus does not contain enough fuel for this route.", title, button, icon);
-            }
-            this.Close();
-        }
-
+  
         private void travelThread_DoWork(object sender, DoWorkEventArgs e)
         {
             theBus.Travel(distance); //refueling the bus
@@ -87,10 +59,51 @@ namespace Ex3b_GUI
             return timeSecond * 100; //converts into milliseconds 
         }
 
-        private void TravelMileTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
-           // if (e.KeyValue == 13)
-           //see how to do without button for bonus
+            if (e.Key == Key.Return)
+            {
+                travel(theBus);
+            }
+        }
+
+        private void travel(Bus b)
+        {
+            if (theBus.needMaintenance())
+            {
+                string title = "Gilore Travels INFO: Travel";
+                MessageBoxButton buttons = MessageBoxButton.OKCancel;
+                MessageBoxImage icon = MessageBoxImage.Information;
+                MessageBoxResult result = MessageBox.Show("Bus needs to be sent to maintenance.", title, buttons, icon);
+                this.Close();
+                return;
+            }
+
+            string dist = TravelMileTextBox.Text;
+            distance = Convert.ToInt32(dist);
+            if (theBus.BusFuel > distance)
+            {
+                theBus.BusMileage += distance; //updates mileage
+                theBus.BusFuel -= distance; //updates fuel
+                string title = "Gilore Travels INFO: Travel";
+                MessageBoxButton buttons = MessageBoxButton.OKCancel;
+                MessageBoxImage icon = MessageBoxImage.Information;
+                this.Close();
+                MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
+                if (result == MessageBoxResult.OK)
+                {
+                    BackgroundWorker travelThread = new BackgroundWorker();
+                    travelThread.DoWork += travelThread_DoWork;
+                }
+            }
+            else
+            {
+                string title = "Gilore Travels ERROR: Travel";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("The bus does not contain enough fuel for this route.", title, button, icon);
+            }
+            this.Close();
         }
     }
 }

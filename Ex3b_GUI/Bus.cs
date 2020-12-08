@@ -55,7 +55,15 @@ namespace Ex3b_GUI
         public DateTime BusStartDate
         {
             get { return startDate; }
-            set { startDate = DateTime.Now; }
+            set { startDate = value; }
+        }
+
+        private DateTime lastMaintenance; //start date registered for bus (uses the struct DateTime to have correct format)
+
+        public DateTime BusLastMaintenance
+        {
+            get { return startDate; }
+            set { startDate = value; }
         }
 
         private int mileage; //mileage - the total kilometerage
@@ -148,36 +156,40 @@ namespace Ex3b_GUI
         }
 
         //returns random starting date
-        public void randDate()
+        public DateTime randDate()
         {
             Random y = new Random();
-            int year = y.Next(1999, 2020); //random year
+            int year = y.Next(2010, 2021); //random year
             Random m = new Random();
             int month = m.Next(1, 13); //random month
             Random d = new Random();
             int day = d.Next(1, 32);
             var NewDate = new DateTime(year, month, day);
-            this.BusStartDate = NewDate;
+            return NewDate;
         }
 
         //returns random license number according to the manufacture year of the bus
         public string randLicense()
         {
             Random rand = new Random();
+            string license;
             if (this.BusStartDate.Year < 2018) // license will have the format XX-XXX-XX
             {
                 int l = rand.Next(10000000, 99999999);
                 string Blicense = Convert.ToString(l);
-                string license = Regex.Replace(Blicense, @"^(..)(...)(..)$", "$1-$2-$3");
+                var num1 = Blicense.Substring(0, 2);
+                var num2 = Blicense.Substring(2, 3);
+                var num3 = Blicense.Substring(5, 2);
+                license = num1 + "-" + num2 + "-" + num3;
                 return license;
             }
             else // license will have the format XXX-XX-XXX
             {
                 int l = rand.Next(10000000, 99999999);
                 string Blicense = Convert.ToString(l);
-                string license = Regex.Replace(Blicense, @"^(...)(..)(...)$", "$1-$2-$3");
-                return license;
-            } 
+                 license = Regex.Replace(Blicense, @"^(...)(..)(...)$", "$1-$2-$3");
+            }
+            return license;
         }
         //returns random driver name
         public string randDriver()
@@ -212,15 +224,15 @@ namespace Ex3b_GUI
         }
 
         /* this method returns true if the bus needs a maintenance */
-        public bool Maintenance(Bus bus)
+        public bool needMaintenance()
         {
             var today = DateTime.Now;
             int days = (today - lastMaintenanceDate).Days;
 
             if (((BusMileage % 20000) == 0) || (BusMileage != 0) || (days > 365))
             {
-                Console.WriteLine("DANGER: the bus needs to go to maintenance!");
-                lastMaintenanceDate = today;
+                //Console.WriteLine("DANGER: the bus needs to go to maintenance!");
+                //lastMaintenanceDate = today;
                 return true;
             }
             return false;
@@ -230,6 +242,7 @@ namespace Ex3b_GUI
         public Bus () //default constructor
         {
             BusStartDate = DateTime.Now;
+            BusLastMaintenance = DateTime.Now;
             BusMileage = 0;
             BusLicense = "00-000-00";
             BusFuel = 1200;
@@ -243,7 +256,7 @@ namespace Ex3b_GUI
 
         public override string ToString()
         {
-            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate+ "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
+            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate + "\n Last Maintenance Date: " + BusLastMaintenance + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
         }
         /* CLASS METHODS */
 
@@ -348,7 +361,7 @@ namespace Ex3b_GUI
                 DateTime dateCurrent = DateTime.Now;
                 Random rnd = new Random();
                 int length = rnd.Next(1, 1201); //assuming the length of the trip is between 1 and 1200 km
-                if ((!Maintenance(Busfleet[busCount])) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
+                if ((Busfleet[busCount].needMaintenance()) || (BusFuel - length < 0)) //if there is not enough fuel or the mileage is too high 
                 {
                     Console.WriteLine("The trip is not possible.");
                     return;
@@ -394,7 +407,7 @@ namespace Ex3b_GUI
                         }
                         if (number == 2)
                         {
-                            Maintenance(this);
+                            this.Maintenance();
                             Console.WriteLine("The bus has undergone a maintenance check.");
                         }
                         i = (Busfleet.Count() - 1); //exit for loop
@@ -443,7 +456,7 @@ namespace Ex3b_GUI
             this.BusState = Status.AtService;
             this.BusFuel = 1200; //refuels
             DateTime current = DateTime.Today;
-            this.BusStartDate = current; //gives new date    //service date    
+            this.BusLastMaintenance = current; //gives new date    //service date    
         }
 
         public bool IsAvailable()

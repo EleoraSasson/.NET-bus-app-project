@@ -31,6 +31,8 @@ namespace Ex3b_GUI
         //Action done when Add Bus is selected:
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
+            NewBus.BusLastMaintenance = (DateTime)StartDateCalendar.SelectedDate;
+            NewBus.BusStartDate = (DateTime)StartDateCalendar.SelectedDate;
             AddBus(NewBus);
             this.Close(); //close the window when bus is added
         }
@@ -132,73 +134,6 @@ namespace Ex3b_GUI
                 NewBus.BusFuel = 1200;
             }
         }
-
-        //private void FuelTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-        //    int number;
-        //    bool success = Int32.TryParse(FuelTextBlock.Text, out number);
-        //    if (success)
-        //    {
-        //        NewBus.BusFuel = number;
-        //    }
-        //    else
-        //    {
-        //        string title = "Gilore Travels ERROR: Mileage";
-        //        MessageBoxButton button = MessageBoxButton.OK;
-        //        MessageBoxImage icon = MessageBoxImage.Error;
-        //        MessageBox.Show("Wrong input format.", title, button, icon);
-        //        this.Close();
-        //    }
-        //}
-
-        //private void FuelTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //    bool success = true;
-        //    int number;
-        //    success = Int32.TryParse(FuelTextBlock.Text, out number);
-        //    if (success)
-        //    {
-        //        NewBus.BusFuel = number;
-        //    }
-        //    else
-        //    {
-        //        string title = "Gilore Travels ERROR: Fuel";
-        //        MessageBoxButton button = MessageBoxButton.OK;
-        //        MessageBoxImage icon = MessageBoxImage.Error;
-        //        MessageBox.Show("Wrong input format.", title, button, icon);
-        //        this.Close();
-        //    }
-
-        //int number;
-        //bool success;
-        //if (FuelTextBlock.Text.Length == 0)
-        //{
-        //    success = true;
-        //}
-
-        //else
-        //{ 
-        //success = Int32.TryParse(FuelTextBlock.Text, out number);
-        //    if (success)
-        //    {
-        //        if (number > 1200)
-        //        {
-
-    //        }
-    //        NewBus.BusFuel = number;
-    //    }
-    //    else
-    //    {
-    //        string title = "Gilore Travels ERROR: Fuel";
-    //        MessageBoxButton button = MessageBoxButton.OK;
-    //        MessageBoxImage icon = MessageBoxImage.Error;
-    //        MessageBox.Show("Wrong input format.", title, button, icon);
-    //        this.Close();
-    //    }
-
-    //}
-    //}
 
     private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
         { 
