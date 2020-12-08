@@ -26,8 +26,9 @@ namespace Ex3b_GUI
         public OptionsWindow(Bus theBus)
         {
             _theBus = theBus;
+            MessageBox.Show(_theBus.BusLicense);
             InitializeComponent();
-           // MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
+            // MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
         }
 
         private void B_Fuel_Click(object sender, RoutedEventArgs e)
@@ -35,12 +36,16 @@ namespace Ex3b_GUI
             string title = "Gilore Travels INFO: Refuel";
             MessageBoxButton buttons = MessageBoxButton.OKCancel;
             MessageBoxImage icon = MessageBoxImage.Information;
-            this.Close();
+            // this.Close();
             MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel", title, buttons, icon);
             if (result == MessageBoxResult.OK)
             {
                 BackgroundWorker fuelThread = new BackgroundWorker();
                 fuelThread.DoWork += FuelThread_DoWork;
+                //fuelThread.ProgressChanged += FuelThread_ProgressChanged;
+                //fuelThread.RunWorkerCompleted += FuelThread_RunWorkerCompleted;
+
+                fuelThread.RunWorkerAsync(_theBus);
             }
             else if (result == MessageBoxResult.Cancel)
             {
@@ -56,9 +61,19 @@ namespace Ex3b_GUI
             fuel.Start(); //calls refueling func
             fuel.Abort(); //stops thread
         }
+
+
+        //private void FuelThread_ProgressChanged; (object sender, ProgressChangedEventArgs e)
+        //    {
+        //    int progre
+        //    }
         public void Refueling()
         {
             Thread.Sleep(12000);//time takes for the Bus to refuel "2hrs"
+            string title = "Gilore Travels: Fuel Information";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus " + _theBus.BusLicense + "has been refueled. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
         }
 
@@ -83,15 +98,19 @@ namespace Ex3b_GUI
         private void MaintenanceThread_DoWork(object sender, DoWorkEventArgs e)
         {
             _theBus.Maintenance();
-
             Thread maintenance = new Thread(AtService);
             maintenance.Start();
             maintenance.Abort();
+         
         }
 
         public void AtService()
         {
             Thread.Sleep(144000);//time in at service //send msg box to tell user bus is back in service.
+            string title = "Gilore Travels: Maintenance Information";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus " + _theBus.BusLicense + "has completed its maintenance. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
         }
 

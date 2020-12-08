@@ -43,7 +43,7 @@ namespace Ex3b_GUI
                 string title = "Gilore Travels ERROR: Add Bus";
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show("Error: Fields have been left Blank.", title, button, icon);
+                MessageBox.Show("Error: Fields have been left blank.", title, button, icon);
                 this.Close();
             }
             else
@@ -55,32 +55,18 @@ namespace Ex3b_GUI
         //Below are the reading in of user input from various elements in the add bus window:
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //read in string
-            var userInput = LicenseNumTextBox.Text; //find out why it is reading only the first character and not allowing a whole string ... event called Validation
-            //check format
-            CheckLicenseNum(userInput);
-            //assign new license to the NewBus:
-            NewBus.BusLicense = LicenseNumTextBox.Text;
-        }
-
-        private void CheckLicenseNum(string userInput)
-        {
-
-            Regex regex = new Regex(@"^\d{2}[-]\d{3}[-]\d{2}$");
-            Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$");
-
-            if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018)
+            if (StartDateCalendar.SelectedDate == null)
             {
-                if (regex.IsMatch((userInput)))
-                {
-                    string title = "Gilore Travels ERROR: License number";
-                    MessageBoxButton button = MessageBoxButton.OK;
-                    MessageBoxImage icon = MessageBoxImage.Error;
-                    MessageBox.Show("Wrong input format.", title, button, icon);
-                    this.Close();
-                }
+                string title = "Gilore Travels ERROR: License number";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("Error: no date has been chosen", title, button, icon);
+                LicenseNumTextBox.Clear();
+                return;
             }
-            else if (regex1.IsMatch((userInput)) && regex1.IsMatch(LicenseNumTextBox.Text))
+            if (CheckLicenseNum(LicenseNumTextBox.Text))
+                NewBus.BusLicense = LicenseNumTextBox.Text;
+            else
             {
                 string title = "Gilore Travels ERROR: License number";
                 MessageBoxButton button = MessageBoxButton.OK;
@@ -88,30 +74,59 @@ namespace Ex3b_GUI
                 MessageBox.Show("Wrong input format.", title, button, icon);
                 this.Close();
             }
-            else this.Close();
         }
 
-        private void DriverNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private bool CheckLicenseNum(string userInput)
+        {
+
+            Regex regex = new Regex(@"^\d{2}[-]\d{3}[-]\d{2}$");
+            Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$");
+           
+
+            if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018)
+            {
+                if (regex.IsMatch((userInput)))
+                {
+                    return true;
+                }
+            }
+            else if (regex1.IsMatch(userInput))
+            {
+                return true;
+            }
+           
+            return false;
+        }
+
+        private void FuelTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             int number;
-            bool success = Int32.TryParse(MileageTextBox.Text, out number);
-            if (!success)
+            bool success = Int32.TryParse(FuelTextBlock.Text, out number);
+            if (success)
             {
-                NewBus.BusDriver = DriverNameTextBox.Text;
+                if (number > 1200)
+                {
+                    string title = "Gilore Travels ERROR: Fuel";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+                    MessageBox.Show("Fuel has been set to 1200.", title, button, icon); //bc it cannot be more. Or just error?
+                    this.Close();
+                    number = 1200;
+                }
+                NewBus.BusFuel = number;
             }
             else
             {
-                string title = "Gilore Travels ERROR: Driver";
+                string title = "Gilore Travels ERROR: Fuel";
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Wrong input format.", title, button, icon);
                 this.Close();
             }
-
         }
 
         private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
+        { 
             int number;
             bool success = Int32.TryParse(MileageTextBox.Text, out number);
             if (success)
@@ -128,6 +143,25 @@ namespace Ex3b_GUI
             }
         }
 
+        private void DriverNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int number;
+            bool success = Int32.TryParse(DriverNameTextBox.Text, out number);
+            if (!success)
+            {
+                NewBus.BusDriver = DriverNameTextBox.Text;
+            }
+            else
+            {
+                string title = "Gilore Travels ERROR: Driver";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("Wrong input format.", title, button, icon);
+                this.Close();
+            }
+
+        }
+
         //check if the textbox have been provided with some values
         public bool checkText ()
         {
@@ -135,8 +169,6 @@ namespace Ex3b_GUI
                 return false;
             else return true;
         }
-
-        
     }
 }
 
