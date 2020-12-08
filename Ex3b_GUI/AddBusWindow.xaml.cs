@@ -83,7 +83,7 @@ namespace Ex3b_GUI
             Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$");
            
 
-            if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018)
+            if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018) 
             {
                 if (regex.IsMatch((userInput)))
                 {
