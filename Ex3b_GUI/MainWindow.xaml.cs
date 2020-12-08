@@ -47,7 +47,7 @@ namespace Ex3b_GUI
             //fill bus list with random values:
             randomBus();
             //print list to console:
-            lv_BusList.ItemsSource = BusList.OrderBy(state => state.BusState);
+            lv_BusList.DataContext = BusList.OrderBy(state => state.BusState);
         }
 
         //Add Bus Button Click:
