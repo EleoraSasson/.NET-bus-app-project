@@ -24,7 +24,7 @@
 
         <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" ItemsSource="{Binding}">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+                <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
                     <Setter Property="ToolTip">
                         <Setter.Value>
                             <ToolTip>
@@ -32,6 +32,11 @@
                             </ToolTip>
                         </Setter.Value>
                     </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsAvailable}" Value="true">
+                            <Setter Property="Foreground" Value="Tomato"/>
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
