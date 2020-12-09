@@ -31,7 +31,7 @@ namespace Ex3b_GUI
         //Action done when Add Bus is selected:
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
         {
-            NewBus.BusLastMaintenance = (DateTime)StartDateCalendar.SelectedDate;
+            NewBus.BusLastMaintenanceDate = (DateTime)StartDateCalendar.SelectedDate;
             NewBus.BusStartDate = (DateTime)StartDateCalendar.SelectedDate;
             AddBus(NewBus);
             this.Close(); //close the window when bus is added
@@ -51,9 +51,14 @@ namespace Ex3b_GUI
             else
             {
                 MainWindow.BusList.Add(b);
+                MainWindow.BusList.CollectionChanged += BusList_CollectionChanged;
             }
         }
 
+        private void BusList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            e.NewItems.Add(sender);
+        }
 
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

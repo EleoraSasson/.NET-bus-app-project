@@ -58,12 +58,12 @@ namespace Ex3b_GUI
             set { startDate = value; }
         }
 
-        private DateTime lastMaintenance; //start date registered for bus (uses the struct DateTime to have correct format)
+        private DateTime maintenanceDate; //passing the date as a string
 
-        public DateTime BusLastMaintenance
+        public DateTime BusLastMaintenanceDate
         {
-            get { return startDate; }
-            set { startDate = value; }
+            get { return maintenanceDate; }
+            set { maintenanceDate = value; }
         }
 
         private int mileage; //mileage - the total kilometerage
@@ -90,13 +90,7 @@ namespace Ex3b_GUI
             set { fuel = value; }
         }
 
-        private DateTime maintenanceDate; //passing the date as a string
-
-        public DateTime lastMaintenanceDate
-        {
-            get { return maintenanceDate; }
-            set { maintenanceDate = value; }
-        }
+       
 
         public string setLicenseNum()
         {
@@ -226,23 +220,27 @@ namespace Ex3b_GUI
         /* this method returns true if the bus needs a maintenance */
         public bool needMaintenance()
         {
-            var today = DateTime.Now;
-            int days = (today - lastMaintenanceDate).Days;
 
-            if (((BusMileage % 20000) == 0) || (BusMileage != 0) || (days > 365))
+            var today = DateTime.Now;
+            var MaintenanceDate = BusLastMaintenanceDate.AddYears(1); //adding a Year to last maintenance date
+
+            var compareDates = today.CompareTo(MaintenanceDate);
+            if (compareDates < 0)
             {
-                //Console.WriteLine("DANGER: the bus needs to go to maintenance!");
-                //lastMaintenanceDate = today;
-                return true;
+                //all is great no maintenance needed as within a year
+                return false;
             }
-            return false;
+            else //a year or more has passed
+            {
+                return true; //needs maintenance
+            }
         }
 
 
         public Bus () //default constructor
         {
             BusStartDate = DateTime.Now;
-            BusLastMaintenance = DateTime.Now;
+            BusLastMaintenanceDate = DateTime.Now;
             BusMileage = 0;
             BusLicense = "00-000-00";
             BusFuel = 1200;
@@ -256,7 +254,7 @@ namespace Ex3b_GUI
 
         public override string ToString()
         {
-            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate + "\n Last Maintenance Date: " + BusLastMaintenance + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
+            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate.Date + "\n Last Maintenance Date: " + BusLastMaintenanceDate.Date + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
         }
         /* CLASS METHODS */
 
@@ -322,7 +320,7 @@ namespace Ex3b_GUI
             DateTime dateValue;
             if (DateTime.TryParse(date, out dateValue))
             {
-                lastMaintenanceDate = dateValue; //update bus to have correct maintenance as opposed to default 
+                BusLastMaintenanceDate = dateValue; //update bus to have correct maintenance as opposed to default 
                 BusStartDate = dateValue; //update bus to have correct startdate as opposed to default 
 
             }
@@ -456,7 +454,7 @@ namespace Ex3b_GUI
             this.BusState = Status.AtService;
             this.BusFuel = 1200; //refuels
             DateTime current = DateTime.Today;
-            this.BusLastMaintenance = current; //gives new date    //service date    
+            this.BusLastMaintenanceDate = current; //gives new date    //service date    
         }
 
         public bool IsAvailable()

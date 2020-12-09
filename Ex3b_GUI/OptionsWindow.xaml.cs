@@ -22,93 +22,108 @@ namespace Ex3b_GUI
     /// </summary>
     public partial class OptionsWindow : Window
     {
+        private BackgroundWorker fuelBW;
+        private BackgroundWorker maintenanceBW;
+
         private Bus _theBus;
         public OptionsWindow(Bus theBus)
         {
             _theBus = theBus;
             InitializeComponent();
+            this.fuelBW = new BackgroundWorker();
+            this.fuelBW.DoWork += fuelBW_DoWork;
+            this.maintenanceBW = new BackgroundWorker();
+            this.maintenanceBW.DoWork += maintenanceBW_DoWork;
         }
 
         private void B_Fuel_Click(object sender, RoutedEventArgs e)
         {
-            string title = "Gilore Travels INFO: Refuel";
-            MessageBoxButton buttons = MessageBoxButton.OKCancel;
-            MessageBoxImage icon = MessageBoxImage.Information;
-            // this.Close();
-            MessageBoxResult result = MessageBox.Show("Bus has been sent for a Refuel", title, buttons, icon);
-            if (result == MessageBoxResult.OK)
-            {
-                BackgroundWorker fuelThread = new BackgroundWorker();
-                fuelThread.DoWork += FuelThread_DoWork;
-                //fuelThread.ProgressChanged += FuelThread_ProgressChanged;
-                //fuelThread.RunWorkerCompleted += FuelThread_RunWorkerCompleted;
+            string title = "Gilore Travels - Refuel";
+            MessageBoxButton buttons = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Question;
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want Bus " + _theBus.BusLicense + " to be sent for Refueling?", title, buttons, icon);
 
-                fuelThread.RunWorkerAsync(_theBus);
-            }
-            else if (result == MessageBoxResult.Cancel)
+            this.Close();
+            if (result == MessageBoxResult.Yes)
             {
-                //do not change bus status and close messagebox window
+                string title1 = "Gilore Travels INFO: Refuel";
+                MessageBoxButton buttons1 = MessageBoxButton.OK;
+                MessageBoxImage icon1 = MessageBoxImage.Information;
+                MessageBox.Show("Bus "+ _theBus.BusLicense + " has been sent for Refueling", title1, buttons1, icon1);
+                if (fuelBW.IsBusy != true)
+                {
+                    fuelBW.RunWorkerAsync(); //calls DoWork of fuelBW
+                }
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                string title2 = "Gilore Travels INFO: Refuel";
+                MessageBoxButton buttons2 = MessageBoxButton.OK;
+                MessageBoxImage icon2 = MessageBoxImage.Information;
+                MessageBox.Show("Refueling for Bus " +_theBus.BusLicense + " has been canceled" , title2, buttons2, icon2);
             }
         }
 
-        private void FuelThread_DoWork(object sender, DoWorkEventArgs e)
+        private void fuelBW_DoWork(object sender, DoWorkEventArgs e) //DoWork of fuelBW
         {
-            _theBus.Refuel(); //refueling the bus
-
-            Thread fuel = new Thread(Refueling);
-            fuel.Start(); //calls refueling func
-            fuel.Abort(); //stops thread
+            BackgroundWorker FhelperBW = sender as BackgroundWorker;
+            Refueling(FhelperBW);
         }
 
-
-        //private void FuelThread_ProgressChanged; (object sender, ProgressChangedEventArgs e)
-        //    {
-        //    int progre
-        //    }
-        public void Refueling()
+        public void Refueling(BackgroundWorker bw)
         {
-            Thread.Sleep(12000);//time takes for the Bus to refuel "2hrs"
+            _theBus.Refuel();
+            Thread.Sleep(120000);//time takes for the Bus to refuel "2hrs"
             string title = "Gilore Travels: Fuel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus " + _theBus.BusLicense + "has been refueled. ", title, button, icon);
+            MessageBox.Show("Bus " + _theBus.BusLicense + " has been refueled. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
         }
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
         {
-            string title = "Gilore Travels INFO: Maintenance";
-            MessageBoxButton buttons = MessageBoxButton.OKCancel;
-            MessageBoxImage icon = MessageBoxImage.Information;
+            string title = "Gilore Travels - Maintenance";
+            MessageBoxButton buttons = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Question;
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want Bus " + _theBus.BusLicense + " to be sent for Maintenance?", title, buttons, icon);
+
             this.Close();
-            MessageBoxResult result = MessageBox.Show("Bus has been sent for Maintenance",title,buttons,icon);
-            if (result == MessageBoxResult.OK)
+            if (result == MessageBoxResult.Yes)
             {
-                BackgroundWorker maintenanceThread = new BackgroundWorker();
-                maintenanceThread.DoWork += MaintenanceThread_DoWork;
+                string title1 = "Gilore Travels INFO: Maintenance";
+                MessageBoxButton buttons1 = MessageBoxButton.OK;
+                MessageBoxImage icon1 = MessageBoxImage.Information;
+                MessageBox.Show("Bus " + _theBus.BusLicense + " has been sent for Maintenance", title1, buttons1, icon1);
+                if (maintenanceBW.IsBusy != true)
+                {
+                    maintenanceBW.RunWorkerAsync(); //calls DoWork of maintenanceBW
+                }
             }
-            else if (result == MessageBoxResult.Cancel)
+            else if (result == MessageBoxResult.No)
             {
-                //do nothing other then close messageBox
+                string title2 = "Gilore Travels INFO: Maintenance";
+                MessageBoxButton buttons2 = MessageBoxButton.OK;
+                MessageBoxImage icon2 = MessageBoxImage.Information;
+                MessageBox.Show("Maintenance for Bus " + _theBus.BusLicense + " has been canceled", title2, buttons2, icon2);
             }
         }
 
-        private void MaintenanceThread_DoWork(object sender, DoWorkEventArgs e)
+
+        private void maintenanceBW_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker MhelperBW = sender as BackgroundWorker;
+            AtService(MhelperBW);
+        }
+
+        public void AtService(BackgroundWorker bw)
         {
             _theBus.Maintenance();
-            Thread maintenance = new Thread(AtService);
-            maintenance.Start();
-            maintenance.Abort();
-         
-        }
-
-        public void AtService()
-        {
-            Thread.Sleep(144000);//time in at service //send msg box to tell user bus is back in service.
+            Thread.Sleep(144000);//time takes for the Bus to be repaired "24hrs"
             string title = "Gilore Travels: Maintenance Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus " + _theBus.BusLicense + "has completed its maintenance. ", title, button, icon);
+            MessageBox.Show("Bus " + _theBus.BusLicense + " has completed its maintenance. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
         }
 

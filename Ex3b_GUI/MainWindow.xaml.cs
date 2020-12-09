@@ -29,7 +29,7 @@ namespace Ex3b_GUI
                 System.Threading.Thread.Sleep(20); //to allows for randomised values to be random
                 Bus b = new Bus();
                 b.BusStartDate = b.randDate();
-                b.BusLastMaintenance = b.BusStartDate;
+                b.BusLastMaintenanceDate = b.BusStartDate;
                 b.BusLicense = b.randLicense();
                 b.BusDriver = b.randDriver();
                 b.BusMileage = b.randMileage();

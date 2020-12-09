@@ -17,25 +17,23 @@ using System.ComponentModel;
 
 namespace Ex3b_GUI
 {
-    /// <summary>
-    /// Interaction logic for TravelWindow.xaml
-    /// </summary>
     public partial class TravelWindow : Window
     {
         int distance;
         private Bus theBus;
+        private BackgroundWorker travelBW;
         public TravelWindow(Bus _theBus)
         {
             theBus = _theBus;
             InitializeComponent();
+            this.travelBW = new BackgroundWorker();
+            this.travelBW.DoWork += travelBW_DoWork;
         }
-  
-        private void travelThread_DoWork(object sender, DoWorkEventArgs e)
+
+        private void travelBW_DoWork(object sender, DoWorkEventArgs e)
         {
-            theBus.Travel(distance); //refueling the bus
-            Thread travel = new Thread(Travelling);
-            travel.Start(); //calls refueling func
-            travel.Abort(); //stops thread  
+            BackgroundWorker ThelperBW = sender as BackgroundWorker;
+            Travelling();
         }
 
         public void Travelling()
@@ -45,7 +43,7 @@ namespace Ex3b_GUI
             string title = "Gilore Travels: Travel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus " + theBus.BusLicense + "has finished its travel. ", title, button, icon);
+            MessageBox.Show("Bus " + theBus.BusLicense + " has finished its travel. ", title, button, icon);
             theBus.BusState = Status.Available; //Bus is now available
         }
 
@@ -53,10 +51,10 @@ namespace Ex3b_GUI
         public int getTime (int dist)
         {
             Random spe = new Random();
-            int speed = spe.Next(20, 49);
+            int speed = spe.Next(20, 50);
             int time = (dist / speed); //implicitely converts the result into an int, in an hour form
             int timeSecond = time * 3600; //converts time into seconds
-            return timeSecond * 100; //converts into milliseconds 
+            return timeSecond * 1000; //converts into milliseconds 
         }
 
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
@@ -71,11 +69,11 @@ namespace Ex3b_GUI
         {
             if (theBus.needMaintenance())
             {
+                this.Close();
                 string title = "Gilore Travels INFO: Travel";
                 MessageBoxButton buttons = MessageBoxButton.OKCancel;
                 MessageBoxImage icon = MessageBoxImage.Information;
                 MessageBoxResult result = MessageBox.Show("Bus needs to be sent to maintenance.", title, buttons, icon);
-                this.Close();
                 return;
             }
 
@@ -92,8 +90,7 @@ namespace Ex3b_GUI
                 MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
                 if (result == MessageBoxResult.OK)
                 {
-                    BackgroundWorker travelThread = new BackgroundWorker();
-                    travelThread.DoWork += travelThread_DoWork;
+                    travelBW.RunWorkerAsync(); //calls on the DoWork of travelBW
                 }
             }
             else
