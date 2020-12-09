@@ -26,9 +26,7 @@ namespace Ex3b_GUI
         public OptionsWindow(Bus theBus)
         {
             _theBus = theBus;
-            MessageBox.Show(_theBus.BusLicense);
             InitializeComponent();
-            // MessageBox.Show("Bus licence number: " + _theBus.BusLicense);
         }
 
         private void B_Fuel_Click(object sender, RoutedEventArgs e)
