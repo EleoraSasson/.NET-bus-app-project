@@ -52,9 +52,10 @@ namespace Ex3b_GUI
             }
         }
 
-        //Below are the reading in of user input from various elements in the add bus window:
+
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+
             if (StartDateCalendar.SelectedDate == null)
             {
                 string title = "Gilore Travels ERROR: License number";
@@ -169,6 +170,12 @@ namespace Ex3b_GUI
                 return false;
             else return true;
         }
+
+        private void LicenseNumTextBox_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+
     }
 }
 

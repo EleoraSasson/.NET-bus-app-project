@@ -33,8 +33,12 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsAvailable}" Value="true">
-                            <Setter Property="Foreground" Value="Tomato"/>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value ="Black"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding BusState}"  Value="Available" >
+                            <Setter Property="Foreground" Value="DarkGreen" />
+                            <Setter Property="Background" Value ="WhiteSmoke"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -49,6 +53,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="{Binding Path=IsAvailable}" />
+                                
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
