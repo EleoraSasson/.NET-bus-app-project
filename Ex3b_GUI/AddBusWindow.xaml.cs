@@ -21,7 +21,7 @@ namespace Ex3b_GUI
     {
         //creating Bus to add to fleet:
         Bus NewBus = new Bus();
-        
+
         //Intialising the AddBusWindow:
         public AddBusWindow()
         {
@@ -38,7 +38,7 @@ namespace Ex3b_GUI
             this.Close(); //close the window when bus is added
         }
 
-        
+
         //add bus method:
         public void AddBus(Bus b)
         {
@@ -69,49 +69,28 @@ namespace Ex3b_GUI
             }
         }
 
-        private bool CheckLicenseNum(string userInput)
+        private void setLicense (string s)
         {
-            if (StartDateCalendar.SelectedDate == null)
+            string s1; string s2; string s3;
+            if (StartDateCalendar.SelectedDate.Value.Year > 2018)
             {
-                string title = "Gilore Travels ERROR: License number";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show("Error: no date has been chosen", title, button, icon);
-                this.Close();
+                s1 = s.Substring(0, 3); //XXX
+                s2 = s.Substring(2, 2); //XX
+                s3 = s.Substring(4, 3); //XXX
+                NewBus.BusLicense = s1 + "-" + s2 + "-" + s3;
             }
-
-            Regex regex = new Regex(@"^\d{2}[-]\d{3}[-]\d{2}$");
-            Regex regex1 = new Regex(@"^\d{3}[-]\d{2}[-]\d{3}$");
-           
-
-            if (StartDateCalendar.SelectedDate.Value.Date.Year < 2018) 
-            {
-                if (regex.IsMatch((userInput)))
-                {
-                    return true;
-                }
-            }
-            else if (regex1.IsMatch(userInput))
-            {
-                return true;
-            }
-           
-            return false;
-        }
-
-        private void FuelTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (CheckLicenseNum(LicenseNumTextBox.Text))
-                NewBus.BusLicense = LicenseNumTextBox.Text;
             else
             {
-                string title = "Gilore Travels ERROR: License number";
-                MessageBoxButton button = MessageBoxButton.OK;
-                MessageBoxImage icon = MessageBoxImage.Error;
-                MessageBox.Show("Wrong input format.", title, button, icon);
-                this.Close();
+                s1 = s.Substring(0, 2); //XX
+                s2 = s.Substring(2, 3); //XXX
+                s3 = s.Substring(5, 2); //XX
+                NewBus.BusLicense = s1 + "-" + s2 + "-" + s3;
             }
-
+        }
+        private void FuelTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            setLicense(LicenseNumTextBox.Text); //converts the license number into the right format
+           
             int number;
             bool success = Int32.TryParse(FuelTxt.Text, out number);
             if (success)
@@ -136,8 +115,8 @@ namespace Ex3b_GUI
             }
         }
 
-    private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        { 
+        private void MileageTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
             int number;
             bool success = Int32.TryParse(MileageTextBox.Text, out number);
             if (success)
@@ -150,7 +129,7 @@ namespace Ex3b_GUI
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Wrong input format.", title, button, icon);
-                this.Close(); 
+                this.Close();
             }
         }
 
@@ -174,7 +153,7 @@ namespace Ex3b_GUI
         }
 
         //check if the textbox have been provided with some values
-        public bool checkText ()
+        public bool checkText()
         {
             if (LicenseNumTextBox.Text.Length == 0 || MileageTextBox.Text.Length == 0 || DriverNameTextBox.Text.Length == 0)
                 return false;
@@ -188,8 +167,3 @@ namespace Ex3b_GUI
 
     }
 }
-
-
-
-
-

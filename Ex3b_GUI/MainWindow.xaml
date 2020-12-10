@@ -52,7 +52,7 @@
                     <GridViewColumn Header="Select for more Options:" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." Click="B_Options_Click" IsEnabled="{Binding IsButtonEnabled}"/>
+                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="{Binding IsButtonEnabled}"/>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding BusState}" Value="AtService">
                                         <Setter Property="IsEnabled" Value="False"/>

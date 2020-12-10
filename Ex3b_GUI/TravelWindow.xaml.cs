@@ -41,7 +41,7 @@ namespace Ex3b_GUI
         public void Travelling(BackgroundWorker bw)
         {
             int time = getTime(distance);
-            Thread.Sleep(300);//time takes for the Bus to Travel "24hrs"
+            Thread.Sleep(time);//time takes for the Bus to Travel "24hrs"
             string title = "Gilore Travels: Travel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
