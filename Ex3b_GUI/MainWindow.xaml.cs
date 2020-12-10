@@ -34,7 +34,7 @@ namespace Ex3b_GUI
                 b.BusDriver = b.randDriver();
                 b.BusMileage = b.randMileage();
                 System.Threading.Thread.Sleep(10);
-                b.BusState = b.randStatus();
+                b.BusState = Status.Available;
                 b.BusFuel = b.randFuel();
                 BusList.Add(b);
             }
@@ -47,7 +47,7 @@ namespace Ex3b_GUI
             //fill bus list with random values:
             randomBus();
             //print list to console:
-            lv_BusList.DataContext = BusList.OrderBy(state => state.BusState);
+            lv_BusList.DataContext = BusList;// .OrderBy(state => state.BusState);                                                                                
         }
 
         //Add Bus Button Click:
@@ -67,7 +67,7 @@ namespace Ex3b_GUI
             {
                 lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
-                OptionsWindow optionsWin = new OptionsWindow(selectedBus);
+                OptionsWindow optionsWin = new OptionsWindow(selectedBus, lv_BusList);
                 optionsWin.Show();
             }
         }
@@ -84,7 +84,7 @@ namespace Ex3b_GUI
                 lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 BusInfoWin infoWindow = new BusInfoWin(selectedBus);
-                infoWindow.Show();
+                infoWindow.Show();     
             }
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
@@ -111,5 +111,9 @@ namespace Ex3b_GUI
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            lv_BusList.Items.Refresh();
+        }
     }
 }

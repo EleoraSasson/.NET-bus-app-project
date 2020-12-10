@@ -254,7 +254,7 @@ namespace Ex3b_GUI
 
         public override string ToString()
         {
-            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate.Date + "\n Last Maintenance Date: " + BusLastMaintenanceDate.Date + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
+            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate.Year + "/" + BusStartDate.Month + "/" + BusStartDate.Day + "\n Last Maintenance Date: " + BusLastMaintenanceDate.Year + "/" + BusLastMaintenanceDate.Month + "/" + BusLastMaintenanceDate.Day + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
         }
         /* CLASS METHODS */
 

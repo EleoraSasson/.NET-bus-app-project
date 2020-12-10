@@ -21,10 +21,12 @@ namespace Ex3b_GUI
     {
         int distance;
         private Bus theBus;
+        private ListView theListView;
         private BackgroundWorker travelBW;
-        public TravelWindow(Bus _theBus)
+        public TravelWindow(Bus _theBus, ListView _theListView)
         {
             theBus = _theBus;
+            theListView = _theListView;
             InitializeComponent();
             this.travelBW = new BackgroundWorker();
             this.travelBW.DoWork += travelBW_DoWork;
@@ -45,6 +47,10 @@ namespace Ex3b_GUI
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show("Bus " + theBus.BusLicense + " has finished its travel. ", title, button, icon);
             theBus.BusState = Status.Available; //Bus is now available
+            this.Dispatcher.Invoke(() =>
+            {
+                theListView.Items.Refresh();
+            });
         }
 
         //returns a random travel time for a speed between 20 and 50 km/h
@@ -90,6 +96,7 @@ namespace Ex3b_GUI
                 MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
                 if (result == MessageBoxResult.OK)
                 {
+                    theListView.Items.Refresh();
                     travelBW.RunWorkerAsync(); //calls on the DoWork of travelBW
                 }
             }

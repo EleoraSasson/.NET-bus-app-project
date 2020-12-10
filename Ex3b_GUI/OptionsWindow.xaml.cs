@@ -26,9 +26,11 @@ namespace Ex3b_GUI
         private BackgroundWorker maintenanceBW;
 
         private Bus _theBus;
-        public OptionsWindow(Bus theBus)
+        private ListView _theBusListView;
+        public OptionsWindow(Bus theBus, ListView theBusListView)
         {
             _theBus = theBus;
+            _theBusListView = theBusListView;
             InitializeComponent();
             this.fuelBW = new BackgroundWorker();
             this.fuelBW.DoWork += fuelBW_DoWork;
@@ -42,7 +44,7 @@ namespace Ex3b_GUI
             MessageBoxButton buttons = MessageBoxButton.YesNo;
             MessageBoxImage icon = MessageBoxImage.Question;
             MessageBoxResult result = MessageBox.Show("Are you sure that you want Bus " + _theBus.BusLicense + " to be sent for Refueling?", title, buttons, icon);
-
+            
             this.Close();
             if (result == MessageBoxResult.Yes)
             {
@@ -52,6 +54,7 @@ namespace Ex3b_GUI
                 MessageBox.Show("Bus "+ _theBus.BusLicense + " has been sent for Refueling", title1, buttons1, icon1);
                 if (fuelBW.IsBusy != true)
                 {
+                    _theBusListView.Items.Refresh();
                     fuelBW.RunWorkerAsync(); //calls DoWork of fuelBW
                 }
             }
@@ -62,6 +65,7 @@ namespace Ex3b_GUI
                 MessageBoxImage icon2 = MessageBoxImage.Information;
                 MessageBox.Show("Refueling for Bus " +_theBus.BusLicense + " has been canceled" , title2, buttons2, icon2);
             }
+
         }
 
         private void fuelBW_DoWork(object sender, DoWorkEventArgs e) //DoWork of fuelBW
@@ -72,14 +76,19 @@ namespace Ex3b_GUI
 
         public void Refueling(BackgroundWorker bw)
         {
-            _theBus.Refuel();
-            Thread.Sleep(120000);//time takes for the Bus to refuel "2hrs"
+            _theBus.Refuel(); 
+            Thread.Sleep(1200);//time takes for the Bus to refuel "2hrs"
             string title = "Gilore Travels: Fuel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show("Bus " + _theBus.BusLicense + " has been refueled. ", title, button, icon);
-            _theBus.BusState = Status.Available; //Bus is now available
+            _theBus.BusState = Status.Available; //Bus is now available    
+            this.Dispatcher.Invoke(() =>
+            {
+                _theBusListView.Items.Refresh();
+            });
         }
+        
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
         {
@@ -97,7 +106,8 @@ namespace Ex3b_GUI
                 MessageBox.Show("Bus " + _theBus.BusLicense + " has been sent for Maintenance", title1, buttons1, icon1);
                 if (maintenanceBW.IsBusy != true)
                 {
-                    maintenanceBW.RunWorkerAsync(); //calls DoWork of maintenanceBW
+                    _theBusListView.Items.Refresh();
+                    maintenanceBW.RunWorkerAsync(_theBusListView); //calls DoWork of maintenanceBW
                 }
             }
             else if (result == MessageBoxResult.No)
@@ -119,19 +129,30 @@ namespace Ex3b_GUI
         public void AtService(BackgroundWorker bw)
         {
             _theBus.Maintenance();
-            Thread.Sleep(144000);//time takes for the Bus to be repaired "24hrs"
+            Thread.Sleep(144);//time takes for the Bus to be repaired "24hrs" 
             string title = "Gilore Travels: Maintenance Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show("Bus " + _theBus.BusLicense + " has completed its maintenance. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
+            this.Dispatcher.Invoke(() =>
+            {
+                _theBusListView.Items.Refresh();
+            });
+           
         }
 
         private void B_Travel_Click(object sender, RoutedEventArgs e)
         {
-            TravelWindow tw = new TravelWindow(_theBus);
+            TravelWindow tw = new TravelWindow(_theBus, _theBusListView);
             tw.Show();
             this.Close();
         }
+
+        //private void closeWindow()
+        //{
+        //    //_theBusListView.Items.Refresh();
+        //    this.Close();
+        //}
     }
 }
