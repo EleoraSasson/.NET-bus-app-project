@@ -9,9 +9,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;//this can be used to validate strings
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
 
 namespace Ex3b_GUI
 {
@@ -19,7 +16,7 @@ namespace Ex3b_GUI
     public enum StaffSurname { Owens, Riley, Snow, Perry, Ross }
     public enum Status {Available, Travelling , Refueling, AtService}
     public class Bus
-    { 
+    {
         /* CLASS MEMBERS */
         //information of each bus - each member is private with a public method that accesses and update the private member:
         private string license; //license number
@@ -45,7 +42,13 @@ namespace Ex3b_GUI
             get { return state; }
             set { state = value; }
         }
-     
+        //returns true if the bus is ready
+        public bool available()
+        {
+            if (this.BusState == 0)
+                return true;
+            else return false;
+        }
 
         private DateTime startDate; //start date registered for bus (uses the struct DateTime to have correct format)
 
@@ -86,6 +89,8 @@ namespace Ex3b_GUI
             get { return fuel; }
             set { fuel = value; }
         }
+
+       
 
         public string setLicenseNum()
         {
@@ -205,7 +210,13 @@ namespace Ex3b_GUI
             int fue = fu.Next(0, 1200);
             return fue;
         }
-       
+        //returns random status
+        public Status randStatus()
+        {
+            var rnd = new Random();
+            return (Status)rnd.Next(Enum.GetNames(typeof(Status)).Length);
+        }
+
         /* this method returns true if the bus needs a maintenance */
         public bool needMaintenance()
         {
@@ -225,6 +236,7 @@ namespace Ex3b_GUI
             }
         }
 
+
         public Bus () //default constructor
         {
             BusStartDate = DateTime.Now;
@@ -234,15 +246,16 @@ namespace Ex3b_GUI
             BusFuel = 1200;
             BusState = 0;
             BusDriver = "Unknown";
+
         }
 
 
         /*ToString Override*/
+
         public override string ToString()
         {
-            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: " + BusStartDate.Year + "/" + BusStartDate.Month + "/" + BusStartDate.Day + "\n Last Maintenance Date: " + BusLastMaintenanceDate.Year + "/" + BusLastMaintenanceDate.Month + "/" + BusLastMaintenanceDate.Day + "\n Mileage: " + BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
+            return (" Bus Information:" + "\n Bus License Number: " + BusLicense + "\n Manufacture Date: "+ BusStartDate.Year + "/" + BusStartDate.Month + "/" + BusStartDate.Day + "\n Last Maintenance Date: " + BusLastMaintenanceDate.Year + "/" + BusLastMaintenanceDate.Month + "/" + BusLastMaintenanceDate.Day + "\n Mileage: "+ BusMileage + "\n Fuel Amount: " + BusFuel + "\n Current Status: " + BusState + "\n Assigned Driver: " + BusDriver);
         }
-
         /* CLASS METHODS */
 
 
@@ -444,7 +457,15 @@ namespace Ex3b_GUI
             this.BusLastMaintenanceDate = current; //gives new date    //service date    
         }
 
-        //send bus on trip
+        public bool IsAvailable()
+        {
+            if (this.BusState == Status.Available)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         public void Travel(int mile)
         {
             this.BusState = Status.Travelling;

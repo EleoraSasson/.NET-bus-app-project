@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Ex3b_GUI"
         mc:Ignorable="d"
         Title="Gilore Travels" Height="500" Width="875" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1">
-
-    <Grid x:Name="MainGrid">
+    
+    <Grid x:Name="MainGrid"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
             <ColumnDefinition Width="5*" x:Name="Image"/>

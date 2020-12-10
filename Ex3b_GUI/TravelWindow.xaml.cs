@@ -21,12 +21,13 @@ namespace Ex3b_GUI
     {
         int distance;
         private Bus theBus;
-        private ListView theBusListView;
+        private ListView theListView;
         private BackgroundWorker travelBW;
-        public TravelWindow(Bus _theBus, ListView _theBusListView)
+        public TravelWindow(Bus _theBus, ListView _theListView)
         {
             theBusListView = _theBusListView;
             theBus = _theBus;
+            theListView = _theListView;
             InitializeComponent();
             this.travelBW = new BackgroundWorker();
             this.travelBW.DoWork += travelBW_DoWork;
@@ -49,7 +50,7 @@ namespace Ex3b_GUI
             theBus.BusState = Status.Available; //Bus is now available
             this.Dispatcher.Invoke(() =>
             {
-                theBusListView.Items.Refresh();
+                theListView.Items.Refresh();
             });
         }
 
@@ -96,6 +97,7 @@ namespace Ex3b_GUI
                 MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
                 if (result == MessageBoxResult.OK)
                 {
+                    theListView.Items.Refresh();
                     travelBW.RunWorkerAsync(); //calls on the DoWork of travelBW
                 }
             }

@@ -45,14 +45,9 @@ namespace Ex3b_GUI
         {
             InitializeComponent();
             //fill bus list with random values:
-            
             randomBus();
             //print list to console:
-            //lv_BusList.DataContext = BusList.OrderBy(state => state.BusState);
-            lv_BusList.DataContext = BusList;
-            //Bus b = new Bus();
-            //BusList.Add(b);
-            
+            lv_BusList.DataContext = BusList;// .OrderBy(state => state.BusState);                                                                                
         }
 
         //Add Bus Button Click:
@@ -65,7 +60,6 @@ namespace Ex3b_GUI
         //Select more Options Button:
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
-            
             Bus selectedBus;
             ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
@@ -90,7 +84,7 @@ namespace Ex3b_GUI
                 lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 BusInfoWin infoWindow = new BusInfoWin(selectedBus);
-                infoWindow.Show();
+                infoWindow.Show();     
             }
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
