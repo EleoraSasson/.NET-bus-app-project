@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="Gilore Travels > TravelWindow" Height="200" Width="400" Icon="GiloreTravels.ico" BorderBrush="#FF3973F1">
     <Grid>
-        <TextBlock x:Name="TravelTxtB" HorizontalAlignment="Center" Margin="89,33,29,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Width="274" Foreground="#FF0E246E"><Run Text="   "/><Run Text="Enter the length of the travel route:"/></TextBlock>
-        <TextBox x:Name="TravelMileTextBox" MaxLength="4" HorizontalAlignment="Left" Height="23" Margin="116,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3"  SelectionBrush="#FF0078D7"  KeyDown="OnKeyDownHandler"/>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="header"/>
+            <RowDefinition x:Name="Textbox"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="TravelTxtB" HorizontalAlignment="Center" Margin="89,33,29,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" FontStretch="Medium" FontStyle="Normal" Width="274" Foreground="#FF0E246E"><Run Text="   "/><Run Text="Enter the length of the travel route:"/></TextBlock>
+        <TextBox x:Name="TravelMileTextBox" ToolTip="Press Enter-Key to submit distance." Grid.Row ="1" MaxLength="4" HorizontalAlignment="Left" Height="23" Margin="116,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA3A3A3"  SelectionBrush="#FF0078D7"  KeyDown="OnKeyDownHandler"/>
     </Grid>
 </Window>
