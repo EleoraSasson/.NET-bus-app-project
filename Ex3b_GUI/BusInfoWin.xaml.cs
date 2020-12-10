@@ -14,9 +14,6 @@ using System.Windows.Shapes;
 
 namespace Ex3b_GUI
 {
-    /// <summary>
-    /// Interaction logic for BusInfoWin.xaml
-    /// </summary>
     public partial class BusInfoWin : Window
     {
         private Bus _theBus;

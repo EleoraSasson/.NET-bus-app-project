@@ -30,6 +30,7 @@ namespace Ex3b_GUI
             InitializeComponent();
             this.travelBW = new BackgroundWorker();
             this.travelBW.DoWork += travelBW_DoWork;
+            this.travelBW.ProgressChanged += travelBW_ProgressChanged;
         }
 
         private void travelBW_DoWork(object sender, DoWorkEventArgs e)
@@ -63,6 +64,7 @@ namespace Ex3b_GUI
             return timeSecond * 1000; //converts into milliseconds 
         }
 
+        //getting distance from user from textbox with enter key:
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -70,7 +72,7 @@ namespace Ex3b_GUI
                 travel(theBus);
             }
         }
-
+        //travel method called once distance is entered
         private void travel(Bus b)
         {
             if (theBus.needMaintenance())
@@ -109,6 +111,48 @@ namespace Ex3b_GUI
                 MessageBox.Show("The bus does not contain enough fuel for this route.", title, button, icon);
             }
             this.Close();
+
+        }
+
+        //Do-work of Travel
+        private void travelBW_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker ThelperBW = sender as BackgroundWorker;
+            Travelling(ThelperBW);
+        }
+        //Travel Progress
+        private void travelBW_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            
+        }
+
+        //what do work calls:
+        public void Travelling(BackgroundWorker bw)
+        {
+            int time = getTime(distance);
+            Thread.Sleep(300);//time takes for the Bus to Travel "24hrs"
+            bw.ReportProgress(1);
+            string title = "Gilore Travels: Travel Information";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Information;
+            MessageBox.Show("Bus " + theBus.BusLicense + " has finished its travel. ", title, button, icon);
+            theBus.BusState = Status.Available; //Bus is now available
+            this.Dispatcher.Invoke(() =>
+            {
+                theListView.Items.Refresh();
+            });
+        }
+
+        //getTime for travelling method:
+
+        //returns a random travel time for a speed between 20 and 50 km/h
+        public int getTime(int dist)
+        {
+            Random spe = new Random();
+            int speed = spe.Next(20, 50);
+            int time = (dist / speed); //implicitely converts the result into an int, in an hour form
+            int timeSecond = time * 3600; //converts time into seconds
+            return timeSecond * 1000; //converts into milliseconds 
         }
     }
 }
