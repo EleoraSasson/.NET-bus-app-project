@@ -72,6 +72,17 @@ namespace Ex3b_GUI
         private void setLicense (string s)
         {
             string s1; string s2; string s3;
+
+            if (s.Length < 7)
+            {
+                string title = "Gilore Travels ERROR: License number";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("License number must have 7 digits.", title, button, icon);
+                this.Close();
+                return;
+            }
+
             if (StartDateCalendar.SelectedDate.Value.Year > 2018)
             {
                 s1 = s.Substring(0, 3); //XXX
