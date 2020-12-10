@@ -25,7 +25,6 @@ namespace Ex3b_GUI
         private BackgroundWorker travelBW;
         public TravelWindow(Bus _theBus, ListView _theListView)
         {
-            theBusListView = _theBusListView;
             theBus = _theBus;
             theListView = _theListView;
             InitializeComponent();
@@ -36,13 +35,13 @@ namespace Ex3b_GUI
         private void travelBW_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker ThelperBW = sender as BackgroundWorker;
-            Travelling();
+            Travelling(ThelperBW);
         }
 
-        public void Travelling()
+        public void Travelling(BackgroundWorker bw)
         {
             int time = getTime(distance);
-            Thread.Sleep(time);//time takes for the Bus to refuel "2hrs"
+            Thread.Sleep(300);//time takes for the Bus to Travel "24hrs"
             string title = "Gilore Travels: Travel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
@@ -97,6 +96,7 @@ namespace Ex3b_GUI
                 MessageBoxResult result = MessageBox.Show("Bus has been sent on trip.", title, buttons, icon);
                 if (result == MessageBoxResult.OK)
                 {
+                    theBus.Travel(distance);
                     theListView.Items.Refresh();
                     travelBW.RunWorkerAsync(); //calls on the DoWork of travelBW
                 }

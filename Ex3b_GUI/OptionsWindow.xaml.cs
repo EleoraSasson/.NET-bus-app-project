@@ -17,9 +17,6 @@ using System.ComponentModel;
 
 namespace Ex3b_GUI
 {
-    /// <summary>
-    /// Interaction logic for OptionsWindow.xaml
-    /// </summary>
     public partial class OptionsWindow : Window
     {
         private BackgroundWorker fuelBW;
@@ -77,7 +74,7 @@ namespace Ex3b_GUI
         public void Refueling(BackgroundWorker bw)
         {
             _theBus.Refuel(); 
-            Thread.Sleep(1200);//time takes for the Bus to refuel "2hrs"
+            Thread.Sleep(120000);//time takes for the Bus to refuel "2hrs"
             string title = "Gilore Travels: Fuel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
@@ -129,7 +126,7 @@ namespace Ex3b_GUI
         public void AtService(BackgroundWorker bw)
         {
             _theBus.Maintenance();
-            Thread.Sleep(144);//time takes for the Bus to be repaired "24hrs" 
+            Thread.Sleep(144000);//time takes for the Bus to be repaired "24hrs" 
             string title = "Gilore Travels: Maintenance Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
