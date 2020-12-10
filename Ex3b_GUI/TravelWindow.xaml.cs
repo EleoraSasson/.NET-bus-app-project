@@ -30,7 +30,6 @@ namespace Ex3b_GUI
             InitializeComponent();
             this.travelBW = new BackgroundWorker();
             this.travelBW.DoWork += travelBW_DoWork;
-            this.travelBW.ProgressChanged += travelBW_ProgressChanged;
         }
 
         //getting distance from user from textbox with enter key:
@@ -89,18 +88,12 @@ namespace Ex3b_GUI
             BackgroundWorker ThelperBW = sender as BackgroundWorker;
             Travelling(ThelperBW);
         }
-        //Travel Progress
-        private void travelBW_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            
-        }
 
         //what do work calls:
         public void Travelling(BackgroundWorker bw)
         {
             int time = getTime(distance);
             Thread.Sleep(time);//time takes for the Bus to Travel "24hrs"
-            bw.ReportProgress(1);
             string title = "Gilore Travels: Travel Information";
             MessageBoxButton button = MessageBoxButton.OK;
             MessageBoxImage icon = MessageBoxImage.Information;
@@ -120,7 +113,7 @@ namespace Ex3b_GUI
             Random spe = new Random();
             int speed = spe.Next(20, 50);
             int time = (dist / speed); //implicitely converts the result into an int, in an hour form
-            int timeSecond = time * 3600; //converts time into seconds
+            int timeSecond = time * 6; //converts time into seconds
             return timeSecond * 1000; //converts into milliseconds 
         }
     }
