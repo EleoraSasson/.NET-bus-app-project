@@ -34,7 +34,7 @@ namespace Ex3b_GUI
                 b.BusDriver = b.randDriver();
                 b.BusMileage = b.randMileage();
                 System.Threading.Thread.Sleep(10);
-                b.BusState = b.randStatus();
+                b.BusState = Status.Available;
                 b.BusFuel = b.randFuel();
                 BusList.Add(b);
             }
@@ -45,14 +45,19 @@ namespace Ex3b_GUI
         {
             InitializeComponent();
             //fill bus list with random values:
+            
             randomBus();
             //print list to console:
-            lv_BusList.DataContext = BusList.OrderBy(state => state.BusState);
+            //lv_BusList.DataContext = BusList.OrderBy(state => state.BusState);
+            lv_BusList.DataContext = BusList;
+            //Bus b = new Bus();
+            //BusList.Add(b);
+            
         }
 
         //Add Bus Button Click:
         private void B_AddBus_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             AddBusWindow addWin = new AddBusWindow();
             addWin.Show();
         }
@@ -60,6 +65,7 @@ namespace Ex3b_GUI
         //Select more Options Button:
         private void B_Options_Click(object sender, RoutedEventArgs e)
         {
+            
             Bus selectedBus;
             ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
@@ -67,12 +73,12 @@ namespace Ex3b_GUI
             {
                 lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvi);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
-                OptionsWindow optionsWin = new OptionsWindow(selectedBus);
+                OptionsWindow optionsWin = new OptionsWindow(selectedBus, lv_BusList);
                 optionsWin.Show();
             }
         }
 
-        // Double-Click on Bus
+        //Double-Click on Bus
         private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Bus selectedBus;
@@ -96,20 +102,7 @@ namespace Ex3b_GUI
             return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
         }
 
-        //hover over bus
-        private void lv_BusList_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Bus selectedBus;
 
-            ListViewItem lvitem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
-
-            if (lvitem != null)
-            {
-                lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
-                selectedBus = (Bus)lv_BusList.SelectedItem;
-                //not finished
-            }
-        }
 
     }
 }

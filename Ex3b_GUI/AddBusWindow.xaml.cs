@@ -26,6 +26,7 @@ namespace Ex3b_GUI
         public AddBusWindow()
         {
             InitializeComponent();
+            StartDateCalendar.DisplayDateEnd = DateTime.Today;
         }
 
         //Action done when Add Bus is selected:
@@ -37,6 +38,7 @@ namespace Ex3b_GUI
             this.Close(); //close the window when bus is added
         }
 
+        
         //add bus method:
         public void AddBus(Bus b)
         {
@@ -51,15 +53,8 @@ namespace Ex3b_GUI
             else
             {
                 MainWindow.BusList.Add(b);
-                MainWindow.BusList.CollectionChanged += BusList_CollectionChanged;
             }
         }
-
-        private void BusList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            e.NewItems.Add(sender);
-        }
-
         private void LicenseNumTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 

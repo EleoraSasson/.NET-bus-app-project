@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Gilore Travels" Height="500" Width="875" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1">
 
-    <Grid x:Name="MainGrid"> 
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" x:Name="LeftBorder"/>
             <ColumnDefinition Width="5*" x:Name="Image"/>
@@ -22,7 +22,7 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lv_BusList" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" ItemsSource="{Binding}">
+        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick">
             <ListView.ItemContainerStyle>
                 <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
                     <Setter Property="ToolTip">
@@ -44,7 +44,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
-                <GridView>
+                <GridView x:Name="gv_BusList">
                     <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding BusLicense}"/>
                     <GridViewColumn Header="Bus Driver:" Width="100" DisplayMemberBinding="{Binding BusDriver}"/>
                     <GridViewColumn Header="Mileage:" Width="100" DisplayMemberBinding="{Binding BusMileage}"/>
@@ -52,15 +52,25 @@
                     <GridViewColumn Header="Select for more Options:" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="{Binding Path=IsAvailable}" />
-                                
+                                <Button x:Name="B_Options" Content="Options..." Click="B_Options_Click" IsEnabled="{Binding IsButtonEnabled}"/>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding BusState}" Value="AtService">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BusState}" Value="Refueling">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding BusState}" Value="Travelling">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-       
+
         <Image Grid.Column="1" Grid.Row="2" Source="LogoFull.PNG" Margin="0,0,0,210"/>
         <Label x:Name="L_GiloreTravel" Grid.Row="1" Grid.Column="2" Content="- Bus Database -" FontFamily="Hp Simplified" FontSize="20" FontWeight="Medium" FontStyle="Normal" FontStretch="SemiExpanded"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FF0E246E"/>
         <Button x:Name="B_AddBus" Content="Add Bus" Grid.Column="2" HorizontalAlignment="Left" Margin="526,6,0,5" Grid.Row="3" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click" BorderBrush="#FF356BCB" Foreground="#FF0B0B3A"/>

@@ -26,8 +26,10 @@ namespace Ex3b_GUI
         private BackgroundWorker maintenanceBW;
 
         private Bus _theBus;
-        public OptionsWindow(Bus theBus)
+        private ListView _theBusListView;
+        public OptionsWindow(Bus theBus, ListView theBusListView)
         {
+            _theBusListView = theBusListView;
             _theBus = theBus;
             InitializeComponent();
             this.fuelBW = new BackgroundWorker();
@@ -79,7 +81,13 @@ namespace Ex3b_GUI
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show("Bus " + _theBus.BusLicense + " has been refueled. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
+            this.Dispatcher.Invoke(() =>
+            {
+                _theBusListView.Items.Refresh();
+            });
+
         }
+
 
         private void B_Maintenance_Click(object sender, RoutedEventArgs e)
         {
@@ -125,11 +133,16 @@ namespace Ex3b_GUI
             MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show("Bus " + _theBus.BusLicense + " has completed its maintenance. ", title, button, icon);
             _theBus.BusState = Status.Available; //Bus is now available
+            this.Dispatcher.Invoke(() =>
+            {
+                _theBusListView.Items.Refresh();
+            });
+
         }
 
         private void B_Travel_Click(object sender, RoutedEventArgs e)
         {
-            TravelWindow tw = new TravelWindow(_theBus);
+            TravelWindow tw = new TravelWindow(_theBus, _theBusListView);
             tw.Show();
             this.Close();
         }
