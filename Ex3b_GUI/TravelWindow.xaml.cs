@@ -33,37 +33,6 @@ namespace Ex3b_GUI
             this.travelBW.ProgressChanged += travelBW_ProgressChanged;
         }
 
-        private void travelBW_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker ThelperBW = sender as BackgroundWorker;
-            Travelling(ThelperBW);
-        }
-
-        public void Travelling(BackgroundWorker bw)
-        {
-            int time = getTime(distance);
-            Thread.Sleep(time);//time takes for the Bus to Travel "24hrs"
-            string title = "Gilore Travels: Travel Information";
-            MessageBoxButton button = MessageBoxButton.OK;
-            MessageBoxImage icon = MessageBoxImage.Information;
-            MessageBox.Show("Bus " + theBus.BusLicense + " has finished its travel. ", title, button, icon);
-            theBus.BusState = Status.Available; //Bus is now available
-            this.Dispatcher.Invoke(() =>
-            {
-                theListView.Items.Refresh();
-            });
-        }
-
-        //returns a random travel time for a speed between 20 and 50 km/h
-        public int getTime (int dist)
-        {
-            Random spe = new Random();
-            int speed = spe.Next(20, 50);
-            int time = (dist / speed); //implicitely converts the result into an int, in an hour form
-            int timeSecond = time * 3600; //converts time into seconds
-            return timeSecond * 1000; //converts into milliseconds 
-        }
-
         //getting distance from user from textbox with enter key:
         private void OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -130,7 +99,7 @@ namespace Ex3b_GUI
         public void Travelling(BackgroundWorker bw)
         {
             int time = getTime(distance);
-            Thread.Sleep(300);//time takes for the Bus to Travel "24hrs"
+            Thread.Sleep(time);//time takes for the Bus to Travel "24hrs"
             bw.ReportProgress(1);
             string title = "Gilore Travels: Travel Information";
             MessageBoxButton button = MessageBoxButton.OK;
