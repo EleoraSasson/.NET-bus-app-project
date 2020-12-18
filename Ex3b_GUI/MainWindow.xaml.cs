@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+//Gila and Eléora - Exercise 3B
+
 namespace Ex3b_GUI
 {
     public partial class MainWindow : Window
