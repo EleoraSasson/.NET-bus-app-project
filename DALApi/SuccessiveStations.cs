@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DALApi //namespace DO
+namespace DO
 {
-    interface ICloanable
+    public class SuccessiveStations : ICloneable
     {
     }
 }

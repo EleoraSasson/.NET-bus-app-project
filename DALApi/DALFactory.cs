@@ -15,7 +15,7 @@ namespace DALApi
         public static IDAL GetDAL() { return (IDAL)new object(); }//need it to return type og DAL pbject
 
         //it is supposed to create a new object of type IDAL aka DLObject
-
+        //check if it is in simple factory pattern
 
     }
 }
