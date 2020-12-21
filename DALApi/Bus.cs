@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace DO
 {
     public enum Status { Available, Refueling, AtService, Traveling};
-    public enum DriverFirstName { Unknown, David, Sara, Mark, Ruth, Ron, Debbie};
-    public enum DriverLastName { Unknown, Johnson, Cohen, Tailor, Brent, Owen, Harper};
+  
     public class Bus :ICloneable
     {
         /* PROPERTIES */
@@ -24,13 +23,21 @@ namespace DO
         }
 
         // Registration Date:
-        // Note: is DateTime cosidered simple enough to use??
         private DateTime regDate;
 
         public DateTime BusRegDate
         {
             get { return regDate; }
             set { regDate = value; }
+        }
+
+        // Maintenance Date (keeps the last time the bus went to maintenance):
+        private DateTime maintenanceDate;
+
+        public DateTime BusMaintenanceDate
+        {
+            get { return maintenanceDate; }
+            set { maintenanceDate = value; }
         }
 
         // Mileage:
@@ -62,63 +69,45 @@ namespace DO
             set { status = value; }
         }
 
-        //additional info as desired...
-
-        // Bus Driver (note first element in Enum is Unkown therefore re=andomisation should start from 1)
-        //firstName:
-        private DriverFirstName firstName;
-
-        public DriverFirstName BusDriverFirst
-        {
-            get { return firstName; }
-            set { firstName = value; }
-        }
-        //LastName:
-        private DriverLastName lastName;
-
-        public DriverLastName BusDriverLast
-        {
-            get { return lastName; }
-            set { lastName = value; }
-        }
-
+        
         /* CONSTRUCTORS */
 
         //Default ctor:
-        Bus()
+        public Bus()
         {
-            BusLicense = "Unknown";
+            BusLicense = "XX-XXX-XX";
             BusRegDate = DateTime.Now;
+            BusMaintenanceDate = DateTime.Now;
             BusMileage = 0;
             BusFuel = 1200;
             BusStatus = Status.Available;
-            BusDriverFirst = DriverFirstName.Unknown;
-            BusDriverLast = DriverLastName.Unknown;
         }
 
         //ctor
-        Bus( string busLicense, DateTime busReg, int busMileage, int busFuel, Status busState, DriverFirstName busFirstN, DriverLastName busLastN)
+        public Bus( string busLicense, DateTime busReg, DateTime busMaintenance, int busMileage, int busFuel)
         {
             BusLicense = busLicense;
-            //do we check the licesnce num here?
-            
             BusRegDate = busReg;
+            BusMaintenanceDate = busMaintenance;
 
             if (busMileage < 0)
             {
-                //throw exception to BL Layer to deal with inc=valid input
+                //throw exception to BL Layer to deal with invalid input
             }
             else BusMileage = busMileage;
 
             if (busFuel > 1200 || busFuel < 0)
             {
-                //throw exception to BL Layer to deal with inc=valid input
+                //throw exception to BL Layer to deal with invalid input
             }
             else BusFuel = busFuel;
+        }
 
-            BusStatus = busState;
-            BusDriverFirst = busFirstN;
-            BusDriverLast = busLastN;
+        /* OVERRIDE TOSTRING */
+
+        public override string ToString()
+        {
+            return "Bus Information:\n License Number:" + BusLicense + "\n Registration Date:" + BusRegDate + "\n Last Maintenance Date:" + BusMaintenanceDate + "\n Mileage Reading:" + BusMileage + "\n Fuel Amount:" + BusFuel + "\n Status of Bus:" + BusStatus + "\n";
         }
     }
 }
