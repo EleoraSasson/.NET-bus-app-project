@@ -68,6 +68,16 @@ namespace DO
             set { leaving = value; }
         }
 
+        // Line Erased [if a line is no longer in use then erased is true, else false]:
+        private bool erased;
+
+        public bool LineErased
+        {
+            get { return erased; }
+            set { erased = value; }
+        }
+
+
         /* CONSTRUCTORS */
 
         // Default ctor:
@@ -85,6 +95,7 @@ namespace DO
             BusEnd = endStop;
             LineLeaving lineLeaving = new LineLeaving();
             BusLeaving = lineLeaving;
+            LineErased = false; //default the line is in use
         }
 
         //ctor:
@@ -96,6 +107,7 @@ namespace DO
             BusStart = startLine;
             BusEnd = endLine;
             BusLeaving = leavingLine;
+            // when adding a line we assume that the line will be automatically in use, therefore, no need to send boolean parameter to ensure
         }
 
         /* OVERRIDE TOSTRING */
