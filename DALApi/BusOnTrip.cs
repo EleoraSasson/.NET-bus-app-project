@@ -8,6 +8,13 @@ namespace DO
 {
     public class BusOnTrip :ICloneable
     {
+        /* create a static "running number" that will increment at each 
+        instantiation of this class: 
+        started it at 1 so that first bus on trip id starts at 1*/
+
+        public static int RunNumBus = 1; 
+       
+
         /* PROPERTIES */
         // Bus ID on Road (auto-running number):
         private int roadID;
@@ -15,7 +22,7 @@ namespace DO
         public int BusRoadID
         {
             get { return roadID; }
-            set { roadID = value; }
+            set { roadID = RunNumBus; }
         }
 
         // License No. of Bus:

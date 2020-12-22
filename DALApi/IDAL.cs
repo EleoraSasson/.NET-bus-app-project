@@ -15,11 +15,22 @@ namespace DALApi
 
         //Create retrieve update and delete {CRUD}
         //define for methods for each of the above CRUD
+        //        The methods in IDAL should be built for each of the DO entities according to CRUD scheme
+        //CRUD = Create / Request / Update / Delete.Request can be for a single object or a list of object according to a filter)
+        //A filter condition can be done by a separate method or by a method that is passed as a predicate to the parameter
+
+
+        /* IMPLEMENTING CRUD METHODS FOR BUS DO ENTITY */
+        #region CRUD Bus
+        //Create:
+       // Bus bus = new Bus();
+        //Retrieve:
         
-        //using regions
-        #region CRUD 
-        //implement CRUD
+        //Update:
+        //Delete:
         #endregion
+
+
 
     }
 }

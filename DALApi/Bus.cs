@@ -69,7 +69,16 @@ namespace DO
             set { status = value; }
         }
 
-        
+        // Bus Erased [if bus is no longer in bus company service it is true that it is erased, else false]:
+        private bool erased;
+
+        public bool BusErased
+        {
+            get { return erased; }
+            set { erased = value; }
+        }
+
+
         /* CONSTRUCTORS */
 
         //Default ctor:
@@ -81,6 +90,7 @@ namespace DO
             BusMileage = 0;
             BusFuel = 1200;
             BusStatus = Status.Available;
+            BusErased = false; //by default it is part of bus company fleet
         }
 
         //ctor
@@ -101,6 +111,8 @@ namespace DO
                 //throw exception to BL Layer to deal with invalid input
             }
             else BusFuel = busFuel;
+
+            //when a bus is added it is automatically in the company fleet therefore, erased boolean value need not be passed.
         }
 
         /* OVERRIDE TOSTRING */
