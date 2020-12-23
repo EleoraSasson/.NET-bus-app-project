@@ -8,28 +8,28 @@ namespace DO
 {
     public class LineStation :ICloneable
     {
-        private int id; //string but can be an int, will see after
-        public int lineID
+        private string id; //string but can be an int, will see after
+        public string lineID
         {
             get { return id; }
             set { id = value; }
         }
 
-        private int station;
+        private string station;
 
-        public int stationCode
+        public string stationCode
         {
             get { return station; }
             set { station = value; }
         }
 
-        private int key;
+        private string key;
 
-        //public int entityKey
-        //{
-        //    get { return lineID + stationCode; }
-        //    set { key = lineID + stationCode; }
-        //}
+        public string entityKey
+        {
+            get { return lineID + stationCode; }
+            set { key = lineID + stationCode; }
+        }
 
 
         private int stationNum;
@@ -40,21 +40,7 @@ namespace DO
             set { stationNum = value; }
         }
 
-        public LineStation()
-        {
-            lineID = 0;
-            stationCode = 0;
-            key = 0;
-            stationNum = 0;
-        }
-
-        public LineStation(int id, int code, int s)
-        {
-            lineID = id;
-            stationCode = code;
-            key = int.Parse(lineID.ToString() + stationCode.ToString());
-            stationNum = s;
-        }
+        //add ctor
         //additional information?
 
         public override string ToString()

@@ -10,13 +10,9 @@ namespace DS
 {
     public static class DataSource
     {
-        public static List<Bus> busList;
         //public static List<>; 
         static DataSource() //static ctor
         {
-            busList = new List<Bus>();
-            busList.Add(new Bus());
-
             // member  = new listname..
             //class in DO (?????)
         }
