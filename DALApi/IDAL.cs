@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DO;
 
 namespace DALApi
 {
     public interface IDAL
     {
         //this is the service contract "what can i do for you"
-        //will add methods soon
+        //will add methods soon 
         //in an interface we have just methods
         //will implement and be talked to by BL what is DL willing to give out
 
@@ -22,27 +21,16 @@ namespace DALApi
 
 
         /* IMPLEMENTING CRUD METHODS FOR BUS DO ENTITY */
-        #region Bus
-        // Create
-        void AddBus(Bus bus); //create
-        //Retrieve
-        Bus GetBus(string license); //retrieve
-
-        //Update
-        //Delete
-
-        IEnumerable<DO.Bus> GetAllBuses();
-        IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
+        #region CRUD Bus
+        //Create:
+       // Bus bus = new Bus();
+        //Retrieve:
         
-                              // void UpdateBus(Bus bus);
-        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fields in Student
-        void DeleteBus(string license); // removes only Student, does not remove the appropriate Person...
+        //Update:
+        //Delete:
         #endregion
-
-
 
 
 
     }
 }
-
