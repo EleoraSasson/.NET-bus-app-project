@@ -25,17 +25,32 @@ namespace DO
         }
 
         private int permission;
-<<<<<<< HEAD
           
-=======
-         
->>>>>>> parent of 4ab8d84... started the IDAL
         public int adminPermission //??
         {
             get { return permission; }
             set { permission = value; }
         }
 
+        public User ()
+        {
+            userName = "Unknown";
+            password = "Unknown";
+            permission = false;
+        }
+
+        public User (string u, string p, bool perm)
+        {
+            userName = u;
+            password = p;
+            permission = perm;
+        }
+
+
+        public override string ToString()
+        {
+            return "User details: \n Username: " + userName + " \n Permission: " + adminPermission.ToString();
+        }
 
 
     }
