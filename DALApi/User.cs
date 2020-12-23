@@ -25,7 +25,7 @@ namespace DO
         }
 
         private int permission;
-         
+          
         public int adminPermission //??
         {
             get { return permission; }
