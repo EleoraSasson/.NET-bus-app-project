@@ -14,7 +14,7 @@ namespace DS
         //public static List<>; 
         static DataSource() //static ctor
         {
-            busList = new List<Bus>();
+            busList = new List<Bus>(); 
             busList.Add(new Bus());
 
             // member  = new listname..
