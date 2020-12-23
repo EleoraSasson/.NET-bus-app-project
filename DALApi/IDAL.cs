@@ -9,19 +9,8 @@ namespace DALApi
 {
     public interface IDAL
     {
-        //this is the service contract "what can i do for you"
-        //will add methods soon
-        //in an interface we have just methods
-        //will implement and be talked to by BL what is DL willing to give out
-
-        //Create retrieve update and delete {CRUD}
-        //define for methods for each of the above CRUD
-        //        The methods in IDAL should be built for each of the DO entities according to CRUD scheme
-        //CRUD = Create / Request / Update / Delete.Request can be for a single object or a list of object according to a filter)
-        //A filter condition can be done by a separate method or by a method that is passed as a predicate to the parameter
-
-
         /* IMPLEMENTING CRUD METHODS FOR BUS DO ENTITY */
+
         #region Bus
         // Create
         void AddBus(Bus bus); //create
@@ -39,9 +28,54 @@ namespace DALApi
         void DeleteBus(string license); // removes only Student, does not remove the appropriate Person...
         #endregion
 
+        #region LineLeaving
+        IEnumerable<DO.LineLeaving> GetAllLinesLeaving(); //IEnumerable
+        IEnumerable<object> GetLineLeavingWithSelectedFields(Func<DO.LineLeaving, object> generate); //IEnumerable
+        void AddLineLeaving(LineLeaving lineLeaving);//create
+        void GetLineLeaving(int lineID, TimeSpan startTime);//retrieve
+        void UpdateLineLeaving(int lineID, TimeSpan startTime, Action<LineLeaving> update);//update
+        void DeleteLineLeaving(int lineID, TimeSpan startTime);//delete
 
+        #endregion
 
+        #region LineStation
+        IEnumerable<DO.LineStation> GetAllLineStations(); //IEnumerable
+        IEnumerable<object> GetLineStationWithSelectedFields(Func<DO.LineStation, object> generate); //IEnumerable
+        void AddLineStation(LineStation lineStation);//create
+        void GetLineStation(int lineID, int stationCode);//retrieve
+        void UpdateLineStation(int lineID, int stationCode, Action<LineStation> update);//update
+        void DeleteLineStation(int lineID, int stationCode);//delete
 
+        #endregion
 
+        #region Staff
+        IEnumerable<DO.Staff> GetAllStaff(); //IEnumerable
+        IEnumerable<object> GetStaffWithSelectedFields(Func<DO.Staff, object> generate); //IEnumerable
+        void AddStaff(Staff staff);//create
+        void GetStaff(string staffID);//retrieve
+        void UpdateStaff(string staffID, Action<Staff> update);//update
+        void DeleteStaff(string staffID);//delete
+
+        #endregion
+
+        #region SuccessiveStations
+        IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
+        IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
+        void AddSuccessiveStations(SuccessiveStations successiveStations);//create
+        void GetSuccessiveStations(int stCode1, int stCode2);//retrieve
+        void UpdateSuccessiveStations(int stCode1, int stCode2, Action<DO.SuccessiveStations, object> update);//update
+        void DeleteSuccessiveStations(int stCode1, int stCode2);//delete
+
+        #endregion
+
+        #region UserTrip
+        IEnumerable<DO.SuccessiveStations> GetAllUserTrip(); //IEnumerable
+        IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
+        void AddUserTrip(UserTrip userTrip);//create
+        void GetUserTrip(int travelID);//retrieve
+        void UpdateUserTrip(int travelID, Action<DO.UserTrip, object> update);//update
+        void DeleteUserTrip(int travelID);//delete
+
+        #endregion
     }
 }

@@ -36,9 +36,10 @@ namespace DO
         }
 
         // Driver ID Number:
-        private double driverID;
+        // TZ with the first two letters of first and last name added to end --> 000000000LNFN
+        private string driverID;
 
-        public double BusDriverID
+        public string BusDriverID
         {
             get { return driverID; }
             set { driverID = value; }

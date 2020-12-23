@@ -62,9 +62,12 @@ namespace DO
         }
 
         // Ctor:
-        public LineLeaving(int param1, bool param2)//chnage param
+        public LineLeaving(int idLine, TimeSpan linefirst, int lineFreq , TimeSpan lineLast)//chnage param
         {
-
+            BusLineID = idLine;
+            BusFirstLine = linefirst;
+            BusNumLines = lineFreq;
+            BusLastLine = lineLast;
         }
 
         /* OVERRIDE TOSTRING */
