@@ -33,17 +33,15 @@ namespace DALApi
 
         IEnumerable<DO.Bus> GetAllBuses();
         IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
-        
-                              // void UpdateBus(Bus bus);
-        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fie lds in Student
+
+        // void UpdateBus(Bus bus);
+        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fields in Student
         void DeleteBus(string license); // removes only Student, does not remove the appropriate Person...
         #endregion
 
-        //committing
 
 
 
 
     }
 }
-

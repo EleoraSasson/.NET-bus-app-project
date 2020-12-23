@@ -10,7 +10,6 @@ namespace DS
 {
     public static class DataSource
     {
-        public static List<Bus> busList;
         //public static List<>; 
         static DataSource() //static ctor
         {
