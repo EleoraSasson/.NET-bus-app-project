@@ -24,8 +24,36 @@ namespace DALApi
         IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
 
         // void UpdateBus(Bus bus);
-        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fields in Student
-        void DeleteBus(string license); // removes only Student, does not remove the appropriate Person...
+        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fields in Bus
+        void DeleteBus(string license);
+        #endregion
+
+        #region BusLine
+        IEnumerable<DO.BusLine> GetAllBusLines(); //IEnumerable
+        IEnumerable<object> GetBusLineWithSelectedFields(Func<DO.BusLine, object> generate); //IEnumerable
+        void AddBusLine(BusLine busLine);//create
+        void GetBusLine(int lineID);//retrieve
+        void UpdateBusLine(int lineID, Action<BusLine> update);//update
+        void DeleteBusLine(int lineID);//delete              
+        #endregion
+
+        #region BusOnTrip
+        IEnumerable<DO.BusOnTrip> GetAllBusesOnTrip(); //IEnumerable
+        IEnumerable<object> GetBusOnTripWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
+        void AddBusOnTrip(BusOnTrip busOnTrip);//create
+        void GetBusOnTrip(int roadID);//retrieve
+        void UpdateBusOnTrip(int roadID, Action<BusOnTrip> update);//update
+        void DeleteBusOnTrip(int roadID);//delete
+
+        #endregion
+
+        #region BusStop
+        IEnumerable<DO.BusStop> GetAllBusStops(); //IEnumerable
+        IEnumerable<object> GetBusStopWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
+        void AddBusStop(BusStop busStop);//create
+        void GetBusStop(int stopCode);//retrieve
+        void UpdateBusStop(int stopCode, Action<BusOnTrip> update);//update
+        void DeleteBusStop(int stopCode);//delete
         #endregion
 
         #region LineLeaving
