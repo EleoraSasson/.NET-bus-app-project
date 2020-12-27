@@ -93,7 +93,15 @@ namespace DALApi
         void GetSuccessiveStations(int stCode1, int stCode2);//retrieve
         void UpdateSuccessiveStations(int stCode1, int stCode2, Action<DO.SuccessiveStations, object> update);//update
         void DeleteSuccessiveStations(int stCode1, int stCode2);//delete
+        #endregion
 
+        #region User
+        IEnumerable<DO.User> GetAllUsers(); //IEnumerable
+        IEnumerable<object> GetUserWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
+        void AddUser(User user);//create
+        void GetUser(int stCode1, int stCode2);//retrieve
+        void UpdateUser(string userName, Action<DO.SuccessiveStations, object> update);//update
+        void DeleteUser(string name);//delete
         #endregion
 
         #region UserTrip

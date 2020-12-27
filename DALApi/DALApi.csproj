@@ -47,6 +47,7 @@
     <Compile Include="BusOnTrip.cs" />
     <Compile Include="BusStop.cs" />
     <Compile Include="DALFactory.cs" />
+    <Compile Include="DLConfig.cs" />
     <Compile Include="ICloneable.cs" />
     <Compile Include="IDAL.cs" />
     <Compile Include="LineLeaving.cs" />

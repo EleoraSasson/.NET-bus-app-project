@@ -24,9 +24,9 @@ namespace DO
             set { password = value; }
         }
 
-        private int permission;
+        private bool permission;
           
-        public int adminPermission //??
+        public bool adminPermission //??
         {
             get { return permission; }
             set { permission = value; }
