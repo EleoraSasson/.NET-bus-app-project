@@ -16,9 +16,12 @@ namespace DAL //might need to be DL
         //we want only one copy of our data
         //we want everything to write to the same thing...the way we do this is with the Singleton pattern
         //use singelton pattern
-        #region Singelton
-        //priavet and using statiç
-        //dal factroy creates the dal object once and only once!
+        static Random rnd = new Random();
+        #region Singleton
+        static readonly DLObject instance = new DLObject();
+        static DLObject() { }
+        DLObject() { }
+        public static DLObject Instance => instance;
         #endregion
         //must implement IDAL
         //gets data and adds to data source then we add a reference to DS
