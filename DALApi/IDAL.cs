@@ -67,20 +67,49 @@ namespace DALApi
         #endregion
 
         #region LineStation
+        /// <summary>
+        /// Action: This Method returns a collection of all the Stations on a specific line.
+        /// Return type: IEnumerable
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<DO.LineStation> GetAllLineStations(); //IEnumerable
+        /// <summary>
+        /// Action: This Method returns a collection of all the Stations on a specific line which ???.
+        /// Return type: IEnumerable
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<object> GetLineStationWithSelectedFields(Func<DO.LineStation, object> generate); //IEnumerable
+        /// <summary>
+        /// Action: This method adds a LineStation (it adds a station to a specific line).
+        /// Return type: void
+        /// </summary>
+        /// <returns></returns>
         void AddLineStation(LineStation lineStation);//create
-        void GetLineStation(int lineID, int stationCode);//retrieve
+        /// <summary>
+        /// Action: This method gets a specific Line-Station pair.
+        /// Return type: LineStation
+        /// </summary>
+        /// <returns></returns>
+        LineStation GetLineStation(int lineID, int stationCode);//retrieve
+        /// <summary>
+        /// Action: This method updates a LineStation given it's identifiying features.
+        /// Return type: void
+        /// </summary>
+        /// <returns></returns>
         void UpdateLineStation(int lineID, int stationCode, Action<LineStation> update);//update
+        /// <summary>
+        /// Action: This method removes a LineStation given it's identifiying features.
+        /// Return type: void
+        /// </summary>
+        /// <returns></returns>
         void DeleteLineStation(int lineID, int stationCode);//delete
-
         #endregion
 
         #region Staff
         IEnumerable<DO.Staff> GetAllStaff(); //IEnumerable
         IEnumerable<object> GetStaffWithSelectedFields(Func<DO.Staff, object> generate); //IEnumerable
         void AddStaff(Staff staff);//create
-        void GetStaff(string staffID);//retrieve
+        Staff GetStaff(string staffID);//retrieve
         void UpdateStaff(string staffID, Action<Staff> update);//update
         void DeleteStaff(string staffID);//delete
 

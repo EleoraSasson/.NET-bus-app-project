@@ -3,22 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using DALApi; //referance to DALApi interface
 using DS; //reference to Data Structure
 using DO; //reference to Data Object
+using DLObject;
 //using DO might need to access some things from the interface
 
-namespace DAL //might need to be DL
+namespace DAL 
 {
     public class DLObject : IDAL
     {
         static Random rnd = new Random();
+        /// <summary>
+        /// Implementing the Singelton Design Method so that only one instance of each collection will be created
+        /// This ensures that all the data is in one place and that we do not have any extra copies of collections
+        /// </summary>
         #region Singleton
         static readonly DLObject instance = new DLObject();
         static DLObject() { }
         DLObject() { }
         public static DLObject Instance { get => instance; }
         #endregion
+
+        LineStation lineStation;
+        Staff staff;
+        SuccessiveStations successiveStations;
+        User user;
+        UserTrip userTrip;
 
         //Eleora
         #region CRUD Implementation - Bus
@@ -190,35 +202,69 @@ namespace DAL //might need to be DL
         //Gila
         #region CRUD Implementation - LineStation
 
-
         public IEnumerable<LineStation> GetAllLineStations()
         {
-            throw new NotImplementedException();
+            return from LineStation in DataSource.lineStationList
+                   select LineStation.Clone();
         }
-
         public IEnumerable<object> GetLineStationWithSelectedFields(Func<LineStation, object> generate)
         {
-            throw new NotImplementedException();
-        }
+            return from LineStation in DataSource.lineStationList
+                   select generate(GetLineStation(lineStation.lineID, lineStation.stationCode)); //???
 
+            //return from student in DataSource.ListStudents
+            //       select generate(student.ID, GetPerson(student.ID).Name);
+        }
         public void AddLineStation(LineStation lineStation)
         {
-            throw new NotImplementedException();
+            //check if line exsists
+            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineStation.lineID) != null))
+            {
+                //if line exsists see if it holds the same station
+                if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))
+                {
+                    throw new DO.ExsistingLineStationException(lineStation, "Duplicate lineStation"); 
+                }
+            } //it is a new LineSation so can add to collection:
+            DataSource.lineStationList.Add(lineStation.Clone());
         }
-
-        public void GetLineStation(int lineID, int stationCode)
+        public LineStation GetLineStation(int lineID, int stationCode)
         {
-            throw new NotImplementedException();
-        }
+            //PICK AN OPTION (1)
+            //DO.LineStation findLine = DataSource.lineStationList.Find(line => line.lineID == lineID);
+            //DO.LineStation findStation = DataSource.lineStationList.Find(line => line.stationCode == stationCode);
+            //(2)
+            var lineStationKey = lineID + stationCode;
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
 
+            if (findLineStation != null)
+            {
+                return lineStation.Clone();
+            }
+            else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+        }
         public void UpdateLineStation(int lineID, int stationCode, Action<LineStation> update)
         {
-            throw new NotImplementedException();
-        }
+            var lineStationKey = lineID + stationCode;
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
 
+            if (findLineStation != null)
+            {
+                DataSource.lineStationList.Remove(findLineStation);
+                DataSource.lineStationList.Add(findLineStation.Clone());
+            }
+            else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+        }
         public void DeleteLineStation(int lineID, int stationCode)
         {
-            throw new NotImplementedException();
+            var lineStationKey = lineID + stationCode;
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+
+            if (findLineStation != null)
+            {
+                DataSource.lineStationList.Remove(findLineStation);
+            }
+            else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
         }
         #endregion
 
@@ -226,7 +272,8 @@ namespace DAL //might need to be DL
 
         public IEnumerable<Staff> GetAllStaff()
         {
-            throw new NotImplementedException();
+            return from Staff in DataSource.staffList
+                   select staff.Clone();
         }
 
         public IEnumerable<object> GetStaffWithSelectedFields(Func<Staff, object> generate)
@@ -236,12 +283,23 @@ namespace DAL //might need to be DL
 
         public void AddStaff(Staff staff)
         {
-            throw new NotImplementedException();
+            //check if staff member exsists already
+            if ((DataSource.staffList.FirstOrDefault(st => st.BusDriverID == staff.BusDriverID) != null))
+            {
+                throw new DO.StaffAlreadyInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is already listed in the system");
+            } //it is a new staff member so can add to list:
+            DataSource.staffList.Add(staff.Clone());
         }
 
-        public void GetStaff(string staffID)
+        public Staff GetStaff(string staffID)
         {
-            throw new NotImplementedException();
+            DO.Staff FindStaff = DataSource.staffList.Find(member => member.BusDriverID == staffID);
+
+            if (FindStaff != null)
+            {
+                return staff.Clone();
+            }
+            else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
         }
 
         public void UpdateStaff(string staffID, Action<Staff> update)

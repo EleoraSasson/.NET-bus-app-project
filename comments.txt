@@ -6,3 +6,9 @@ Things to do
 3. check out eg in GIT for CRUD Methods
 4. watch sat night video for tomorrow
 
+
+
+/// Notes By GILA:
+
+- I changed the LineStation id, station code and key to be of type int --- do we need an entity key specified? or shoudl i use that instead? see DLObjects
+- I added the Cloning exstention method + the DataSource lists (one for each class - not sure if we need all but i suppose we will see)
