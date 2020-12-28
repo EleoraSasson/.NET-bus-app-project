@@ -37,14 +37,14 @@ namespace DAL
 
         public void AddBus(DO.Bus bus)
         {
-            if (DataSource.ListBus.FirstOrDefault(b => b.BusLicense == bus.BusLicense) != null)
+            if (DataSource.busList.FirstOrDefault(b => b.BusLicense == bus.BusLicense) != null)
                 throw new DO.BadBusLicenseException(bus.BusLicense, "Duplicate bus license number");
-            DataSource.ListBus.Add(bus.Clone());
+            DataSource.busList.Add(bus.Clone());
         }
 
         public Bus GetBus(string license)
         {
-            DO.Bus bus = DataSource.ListBus.Find(b => b.BusLicense == license); //define list bus
+            DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == license); //define list bus
 
             if (bus != null)
                 return bus.Clone();
@@ -54,7 +54,7 @@ namespace DAL
 
         public IEnumerable<Bus> GetAllBuses()
         {
-            return from Bus in DataSource.ListBus
+            return from Bus in DataSource.busList
                    select Bus.Clone();
         }
 
@@ -65,12 +65,12 @@ namespace DAL
 
         public void UpdateBus (Bus buss) //(string license, Action<Bus> update)
         {
-            DO.Bus bus = DataSource.ListBus.Find(b => b.BusLicense == buss.BusLicense);
+            DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == buss.BusLicense);
 
             if (bus != null)
             {
-                DataSource.ListBus.Remove(bus);
-                DataSource.ListBus.Add(bus.Clone());
+                DataSource.busList.Remove(bus);
+                DataSource.busList.Add(bus.Clone());
             }
             else
                 throw new DO.BadBusLicenseException(buss.BusLicense, $"wrong bus license: {buss.BusLicense}");
@@ -78,11 +78,11 @@ namespace DAL
 
         public void DeleteBus(string license)
         {
-            DO.Bus bus = DataSource.ListBus.Find(b => b.BusLicense == license);
+            DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == license);
 
             if (bus != null)
             {
-                DataSource.ListBus.Remove(bus);
+                DataSource.busList.Remove(bus);
             }
             else
                 throw new DO.BadBusLicenseException(id, $"bad person id: {license}");
@@ -93,7 +93,7 @@ namespace DAL
 
         public IEnumerable<BusLine> GetAllBusLines()
         {
-            return from BusLine in DataSource.ListBusLine
+            return from BusLine in DataSource.busLineList
                    select BusLine.Clone();
         }
 
@@ -104,14 +104,14 @@ namespace DAL
 
         public void AddBusLine(BusLine busLine)
         {
-            if (DataSource.ListBusLine.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
+            if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
                 throw new DO.BadBusLineIDException(busLine.BusLineID, "Duplicate bus license number");
-            DataSource.ListBusLine.Add(busLine.Clone());
+            DataSource.busLineList.Add(busLine.Clone());
         }
 
         public void GetBusLine(int lineID)
         {
-            DO.BusLine line = DataSource.ListBusLine.Find(b => b.BusLineID == lineID); //define list bus
+            DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID); //define list bus
 
             if (line != null)
                 return line.Clone();
@@ -121,12 +121,12 @@ namespace DAL
 
         public void UpdateBusLine (BusLine busline) //(int lineID, Action<BusLine> update)
         {
-            DO.BusLine line = DataSource.ListBusLine.Find(b => b.BusLineID == busline.BusLineID);
+            DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == busline.BusLineID);
 
             if (line != null)
             {    
-                DataSource.ListBusLine.Remove(line);
-                DataSource.ListBusLine.Add(line.Clone());
+                DataSource.busLineList.Remove(line);
+                DataSource.busLineList.Add(line.Clone());
             }
             else
                 throw new DO.BadBusLineIDException(busline.BusLineID, $"wrong bus line ID: {busline.BusLineID}");
@@ -134,11 +134,11 @@ namespace DAL
 
         public void DeleteBusLine(int lineID)
         {
-            DO.BusLine line = DataSource.ListBusLine.Find(b => b.BusLineID == lineID);
+            DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID);
 
             if (line != null)
             {
-                DataSource.ListBusLine.Remove(line);
+                DataSource.busLineList.Remove(line);
             }
             else
                 throw new DO.BadBusLineIDException(lineID, $"wrong bus line ID: {lineID}");
@@ -150,7 +150,7 @@ namespace DAL
 
         public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
         {
-            return from BusOnTrip in DataSource.ListBusOnTrip
+            return from BusOnTrip in DataSource.busOnTripList
                    select BusOnTrip.Clone();
         }
 
@@ -161,14 +161,14 @@ namespace DAL
 
         public void AddBusOnTrip(BusOnTrip busOnTrip)
         {
-            if (DataSource.ListBusOnTrip.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
+            if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.BadBusOnTripIDException(busOnTrip.BusRoadID, "Duplicate bus on trip ID");
-            DataSource.ListBusOnTrip.Add(busOnTrip.Clone());
+            DataSource.busOnTripList.Add(busOnTrip.Clone());
         }
 
         public void GetBusOnTrip(int roadID)
         {
-            DO.BusOnTrip trip = DataSource.ListBusOnTrip.Find(b => b.BusRoadID == lineID); //define list bus
+            DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == roadID); //define list bus
 
             if (trip != null)
                 return trip.Clone();
@@ -178,12 +178,12 @@ namespace DAL
 
         public void UpdateBusOnTrip(BusOnTrip bus)
         {
-            DO.BusOnTrip trip = DataSource.ListBusOnTrip.Find(b => b.BusRoadID == bus.BusRoadID);
+            DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == bus.BusRoadID);
 
             if (trip != null)
             {
-                DataSource.ListBusOnTrip.Remove(trip);
-                DataSource.ListBusOnTrip.Add(trip.Clone());
+                DataSource.busOnTripList.Remove(trip);
+                DataSource.busOnTripList.Add(trip.Clone());
             }
             else
                 throw new DO.BadBusOnTripIDException(bus.BusRoadID, $"wrong bus on trip ID: {bus.BusRoadID}");
@@ -191,11 +191,11 @@ namespace DAL
 
         public void DeleteBusOnTrip(int roadID)
         {
-            DO.BusOnTrip trip = DataSource.ListBusOnTrip.Find(b => b.BusRoadID == roadID);
+            DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == roadID);
 
             if (trip != null)
             {
-                DataSource.ListBusOnTrip.Remove(trip);
+                DataSource.busOnTripList.Remove(trip);
             }
             else
                 throw new DO.BadBusOnTripIDException(roadID, $"wrong bus on trip ID: {roadID}");
@@ -206,7 +206,7 @@ namespace DAL
 
         public IEnumerable<BusStop> GetAllBusStops()
         {
-            return from BusStop in DataSource.ListBusStop
+            return from BusStop in DataSource.busStopList
                    select BusStop.Clone();
         }
 
@@ -217,14 +217,14 @@ namespace DAL
 
         public void AddBusStop(BusStop busStop)
         {
-            if (DataSource.ListBusStop.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
+            if (DataSource.busStopList.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
                 throw new DO.BadBusStopCodeException(busStop.StopCode, "Duplicate bus stop code");
-            DataSource.ListBusStop.Add(busStop.Clone());
+            DataSource.busStopList.Add(busStop.Clone());
         }
 
         public void GetBusStop(int stopCode)
         {
-            DO.BusStop stop = DataSource.ListBusStop.Find(b => b.StopCode == stopCode); //define list bus
+            DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode); //define list bus
 
             if (stop != null)
                 return stop.Clone();
@@ -234,12 +234,12 @@ namespace DAL
 
         public void UpdateBusStop(BusStop bstop)
         {
-            DO.BusStop stop = DataSource.ListBusStop.Find(b => b.StopCode == bstop.StopCode);
+            DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == bstop.StopCode);
 
             if (stop != null)
             {
-                DataSource.ListBusStop.Remove(stop);
-                DataSource.ListBusStop.Add(stop.Clone());
+                DataSource.busStopList.Remove(stop);
+                DataSource.busStopList.Add(stop.Clone());
             }
             else
                 throw new DO.BadBusStopCodeException(stopCode, $"wrong bus stop code: {stopCode}");
@@ -247,11 +247,11 @@ namespace DAL
 
         public void DeleteBusStop(int stopCode)
         {
-            DO.BusStop stop = DataSource.ListBusStop.Find(b => b.StopCode == stopCode);
+            DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode);
 
             if (stop != null)
             {
-                DataSource.ListBusStop.Remove(stop);
+                DataSource.busStopList.Remove(stop);
             }
             else
                 throw new DO.BadBusStopCodeException(stopCode, $"wrong bus stop code: {stopCode}");
