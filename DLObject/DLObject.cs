@@ -111,7 +111,7 @@ namespace DAL
 
         public BusLine GetBusLine(int lineID)
         {
-            DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID); 
+            DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID); //define list bus
 
             if (line != null)
                 return line.Clone();
