@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DALApi
+namespace DS
 {
+
     /// <summary>
     /// This class keeps track of the start values for every 
     /// running number used in the various entity keys throught the DAL 

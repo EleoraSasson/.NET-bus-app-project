@@ -78,38 +78,6 @@ namespace DO
         }
 
 
-        /* CONSTRUCTORS */
-
-        // Default ctor:
-        BusLine()
-        {
-            BusLineID = 0; //auto running num;
-            Random rand = new Random();
-            var lineRand = rand.Next(1,80); //get a random number between between 1 and 80 to be your line number
-            //create some check that lineNo does not already exsist??
-            BusLineNo = lineRand;
-            BusRegion = Regions.Unknown;
-            BusStop startStop = new BusStop();
-            BusStart = startStop;
-            BusStop endStop = new BusStop();
-            BusEnd = endStop;
-            LineLeaving lineLeaving = new LineLeaving();
-            BusLeaving = lineLeaving;
-            LineErased = false; //default the line is in use
-        }
-
-        //ctor:
-        BusLine(int idLine, int noLine, Regions regionLine, BusStop startLine, BusStop endLine, LineLeaving leavingLine)
-        {
-            BusLineID = idLine;
-            BusLineNo = noLine;
-            BusRegion = regionLine;
-            BusStart = startLine;
-            BusEnd = endLine;
-            BusLeaving = leavingLine;
-            // when adding a line we assume that the line will be automatically in use, therefore, no need to send boolean parameter to ensure
-        }
-
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {

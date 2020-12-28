@@ -62,27 +62,6 @@ namespace DO
         // not sure how we want to se this up?
 
 
-        /* CONSTRUCTORS */
-        // Default Ctor:
-        public BusStop()
-        {
-            StopCode = 0;
-            StopName = "NewStation";
-            StopActive = false;
-            //address
-            //digital panel
-        }
-        // Ctor:
-        public BusStop( int codeS, GeoCoordinate locationS, string nameS, bool activeS /*address, digital panel*/)
-        {
-            StopCode = codeS;
-            StopLocation = locationS;
-            StopName = nameS;
-            StopActive = activeS;
-            //address
-            //digital panel
-        }
-
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {

@@ -78,43 +78,6 @@ namespace DO
             set { erased = value; }
         }
 
-
-        /* CONSTRUCTORS */
-
-        //Default ctor:
-        public Bus()
-        {
-            BusLicense = "XX-XXX-XX";
-            BusRegDate = DateTime.Now;
-            BusMaintenanceDate = DateTime.Now;
-            BusMileage = 0;
-            BusFuel = 1200;
-            BusStatus = Status.Available;
-            BusErased = false; //by default it is part of bus company fleet
-        }
-
-        //ctor
-        public Bus( string busLicense, DateTime busReg, DateTime busMaintenance, int busMileage, int busFuel)
-        {
-            BusLicense = busLicense;
-            BusRegDate = busReg;
-            BusMaintenanceDate = busMaintenance;
-
-            if (busMileage < 0)
-            {
-                //throw exception to BL Layer to deal with invalid input
-            }
-            else BusMileage = busMileage;
-
-            if (busFuel > 1200 || busFuel < 0)
-            {
-                //throw exception to BL Layer to deal with invalid input
-            }
-            else BusFuel = busFuel;
-
-            //when a bus is added it is automatically in the company fleet therefore, erased boolean value need not be passed.
-        }
-
         /* OVERRIDE TOSTRING */
 
         public override string ToString()

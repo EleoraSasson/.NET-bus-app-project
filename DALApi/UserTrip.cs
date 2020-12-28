@@ -18,19 +18,6 @@ namespace DO
         // Alighting Station ID
         // Alighting Time
 
-        /* CONSTRUCTORS */
-
-        // Default ctor:
-        public UserTrip()
-        {
-
-        }
-
-        // ctor:
-        public UserTrip(int RelevantParam)
-        {
-
-        }
 
         /* OVERRIDE TOSTRING*/
 

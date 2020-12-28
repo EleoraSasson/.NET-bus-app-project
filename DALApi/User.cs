@@ -32,21 +32,7 @@ namespace DO
             set { permission = value; }
         }
 
-        public User ()
-        {
-            userName = "Unknown";
-            password = "Unknown";
-            permission = false;
-        }
-
-        public User (string u, string p, bool perm)
-        {
-            userName = u;
-            password = p;
-            permission = perm;
-        }
-
-
+        /* OVERRIDE TOSTRING */
         public override string ToString()
         {
             return "User details: \n Username: " + userName + " \n Permission: " + adminPermission.ToString();

@@ -63,28 +63,6 @@ namespace DO
             set { age = value; }
         }
 
-        /* CONSTRUCTORS */
-
-        // Default Ctor:
-        public Staff()
-        {
-            BusDriverFirst = DriverFirstName.Unknown;
-            BusDriverLast = DriverLastName.Unknown;
-            BusDriverID = 0;
-            BusDriverCellNo = "NotRegistered";
-            BusDriverAge = 18;
-        }
-
-        // Ctor:
-        public Staff( DriverFirstName firstN, DriverLastName lastN, int IDdriver, string cellDriver, int ageDriver)
-        {
-            BusDriverFirst = firstN;
-            BusDriverLast = lastN;
-            BusDriverID = IDdriver;
-            BusDriverCellNo = cellDriver;
-            BusDriverAge = ageDriver;
-        }
-
         /* OVERRIDE TOSTRING */
 
         public override string ToString()

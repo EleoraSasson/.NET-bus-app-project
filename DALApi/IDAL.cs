@@ -12,28 +12,20 @@ namespace DALApi
         /* IMPLEMENTING CRUD METHODS FOR BUS DO ENTITY */
 
         #region Bus
-        // Create
-        void AddBus(Bus bus); //create
-        //Retrieve
-        Bus GetBus(string license); //retrieve
-
-        //Update
-        //Delete
-
         IEnumerable<DO.Bus> GetAllBuses();
         IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
-
-        // void UpdateBus(Bus bus);
-        void UpdateBus(string license, Action<Bus> update); //method that knows to updt specific fields in Bus
-        void DeleteBus(string license);
+        void AddBus(Bus bus); //create
+        Bus GetBus(string license); //retrieve
+        void UpdateBus(string license, Action<Bus> update); //update
+        void DeleteBus(string license); //delete
         #endregion
 
         #region BusLine
         IEnumerable<DO.BusLine> GetAllBusLines(); //IEnumerable
         IEnumerable<object> GetBusLineWithSelectedFields(Func<DO.BusLine, object> generate); //IEnumerable
         void AddBusLine(BusLine busLine);//create
-        void GetBusLine(int lineID);//retrieve
-        void UpdateBusLine(int lineID, Action<BusLine> update);//update
+        BusLine GetBusLine(int lineID);//retrieve
+        void UpdateBusLine(BusLine busline);//update
         void DeleteBusLine(int lineID);//delete              
         #endregion
 
@@ -41,8 +33,8 @@ namespace DALApi
         IEnumerable<DO.BusOnTrip> GetAllBusesOnTrip(); //IEnumerable
         IEnumerable<object> GetBusOnTripWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
         void AddBusOnTrip(BusOnTrip busOnTrip);//create
-        void GetBusOnTrip(int roadID);//retrieve
-        void UpdateBusOnTrip(int roadID, Action<BusOnTrip> update);//update
+        BusOnTrip GetBusOnTrip(int roadID);//retrieve
+        void UpdateBusOnTrip(BusOnTrip busOnTrip);//update
         void DeleteBusOnTrip(int roadID);//delete
 
         #endregion
@@ -51,8 +43,8 @@ namespace DALApi
         IEnumerable<DO.BusStop> GetAllBusStops(); //IEnumerable
         IEnumerable<object> GetBusStopWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
         void AddBusStop(BusStop busStop);//create
-        void GetBusStop(int stopCode);//retrieve
-        void UpdateBusStop(int stopCode, Action<BusOnTrip> update);//update
+        BusStop GetBusStop(int stopCode);//retrieve
+        void UpdateBusStop(BusStop busStop);//update
         void DeleteBusStop(int stopCode);//delete
         #endregion
 
@@ -60,12 +52,12 @@ namespace DALApi
         IEnumerable<DO.LineLeaving> GetAllLinesLeaving(); //IEnumerable
         IEnumerable<object> GetLineLeavingWithSelectedFields(Func<DO.LineLeaving, object> generate); //IEnumerable
         void AddLineLeaving(LineLeaving lineLeaving);//create
-        void GetLineLeaving(int lineID, TimeSpan startTime);//retrieve
-        void UpdateLineLeaving(int lineID, TimeSpan startTime, Action<LineLeaving> update);//update
+        LineLeaving GetLineLeaving(int lineID, TimeSpan startTime);//retrieve
+        void UpdateLineLeaving(LineLeaving lineLeaving);//update
         void DeleteLineLeaving(int lineID, TimeSpan startTime);//delete
 
         #endregion
-
+       
         #region LineStation
         /// <summary>
         /// Action: This Method returns a collection of all the Stations on a specific line.
@@ -90,19 +82,19 @@ namespace DALApi
         /// Return type: LineStation
         /// </summary>
         /// <returns></returns>
-        LineStation GetLineStation(int lineID, int stationCode);//retrieve
+        LineStation GetLineStation(string lineStationKey);//retrieve
         /// <summary>
         /// Action: This method updates a LineStation given it's identifiying features.
         /// Return type: void
         /// </summary>
         /// <returns></returns>
-        void UpdateLineStation(int lineID, int stationCode, Action<LineStation> update);//update
+        void UpdateLineStation(string lineStationKey);//update
         /// <summary>
         /// Action: This method removes a LineStation given it's identifiying features.
         /// Return type: void
         /// </summary>
         /// <returns></returns>
-        void DeleteLineStation(int lineID, int stationCode);//delete
+        void DeleteLineStation(string lineStationKey);//delete
         #endregion
 
         #region Staff
@@ -119,7 +111,7 @@ namespace DALApi
         IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
         IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddSuccessiveStations(SuccessiveStations successiveStations);//create
-        void GetSuccessiveStations(int stCode1, int stCode2);//retrieve
+        SuccessiveStations GetSuccessiveStations(int stCode1, int stCode2);//retrieve
         void UpdateSuccessiveStations(int stCode1, int stCode2, Action<DO.SuccessiveStations, object> update);//update
         void DeleteSuccessiveStations(int stCode1, int stCode2);//delete
         #endregion
@@ -128,7 +120,7 @@ namespace DALApi
         IEnumerable<DO.User> GetAllUsers(); //IEnumerable
         IEnumerable<object> GetUserWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddUser(User user);//create
-        void GetUser(int stCode1, int stCode2);//retrieve
+        User GetUser(int stCode1, int stCode2);//retrieve
         void UpdateUser(string userName, Action<DO.SuccessiveStations, object> update);//update
         void DeleteUser(string name);//delete
         #endregion
@@ -137,7 +129,7 @@ namespace DALApi
         IEnumerable<DO.SuccessiveStations> GetAllUserTrip(); //IEnumerable
         IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
         void AddUserTrip(UserTrip userTrip);//create
-        void GetUserTrip(int travelID);//retrieve
+        UserTrip GetUserTrip(int travelID);//retrieve
         void UpdateUserTrip(int travelID, Action<DO.UserTrip, object> update);//update
         void DeleteUserTrip(int travelID);//delete
 

@@ -8,24 +8,24 @@ namespace DO
 {
     public class LineStation :ICloneable
     {
-        private int id; 
-        public int lineID
+        private string id; 
+        public string lineID
         {
             get { return id; }
             set { id = value; }
         }
 
-        private int station;
+        private string station;
 
-        public int stationCode
+        public string stationCode
         {
             get { return station; }
             set { station = value; }
         }
 
-        private int key;
+        private string key;
 
-        public int entityKey
+        public string entityKey
         {
             get { return lineID + stationCode; }
             set { key = lineID + stationCode; }
@@ -39,6 +39,8 @@ namespace DO
             get { return stationNum; }
             set { stationNum = value; }
         }
+
+        /* OVERRIDE TOSTRING */
         public override string ToString()
         {
             return "Line station details: \n Line ID: " + lineID + "  \n Station code: " + stationCode + " \n Station number: " + stationNum;

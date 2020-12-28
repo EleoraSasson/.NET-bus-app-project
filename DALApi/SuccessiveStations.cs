@@ -46,27 +46,6 @@ namespace DO
             set { aveTravelT = value; }
         }
 
-        /* CONSTRUCTORS */
-
-        // default ctor:
-        public SuccessiveStations()
-        {
-            StationCode1 = 0;
-            StationCode2 = 1;
-            StationDistance = 1; //set to 1km
-            var aveTravel = new TimeSpan(00,10,00);
-            StationAveTravelT = aveTravel; //set to 10 minutes
-        }
-
-        // ctor:
-        public SuccessiveStations( int stCode0, int stCode1, int stDistance, TimeSpan stAveTime)
-        {
-            StationCode1 = stCode0;
-            StationCode2 = stCode1;
-            StationDistance = stDistance;
-            StationAveTravelT = stAveTime;
-        }
-
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {

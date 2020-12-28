@@ -48,28 +48,6 @@ namespace DO
             set { lastLine = value; }
         }
 
-
-        /* CONSTRUCTORS */
-
-        // Default Ctor:
-        public LineLeaving()
-        {
-            BusLineID = 0;
-            TimeSpan StartTime = new TimeSpan(5,00,00); //default start time of all lines is 5am
-            BusFirstLine = StartTime;
-            TimeSpan EndTime = new TimeSpan(23, 00, 00); //default end time is 11pm
-            BusLastLine = EndTime;
-        }
-
-        // Ctor:
-        public LineLeaving(int idLine, TimeSpan linefirst, int lineFreq , TimeSpan lineLast)//chnage param
-        {
-            BusLineID = idLine;
-            BusFirstLine = linefirst;
-            BusNumLines = lineFreq;
-            BusLastLine = lineLast;
-        }
-
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
