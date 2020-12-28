@@ -6,3 +6,7 @@ Things to do
 3. check out eg in GIT for CRUD Methods
 4. watch sat night video for tomorrow
 
+ADD LISTS TO DATASOURCE 
+implement the exceptions
+add erased field for the bus, busstop, busline
+do we have busRouteStop? in DO  (contains line no, a station, and its number in the route)
