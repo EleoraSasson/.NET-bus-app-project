@@ -38,7 +38,7 @@ namespace DAL
         public void AddBus(DO.Bus bus)
         {
             if (DataSource.busList.FirstOrDefault(b => b.BusLicense == bus.BusLicense) != null)
-                throw new DO.BadBusLicenseException(bus.BusLicense, "Duplicate bus license number");
+                throw new DO.InvalidBusLicenseException(bus.BusLicense, "Duplicate bus license number");
             DataSource.busList.Add(bus.Clone());
         }
 
@@ -49,7 +49,7 @@ namespace DAL
             if (bus != null)
                 return bus.Clone();
             else
-                throw new DO.BadBusLicenseException(license, $"wrong bus license: {license}");
+                throw new DO.InvalidBusLicenseException(license, $"wrong bus license: {license}");
         }
 
         public IEnumerable<Bus> GetAllBuses()
@@ -73,7 +73,7 @@ namespace DAL
                 DataSource.busList.Add(bus.Clone());
             }
             else
-                throw new DO.BadBusLicenseException(buss.BusLicense, $"wrong bus license: {buss.BusLicense}");
+                throw new DO.InvalidBusLicenseException(buss.BusLicense, $"wrong bus license: {buss.BusLicense}");
         }
 
         public void DeleteBus(string license)
@@ -85,7 +85,7 @@ namespace DAL
                 DataSource.busList.Remove(bus);
             }
             else
-                throw new DO.BadBusLicenseException(id, $"bad person id: {license}");
+                throw new DO.InvalidBusLicenseException(license, $"bad person id: {license}");
         }
         #endregion
 

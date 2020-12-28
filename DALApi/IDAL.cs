@@ -16,7 +16,7 @@ namespace DALApi
         IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
         void AddBus(Bus bus); //create
         Bus GetBus(string license); //retrieve
-        void UpdateBus(string license, Action<Bus> update); //update
+        void UpdateBus(Bus bus); //update
         void DeleteBus(string license); //delete
         #endregion
 
