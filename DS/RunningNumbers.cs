@@ -14,33 +14,51 @@ namespace DS
     /// </summary>
     class RunningNumbers
     {
-        //Bus on Trip Running Number:
-        private int runNumBus;
+        /// <summary>
+        /// This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
+        /// on a trip.
+        /// </summary>
+        public static int runNum_Bus = 1111;
 
-        public int BusRunNum
-        {
-            get { return runNumBus; }
-            set { runNumBus = value; }
-        }
+        /// <summary>
+        /// This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line.
+        /// </summary>
+        public static int runNum_Line = 01;
 
-        //Bus Line Running Number
+        /// <summary>
+        /// This is a 6 digit running number that acts as the users travel ID and is used to identify the specific user travel information 
+        /// on a trip.
+        /// </summary>
+        public static int runNum_userT = 111111;
 
-        private int runNumLine;
 
-        public int LineRunNum
-        {
-            get { return runNumLine; }
-            set { runNumLine = value; }
-        }
+        ////Bus on Trip Running Number:
+        //private int runNumBus;
 
-        //User Trip Running Number
-        private int runNumUser;
+        //public int BusRunNum
+        //{
+        //    get { return runNumBus; }
+        //    set { runNumBus = value; }
+        //}
 
-        public int UserRunNum
-        {
-            get { return runNumUser; }
-            set { runNumUser = value; }
-        }
+        ////Bus Line Running Number
+
+        //private int runNumLine;
+
+        //public int LineRunNum
+        //{
+        //    get { return runNumLine; }
+        //    set { runNumLine = value; }
+        //}
+
+        ////User Trip Running Number
+        //private int runNumUser;
+
+        //public int UserRunNum
+        //{
+        //    get { return runNumUser; }
+        //    set { runNumUser = value; }
+        //}
 
     }
 }

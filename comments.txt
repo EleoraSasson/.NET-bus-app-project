@@ -42,3 +42,6 @@ Some more things to do... :) [you know cause we are sooo bored]
 [make sure to finish IDAL implementations in DLObject...]
 1. Write the exceptions specific to your IDAL implementations in the ExceptionHandling class (currently in DLObject)
 2. watch rest of recording about BL layer
+
+
+/// Question --> running number (look at the class) how are we laying it outt and we should add it to the classes. 
