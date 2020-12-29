@@ -26,7 +26,7 @@ namespace DO
 
         private bool permission;
           
-        public bool adminPermission //??
+        public bool adminPermission 
         {
             get { return permission; }
             set { permission = value; }

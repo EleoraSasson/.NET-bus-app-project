@@ -315,7 +315,7 @@ namespace DAL
                 //if line exsists see if it holds the same station
                 if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))
                 {
-                    throw new DO.ExsistingLineStationException(lineStation, "Duplicate lineStation"); 
+                    throw new DO.ExsistingLineStationException(lineStation.entityKey, "Duplicate lineStation"); 
                 }
             } //it is a new LineSation so can add to collection:
             DataSource.lineStationList.Add(lineStation.Clone());
@@ -417,7 +417,8 @@ namespace DAL
 
         public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
         {
-            throw new NotImplementedException();
+            return from SuccessiveStations in DataSource.succStationsList
+                   select SuccessiveStations.Clone();
         }
 
         public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
@@ -427,35 +428,49 @@ namespace DAL
 
         public void AddSuccessiveStations(SuccessiveStations successiveStations)
         {
-            throw new NotImplementedException();
+            //check if station 1 exists
+            if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null))
+            {
+                //if station 1 exsists see if it connects to station 2
+                if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode2 == successiveStations.StationCode2) != null))
+                {
+                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationEntityKey, "Duplicate Successive Station");
+                }
+            } //it is a new LineSation so can add to collection:
+            DataSource.succStationsList.Add(successiveStations.Clone());
         }
 
-        public SuccessiveStations GetSuccessiveStations(int stCode1, int stCode2)
+        public SuccessiveStations GetSuccessiveStations(string entityKey)
         {
-            throw new NotImplementedException();
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            if (findStations != null)
+            {
+                return successiveStations.Clone();
+            }
+            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
 
-        public void UpdateSuccessiveStations(int stCode1, int stCode2, Action<SuccessiveStations, object> update)
+        public void UpdateSuccessiveStations(string entityKey)
         {
-            //DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
 
-            //if (findLineStation != null)
-            //{
-            //    DataSource.lineStationList.Remove(findLineStation);
-            //    DataSource.lineStationList.Add(findLineStation.Clone());
-            //}
-            //else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            if (findStations != null)
+            {
+                DataSource.succStationsList.Remove(findStations);
+                DataSource.succStationsList.Add(findStations.Clone());
+            }
+            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
 
-        public void DeleteSuccessiveStations(int stCode1, int stCode2)
+        public void DeleteSuccessiveStations(string entityKey)
         {
-            //DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
 
-            //if (findLineStation != null)
-            //{
-            //    DataSource.lineStationList.Remove(findLineStation);
-            //}
-            //else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            if (findStations != null)
+            {
+                DataSource.succStationsList.Remove(findStations);
+            }
+            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
         #endregion
 
@@ -463,7 +478,8 @@ namespace DAL
 
         public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return from User in DataSource.usersList
+                   select User.Clone();
         }
 
         public IEnumerable<object> GetUserWithSelectedFields(Func<SuccessiveStations, object> generate)
@@ -473,36 +489,47 @@ namespace DAL
 
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            if ((DataSource.usersList.FirstOrDefault(use => use.userName == user.userName)!= null))
+            {
+                throw new DO.ExsistingUserException(user.userName, "Duplicate user")
+            }
+
+            DataSource.usersList.Add(user.Clone());
         }
 
-        public User GetUser(int stCode1, int stCode2)
+        public User GetUser(string name)
         {
-            throw new NotImplementedException();
+            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+
+            if (findUser != null)
+            {
+                return user.Clone();
+            }
+            else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
 
-        public void UpdateUser(string userName, Action<SuccessiveStations, object> update)
+        public void UpdateUser(string name)
         {
-            //DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
 
-            //if (findLineStation != null)
-            //{
-            //    DataSource.lineStationList.Remove(findLineStation);
-            //    DataSource.lineStationList.Add(findLineStation.Clone());
-            //}
-            //else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            if (findUser != null)
+            {
+                DataSource.usersList.Remove(findUser);
+                DataSource.usersList.Add(findUser.Clone());
+            }
+            else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
 
         public void DeleteUser(string name)
-        { 
-        //{
-        //    DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+        {
 
-        //    if (findLineStation != null)
-        //    {
-        //        DataSource.lineStationList.Remove(findLineStation);
-        //    }
-        //    else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+
+            if (findUser != null)
+            {
+                DataSource.usersList.Remove(findUser);
+            }
+            else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
         #endregion
 
@@ -520,35 +547,43 @@ namespace DAL
 
         public void AddUserTrip(UserTrip userTrip)
         {
-            throw new NotImplementedException();
-        }
+            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
+            if (findTrip != null)
+            {
+                throw new DO.ExsistingUserTripException(userTrip.userTravelID, "Duplicate UserTrip")
+            }
 
+            DataSource.userTripList.Add(findTrip.Clone());
+        }
         public UserTrip GetUserTrip(int travelID)
         {
-            throw new NotImplementedException();
+                DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+            if (findTrip != null)
+            {
+                return userTrip.Clone();
+            }
+            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
         }
 
-        public void UpdateUserTrip(int travelID, Action<UserTrip, object> update)
+        public void UpdateUserTrip(int travelID)
         {
-            //DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
-
-            //if (findLineStation != null)
-            //{
-            //    DataSource.lineStationList.Remove(findLineStation);
-            //    DataSource.lineStationList.Add(findLineStation.Clone());
-            //}
-            //else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+            if (findTrip != null)
+            {
+                DataSource.userTripList.Remove(findTrip);
+                DataSource.userTripList.Add(findTrip.Clone());
+            }
+            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
         }
 
         public void DeleteUserTrip(int travelID)
         {
-        //    DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
-
-        //    if (findLineStation != null)
-        //    {
-        //        DataSource.lineStationList.Remove(findLineStation);
-        //    }
-        //    else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
+            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+            if (findTrip != null)
+            {
+                DataSource.userTripList.Remove(findTrip);
+            }
+            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
         }
         #endregion
 

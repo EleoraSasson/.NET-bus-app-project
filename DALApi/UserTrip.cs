@@ -10,14 +10,61 @@ namespace DO
     {
         /* PROPERTIES */
 
-        // Travel ID
-        // User Name
-        // Line ID
-        // Bording Station ID
-        // Time Borded
-        // Alighting Station ID
-        // Alighting Time
+        private int travelID;
 
+        public int userTravelID
+        {
+            get { return travelID; }
+            set { travelID = value; }
+        }
+
+        private string name;
+
+        public string userName
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        private int lineID;
+
+        public int userLineID
+        {
+            get { return lineID; }
+            set { lineID = value; }
+        }
+
+        private int bordingID;
+
+        public int userBordingID
+        {
+            get { return bordingID; }
+            set { bordingID = value; }
+        }
+
+        private int alightingID;
+
+        public int userAlightingID
+        {
+            get { return alightingID; }
+            set { alightingID = value; }
+        }
+
+        private TimeSpan bordTime;
+
+        public TimeSpan userBordT
+        {
+            get { return bordTime; }
+            set { bordTime = value; }
+        }
+
+        private TimeSpan alightTime;
+
+        public TimeSpan userAlightT
+        {
+            get { return alightTime; }
+            set { alightTime = value; }
+        }
 
         /* OVERRIDE TOSTRING*/
 

@@ -111,17 +111,17 @@ namespace DALApi
         IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
         IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddSuccessiveStations(SuccessiveStations successiveStations);//create
-        SuccessiveStations GetSuccessiveStations(int stCode1, int stCode2);//retrieve
-        void UpdateSuccessiveStations(int stCode1, int stCode2, Action<DO.SuccessiveStations, object> update);//update
-        void DeleteSuccessiveStations(int stCode1, int stCode2);//delete
+        SuccessiveStations GetSuccessiveStations(string entityKey);//retrieve
+        void UpdateSuccessiveStations(string entityKey);//update
+        void DeleteSuccessiveStations(string entityKey);//delete
         #endregion
 
         #region User
         IEnumerable<DO.User> GetAllUsers(); //IEnumerable
         IEnumerable<object> GetUserWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddUser(User user);//create
-        User GetUser(int stCode1, int stCode2);//retrieve
-        void UpdateUser(string userName, Action<DO.SuccessiveStations, object> update);//update
+        User GetUser(string name);//retrieve
+        void UpdateUser(string name);//update
         void DeleteUser(string name);//delete
         #endregion
 
@@ -130,7 +130,7 @@ namespace DALApi
         IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
         void AddUserTrip(UserTrip userTrip);//create
         UserTrip GetUserTrip(int travelID);//retrieve
-        void UpdateUserTrip(int travelID, Action<DO.UserTrip, object> update);//update
+        void UpdateUserTrip(int travelID);//update
         void DeleteUserTrip(int travelID);//delete
 
         #endregion
