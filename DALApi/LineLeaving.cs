@@ -28,6 +28,16 @@ namespace DO
             set { firstLine = value; }
         }
 
+        private string entityKey;
+
+        public string leavingEntityKey
+        {
+            get { return BusLineID.ToString() + BusFirstLine.ToString(); }
+            set { entityKey = BusLineID.ToString() + BusFirstLine.ToString(); }
+
+        }
+
+
         // Frequency of Departure [Number of Lines per day]:
         //Note: 0 implies a single line only
         private int numLines;

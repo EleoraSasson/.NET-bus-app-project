@@ -105,7 +105,7 @@ namespace DAL
         public void AddBusLine(BusLine busLine)
         {
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
-                throw new DO.BadBusLineIDException(busLine.BusLineID, "Duplicate bus license number");
+                throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), "Duplicate bus license number");
             DataSource.busLineList.Add(busLine.Clone());
         }
 
@@ -116,7 +116,7 @@ namespace DAL
             if (line != null)
                 return line.Clone();
             else
-                throw new DO.BadBusLineIDException(lineID, $"wrong bus license: {lineID}");
+                throw new DO.InvalidBusLineException(lineID.ToString(), $"wrong bus license: {lineID}");
         }
 
         public void UpdateBusLine (BusLine busline)
@@ -129,7 +129,7 @@ namespace DAL
                 DataSource.busLineList.Add(line.Clone());
             }
             else
-                throw new DO.BadBusLineIDException(busline.BusLineID, $"wrong bus line ID: {busline.BusLineID}");
+                throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"wrong bus line ID: {busline.BusLineID}");
         }
 
         public void DeleteBusLine(int lineID)
@@ -141,7 +141,7 @@ namespace DAL
                 DataSource.busLineList.Remove(line);
             }
             else
-                throw new DO.BadBusLineIDException(lineID, $"wrong bus line ID: {lineID}");
+                throw new DO.InvalidBusLineException(lineID.ToString(), $"wrong bus line ID: {lineID}");
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace DAL
         public void AddBusOnTrip(BusOnTrip busOnTrip)
         {
             if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
-                throw new DO.BadBusOnTripIDException(busOnTrip.BusRoadID, "Duplicate bus on trip ID");
+                throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), "Duplicate bus on trip ID");
             DataSource.busOnTripList.Add(busOnTrip.Clone());
         }
 
@@ -173,7 +173,7 @@ namespace DAL
             if (trip != null)
                 return trip.Clone();
             else
-                throw new DO.BadBusOnTripIDException(roadID, $"wrong bus on trip ID: {roadID}");
+                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"wrong bus on trip ID: {roadID}");
         }
 
         public void UpdateBusOnTrip(BusOnTrip bus)
@@ -186,7 +186,7 @@ namespace DAL
                 DataSource.busOnTripList.Add(trip.Clone());
             }
             else
-                throw new DO.BadBusOnTripIDException(bus.BusRoadID, $"wrong bus on trip ID: {bus.BusRoadID}");
+                throw new DO.InvalidBusOnTripIDException(bus.BusRoadID.ToString(), $"wrong bus on trip ID: {bus.BusRoadID}");
         }
 
         public void DeleteBusOnTrip(int roadID)
@@ -198,7 +198,7 @@ namespace DAL
                 DataSource.busOnTripList.Remove(trip);
             }
             else
-                throw new DO.BadBusOnTripIDException(roadID, $"wrong bus on trip ID: {roadID}");
+                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"wrong bus on trip ID: {roadID}");
         }
         #endregion
 
@@ -218,7 +218,7 @@ namespace DAL
         public void AddBusStop(BusStop busStop)
         {
             if (DataSource.busStopList.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
-                throw new DO.BadBusStopCodeException(busStop.StopCode, "Duplicate bus stop code");
+                throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), "Duplicate bus stop code");
             DataSource.busStopList.Add(busStop.Clone());
         }
 
@@ -229,7 +229,7 @@ namespace DAL
             if (stop != null)
                 return stop.Clone();
             else
-                throw new DO.BadBusStopCodeException(stopCode, $"wrong bus stop code: {stopCode}");
+                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"wrong bus stop code: {stopCode}");
         }
 
         public void UpdateBusStop(BusStop bstop)
@@ -242,7 +242,7 @@ namespace DAL
                 DataSource.busStopList.Add(stop.Clone());
             }
             else
-                throw new DO.BadBusStopCodeException(bstop.StopCode, $"wrong bus stop code: {bstop.StopCode}");
+                throw new DO.InvalidStopCodeException(bstop.StopCode.ToString(), $"wrong bus stop code: {bstop.StopCode}");
         }
 
         public void DeleteBusStop(int stopCode)
@@ -254,7 +254,7 @@ namespace DAL
                 DataSource.busStopList.Remove(stop);
             }
             else
-                throw new DO.BadBusStopCodeException(stopCode, $"wrong bus stop code: {stopCode}");
+                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"wrong bus stop code: {stopCode}");
         }
         #endregion
 
@@ -262,7 +262,8 @@ namespace DAL
 
         public IEnumerable<LineLeaving> GetAllLinesLeaving()
         {
-            throw new NotImplementedException();
+            return from LineLeaving in DataSource.lineLeavingList
+                   select LineLeaving.Clone();
         }
 
         public IEnumerable<object> GetLineLeavingWithSelectedFields(Func<LineLeaving, object> generate)
@@ -272,29 +273,54 @@ namespace DAL
 
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
-            throw new NotImplementedException();
+            if (DataSource.lineLeavingList.FirstOrDefault(b => b.leavingEntityKey == lineLeaving.leavingEntityKey) != null)
+                throw new DO.InvalidStopCodeException(lineLeaving.leavingEntityKey, "Duplicate line leaving key");
+            DataSource.lineLeavingList.Add(lineLeaving.Clone());
         }
 
         public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
         {
-            throw new NotImplementedException();
+            string key = lineID.ToString() + startTime.ToString();
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == key); //define list bus
+
+            if (line != null)
+                return line.Clone();
+            else
+                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
         }
 
         public void UpdateLineLeaving(LineLeaving lineLeaving)
         {
-            throw new NotImplementedException();
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == lineLeaving.leavingEntityKey);
+
+            if (line != null)
+            {
+                DataSource.lineLeavingList.Remove(line);
+                DataSource.lineLeavingList.Add(line.Clone());
+            }
+            else
+                throw new DO.InvalidLineLeavingKeyException(lineLeaving.leavingEntityKey, $"wrong line leaving key: {lineLeaving.leavingEntityKey}");
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
         {
-            throw new NotImplementedException();
+            string key = lineID.ToString() + startTime.ToString();
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == key);
+
+            if (line != null)
+            {
+                DataSource.lineLeavingList.Remove(line);
+            }
+            else
+                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
         }
+
         #endregion
 
         //Gila
         #region CRUD Implementation - LineStation
 
-        public IEnumerable<LineStation> GetAllLineStations()
+            public IEnumerable<LineStation> GetAllLineStations()
         {
             return from LineStation in DataSource.lineStationList
                    select LineStation.Clone();
