@@ -172,9 +172,9 @@ namespace DO
 
         public string ID;
 
-        public MissingUserTripException(int id) : base() => ID = id;
-        public MissingUserTripException(int id, string msg) : base(msg) { ID = id; }
-        public MissingUserTripException(int id, string msg, Exception innerException) : base(msg, innerException) { ID = id; }
+        public MissingUserTripException(string id) : base() => ID = id;
+        public MissingUserTripException(string id, string msg) : base(msg) { ID = id; }
+        public MissingUserTripException(string id, string msg, Exception innerException) : base(msg, innerException) { ID = id; }
 
         public override string ToString() => base.ToString() + $", missing user trip information: {ID}";
     }
@@ -184,9 +184,9 @@ namespace DO
 
         public string ID;
 
-        public ExsistingUserTripException(int id) : base() => ID = id;
-        public ExsistingUserTripException(int id, string msg) : base(msg) { ID = id; }
-        public ExsistingUserTripException(int id, string msg, Exception innerException) : base(msg, innerException) { ID = id; }
+        public ExsistingUserTripException(string id) : base() => ID = id;
+        public ExsistingUserTripException(string id, string msg) : base(msg) { ID = id; }
+        public ExsistingUserTripException(string id, string msg, Exception innerException) : base(msg, innerException) { ID = id; }
 
         public override string ToString() => base.ToString() + $", user trip information already in system: {ID}";
     }

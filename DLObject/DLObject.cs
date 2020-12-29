@@ -517,7 +517,7 @@ namespace DAL
         {
             if ((DataSource.usersList.FirstOrDefault(use => use.userName == user.userName)!= null))
             {
-                throw new DO.ExsistingUserException(user.userName, "Duplicate user")
+                throw new DO.ExsistingUserException(user.userName, "Duplicate user");
             }
 
             DataSource.usersList.Add(user.Clone());
@@ -576,7 +576,7 @@ namespace DAL
             DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
             if (findTrip != null)
             {
-                throw new DO.ExsistingUserTripException(userTrip.userTravelID, "Duplicate UserTrip")
+                throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), "Duplicate UserTrip");
             }
 
             DataSource.userTripList.Add(findTrip.Clone());
@@ -588,7 +588,7 @@ namespace DAL
             {
                 return userTrip.Clone();
             }
-            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
+            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
         public void UpdateUserTrip(int travelID)
@@ -599,7 +599,7 @@ namespace DAL
                 DataSource.userTripList.Remove(findTrip);
                 DataSource.userTripList.Add(findTrip.Clone());
             }
-            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
+            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
         public void DeleteUserTrip(int travelID)
@@ -609,7 +609,7 @@ namespace DAL
             {
                 DataSource.userTripList.Remove(findTrip);
             }
-            else throw new DO.MissingUserTripException(travelID, $"No data found for UserTrip: {travelID}");
+            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
         #endregion
 
