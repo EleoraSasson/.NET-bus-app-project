@@ -40,18 +40,18 @@ namespace DO
         }
 
         // First Stop No. (aka start stop):
-        private BusStop start;
+        private string start; 
 
-        public BusStop BusStart
+        public string BusStart
         {
             get { return start; }
             set { start = value; }
         }
 
         // Last Stop No. (aka end stop):
-        private BusStop end;
+        private string end;
 
-        public BusStop BusEnd
+        public string BusEnd
         {
             get { return end; }
             set { end = value; }
@@ -60,9 +60,9 @@ namespace DO
         //addtional information:
 
         // Bus Line Leaving:
-        private LineLeaving leaving;
+        private string leaving;
 
-        public LineLeaving  BusLeaving
+        public string  BusLeaving
         {
             get { return leaving; }
             set { leaving = value; }
@@ -81,7 +81,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Bus Lien Information: \n Line ID:" + BusLineID + "\n Line No.:" + BusLineNo + "\n Region of Line:" + BusRegion + "\n Start Station:" + BusStart + "\n End Station:" + BusEnd + " Line Schedule:" + BusLeaving; 
+            return "Bus Line Information: \n Line ID:" + BusLineID + "\n Line No.:" + BusLineNo + "\n Region of Line:" + BusRegion + "\n Start Station:" + BusStart + "\n End Station:" + BusEnd + " Line Schedule:" + BusLeaving; 
         }
     }
 }

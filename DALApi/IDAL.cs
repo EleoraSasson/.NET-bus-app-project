@@ -111,7 +111,7 @@ namespace DALApi
         IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
         IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddSuccessiveStations(SuccessiveStations successiveStations);//create
-        SuccessiveStations GetSuccessiveStations(string entityKey);//retrieve
+        SuccessiveStations GetSuccessiveStations(int stat1, int stat2);//retrieve
         void UpdateSuccessiveStations(string entityKey);//update
         void DeleteSuccessiveStations(string entityKey);//delete
         #endregion

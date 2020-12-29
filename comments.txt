@@ -45,3 +45,5 @@ Some more things to do... :) [you know cause we are sooo bored]
 
 
 /// Question --> running number (look at the class) how are we laying it outt and we should add it to the classes. 
+
+ask ester if we should comment all idals like we did for line station. also should we comment our exceptions we created???

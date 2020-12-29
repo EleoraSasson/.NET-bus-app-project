@@ -20,7 +20,7 @@ namespace DS
         public static List<SuccessiveStations> succStationsList;
         public static List<User> usersList;
         public static List<UserTrip> userTripList;
-        static DataSource() 
+        static DataSource() //add aan init to start off witha basic bunch of buses
         {
             //Defines and a new list of Buses and adds an object of type Bus to the List:
             busList = new List<Bus>(); 

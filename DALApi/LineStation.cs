@@ -23,14 +23,6 @@ namespace DO
             set { station = value; }
         }
 
-        private string key;
-
-        public string entityKey
-        {
-            get { return lineID + stationCode; }
-            set { key = lineID + stationCode; }
-        }
-
 
         private int stationNum;
 

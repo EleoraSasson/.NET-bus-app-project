@@ -31,6 +31,13 @@ namespace DS
         /// </summary>
         public static int runNum_userT = 111111;
 
+        //private statc int myVar; //no set //increment in get num++
+
+        //public static int MyProperty
+        //{
+        //    get { return myVar; }
+        //    set { myVar = value; }
+        //}
 
         ////Bus on Trip Running Number:
         //private int runNumBus;

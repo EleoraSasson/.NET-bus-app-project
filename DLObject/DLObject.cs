@@ -103,7 +103,7 @@ namespace DAL
         }
 
         public void AddBusLine(BusLine busLine)
-        {
+        {//add asigning of running number
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), "Duplicate bus license number");
             DataSource.busLineList.Add(busLine.Clone());
@@ -328,20 +328,18 @@ namespace DAL
         public IEnumerable<object> GetLineStationWithSelectedFields(Func<LineStation, object> generate)
         {
             return from LineStation in DataSource.lineStationList
-                   select generate(GetLineStation(lineStation.entityKey));
-
-            //return from student in DataSource.ListStudents
-            //       select generate(student.ID, GetPerson(student.ID).Name);
+                   select generate(GetLineStation(lineStation.lineID)); //check
         }
         public void AddLineStation(LineStation lineStation)
         {
+            var entityKey = lineStation.lineID + lineStation.stationCode;
             //check if line exsists
             if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineStation.lineID) != null))
             {
                 //if line exsists see if it holds the same station
                 if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))
                 {
-                    throw new DO.ExsistingLineStationException(lineStation.entityKey, "Duplicate lineStation"); 
+                    throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
                 }
             } //it is a new LineSation so can add to collection:
             DataSource.lineStationList.Add(lineStation.Clone());
