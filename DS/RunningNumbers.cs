@@ -5,67 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DS
-{
-
+{ 
     /// <summary>
     /// This class keeps track of the start values for every 
-    /// running number used in the various entity keys throught the DAL 
+    /// running number used in the various entity keys throughtout the DAL 
     /// layer in the project
     /// </summary>
     class RunningNumbers
     {
+        #region Running Number Line - LineID
         /// <summary>
-        /// This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
+        ///  Description: This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line.
+        ///  Type: Private Property.
+        /// </summary>
+        private static int runNum_line = 01;
+
+        /// <summary>
+        /// Description: This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line. 
+        /// Type: Public Property. 
+        /// </summary>
+        public static int LineRunNum { get { return runNum_line++; } }
+        #endregion
+
+        #region Running Number Bus - RoadID
+        /// <summary>
+        /// Description: This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
         /// on a trip.
+        /// Type: Private Property.
         /// </summary>
-        public static int runNum_Bus = 1111;
-
+        private static int runNum_bus = 1111;
         /// <summary>
-        /// This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line.
-        /// </summary>
-        public static int runNum_Line = 01;
-
-        /// <summary>
-        /// This is a 6 digit running number that acts as the users travel ID and is used to identify the specific user travel information 
+        /// Description: This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
         /// on a trip.
+        /// Type: Public Property.
         /// </summary>
-        public static int runNum_userT = 111111;
+        public static int BusRunNum { get { return runNum_bus++; } }
+        #endregion
 
-        //private statc int myVar; //no set //increment in get num++
-
-        //public static int MyProperty
-        //{
-        //    get { return myVar; }
-        //    set { myVar = value; }
-        //}
-
-        ////Bus on Trip Running Number:
-        //private int runNumBus;
-
-        //public int BusRunNum
-        //{
-        //    get { return runNumBus; }
-        //    set { runNumBus = value; }
-        //}
-
-        ////Bus Line Running Number
-
-        //private int runNumLine;
-
-        //public int LineRunNum
-        //{
-        //    get { return runNumLine; }
-        //    set { runNumLine = value; }
-        //}
-
-        ////User Trip Running Number
-        //private int runNumUser;
-
-        //public int UserRunNum
-        //{
-        //    get { return runNumUser; }
-        //    set { runNumUser = value; }
-        //}
-
+        #region Running Number User - UserID for travel info
+        /// <summary>
+        /// Description: This is a 6 digit running number that acts as the users travel ID and is used to identify the specific user travel information 
+        /// on a trip.
+        /// Type: Private Property.
+        /// </summary>
+        private static int runNum_user = 111111;
+        /// <summary>
+        /// Description: This is a 6 digit running number that acts as the users travel ID and is used to identify the specific user travel information 
+        /// on a trip.
+        /// Type: Public Property.
+        /// </summary>
+        public static int UserRunNum { get { return runNum_user++; } }
+        #endregion
     }
 }
