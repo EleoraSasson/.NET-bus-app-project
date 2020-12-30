@@ -9,9 +9,9 @@ namespace BO
     /// <summary>
     /// Type: Business Object. 
     /// Description: This class contains information pertinant to the admin staff and is visible to managers only. 
-    /// It contains information such as busdrivers; retirement plans, and schedules.
+    /// It contains information of the bus & line schedules Schedules.
     /// </summary>
-    public class AdminPortal
+    public class Schedule
     {
     }
 }
