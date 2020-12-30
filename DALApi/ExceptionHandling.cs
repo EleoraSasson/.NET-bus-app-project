@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-
+    #region Bus Exceptions
     public class InvalidBusLicenseException : Exception
     {
         public string busLicense;
@@ -17,11 +17,11 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid bus license: {busLicense}";
     }
+    #endregion
 
     #region LineStation Exceptions
     public class MissingLineStationException : Exception
     {
-
         public string eKey;
 
         public MissingLineStationException(string entityKey) : base() => eKey = entityKey;
@@ -56,7 +56,9 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", missing line station: {ID}";
     }
+    #endregion
 
+    #region BusLine Exceptions
     public class InvalidBusLineException : Exception
     {
         public string lineId;
@@ -67,7 +69,9 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid line ID: {lineId}";
     }
+    #endregion
 
+    #region BusOnTrip Exceptions
     public class InvalidBusOnTripIDException : Exception
     {
         public string busOnTripID;
@@ -78,7 +82,9 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid bus license: {busOnTripID}";
     }
+    #endregion
 
+    #region Stop Exceptions
     public class InvalidStopCodeException : Exception
     {
         public string stopCode;
@@ -89,7 +95,9 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid bus license: {stopCode}";
     }
+    #endregion
 
+    #region LineLeaving Exceptions
     public class InvalidLineLeavingKeyException : Exception
     {
         public string key;
@@ -100,7 +108,9 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid bus license: {key}";
     }
+    #endregion
 
+    #region Staff Exceptions
     public class StaffNotInSystemException : Exception
     {
 

@@ -32,7 +32,6 @@ namespace DAL
         User user;
         UserTrip userTrip;
 
-        //Eleora
         #region CRUD Implementation - Bus
 
         public void AddBus(DO.Bus bus)
@@ -273,15 +272,16 @@ namespace DAL
 
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
-            if (DataSource.lineLeavingList.FirstOrDefault(b => b.leavingEntityKey == lineLeaving.leavingEntityKey) != null)
-                throw new DO.InvalidStopCodeException(lineLeaving.leavingEntityKey, "Duplicate line leaving key");
+            string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
+            if (DataSource.lineLeavingList.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
+                throw new DO.InvalidStopCodeException(key, "Duplicate line leaving key");
             DataSource.lineLeavingList.Add(lineLeaving.Clone());
         }
 
         public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
         {
             string key = lineID.ToString() + startTime.ToString();
-            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == key); //define list bus
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key); //define list bus
 
             if (line != null)
                 return line.Clone();
@@ -291,7 +291,8 @@ namespace DAL
 
         public void UpdateLineLeaving(LineLeaving lineLeaving)
         {
-            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == lineLeaving.leavingEntityKey);
+            string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
 
             if (line != null)
             {
@@ -299,13 +300,13 @@ namespace DAL
                 DataSource.lineLeavingList.Add(line.Clone());
             }
             else
-                throw new DO.InvalidLineLeavingKeyException(lineLeaving.leavingEntityKey, $"wrong line leaving key: {lineLeaving.leavingEntityKey}");
+                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
         {
             string key = lineID.ToString() + startTime.ToString();
-            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.leavingEntityKey == key);
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
 
             if (line != null)
             {
@@ -317,8 +318,7 @@ namespace DAL
 
         #endregion
 
-        //Gila
-  #region CRUD Implementation - LineStation
+        #region CRUD Implementation - LineStation
 
             public IEnumerable<LineStation> GetAllLineStations()
         {
@@ -346,7 +346,7 @@ namespace DAL
         }
         public LineStation GetLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
 
             if (findLineStation != null)
             {
@@ -356,7 +356,7 @@ namespace DAL
         }
         public void UpdateLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
 
             if (findLineStation != null)
             {
@@ -367,7 +367,7 @@ namespace DAL
         }
         public void DeleteLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.entityKey == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
 
             if (findLineStation != null)
             {
@@ -608,6 +608,11 @@ namespace DAL
                 DataSource.userTripList.Remove(findTrip);
             }
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
+        }
+
+        public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
