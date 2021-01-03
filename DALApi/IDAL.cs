@@ -102,7 +102,7 @@ namespace DALApi
         IEnumerable<object> GetStaffWithSelectedFields(Func<DO.Staff, object> generate); //IEnumerable
         void AddStaff(Staff staff);//create
         Staff GetStaff(string staffID);//retrieve
-        void UpdateStaff(string staffID, Action<Staff> update);//update
+        void UpdateStaff(string staffID/*, Action<Staff> update*/);//update
         void DeleteStaff(string staffID);//delete
 
         #endregion
@@ -126,7 +126,7 @@ namespace DALApi
         #endregion
 
         #region UserTrip
-        IEnumerable<DO.SuccessiveStations> GetAllUserTrip(); //IEnumerable
+        IEnumerable<DO.UserTrip> GetAllUserTrip(); //IEnumerable
         IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
         void AddUserTrip(UserTrip userTrip);//create
         UserTrip GetUserTrip(int travelID);//retrieve
