@@ -58,6 +58,18 @@
       <Project>{a7ef015f-768e-4752-b675-66afa308770b}</Project>
       <Name>DALApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DLObject\DLObject.csproj">
+      <Project>{ad5ebd77-a337-4f9d-9993-693b49cfb553}</Project>
+      <Name>DLObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DL\DL.csproj">
+      <Project>{0b116190-8126-45fb-a7f1-5dff427d1f9f}</Project>
+      <Name>DL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DS\DS.csproj">
+      <Project>{3390a8da-0cc3-4220-8af7-ce828ecb581e}</Project>
+      <Name>DS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
