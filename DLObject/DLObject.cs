@@ -34,6 +34,11 @@ namespace DAL
 
         #region CRUD Implementation - Bus
 
+        /// <summary>
+        /// AddBus: adds a bus to the collection of buses
+        /// parameter: Bus
+        /// return type: void
+        /// </summary>
         public void AddBus(DO.Bus bus)
         {
             if (DataSource.busList.FirstOrDefault(b => b.BusLicense == bus.BusLicense) != null)
@@ -41,6 +46,11 @@ namespace DAL
             DataSource.busList.Add(bus.Clone());
         }
 
+        /// <summary>
+        /// GetBus: gets a bus from the collection of buses 
+        /// parameter: string (bus license)
+        /// return type: Bus
+        /// </summary>
         public Bus GetBus(string license)
         {
             DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == license); //define list bus
@@ -51,6 +61,11 @@ namespace DAL
                 throw new DO.InvalidBusLicenseException(license, $"wrong bus license: {license}");
         }
 
+        /// <summary>
+        /// GetAllBuses: gets all buses from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<Bus> GetAllBuses()
         {
             return from Bus in DataSource.busList
@@ -62,6 +77,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// UpdateBus: updates a bus from the collection of buses 
+        /// parameter: Bus
+        /// return type: void
+        /// </summary>
         public void UpdateBus (Bus buss) //(string license, Action<Bus> update)
         {
             DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == buss.BusLicense);
@@ -75,6 +95,11 @@ namespace DAL
                 throw new DO.InvalidBusLicenseException(buss.BusLicense, $"wrong bus license: {buss.BusLicense}");
         }
 
+        /// <summary>
+        /// DeleteBus: deletes a bus from the collection of buses 
+        /// parameter: string (bus license)
+        /// return type: void
+        /// </summary>
         public void DeleteBus(string license)
         {
             DO.Bus bus = DataSource.busList.Find(b => b.BusLicense == license);
@@ -90,6 +115,11 @@ namespace DAL
 
         #region CRUD Implementation - BusLine
 
+        /// <summary>
+        /// GetAllBusLines: gets all bus lines from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<BusLine> GetAllBusLines()
         {
             return from BusLine in DataSource.busLineList
@@ -101,6 +131,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddBusLine: adds a bus line to the collection of buses
+        /// parameter: Bus Line
+        /// return type: void
+        /// </summary>
         public void AddBusLine(BusLine busLine)
         {//add asigning of running number
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
@@ -108,6 +143,11 @@ namespace DAL
             DataSource.busLineList.Add(busLine.Clone());
         }
 
+        /// <summary>
+        /// GetBusLine: gets a bus line from the collection of bus lines 
+        /// parameter: int (line ID)
+        /// return type: BusLine
+        /// </summary>
         public BusLine GetBusLine(int lineID)
         {
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID); //define list bus
@@ -118,6 +158,11 @@ namespace DAL
                 throw new DO.InvalidBusLineException(lineID.ToString(), $"wrong bus license: {lineID}");
         }
 
+        /// <summary>
+        /// UpdateBusLine: updates a bus line from the collection of bus lines
+        /// parameter: BusLine
+        /// return type: void
+        /// </summary>
         public void UpdateBusLine (BusLine busline)
         {
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == busline.BusLineID);
@@ -131,6 +176,11 @@ namespace DAL
                 throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"wrong bus line ID: {busline.BusLineID}");
         }
 
+        /// <summary>
+        /// DeleteBusLine: deletes a bus line from the collection of bus lines 
+        /// parameter: int (line ID)
+        /// return type: void
+        /// </summary>
         public void DeleteBusLine(int lineID)
         {
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID);
@@ -147,6 +197,11 @@ namespace DAL
 
         #region CRUD Implementation - BusesOnTrip
 
+        /// <summary>
+        /// GetAllBusOnTrip: gets all bus on trip from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
         {
             return from BusOnTrip in DataSource.busOnTripList
@@ -158,6 +213,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddBusOnTrip: adds a bus on trip to the collection of buses on trip
+        /// parameter: BusOnTrip
+        /// return type: void
+        /// </summary>
         public void AddBusOnTrip(BusOnTrip busOnTrip)
         {
             if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
@@ -165,6 +225,11 @@ namespace DAL
             DataSource.busOnTripList.Add(busOnTrip.Clone());
         }
 
+        /// <summary>
+        /// GetBusOnTrip: gets a bus on trip from the collection of buses on trip 
+        /// parameter: int (road ID)
+        /// return type: BusOnTrip
+        /// </summary>
         public BusOnTrip GetBusOnTrip(int roadID)
         {
             DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == roadID); //define list bus
@@ -175,6 +240,11 @@ namespace DAL
                 throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"wrong bus on trip ID: {roadID}");
         }
 
+        /// <summary>
+        /// UpdateBusOnTrip: updates a bus on trip from the collection of buses on trip
+        /// parameter: BusOnTrip
+        /// return type: void
+        /// </summary>
         public void UpdateBusOnTrip(BusOnTrip bus)
         {
             DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == bus.BusRoadID);
@@ -188,6 +258,11 @@ namespace DAL
                 throw new DO.InvalidBusOnTripIDException(bus.BusRoadID.ToString(), $"wrong bus on trip ID: {bus.BusRoadID}");
         }
 
+        /// <summary>
+        /// DeleteBusOnTrip: deletes a bus on trip from the collection of buses on trip 
+        /// parameter: int (int road ID)
+        /// return type: void
+        /// </summary>
         public void DeleteBusOnTrip(int roadID)
         {
             DO.BusOnTrip trip = DataSource.busOnTripList.Find(b => b.BusRoadID == roadID);
@@ -203,6 +278,11 @@ namespace DAL
 
         #region CRUD Implementation - BusStop 
 
+        /// <summary>
+        /// GetAllBusStops: gets all bus stops from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<BusStop> GetAllBusStops()
         {
             return from BusStop in DataSource.busStopList
@@ -214,6 +294,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddBusStop: adds a bus stop to the collection of bus stops
+        /// parameter: BusStop
+        /// return type: void
+        /// </summary>
         public void AddBusStop(BusStop busStop)
         {
             if (DataSource.busStopList.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
@@ -221,6 +306,11 @@ namespace DAL
             DataSource.busStopList.Add(busStop.Clone());
         }
 
+        /// <summary>
+        /// GetBusStop: gets a bus stop from the collection of bus stops 
+        /// parameter: int (stop code)
+        /// return type: BusLine
+        /// </summary>
         public BusStop GetBusStop(int stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode); //define list bus
@@ -231,6 +321,11 @@ namespace DAL
                 throw new DO.InvalidStopCodeException(stopCode.ToString(), $"wrong bus stop code: {stopCode}");
         }
 
+        /// <summary>
+        /// UpdateBusStop: updates a bus stop from the collection of bus stops
+        /// parameter: BusStop
+        /// return type: void
+        /// </summary>
         public void UpdateBusStop(BusStop bstop)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == bstop.StopCode);
@@ -244,6 +339,11 @@ namespace DAL
                 throw new DO.InvalidStopCodeException(bstop.StopCode.ToString(), $"wrong bus stop code: {bstop.StopCode}");
         }
 
+        /// <summary>
+        /// DeleteBusStop: deletes a bus stop from the collection of bus stops 
+        /// parameter: int (stop code)
+        /// return type: void
+        /// </summary>
         public void DeleteBusStop(int stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode);
@@ -259,6 +359,11 @@ namespace DAL
 
         #region CRUD Implementation - LineLeaving
 
+        /// <summary>
+        /// GetAllLinesLeaving: gets all lines leaving from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<LineLeaving> GetAllLinesLeaving()
         {
             return from LineLeaving in DataSource.lineLeavingList
@@ -270,6 +375,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddLineLeaving: adds a line leaving to the collection of lines leaving
+        /// parameter: LineLeaving
+        /// return type: void
+        /// </summary>
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
@@ -278,6 +388,11 @@ namespace DAL
             DataSource.lineLeavingList.Add(lineLeaving.Clone());
         }
 
+        /// <summary>
+        /// GetLineLeaving: gets a line leaving from the collection of lines leaving 
+        /// parameter: int, TimeSpan (line ID, starting time)
+        /// return type: LineLeaving
+        /// </summary>
         public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
         {
             string key = lineID.ToString() + startTime.ToString();
@@ -289,6 +404,11 @@ namespace DAL
                 throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
         }
 
+        /// <summary>
+        /// UpdateLineLeaving: updates a line leaving from the collection of lines leaving
+        /// parameter: LineLeaving
+        /// return type: void
+        /// </summary>
         public void UpdateLineLeaving(LineLeaving lineLeaving)
         {
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
@@ -303,6 +423,11 @@ namespace DAL
                 throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
         }
 
+        /// <summary>
+        /// DeleteLineLeaving: deletes a line leaving from the collection of lines leaving 
+        /// parameter: int, TimeSpan (line ID, starting time)
+        /// return type: void
+        /// </summary>
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
         {
             string key = lineID.ToString() + startTime.ToString();
@@ -320,16 +445,28 @@ namespace DAL
 
         #region CRUD Implementation - LineStation
 
-            public IEnumerable<LineStation> GetAllLineStations()
+        /// <summary>
+        /// GetAllLinesStations: gets all line stations leaving from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
+        public IEnumerable<LineStation> GetAllLineStations()
         {
             return from LineStation in DataSource.lineStationList
                    select LineStation.Clone();
         }
+
         public IEnumerable<object> GetLineStationWithSelectedFields(Func<LineStation, object> generate)
         {
             return from LineStation in DataSource.lineStationList
                    select generate(GetLineStation(lineStation.lineID)); //check
         }
+
+        /// <summary>
+        /// AddLineStation: adds a line station to the collection of line stations
+        /// parameter: LineLeaving
+        /// return type: void
+        /// </summary>
         public void AddLineStation(LineStation lineStation)
         {
             var entityKey = lineStation.lineID + lineStation.stationCode;
@@ -344,6 +481,12 @@ namespace DAL
             } //it is a new LineSation so can add to collection:
             DataSource.lineStationList.Add(lineStation.Clone());
         }
+
+        /// <summary>
+        /// GetLineStation: gets a line station from the collection of line station 
+        /// parameter: string (line station key)
+        /// return type: LineStation
+        /// </summary>
         public LineStation GetLineStation(string lineStationKey)
         {
             DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
@@ -354,6 +497,12 @@ namespace DAL
             }
             else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
         }
+
+        /// <summary>
+        /// UpdateLinesStation: updates a line leaving from the collection of lines leaving
+        /// parameter: string (line station key)                                                are you sure?
+        /// return type: void
+        /// </summary>
         public void UpdateLineStation(string lineStationKey)
         {
             DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
@@ -365,6 +514,12 @@ namespace DAL
             }
             else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
         }
+
+        /// <summary>
+        /// DeleteLineStation: deletes a line station from the collection of line stations 
+        /// parameter:  string (line station key)  
+        /// return type: void
+        /// </summary>
         public void DeleteLineStation(string lineStationKey)
         {
             DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
@@ -379,6 +534,11 @@ namespace DAL
 
         #region CRUD Implementation - Staff
 
+        /// <summary>
+        /// GetAllStaff: gets all staff from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<Staff> GetAllStaff()
         {
             return from Staff in DataSource.staffList
@@ -390,6 +550,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddStaff: adds a staff member to the collection of staff
+        /// parameter: Staff
+        /// return type: void
+        /// </summary>
         public void AddStaff(Staff staff)
         {
             //check if staff member exsists already
@@ -400,6 +565,11 @@ namespace DAL
             DataSource.staffList.Add(staff.Clone());
         }
 
+        /// <summary>
+        /// GetStaff: gets a staff member from the collection of staff 
+        /// parameter: string (staff ID)
+        /// return type: Staff
+        /// </summary>
         public Staff GetStaff(string staffID)
         {
             DO.Staff findStaff = DataSource.staffList.Find(member => member.BusDriverID == staffID);
@@ -411,7 +581,12 @@ namespace DAL
             else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
         }
 
-        public void UpdateStaff(string staffID, Action<Staff> update)
+        /// <summary>
+        /// UpdateLinesStation: updates a staff member from the collection of staff
+        /// parameter: string (staff ID)                                               
+        /// return type: void
+        /// </summary>
+        public void UpdateStaff(string staffID/*, Action<Staff> update*/)
         {
             DO.Staff findStaff = DataSource.staffList.Find(member => member.BusDriverID == staffID);
 
@@ -423,6 +598,11 @@ namespace DAL
             else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
         }
 
+        /// <summary>
+        /// DeleteStaff: deletes a staff member from the collection of staff members
+        /// parameter:  string (staff ID)  
+        /// return type: void
+        /// </summary>
         public void DeleteStaff(string staffID)
         {
             DO.Staff findStaff = DataSource.staffList.Find(member => member.BusDriverID == staffID);
@@ -438,7 +618,11 @@ namespace DAL
 
         #region CRUD Implementation - SuccessiveStations
 
-
+        /// <summary>
+        /// GetAllSuccessiveStations: gets all successive stations from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
         {
             return from SuccessiveStations in DataSource.succStationsList
@@ -450,6 +634,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddSuccessiveStations: adds successive station to the collection of successive stations
+        /// parameter: SuccessiveStations
+        /// return type: void
+        /// </summary>
         public void AddSuccessiveStations(SuccessiveStations successiveStations)
         {
             //check if station 1 exists
@@ -464,6 +653,11 @@ namespace DAL
             DataSource.succStationsList.Add(successiveStations.Clone());
         }
 
+        /// <summary>
+        /// GetSuccessiveStations: gets successive station to the collection of successive stations
+        /// parameter: string (entity key)
+        /// return type: SuccessiveStations
+        /// </summary>
         public SuccessiveStations GetSuccessiveStations(string entityKey)
         {
             DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
@@ -474,6 +668,11 @@ namespace DAL
             else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
 
+        /// <summary>
+        /// UpdateSuccessiveStations: updates successive station to the collection of successive stations
+        /// parameter: string (entity key)                                               
+        /// return type: void
+        /// </summary>
         public void UpdateSuccessiveStations(string entityKey)
         {
 
@@ -486,6 +685,11 @@ namespace DAL
             else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
 
+        /// <summary>
+        /// DeleteSuccessiveStations: deletes successive station to the collection of successive stations
+        /// parameter:  string (entity key)  
+        /// return type: void
+        /// </summary>
         public void DeleteSuccessiveStations(string entityKey)
         {
 
@@ -500,6 +704,11 @@ namespace DAL
 
         #region CRUD Implementation - User
 
+        /// <summary>
+        /// GetAllUsers: gets all users from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
         public IEnumerable<User> GetAllUsers()
         {
             return from User in DataSource.usersList
@@ -511,6 +720,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddUser: adds a user to the collection of users
+        /// parameter: User
+        /// return type: void
+        /// </summary>
         public void AddUser(User user)
         {
             if ((DataSource.usersList.FirstOrDefault(use => use.userName == user.userName)!= null))
@@ -521,6 +735,11 @@ namespace DAL
             DataSource.usersList.Add(user.Clone());
         }
 
+        /// <summary>
+        /// GetUser: gets a user from the collection of users
+        /// parameter: string (name)
+        /// return type: User
+        /// </summary>
         public User GetUser(string name)
         {
             DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
@@ -532,6 +751,11 @@ namespace DAL
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
 
+        /// <summary>
+        /// UpdateUser: updates a user from the collection of users
+        /// parameter: string (name)                                               
+        /// return type: void
+        /// </summary>
         public void UpdateUser(string name)
         {
             DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
@@ -544,6 +768,11 @@ namespace DAL
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
 
+        /// <summary>
+        /// DeleteUser: deletes a user from the collection of users
+        /// parameter:  string (name)  
+        /// return type: void
+        /// </summary>
         public void DeleteUser(string name)
         {
 
@@ -559,7 +788,12 @@ namespace DAL
 
         #region CRUD Implementation - UserTrip
 
-        public IEnumerable<SuccessiveStations> GetAllUserTrip()
+        /// <summary>
+        /// GetAllUsers: gets all users from the collection  
+        /// parameter: none
+        /// return type: IEnumerable
+        /// </summary>
+        public IEnumerable<UserTrip> GetAllUserTrip()
         {
             throw new NotImplementedException();
         }
@@ -569,6 +803,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// AddUserTrip: adds a user trip to the collection of user trips
+        /// parameter: UserTrip
+        /// return type: void
+        /// </summary>
         public void AddUserTrip(UserTrip userTrip)
         {
             DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
@@ -579,6 +818,12 @@ namespace DAL
 
             DataSource.userTripList.Add(findTrip.Clone());
         }
+
+        /// <summary>
+        /// GetUserTrip: gets a user trip from the collection of user trips
+        /// parameter: int (travel ID)
+        /// return type: UserTrip
+        /// </summary>
         public UserTrip GetUserTrip(int travelID)
         {
                 DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
@@ -589,6 +834,11 @@ namespace DAL
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
+        /// <summary>
+        /// UpdateUserTrip: updates a user trip from the collection of user trips
+        /// parameter: int (travel ID)                                              
+        /// return type: void
+        /// </summary>
         public void UpdateUserTrip(int travelID)
         {
             DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
@@ -600,6 +850,11 @@ namespace DAL
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
+        /// <summary>
+        /// DeleteUserTrip: deletes a user trip from the collection of user trips
+        /// parameter:  int (travel ID)  
+        /// return type: void
+        /// </summary>
         public void DeleteUserTrip(int travelID)
         {
             DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
@@ -610,10 +865,10 @@ namespace DAL
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
-        public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
-        {
-            throw new NotImplementedException();
-        }
+        //public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
+        //{
+        //    throw new NotImplementedException();
+        //}
         #endregion
 
     }
