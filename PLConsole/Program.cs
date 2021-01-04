@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DALApi;
+using DO;
 
 namespace PLConsole
 {
@@ -12,8 +13,10 @@ namespace PLConsole
         static void Main(string[] args)
         {
             IDAL dal = DLFactory.GetDL();
-           
-            //dal.AddBus();
+            Console.WriteLine("Helloww");
+            Bus b = new Bus();
+            dal.AddBus(b);
+            Console.WriteLine("Hopefully this will show up");
         }
     }
 }
