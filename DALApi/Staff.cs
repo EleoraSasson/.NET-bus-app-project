@@ -62,7 +62,7 @@ namespace DO
             get { return age; }
             set { age = value; }
         }
-
+        // status  manager driver it person....
         /* OVERRIDE TOSTRING */
 
         public override string ToString()
