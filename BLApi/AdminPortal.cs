@@ -13,5 +13,12 @@ namespace BO
     /// </summary>
     public class AdminPortal
     {
+        //needs to get from DO.Staff so that it can contain a list of all the admin
+        //should have there passwords stored
+        //needs methods to authenticate a admin user 
+        //needs method to add an admin user to the system
+        //needs to display the admins personal info if requested (get)
+        //needs a method to determine if you are a manger or a driver
+
     }
 }

@@ -658,8 +658,9 @@ namespace DAL
         /// parameter: string (entity key)
         /// return type: SuccessiveStations
         /// </summary>
-        public SuccessiveStations GetSuccessiveStations(string entityKey)
+        public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
         {
+            var entityKey = stat1.ToString() + stat2.ToString();
             DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
             if (findStations != null)
             {
@@ -865,10 +866,6 @@ namespace DAL
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
-        //public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
-        //{
-        //    throw new NotImplementedException();
-        //}
         #endregion
 
     }

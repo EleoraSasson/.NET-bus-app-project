@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace UI
 {
     /// <summary>
-    /// Interaction logic for TryDataSource.xaml
+    /// Interaction logic for UserWindow.xaml
     /// </summary>
-    public partial class TryDataSource : Window
+    public partial class UserWindow : Window
     {
-        public TryDataSource()
+        public UserWindow()
         {
             InitializeComponent();
         }

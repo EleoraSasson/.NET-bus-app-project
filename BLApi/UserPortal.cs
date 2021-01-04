@@ -12,5 +12,11 @@ namespace BO
     /// </summary>
     public class UserPortal
     {
+
+        //needs to get from DO.Userso that it can contain a list of all the usrs
+        //should have there passwords stored
+        //needs methods to authenticate a user and check its permission 
+        //needs method to add a user to the system
+        //needs to display the users personal info if requested (get)
     }
 }
