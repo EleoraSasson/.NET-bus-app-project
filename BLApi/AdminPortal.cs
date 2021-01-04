@@ -13,6 +13,10 @@ namespace BO
     /// </summary>
     public class AdminPortal
     {
+        //DO>Staff ienumerable
+
+
+
         //needs to get from DO.Staff so that it can contain a list of all the admin
         //should have there passwords stored
         //needs methods to authenticate a admin user 

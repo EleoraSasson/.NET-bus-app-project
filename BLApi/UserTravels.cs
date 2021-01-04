@@ -13,5 +13,6 @@ namespace BO
     /// </summary>
     public class UserTravels
     {
+        //userTrip ienumerable 
     }
 }

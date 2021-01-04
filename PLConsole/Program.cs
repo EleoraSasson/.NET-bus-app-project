@@ -12,11 +12,20 @@ namespace PLConsole
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to our Testing Zone!");
             IDAL dal = DLFactory.GetDL();
-            Console.WriteLine("Helloww");
-            Bus b = new Bus();
-            dal.AddBus(b);
-            Console.WriteLine("Hopefully this will show up");
+            Console.WriteLine("Testing AddBus:");
+            Bus bus = new Bus(); //decaring an instance of type Bus
+            //init: .. happens in the BL in the add of that IBL
+            bus.BusErased = false;
+            bus.BusFuel = 300;
+            bus.BusLicense = "12-241-12";
+            bus.BusMaintenanceDate = DateTime.Now;
+            bus.BusRegDate = DateTime.Now;
+            bus.BusStatus = Status.Available;
+            //adding the bus to the DL:
+            dal.AddBus(bus);
         }
     }
+
 }
