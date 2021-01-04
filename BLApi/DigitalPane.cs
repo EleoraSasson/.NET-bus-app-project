@@ -11,7 +11,7 @@ namespace BO
     /// Description: This class contains information about upcoming bus lines to a particualr bus stop. It will be visible to the travelers.
     /// </summary>
     public class DigitalPane
-    {
+    { 
         // successive stations
         // bus routes BO object 
         // bus stop
