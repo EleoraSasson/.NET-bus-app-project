@@ -50,6 +50,7 @@
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleOfRoute.cs" />
+    <Compile Include="StationWithRoutes.cs" />
     <Compile Include="UserPortal.cs" />
     <Compile Include="UserTravels.cs" />
   </ItemGroup>
