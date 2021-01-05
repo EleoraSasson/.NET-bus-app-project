@@ -9,7 +9,7 @@ namespace DALApi
 {
     public interface IDAL
     {
-        /* IMPLEMENTING CRUD METHODS FOR BUS DO ENTITY */
+        /* IMPLEMENTING CRUD METHODS FOR DO ENTITIES */
 
         #region Bus
         IEnumerable<DO.Bus> GetAllBuses();

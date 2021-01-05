@@ -9,7 +9,42 @@ namespace BLApi
 {
     public interface IBL
     {
-        //has methods that the BL object will implement
+
+        //#region Bus
+        //IEnumerable<DO.Bus> GetAllBuses();
+        //IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
+        //void AddBus(Bus bus); //create
+        //Bus GetBus(string license); //retrieve
+        //void UpdateBus(Bus bus); //update
+        //void DeleteBus(string license); //delete
+        //#endregion
+
+        /* IMPLEMENTING CRUD METHODS FOR BO ENTITIES */
+
+        #region BusFleet
+        IEnumerable<BusFleet> GetEntireBusFleet();
+        IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Func<BusFleet, object> generate);
+        void AddToBusFleet(BusFleet fleet); //create
+        BusFleet GetFleet(); //retrieve
+        void UpdateBusFleet(BusFleet fleet); //update
+        void DeleteBusFleet(); //delete
+        #endregion
+
+        #region BusRoute
+
+        #endregion
+
+        #region ScheduleOfRoute
+
+        #endregion
+
+        #region CompanySchedule
+
+        #endregion
+
+        #region StationWithRoutes
+
+        #endregion
 
     }
 }
