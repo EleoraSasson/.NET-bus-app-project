@@ -5,8 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="AdminManagerWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Gilore Travels > Admin Manager " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1">
+
+    <Grid x:Name="BasicGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="borderLeft" Width="1*"/>
+            <ColumnDefinition x:Name="columnBody" Width="16*"/>
+            <ColumnDefinition x:Name="borderRight" Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="borderTop" Height= "1*" />
+            <RowDefinition x:Name="rowBody" Height="20*"/>
+            <RowDefinition x:Name="borderBottom" Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="InnerGrid" Grid.Column="1" Grid.Row="1">
+            <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="372" Width="685" >
+                <TabItem Header="Manage Info">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Bus Info">
+                    <Grid Background="#FFE5E5E5">
+                        <Button Content="Button" HorizontalAlignment="Left" Margin="186,128,0,0" VerticalAlignment="Top" Width="75"/>
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="Staff Info">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="User Info">
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+            </TabControl>
+
+
+        </Grid>
+
     </Grid>
 </Window>

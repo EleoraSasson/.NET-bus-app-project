@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DO;
 
 namespace BO
 {
@@ -13,9 +14,17 @@ namespace BO
     /// </summary>
     public class AdminPortal
     {
-        //DO>Staff ienumerable
-
-
+        private IEnumerable<Staff> admin;
+        /// <summary>
+        /// Public BLObject "administrators"
+        /// Value Type - BO.administrators.
+        /// This is a countable list of the administrators in the company
+        /// </summary>
+        public IEnumerable<Staff> administrators
+        {
+            get { return admin; }
+            set { admin = value; }
+        }
 
         //needs to get from DO.Staff so that it can contain a list of all the admin
         //should have there passwords stored
