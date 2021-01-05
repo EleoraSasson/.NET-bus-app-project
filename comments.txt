@@ -5,3 +5,8 @@ Hi, lets take a fresh start!
 
 DO.BusLine - removed the leaving property it was unnecessary
 DO.Staff - added properties LoginPassword; StaffPostion; StaffYrsWorked
+
+//I added:
+In the BLApi I added the classes ScheduleOfRoute and ComapanySchedule with their necessary properties
+- the idea is that BusRoute forms the complete route; ScheduleOFRoute adds the timing of start and end time of the route and how many times the rout runs in a day; 
+and then CompanySchedule is an IEnumerable list of all the Schedules of all the routes defined in the company.
