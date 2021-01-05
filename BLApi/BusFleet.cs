@@ -28,30 +28,5 @@ namespace BO
             get { return buses; }
             set { buses = value; }
         }
-
-        ///NOT SURE ABOUT ADDING A LIST OF STAFF ALONGSIDE BUSES ???
-
-        ///// <summary>
-        ///// Private BLObject "driver" -
-        ///// Value Type: DO.Staff, therefore contains the following properties -fisrtName; lastName; DriverID; CellNum; Age.
-        ///// It defines the driver associated with the specific bus in the fleet
-        ///// </summary>
-        //private Staff driver;
-
-        ///// <summary>
-        ///// Public BLObject "busDriver" -
-        ///// Value Type: DO.Staff, therefore contains the following properties -fisrtName; lastName; DriverID; CellNum; Age.
-        ///// It defines the drivers.
-        ///// </summary>
-        //public Staff busDriver
-        //{
-        //    get { return driver; }
-        //    set { driver = value; }
-        //}
-
-
-        //License; Mileage; Fuel; RegDate; MaintenanceDate; Status; Erased	 - BUS
-        //fisrtName; lastName; DriverID; CellNum; Age - Staff [the driver associated with that BUS]
-
     }
 }

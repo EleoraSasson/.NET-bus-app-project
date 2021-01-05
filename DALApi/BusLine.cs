@@ -83,7 +83,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Bus Line Information: \n Line ID:" + BusLineID + "\n Line No.:" + BusLineNo + "\n Region of Line:" + BusRegion + "\n Start Station:" + BusStart + "\n End Station:" + BusEnd + " Line Schedule:" + BusLeaving; 
+            return "Bus Line Information: \n Line ID:" + BusLineID + "\n Line No.:" + BusLineNo + "\n Region of Line:" + BusRegion + "\n Start Station:" + BusStart + "\n End Station:" + BusEnd; 
         }
     }
 }

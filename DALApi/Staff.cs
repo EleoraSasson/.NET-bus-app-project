@@ -97,7 +97,7 @@ namespace DO
 
         public override string ToString()
         {
-            return "Driver Information: \n" + BusDriverLast + ", " + BusDriverFirst + "\n Age:" + BusDriverAge + "\n ID:" + BusDriverID + "\n Cell Phone Number:" + BusDriverCellNo; ;
+            return "Driver Information: \n" + BusDriverLast + ", " + BusDriverFirst + "\n Age:" + BusDriverAge + "\n ID:" + BusDriverID + "\n Cell Phone Number:" + BusDriverCellNo + "/n Position in Company:" + StaffPosition + "/n Number of years at company:" + StaffYrsWorked + "/n Login Password:" + LoginPassword; 
         }
     }
 }
