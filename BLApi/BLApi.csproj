@@ -45,7 +45,7 @@
     <Compile Include="BLFactory.cs" />
     <Compile Include="BLImp1.cs" />
     <Compile Include="BusFleet.cs" />
-    <Compile Include="BusRoutes.cs" />
+    <Compile Include="BusRoute.cs" />
     <Compile Include="DigitalPane.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

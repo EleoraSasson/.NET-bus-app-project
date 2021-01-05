@@ -9,13 +9,35 @@ namespace DO
     /// <summary>
     /// This added class is a record of all the information of our staff (drivers)
     /// We added this so that the manager can know more information of the driver. It also enables us to assign the driver to a specific route
+    /// Note: even though most fields are named Driver___ a staff memeber can be admin manager etc and not be a driver
     /// </summary>
     /// 
     public enum DriverFirstName { Unknown, David, Sara, Mark, Ruth, Ron, Debbie };
     public enum DriverLastName { Unknown, Johnson, Cohen, Tailor, Brent, Owen, Harper };
+    public enum Position { Driver, Manager};
     public class Staff : ICloneable
     {
         /* PROPERTIES */
+
+        // Driver ID Number:
+        // TZ with the first two letters of first and last name added to end --> 000000000LNFN (identifying feature)
+        private string driverID;
+
+        public string BusDriverID
+        {
+            get { return driverID; }
+            set { driverID = value; }
+        }
+
+        //Password:
+        // Needed to login to system.
+        private string password;
+
+        public string LoginPassword
+        {
+            get { return password; }
+            set { password = value; }
+        }
 
         // Driver First Name:
         private DriverFirstName firstName;
@@ -35,16 +57,6 @@ namespace DO
             set { lastName = value; }
         }
 
-        // Driver ID Number:
-        // TZ with the first two letters of first and last name added to end --> 000000000LNFN
-        private string driverID;
-
-        public string BusDriverID
-        {
-            get { return driverID; }
-            set { driverID = value; }
-        }
-
         // Driver Cell-Phone Number:
         private string cellNo;
 
@@ -62,7 +74,25 @@ namespace DO
             get { return age; }
             set { age = value; }
         }
-        // status  manager driver it person....
+
+        //Position in Company:
+        private Position position;
+
+        public Position StaffPosition
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        //Years worked in company
+        private int yrsWorked;
+
+        public int StaffYrsWorked
+        {
+            get { return yrsWorked; }
+            set { yrsWorked = value; }
+        }
+
         /* OVERRIDE TOSTRING */
 
         public override string ToString()

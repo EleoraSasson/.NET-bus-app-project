@@ -1,49 +1,7 @@
-Things to do
+Hi, lets take a fresh start!
 
+//Gila:
+// I made the following changes:
 
-1. IDAL methods (see 2 & 3)
-2. Running numbers [this is part of some of the methods so make sure to watch relevant video first]
-3. check out eg in GIT for CRUD Methods
-4. watch sat night video for tomorrow
-
-/// Notes by Eleora:
-
-ADD LISTS TO DATASOURCE 
-implement the exceptions
-add erased field for the bus, busstop, busline
-do we have busRouteStop? in DO  (contains line no, a station, and its number in the route)
-
-
-/// Notes By GILA:
-
-- I changed the LineStation id, station code and key to be of type int --- do we need an entity key specified? or shoudl i use that instead? see DLObjects
-- I added the Cloning exstention method + the DataSource lists (one for each class - not sure if we need all but i suppose we will see)
-
-OUR SYSTEM NEEDS TOO:
-- Display Buses 
-	- allow to send a bus for refuel/maintenance 
-	- display details of individual buses
-	- add remove or update info
-- Display of Bus Lines 
-	- bus route stops consecutively
- 	- add or updte and delete bus line info/route stops
-- Display of Bus Stops 
-	- display info of a single bus stop
-	- include lines through that stop
-	- update travel distance between 2 stops
-	- add remove update info
-
-BL LAYER  --> BLObjects in our BLApi (what classes are we adding that the PL layer will want)
-- bus line information
-- bus stop information
-
-Some more things to do... :) [you know cause we are sooo bored]
-
-[make sure to finish IDAL implementations in DLObject...]
-1. Write the exceptions specific to your IDAL implementations in the ExceptionHandling class (currently in DLObject)
-2. watch rest of recording about BL layer
-
-
-/// Question --> running number (look at the class) how are we laying it outt and we should add it to the classes. 
-
-ask ester if we should comment all idals like we did for line station. also should we comment our exceptions we created???
+DO.BusLine - removed the leaving property it was unnecessary
+DO.Staff - added properties LoginPassword; StaffPostion; StaffYrsWorked

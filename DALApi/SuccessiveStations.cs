@@ -27,15 +27,6 @@ namespace DO
             get { return code2; }
             set { code2 = value; }
         }
-
-        private string entityKey;
-
-        public string StationEntityKey
-        {
-            get { return $"{code1} + {code2}"; }
-            set { entityKey = $"{code1} + {code2}"; }
-        }
-
         // Distance:
         private int distance;
 

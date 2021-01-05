@@ -12,7 +12,7 @@ namespace BO
      /// Description: This class contains information about bus routes - the route with its start, end and successive stops etc. Visible to Admin.
      /// Based on: BusLine + LineStation
      /// </summary>
-    public class BusRoutes
+    public class BusRoute
     {
         /// <summary>
         /// Private BLObject "route" -

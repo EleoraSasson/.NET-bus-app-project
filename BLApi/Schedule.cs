@@ -15,6 +15,6 @@ namespace BO
     public class Schedule
     {
         //RoadID; License; Running; FormalDT; ActualDT; Passed; TransitT; Arrival T	 - BusOnTrip
-        //lineID; firstline; numofLines; LastLines	 - LineLeaving
+        //lineID; firstline; numofLines; LastLines	 - LineLeaving  
     }
 }

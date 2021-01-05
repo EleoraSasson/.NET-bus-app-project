@@ -59,14 +59,16 @@ namespace DO
 
         //addtional information:
 
-        // Bus Line Leaving:
-        private string leaving;
+        
+        // took out because not so necessary
+        //// Bus Line Leaving: n
+        //private string leaving;
 
-        public string  BusLeaving
-        {
-            get { return leaving; }
-            set { leaving = value; }
-        }
+        //public string  BusLeaving
+        //{
+        //    get { return leaving; }
+        //    set { leaving = value; }
+        //}
 
         // Line Erased [if a line is no longer in use then erased is true, else false]:
         private bool erased;
