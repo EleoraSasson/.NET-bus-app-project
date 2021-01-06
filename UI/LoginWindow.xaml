@@ -22,7 +22,7 @@
                 <RowDefinition x:Name="LogoArea" Height="2*"/>
                 <RowDefinition x:Name="LoginArea" Height="6*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions Grid.Row ="0">
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="1*"/>
