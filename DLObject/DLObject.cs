@@ -7,6 +7,7 @@ using System.Reflection;
 using DALApi; //referance to DALApi interface
 using DO; //reference to Data Object
 using DLObject;
+using DS;
 //using DO might need to access some things from the interface
 
 namespace DAL 
@@ -646,7 +647,7 @@ namespace DAL
                 //if station 1 exsists see if it connects to station 2
                 if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode2 == successiveStations.StationCode2) != null))
                 {
-                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationEntityKey, "Duplicate Successive Station");
+                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
                 }
             } //it is a new LineSation so can add to collection:
             DataSource.succStationsList.Add(successiveStations.Clone());
@@ -660,7 +661,7 @@ namespace DAL
         public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
         {
             var entityKey = stat1.ToString() + stat2.ToString();
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
             if (findStations != null)
             {
                 return successiveStations.Clone();
@@ -676,7 +677,7 @@ namespace DAL
         public void UpdateSuccessiveStations(string entityKey)
         {
 
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
             if (findStations != null)
             {
                 DataSource.succStationsList.Remove(findStations);
@@ -693,7 +694,7 @@ namespace DAL
         public void DeleteSuccessiveStations(string entityKey)
         {
 
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationEntityKey == entityKey);
+            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
             if (findStations != null)
             {
                 DataSource.succStationsList.Remove(findStations);

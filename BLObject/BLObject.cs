@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLApi;
+using BO;
 using DALApi; //i think this should be here?
 
 namespace BL
@@ -20,6 +21,36 @@ namespace BL
         static BLObject() { }
         BLObject() { }
         public static BLObject Instance { get => instance; }
+
+        public IEnumerable<BusFleet> GetEntireBusFleet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Func<BusFleet, object> generate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddToBusFleet(BusFleet fleet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BusFleet GetFleet()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBusFleet(BusFleet fleet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteBusFleet()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         //IDAL dal = DLFactory.GetDL();
