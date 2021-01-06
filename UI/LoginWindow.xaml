@@ -31,13 +31,14 @@
             <Label x:Name="l_Username" Content="Username:" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,60,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <TextBox x:Name="t_Username" Grid.Row="1" Grid.Column="1" Margin="80,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
             <Label x:Name="l_PasswordUser" Content="Password:" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,100,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <TextBox x:Name="t_PasswordUser" Grid.Row="1" Grid.Column="1" Margin="80,105,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+            <PasswordBox x:Name="t_PasswordUser" Grid.Row="1" Grid.Column="1" Margin="80,105,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" />
             <Button x:Name="b_LoginUser" Content="Login" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,40"/>
-            <Label x:Name="l_NewUser" Content="New to GiloreTravels? Click here to register!" Grid.Column="1" HorizontalAlignment="Center"  Margin="0,20,0,0" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label x:Name="l_NewUser" Content="New to GiloreTravels?" Grid.Column="1" HorizontalAlignment="Center"  Margin="0,20,120,0" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label x:Name="l_hyperlink" Content="Click here to register!" Hyperlink.Click="l_hyperlink_Click" Grid.Column="1" HorizontalAlignment="Center"  Margin="120,20,0,0" Grid.Row="1" VerticalAlignment="Center"/>
             <Label x:Name="l_AdminID" Content="Admin ID:" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,220,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <TextBox x:Name="t_Admin" Grid.Row="1" Grid.Column="1" Margin="80,225,0,5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
             <Label x:Name="l_PasswordAdmin" Content="Password:" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,260,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <TextBox x:Name="t_PasswordAdmin" Grid.Row="1" Grid.Column="1" Margin="80,265,0,5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
+            <PasswordBox x:Name="t_PasswordAdmin" Grid.Row="1" Grid.Column="1" Margin="80,265,0,5" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120"/>
             <Button x:Name="b_LoginAdmin" Content="Login" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,40"/>
         </Grid>
     </Grid>

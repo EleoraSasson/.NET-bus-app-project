@@ -55,9 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AdminEmployeeWindow.xaml.cs">
-      <DependentUpon>AdminEmployeeWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdminManagerWindow.xaml.cs">
       <DependentUpon>AdminManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -108,10 +105,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AdminEmployeeWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdminManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -23,5 +23,15 @@ namespace UI
         {
             InitializeComponent();
         }
+
+        private void l_NewUser_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void l_hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
