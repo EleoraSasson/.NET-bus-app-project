@@ -23,9 +23,68 @@
                 <TabItem Header="Manage Info">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
-                <TabItem Header="Bus Info">
+                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59">
                     <Grid Background="#FFE5E5E5">
-                        <Button Content="Button" HorizontalAlignment="Left" Margin="186,128,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="fleetRow" Height="1*"/>
+                            <RowDefinition x:Name="routeRow" Height="1*"/>
+                            <RowDefinition x:Name="scheduleRow" Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,5,10" Grid.RowSpan="3">
+                            <Expander x:Name="Ex_BusFleet" Header="Bus Fleet" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Horizontal" Height="265">
+
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Horizontal" Height="265">
+                                    <Grid x:Name="ExpanderGrid" Width="655" Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="routeInfoC0" Width="1*"/>
+                                            <ColumnDefinition x:Name="routeInfoC1" Width="1*"/>
+                                            <ColumnDefinition x:Name="routeInfoC2" Width="4*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="l_RouteNo" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,15,0,0" Content="Route Number:"/>
+                                        <Label x:Name="l_RouteID" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,50,0,0" Content="Route ID:"/>
+                                        <Label x:Name="l_Freq" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,85,0,0" Content="Route Frequency:" Width="99"/>
+                                        <Label x:Name="l_TimeStart" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,120,0,0" Content="Starting Time:"/>
+                                        <Label x:Name="l_TimeEnd" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,155,0,0" Content="Ending Time:"/>
+                                        <Label x:Name="l_Driver" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,190,0,0" Content="Assigned Driver:"/>
+                                        <Label x:Name="l_Active" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,225,0,0" Content="Is Active:"/>
+                                        <ComboBox x:Name="Cb_RouteNo" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,16,0,0" Width="50" ItemsSource="{Binding}" MaxDropDownHeight="60"/>
+                                        <TextBox x:Name="Tb_RouteID" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,51,0,0" Width="84" Height="20" />
+                                        <TextBox x:Name="Tb_Freq" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,86,0,0" Width="84" Height="20" />
+                                        <TextBox x:Name="Tb_TimeSart" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,121,0,0" Width="84" Height="20" />
+                                        <TextBox x:Name="Tb_TimeEnd" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,156,0,0" Width="84" Height="20" />
+                                        <TextBox x:Name="Tb_Driver" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,191,0,0" Width="84" Height="20" />
+                                        <CheckBox x:Name="ChB_IsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,230,0,0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="Ex_BusSchedule" Header="Bus Schedule" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Horizontal" Height="265">
+
+                                </StackPanel>
+                            </Expander>
+                        </DockPanel>
                     </Grid>
 
                 </TabItem>
