@@ -58,7 +58,7 @@ namespace DAL
             if (bus != null)
                 return bus.Clone();
             else
-                throw new DO.InvalidBusLicenseException(license, $"wrong bus license: {license}");
+                throw new DO.InvalidBusLicenseException(license, $"Bus {license} does not exist.");
         }
 
         /// <summary>
@@ -76,12 +76,14 @@ namespace DAL
 
         public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
         {
-            var object = Bus.Items
-                 .Select(c => c.EmployeeFields)     // Select the fields per employee
-                 .SelectMany(fields => fields)      // Flatten to a single sequence of fields
-                 .OfType<EmployeeID>()              // Filter to only EmployeeID fields
-                 .Select(id => id.Item)             // Convert to strings
-                 .ToList();                         // Materialize as a list
+            return from bus in DataSource.busList
+                   select generate(bus);
+            //var object = Bus.Items
+            //     .Select(c => c.EmployeeFields)     // Select the fields per employee
+            //     .SelectMany(fields => fields)      // Flatten to a single sequence of fields
+            //     .OfType<EmployeeID>()              // Filter to only EmployeeID fields
+            //     .Select(id => id.Item)             // Convert to strings
+            //     .ToList();                         // Materialize as a list
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace DAL
             if (line != null)
                 return line.Clone();
             else
-                throw new DO.InvalidBusLineException(lineID.ToString(), $"wrong bus license: {lineID}");
+                throw new DO.InvalidBusLineException(lineID.ToString(), $"Bus {lineID} does not exist."); 
         }
 
         /// <summary>
@@ -175,12 +177,12 @@ namespace DAL
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == busline.BusLineID);
 
             if (line != null)
-            {    
+            {
                 DataSource.busLineList.Remove(line);
                 DataSource.busLineList.Add(line.Clone());
             }
             else
-                throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"wrong bus line ID: {busline.BusLineID}");
+                throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"Bus {busline.BusLineID}"); 
         }
 
         /// <summary>
@@ -197,7 +199,7 @@ namespace DAL
                 DataSource.busLineList.Remove(line);
             }
             else
-                throw new DO.InvalidBusLineException(lineID.ToString(), $"wrong bus line ID: {lineID}");
+                throw new DO.InvalidBusLineException(lineID.ToString(), $"Bus {lineID} does not exist.");
         }
 
         #endregion
@@ -244,7 +246,7 @@ namespace DAL
             if (trip != null)
                 return trip.Clone();
             else
-                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"wrong bus on trip ID: {roadID}");
+                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"Bus on trip ID: {roadID} does not exist.");
         }
 
         /// <summary>
@@ -262,7 +264,7 @@ namespace DAL
                 DataSource.busOnTripList.Add(trip.Clone());
             }
             else
-                throw new DO.InvalidBusOnTripIDException(bus.BusRoadID.ToString(), $"wrong bus on trip ID: {bus.BusRoadID}");
+                throw new DO.InvalidBusOnTripIDException(bus.BusRoadID.ToString(), $"Bus on trip ID: {bus.BusRoadID} does not exist.");
         }
 
         /// <summary>
@@ -279,7 +281,7 @@ namespace DAL
                 DataSource.busOnTripList.Remove(trip);
             }
             else
-                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"wrong bus on trip ID: {roadID}");
+                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"Bus on trip ID: {roadID} does not exist.");
         }
         #endregion
 
@@ -325,7 +327,7 @@ namespace DAL
             if (stop != null)
                 return stop.Clone();
             else
-                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"wrong bus stop code: {stopCode}");
+                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"Bus stop {stopCode} does not exist.");
         }
 
         /// <summary>
@@ -343,7 +345,7 @@ namespace DAL
                 DataSource.busStopList.Add(stop.Clone());
             }
             else
-                throw new DO.InvalidStopCodeException(bstop.StopCode.ToString(), $"wrong bus stop code: {bstop.StopCode}");
+                throw new DO.InvalidStopCodeException(bstop.StopCode.ToString(), $"Bus stop: {bstop.StopCode} does not exist.");
         }
 
         /// <summary>
@@ -360,7 +362,7 @@ namespace DAL
                 DataSource.busStopList.Remove(stop);
             }
             else
-                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"wrong bus stop code: {stopCode}");
+                throw new DO.InvalidStopCodeException(stopCode.ToString(), $"Bus stop {stopCode} does not exist.");
         }
         #endregion
 
@@ -391,7 +393,7 @@ namespace DAL
         {
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
             if (DataSource.lineLeavingList.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
-                throw new DO.InvalidStopCodeException(key, "Duplicate line leaving key");
+                throw new DO.InvalidStopCodeException(key, "Duplicate line leaving.");
             DataSource.lineLeavingList.Add(lineLeaving.Clone());
         }
 
@@ -408,7 +410,7 @@ namespace DAL
             if (line != null)
                 return line.Clone();
             else
-                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
         }
 
         /// <summary>
@@ -427,7 +429,7 @@ namespace DAL
                 DataSource.lineLeavingList.Add(line.Clone());
             }
             else
-                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
         }
 
         /// <summary>
@@ -445,7 +447,7 @@ namespace DAL
                 DataSource.lineLeavingList.Remove(line);
             }
             else
-                throw new DO.InvalidLineLeavingKeyException(key, $"wrong line leaving key: {key}");
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
         }
 
         #endregion
