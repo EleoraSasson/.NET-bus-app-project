@@ -74,15 +74,15 @@ namespace DAL
                     
         }
 
-        public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
-        {
-            var object = Bus.Items
-                 .Select(c => c.EmployeeFields)     // Select the fields per employee
-                 .SelectMany(fields => fields)      // Flatten to a single sequence of fields
-                 .OfType<EmployeeID>()              // Filter to only EmployeeID fields
-                 .Select(id => id.Item)             // Convert to strings
-                 .ToList();                         // Materialize as a list
-        }
+        //public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
+        //{
+        //    var object = Bus.Items
+        //         .Select(c => c.EmployeeFields)     // Select the fields per employee
+        //         .SelectMany(fields => fields)      // Flatten to a single sequence of fields
+        //         .OfType<EmployeeID>()              // Filter to only EmployeeID fields
+        //         .Select(id => id.Item)             // Convert to strings
+        //         .ToList();                         // Materialize as a list
+        //}
 
         /// <summary>
         /// UpdateBus: updates a bus from the collection of buses 
@@ -871,6 +871,11 @@ namespace DAL
                 DataSource.userTripList.Remove(findTrip);
             }
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
+        }
+
+        public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

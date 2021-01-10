@@ -123,7 +123,7 @@ namespace Ex2_BusLineCollection
          */
         public List<int> linesThroughStation(int StationKey)
         {
-            bool keyMatch = false;
+           // bool keyMatch = false;
             var LinesThruStation = new List<int>();
 
             for (int i = 0; i < routes.Count; i++)
