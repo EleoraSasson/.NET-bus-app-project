@@ -43,7 +43,67 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265"/>
+                                <StackPanel Orientation="Horizontal" Height="265">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition x:Name="FleetList" Height="10*"/>
+                                            <RowDefinition x:Name="AddToFleet" Height="1*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="90,10,0,10" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick">
+                                            <ListView.ItemContainerStyle>
+                                                <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="ToolTip">
+                                                        <Setter.Value>
+                                                            <ToolTip>
+                                                                <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Bus."/>
+                                                            </ToolTip>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value ="Black"/>
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding}"  Value="Available" >
+                                                            <Setter Property="Foreground" Value="DarkGreen" />
+                                                            <Setter Property="Background" Value ="WhiteSmoke"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView x:Name="gv_BusList">
+                                                    <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Bus Driver:" Width="100" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Mileage:" Width="100" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Bus Status:" Width="100" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Select for more Options:" Width="150">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." Click="B_Options_Click" IsEnabled="{Binding IsButtonEnabled}"/>
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding}" Value="AtService">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding}" Value="Refueling">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding}" Value="Travelling">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="90,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26"/>
+                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="15,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" />
+
+                                    </Grid>
+                                </StackPanel>
                             </Expander>
                             <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top">
                                 <Expander.Background>
