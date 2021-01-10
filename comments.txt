@@ -21,3 +21,11 @@ To ask Esther: Thank you so much for your help :) We really appreciate it! [furt
 (2) Where do we put our methods???
 (3) IEnumerabble<>???????? aka delegates aka passing from DO to BO
 (4) Succsive stations  & BusOnRoute are both relevant to being on a trip AKA as a user....what are they intended for
+
+//ELEORA
+dl object rewrite the exceptions
+user shouldn't be able to set the status of the bus (must be available when added to the busList)
+IEnumerable GetListWithSelectedFields
+
+//GILA
+xml files :) 

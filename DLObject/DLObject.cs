@@ -69,12 +69,19 @@ namespace DAL
         public IEnumerable<Bus> GetAllBuses()
         {
             return from Bus in DataSource.busList
-                   select Bus.Clone();
+
+                   select Bus.Clone(); 
+                    
         }
 
         public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
         {
-            throw new NotImplementedException();
+            var object = Bus.Items
+                 .Select(c => c.EmployeeFields)     // Select the fields per employee
+                 .SelectMany(fields => fields)      // Flatten to a single sequence of fields
+                 .OfType<EmployeeID>()              // Filter to only EmployeeID fields
+                 .Select(id => id.Item)             // Convert to strings
+                 .ToList();                         // Materialize as a list
         }
 
         /// <summary>
@@ -92,7 +99,7 @@ namespace DAL
                 DataSource.busList.Add(bus.Clone());
             }
             else
-                throw new DO.InvalidBusLicenseException(buss.BusLicense, $"wrong bus license: {buss.BusLicense}");
+                throw new DO.InvalidBusLicenseException(buss.BusLicense, $"bus: {buss.BusLicense} does not exist.");
         }
 
         /// <summary>
@@ -109,7 +116,7 @@ namespace DAL
                 DataSource.busList.Remove(bus);
             }
             else
-                throw new DO.InvalidBusLicenseException(license, $"bad person id: {license}");
+                throw new DO.InvalidBusLicenseException(license, $"bus: {license} does not exist");
         }
         #endregion
 

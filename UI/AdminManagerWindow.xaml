@@ -1,11 +1,16 @@
-﻿<Window x:Class="UI.AdminManagerWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
+        xmlns:BO="clr-namespace:BO;assembly=BLApi" x:Class="UI.AdminManagerWindow"
         mc:Ignorable="d"
-        Title="Gilore Travels > Admin Manager " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1">
+        Title="Gilore Travels &gt; Admin Manager " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="adminPortalViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdminPortal}, CreateList=True}"/>
+    </Window.Resources>
 
     <Grid x:Name="BasicGrid">
         <Grid.ColumnDefinitions>
@@ -38,9 +43,7 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265">
-
-                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Height="265"/>
                             </Expander>
                             <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top">
                                 <Expander.Background>
@@ -80,16 +83,14 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265">
-
-                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Height="265"/>
                             </Expander>
                         </DockPanel>
                     </Grid>
 
                 </TabItem>
                 <TabItem Header="Staff Info">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid Background="#FFE5E5E5" DataContext="{StaticResource adminPortalViewSource}">
                         <TextBlock HorizontalAlignment="Left" Margin="30,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top"/>
                         <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="73,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" TextChanged="TextBox_TextChanged"/>
                         <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="46,69,0,0" VerticalAlignment="Top" Width="293">
@@ -103,10 +104,10 @@
                             </ListView.View>
                         </ListView>
                         <Image x:Name="StaffImage" HorizontalAlignment="Left" Height="67" Margin="402,55,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.39,0.093"/>
-                        <TextBox x:Name="StaffInfoFirst" Text="{Binding Path = BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoLast" Text="{Binding Path = BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoID" Text="{Binding Path = BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoPos" Text="{Binding Path = StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info">

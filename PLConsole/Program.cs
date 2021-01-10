@@ -12,6 +12,8 @@ namespace PLConsole
     {
         static void Main(string[] args)
         {
+
+           
             Console.WriteLine("Welcome to our Testing Zone!");
             
             IDAL dal = DLFactory.GetDL();
@@ -26,6 +28,34 @@ namespace PLConsole
             bus.BusStatus = Status.Available;
             //adding the bus to the DL:
             dal.AddBus(bus);
+            Console.WriteLine(bus);
+            //Console.WriteLine("testing delete bus");
+            //dal.DeleteBus(bus.BusLicense);
+            //Console.WriteLine(dal.GetBus(bus.BusLicense));
+            Bus bus2 = new Bus();
+            bus2.BusErased = false;
+            bus2.BusFuel = 200;
+            bus2.BusLicense = "12-200-12";
+            bus2.BusMaintenanceDate = DateTime.Now;
+            bus2.BusRegDate = DateTime.Now;
+            bus2.BusStatus = Status.AtService;
+            dal.AddBus(bus2);
+
+            Bus bus3 = new Bus();
+            bus3.BusErased = false;
+            bus3.BusFuel = 1200;
+            bus3.BusLicense = "00-200-12";
+            bus3.BusMaintenanceDate = DateTime.Now;
+            bus3.BusRegDate = DateTime.Now;
+            bus3.BusStatus = Status.Available;
+            dal.AddBus(bus3);
+
+            IEnumerable<Bus> buses = dal.GetAllBuses();
+            foreach (var b in buses)
+                Console.WriteLine(b);
+
+           // IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(dal.GetBus);
+
         }
     }
 

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace UI
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for AdminEmployeeWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class AdminEmployeeWindow : Window
     {
-        public LoginWindow()
+        public AdminEmployeeWindow()
         {
             InitializeComponent();
         }

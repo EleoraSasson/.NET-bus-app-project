@@ -39,5 +39,13 @@ namespace UI
         {
 
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource adminPortalViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("adminPortalViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // adminPortalViewSource.Source = [generic data source]
+        }
     }
 }

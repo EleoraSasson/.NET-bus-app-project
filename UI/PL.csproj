@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminEmployeeWindow.xaml.cs">
+      <DependentUpon>AdminEmployeeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminManagerWindow.xaml.cs">
       <DependentUpon>AdminManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\BO.AdminPortal.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,12 +103,20 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLApi\BLApi.csproj">
+      <Project>{2b467914-2571-4c62-b710-719898781e1d}</Project>
+      <Name>BLApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BL\BL.csproj">
       <Project>{414973bc-3024-40d4-a4f9-c50202006ee7}</Project>
       <Name>BL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AdminEmployeeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdminManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -24,7 +24,7 @@ namespace DS
         {
             //Defines and a new list of Buses and adds an object of type Bus to the List:
             busList = new List<Bus>(); 
-            busList.Add(new Bus());
+           // busList.Add(new Bus());
 
             //Defines and a new list of BusLines and adds an object of type BusLine to the List:
             busLineList = new List<BusLine>();
