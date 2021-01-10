@@ -875,6 +875,11 @@ namespace DAL
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }
 
+        public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }

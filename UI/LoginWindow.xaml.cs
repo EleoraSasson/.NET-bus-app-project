@@ -23,5 +23,15 @@ namespace UI
         {
             InitializeComponent();
         }
+
+        private void t_Username_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void t_Admin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
