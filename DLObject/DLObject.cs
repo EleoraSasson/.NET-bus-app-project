@@ -62,7 +62,7 @@ namespace DAL
         }
 
         /// <summary>
-        /// GetAllBuses: gets all buses from the collection  
+        /// GetAllBuses: gets all buses from the collection   
         /// parameter: none
         /// return type: IEnumerable
         /// </summary>
