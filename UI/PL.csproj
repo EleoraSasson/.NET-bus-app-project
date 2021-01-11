@@ -146,5 +146,8 @@
   <ItemGroup>
     <Resource Include="bus image.jpeg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GiloreTravels Design Element.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

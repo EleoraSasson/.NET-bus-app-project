@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="UserWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Gilore Travels" Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" ResizeMode="CanMinimize">
+    <Grid x:Name="BasicGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="borderLeft" Width="1*"/>
+            <ColumnDefinition x:Name="columnBody" Width="300*"/>
+            <ColumnDefinition x:Name="BodyText" Width="200*"/>
+            <ColumnDefinition x:Name="borderRight" Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="borderTop" Height= "1*" />
+            <RowDefinition x:Name="rowBody" Height="40*"/>
+            <RowDefinition x:Name="borderBottom" Height="1*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="1" Grid.Row="1" Source="GiloreTravels Design Element.png" Stretch="UniformToFill"/>
+  
     </Grid>
 </Window>

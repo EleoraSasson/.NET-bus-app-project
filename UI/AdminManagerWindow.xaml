@@ -201,16 +201,20 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <StackPanel></StackPanel>
+                            <StackPanel/>
                         </DockPanel>
                     </Grid>
 
                 </TabItem>
                 <TabItem Header="Staff Info">
                     <Grid Background="#FFE5E5E5" DataContext="{StaticResource adminPortalViewSource}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="216*"/>
+                            <ColumnDefinition Width="479*"/>
+                        </Grid.ColumnDefinitions>
                         <TextBlock HorizontalAlignment="Left" Margin="30,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top"/>
                         <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="73,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" TextChanged="TextBox_TextChanged"/>
-                        <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="46,69,0,0" VerticalAlignment="Top" Width="293">
+                        <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="46,69,0,0" VerticalAlignment="Top" Width="293" Grid.ColumnSpan="2">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding BusDriverFirst}"/>
@@ -220,11 +224,11 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Image x:Name="StaffImage" HorizontalAlignment="Left" Height="67" Margin="402,55,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.39,0.093"/>
-                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
-                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="510,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged"/>
+                        <Image x:Name="StaffImage" HorizontalAlignment="Left" Height="67" Margin="186.5,55,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.39,0.093" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info">
