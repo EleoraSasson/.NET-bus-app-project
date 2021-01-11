@@ -54,7 +54,17 @@ namespace PLConsole
             foreach (var b in buses)
                 Console.WriteLine(b);
 
-           // IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(dal.GetBus);
+            //IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(Bus, Status)
+            //    {
+            //    var object = Bus.Items
+            //         .Select(c => c.EmployeeFields)     // Select the fields per employee
+            //         .SelectMany(fields => fields)      // Flatten to a single sequence of fields
+            //         .OfType<EmployeeID>()              // Filter to only EmployeeID fields
+            //         .Select(id => id.Item)             // Convert to strings
+            //         .ToList();
+            //}
+
+            // IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(dal.GetBus);
 
         }
     }
