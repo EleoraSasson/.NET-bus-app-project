@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI"
         xmlns:BO="clr-namespace:BO;assembly=BLApi" x:Class="UI.AdminManagerWindow"
         mc:Ignorable="d"
-        Title="Gilore Travels &gt; Admin Manager " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" Loaded="Window_Loaded">
+        Title="Gilore Travels &gt; Admin Portal " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" Loaded="Window_Loaded">
 
     <!--<Window.Resources>
         <CollectionViewSource x:Key="adminPortalViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdminPortal}, CreateList=True}"/>
@@ -149,7 +149,51 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265"/>
+                                <StackPanel Orientation="Horizontal" Height="265">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition x:Name="RegionSearch" Height="2*"/>
+                                            <RowDefinition x:Name="Schedule" Height="10*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label x:Name="l_SearchRegion" Grid.Row="0" Content="Select Region:" Margin="39,12,559,5"/>
+                                        <ComboBox x:Name="Cb_Region" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="129,13,600,9"/>
+                                        <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
+                                        <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10"/>
+                                        <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here"/>
+                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="37,0,0,12" MaxHeight="250"
+                                              AutoGenerateColumns="False" Grid.Row="1">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Route No." Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Route No." Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTemplateColumn Header="Date:">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <DatePicker SelectedDate="{Binding}" BorderThickness="0" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Header="Start Stop:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Departure Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
+                                                <DataGridTextColumn Header="End Stop:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Arrival Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
+                                                <DataGridTextColumn Header="No. of Stops:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Driver" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <Label x:Name="l_WhatInTable" BorderThickness="0" Foreground="DarkBlue" Grid.Row="1" Content="Bus Route Schedule for Selected Region:" Margin="-83,89,681,105" RenderTransformOrigin="0.632,-0.759">
+                                            <Label.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform Angle="-90"/>
+                                                    <TranslateTransform X="-61.449" Y="6.537"/>
+                                                </TransformGroup>
+                                            </Label.RenderTransform>
+                                        </Label>
+                                    </Grid>
+                                </StackPanel>
                             </Expander>
                         </DockPanel>
                     </Grid>
