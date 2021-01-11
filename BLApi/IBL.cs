@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using DO;
 
 namespace BLApi
 {
@@ -24,10 +25,10 @@ namespace BLApi
         #region BusFleet
         IEnumerable<BusFleet> GetEntireBusFleet();
         IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Func<BusFleet, object> generate);
-        void AddToBusFleet(BusFleet fleet); //create
+        void AddToBusFleet(Bus bus); //create
         BusFleet GetFleet(); //retrieve
-        void UpdateBusFleet(BusFleet fleet); //update
-        void DeleteBusFleet(); //delete
+        void UpdateBusFleet(Bus bus); //update
+        void DeleteFromBusFleet(Bus bus); //delete
         #endregion
 
         #region BusRoute

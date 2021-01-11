@@ -28,5 +28,11 @@ namespace BO
             get { return buses; }
             set { buses = value; }
         }
+
+        //ToString
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

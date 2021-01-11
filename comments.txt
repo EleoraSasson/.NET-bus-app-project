@@ -29,3 +29,14 @@ IEnumerable GetListWithSelectedFields
 
 //GILA
 xml files :) 
+
+
+IMPORTANT THINGS TO LOOK UP AND LEARN HOW TO DO
+- xml files {GILA} 
+- BLIMP {ELEORA}
+- each read stage 2 of project {BOTH}
+
+//ask esther:
+- BL FACTORY
+- Get item given a certain file ... IEnumerable<>(<func,object> generate )..??? 
+- Decrypting
