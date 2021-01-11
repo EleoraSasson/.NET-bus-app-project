@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:UI"
         xmlns:BO="clr-namespace:BO;assembly=BLApi" x:Class="UI.AdminManagerWindow"
         mc:Ignorable="d"
-        Title="Gilore Travels &gt; Admin Portal " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" Loaded="Window_Loaded">
+        Title="Gilore Travels &gt; Admin Portal " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" Loaded="Window_Loaded"
+    ResizeMode="CanMinimize">
 
     <!--<Window.Resources>
         <CollectionViewSource x:Key="adminPortalViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdminPortal}, CreateList=True}"/>
@@ -15,27 +16,31 @@
     <Grid x:Name="BasicGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="borderLeft" Width="1*"/>
-            <ColumnDefinition x:Name="columnBody" Width="16*"/>
+            <ColumnDefinition x:Name="columnBody" Width="20*"/>
             <ColumnDefinition x:Name="borderRight" Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="borderTop" Height= "1*" />
-            <RowDefinition x:Name="rowBody" Height="20*"/>
+            <RowDefinition x:Name="rowBody" Height="40*"/>
             <RowDefinition x:Name="borderBottom" Height="1*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="InnerGrid" Grid.Column="1" Grid.Row="1">
-            <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="372" Width="685" >
+            <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="400" Width="700" >
                 <TabItem Header="Manage Info">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
                 <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59">
                     <Grid Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="0*"/>
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="fleetRow" Height="1*"/>
                             <RowDefinition x:Name="routeRow" Height="1*"/>
                             <RowDefinition x:Name="scheduleRow" Height="1*"/>
                         </Grid.RowDefinitions>
-                        <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,5,10" Grid.RowSpan="3">
+                        <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,1,10" Grid.RowSpan="3">
                             <Expander x:Name="Ex_BusFleet" Header="Bus Fleet" DockPanel.Dock="Top">
                                 <Expander.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -43,7 +48,7 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265">
+                                <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition x:Name="FleetList" Height="10*"/>
@@ -73,11 +78,12 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView x:Name="gv_BusList">
-                                                    <GridViewColumn Header="License Number:" Width="100" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Bus Driver:" Width="100" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Mileage:" Width="100" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Bus Status:" Width="100" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Select for more Options:" Width="150">
+                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Road ID:" Width="90" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="More Options:" Width="100">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
                                                                 <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." Click="B_Options_Click" IsEnabled="{Binding IsButtonEnabled}"/>
@@ -112,7 +118,7 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265">
+                                <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid x:Name="ExpanderGrid" Width="655" Margin="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="routeInfoC0" Width="1*"/>
@@ -149,7 +155,7 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="265">
+                                <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition x:Name="RegionSearch" Height="2*"/>
@@ -160,9 +166,10 @@
                                         <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
                                         <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10"/>
                                         <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here"/>
-                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="37,0,0,12" MaxHeight="250"
+                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
                                               AutoGenerateColumns="False" Grid.Row="1">
                                             <DataGrid.Columns>
+
                                                 <DataGridTextColumn Header="Route No." Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTextColumn Header="Route No." Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
@@ -195,6 +202,7 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
+                            <StackPanel></StackPanel>
                         </DockPanel>
                     </Grid>
 
