@@ -13,7 +13,7 @@ namespace DALApi
 
         #region Bus
         IEnumerable<DO.Bus> GetAllBuses();
-        IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
+        IEnumerable<object> GetBusListWithSelectedFields(Predicate<Bus> predicate);
         void AddBus(Bus bus); //create
         Bus GetBus(string license); //retrieve
         void UpdateBus(Bus bus); //update

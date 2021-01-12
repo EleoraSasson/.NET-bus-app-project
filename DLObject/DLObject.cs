@@ -74,16 +74,12 @@ namespace DAL
                     
         }
 
-        public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
+        public IEnumerable<object> GetBusListWithSelectedFields(Predicate<Bus> predicate)
         {
             return from bus in DataSource.busList
-                   select generate(bus);
-            //var object = Bus.Items
-            //     .Select(c => c.EmployeeFields)     // Select the fields per employee
-            //     .SelectMany(fields => fields)      // Flatten to a single sequence of fields
-            //     .OfType<EmployeeID>()              // Filter to only EmployeeID fields
-            //     .Select(id => id.Item)             // Convert to strings
-            //     .ToList();                         // Materialize as a list
+                   let b = new Bus()
+                   where predicate(b)
+                   select b;
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace BLApi
 
         #region BusFleet
         IEnumerable<BusFleet> GetEntireBusFleet();
-        IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Func<BusFleet, object> generate);
+        IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Predicate<BusFleet> predicate);
         void AddToBusFleet(Bus bus); //create
         BusFleet GetFleet(); //retrieve
         void UpdateBusFleet(Bus bus); //update
@@ -41,14 +41,14 @@ namespace BLApi
 
         #endregion
 
-        //#region ScheduleOfRoute
-        //IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
-        //IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate);
-        //void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff); //create
-        //ScheduleOfRoute GetScheduleOfRoute(); //retrieve
-        //void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff); //update
-        //void DeleteScheduleOfRoute(ScheduleOfRoute s); //delete
-        //#endregion
+        #region ScheduleOfRoute
+        IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
+        IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate);
+        void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff); //create
+        ScheduleOfRoute GetScheduleOfRoute(); //retrieve
+        void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff); //update
+        void DeleteScheduleOfRoute(ScheduleOfRoute s); //delete
+        #endregion
 
         #region CompanySchedule
         IEnumerable<CompanySchedule> GetAllCompanySchedules();

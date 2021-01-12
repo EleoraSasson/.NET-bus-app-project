@@ -11,8 +11,17 @@ namespace BLApi
 {
     class BLImp1 : IBL
     {
-        #region CRUD BusFleet
+
+        #region Singleton
+        static readonly BLImp1 instance = new BLImp1();
+        static BLImp1() { }
+        BLImp1() { } //dafualt => private
+        public static BLImp1 Instance { get => instance; }
+        #endregion
+
         IDAL dal = DLFactory.GetDL();
+
+        #region CRUD BusFleet
         public void AddToBusFleet(Bus bus)
         {
             bus.BusStatus = Status.Available; //every new bus added to the fleet is automatically available for travel.
@@ -25,12 +34,27 @@ namespace BLApi
         {
             try { dal.DeleteBus(bus.BusLicense); }
             catch { throw new BusMissingFromSystemException(bus.BusLicense, "Bus cannot be found in the BUs Fleet"); }
-           
+
         }
 
-        public IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Func<BusFleet, object> generate)
+        public IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Predicate<BusFleet> predicate)
         {
-            throw new NotImplementedException();
+            return from Bus in dal.GetBusListWithSelectedFields(predicate);
+
+
+            //return from bus in busRoot.Elements()
+            //       let b = new Bus()
+            //       {
+            //           BusLicense = bus.Element("license").Value,
+            //           BusRegDate = DateTime.Parse(bus.Element("regDate").Value),
+            //           BusMaintenanceDate = DateTime.Parse(bus.Element("maintenanceDate").Value),
+            //           BusMileage = int.Parse(bus.Element("mileage").Value),
+            //           BusFuel = int.Parse(bus.Element("fuel").Value),
+            //           BusStatus = (Status)Enum.Parse(typeof(Status), bus.Element("status").Value),
+            //           BusErased = bool.Parse(bus.Element("isErased").Value),
+            //       }
+            //       where predicate(b)
+            //       select b;
         }
 
         public IEnumerable<BusFleet> GetEntireBusFleet()
@@ -59,62 +83,67 @@ namespace BLApi
         #endregion
 
         #region ScheduleOfRoute
-        //void IBL.AddScheduleOfRoute(BusRoute s, Staff staff)
-        //{
-        //    ScheduleOfRoute schedule = new ScheduleOfRoute();
-        //    schedule.CurrentRoute = s;
-        //    schedule.SelectedStaff = staff;
-        //    try { Add(bus); }
-        //    catch { throw new BusAlreadyInSystemException(bus.BusLicense, "Bus Already found in Bus Fleet"); }
-        //}
+        public void AddScheduleOfRoute(BusRoute s, Staff staff)
+        {
+            //ScheduleOfRoute schedule = new ScheduleOfRoute();
+            //schedule.CurrentRoute = s;
+            //schedule.SelectedStaff = staff;
+            //try { Add(bus); }
+            //catch { throw new BusAlreadyInSystemException(bus.BusLicense, "Bus Already found in Bus Fleet"); }
+        }
 
-        //void IBL.DeleteScheduleOfRoute(ScheduleOfRoute s)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
-        //IEnumerable<ScheduleOfRoute> IBL.GetAllSchedulesOfRoute()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void DeleteScheduleOfRoute(ScheduleOfRoute s)
+        {
+            throw new NotImplementedException();
+        }
 
 
-        //ScheduleOfRoute IBL.GetScheduleOfRoute()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IEnumerable<ScheduleOfRoute> IBL.GetAllSchedulesOfRoute()
+        {
+            throw new NotImplementedException();
+        }
 
-        //void IBL.UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        //IEnumerable<ScheduleOfRoute> IBL.GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public ScheduleOfRoute GetScheduleOfRoute()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ScheduleOfRoute> IBL.GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate)
+        {
+            throw new NotImplementedException();
+        }
 
 
         #endregion
 
         #region CRUD CompanySchedule
 
-        void IBL.AddCompanySchedule(BusRoute b, Staff staff)
-        {
-            ScheduleOfRoute schedule = new ScheduleOfRoute();
-            schedule.CurrentRoute = b;   
-            schedule.SelectedStaff = staff;
-            try { AddSchedule(schedule); }
-            catch { throw new CompanyScheduleAlreadyInSystemException(b.Route.BusLineNo, "Bus route schedule already found in the system."); }
-        }
-
-        void IBL.DeleteCompanySchedule(BusRoute b, Staff staff)
+        public void AddCompanySchedule(BusRoute b, Staff staff)
         {
             ScheduleOfRoute schedule = new ScheduleOfRoute();
             schedule.CurrentRoute = b;
             schedule.SelectedStaff = staff;
-            try {deleteSchedule(schedule); }
+            try { AddScheduleOfRoute(schedule); }
+            catch { throw new CompanyScheduleAlreadyInSystemException(b.Route.BusLineNo, "Bus route schedule already found in the system."); }
+        }
+
+        private void AddScheduleOfRoute(ScheduleOfRoute schedule)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCompanySchedule(BusRoute b, Staff staff)
+        {
+            ScheduleOfRoute schedule = new ScheduleOfRoute();
+            schedule.CurrentRoute = b;
+            schedule.SelectedStaff = staff;
+            try { deleteSchedule(schedule); }
             catch { throw new CompanyScheduleMissingFromSystemException(b.Route.BusLineNo, "Bus route schedule cannot be found in the system."); }
         }
 
@@ -192,7 +221,7 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-       
+
         void IBL.DeleteFromBusFleet(Bus bus)
         {
             throw new NotImplementedException();
@@ -212,14 +241,14 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-      
+
         IEnumerable<BusFleet> IBL.GetBusFleetWithSelectedFields(Func<BusFleet, object> generate)
         {
             throw new NotImplementedException();
         }
 
-     
-       
+
+
 
         IEnumerable<BusFleet> IBL.GetEntireBusFleet()
         {
@@ -232,7 +261,7 @@ namespace BLApi
         }
 
 
-       
+
 
         BusRoute IBL.GetStationsInBusRoute()
         {
@@ -244,8 +273,8 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-       
-       
+
+
 
         void IBL.UpdateBusFleet(Bus bus)
         {
@@ -257,10 +286,80 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-       
 
-      
 
-      
+
+
+
+
     }
+
+    //public class dal
+    //{
+    //    class Busline
+    //    {
+    //        string lineID;
+    //        int lineNO;
+    //    }
+
+    //    class LineStation
+    //    {
+    //        string lineID;
+    //        string code;
+    //    }
+    //    class LineLeaving
+    //    {
+    //        string lineID;
+    //        int numofStops;
+    //    }
+    //    class Staff
+    //    {
+    //        string name;
+    //        int id;
+    //    }
+
+    //}
+
+    //public class bl : dal
+    //{
+    //    class BusRoute
+    //    {
+    //        BusLine route;
+    //        IEnumerable<LineStation> routeStops;
+    //    }
+
+    //    class RouteSchedule
+    //    {
+    //        BusRoute currentRoute;
+    //        LineLeaving currentTimes;
+    //        Staff currentStaff;
+    //    }
+
+    //    class CompanySchedule
+    //    {
+    //        IEnumerable<RouteSchedule> schedules;
+    //    }
+    //}
+
+    //public interface ibl
+    //{
+    //    public void AddBusLine();
+
+
+
+        
+
+    //}
+
+    //public interface idal
+    //{
+
+    //}
+
+    //public class implementation
+    //{ 
+    
+    
+    
+    //}
 }
