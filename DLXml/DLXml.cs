@@ -9,7 +9,8 @@ using DALApi;
 using DO;
 using System.Xml.Serialization;
 
-namespace DLXml
+
+namespace DL
 {
     class DLXml : IDAL
     {
