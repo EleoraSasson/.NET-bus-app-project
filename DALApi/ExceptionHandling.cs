@@ -201,4 +201,19 @@ namespace DO
         public override string ToString() => base.ToString() + $", user trip information already in system: {ID}";
     }
     #endregion
+
+    #region XML Exceptions
+    public class XMLFileLoadCreateException : Exception
+    {
+
+        public string ID;
+
+        public XMLFileLoadCreateException(string id) : base() => ID = id;
+        public XMLFileLoadCreateException(string id, string msg) : base(msg) { ID = id; }
+        public XMLFileLoadCreateException(string id, string msg, Exception innerException) : base(msg, innerException) { ID = id; }
+
+        public override string ToString() => base.ToString() + $", missing user trip information: {ID}";
+    }
+    #endregion
+
 }
