@@ -40,3 +40,9 @@ IMPORTANT THINGS TO LOOK UP AND LEARN HOW TO DO
 - BL FACTORY
 - Get item given a certain file ... IEnumerable<>(<func,object> generate )..??? 
 - Decrypting
+
+//Eleora's late comments 
+-We shoudln't be able to CRUD from bus schedule (only from company schedule). Company Schedule goes in the PL as an observable collection?
+
+-Eveytime we create a busStop we see if it already exists in StationInRoute collection , if yes we add the line to the list of line of the collection,
+if no we create a new object and add it to the list. List of stations in the PL.
