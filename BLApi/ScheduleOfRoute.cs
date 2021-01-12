@@ -12,7 +12,7 @@ namespace BO
     /// Description: This class contains information about the schedule of a bus route (includes time of last lines and first lines)
     /// Based on: BusRoute + LineLeaving + Staff
     /// </summary>
-    class ScheduleOfRoute
+    public class ScheduleOfRoute
     {
         /// <summary>
         /// Private BLObject "route"

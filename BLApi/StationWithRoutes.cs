@@ -12,7 +12,7 @@ namespace BO
     /// Description: This class contains a BusStop with a list of all the routes that pass through that BusStop/Station
     /// Based on: BusStop + BusRoute
     /// </summary>
-    class StationWithRoutes
+    public class StationWithRoutes
     {
         /// <summary>
         /// Private BLObject "station" -
@@ -43,7 +43,7 @@ namespace BO
         /// </summary>
         public IEnumerable<BusRoute> CurrentLines
         {
-            get { return lines; }
+            get { return lines.; }
             set { lines = value; }
         }
 

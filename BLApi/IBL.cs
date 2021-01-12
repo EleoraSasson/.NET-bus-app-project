@@ -32,19 +32,40 @@ namespace BLApi
         #endregion
 
         #region BusRoute
+        IEnumerable<BusRoute> GetAllStationsInBusRoute(); 
+        IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
+        void AddStationToBusRoute(LineStation line); //create
+        BusRoute GetStationsInBusRoute(); //retrieve
+        void UpdateBusRoute(LineStation line); //update
+        void DeleteFromBusRoute(LineStation line); //delete
 
         #endregion
 
-        #region ScheduleOfRoute
-
-        #endregion
+        //#region ScheduleOfRoute
+        //IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
+        //IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate);
+        //void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff); //create
+        //ScheduleOfRoute GetScheduleOfRoute(); //retrieve
+        //void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff); //update
+        //void DeleteScheduleOfRoute(ScheduleOfRoute s); //delete
+        //#endregion
 
         #region CompanySchedule
-
+        IEnumerable<CompanySchedule> GetAllCompanySchedules();
+        IEnumerable<CompanySchedule> GetCompanySchedulesWithSelectedFields(Func<CompanySchedule, object> generate);
+        void AddCompanySchedule(BusRoute b, Staff s); //create
+        CompanySchedule GetCompanySchedule(); //retrieve
+        void UpdateCompanySchedule(BusRoute b, Staff ss); //update
+        void DeleteCompanySchedule(BusRoute b, Staff s); //delete
         #endregion
 
         #region StationWithRoutes
-
+        IEnumerable<StationWithRoutes> GetAllStationsInRoute();
+        IEnumerable<StationWithRoutes> GetStationsInRouteWithSelectedFields(Func<StationWithRoutes, object> generate);
+        void AddsStationInRoute(BusStop s); //create
+        StationWithRoutes GetStationInRoute(); //retrieve
+        void UpdateStationInRoute(BusStop s); //update
+        void DeleteStationInRoute(BusStop s); //delete
         #endregion
 
     }

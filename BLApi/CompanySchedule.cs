@@ -12,7 +12,7 @@ namespace BO
     /// Description: This class is the schedule of all the bus routes in the Company
     /// Based on: BO.ScheduleOfRoute
     /// </summary>
-    class CompanySchedule
+    public class CompanySchedule
     {
         /// <summary>
         /// Private BLObject "routeSchedule"
