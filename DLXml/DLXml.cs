@@ -21,128 +21,60 @@ namespace DL
         public static DLXml Instance { get => instance; }// The public Instance property to use
         #endregion
 
-        #region Setting up / Loading from XML Files:
+        #region Setting roots and paths of XML Files:
 
         //XML FilePaths:
         static string busPath = @"Bus.xml";
+        static string linePath = @"BusLine.xml";
+        static string onTripPath = @"BusOnTrip.xml";
+        static string stopPath = @"BusStop.xml";
+        static string leavingPath = @"LineLeaving.xml";
+        static string stationPath = @"LineStation.xml";
+        static string staffPath = @"Staff.xml";
+        static string succSPath = @"SuccessiveStations.xml";
+        static string userPath = @"Users.xml";
+        static string userTripPath = @"UserTrips.xml";
 
         //XML Root XElements:
         static XElement busRoot;
+        static XElement lineRoot;
+        static XElement onTripRoot;
+        static XElement stopRoot;
+        static XElement leavingRoot;
+        static XElement stationRoot;
+        static XElement staffRoot;
+        static XElement succSRoot;
+        static XElement userRoot;
+        static XElement userTripRoot;
 
-        /// <summary>
-        /// CheckXML - checks to see if the xml exists already or not. If not it creats the xml file; else it uploads the data from the file.
-        /// </summary>
-        /// <param name="root"></param>
-        /// <param name="rootName"></param>
-        /// <param name="filePath"></param>
-        private void CheckXML(XElement root, string rootName, string filePath)
-        {
-            if (!File.Exists(filePath))
-                CreateFile(root,rootName,filePath);
-            else
-                LoadFile(root, filePath);
-        }
+        #endregion
 
-        /// <summary>
-        /// CreateFile - this is a generic method which creates an xml file
-        /// </summary>
-        /// <param name="root"></param>
-        /// <param name="rootName"></param>
-        /// <param name="filePath"></param>
-        private void CreateFile(XElement root, string rootName, string filePath)
+        //* Implemetation of all CRUD methods of DO Entities using XML files *//
+
+        #region Bus [This region uses XElement Method of writing and reading xml files]
+        //create
+        public void AddBus(Bus bus)
         {
-            root = new XElement(rootName);
-            root.Save(filePath);
-        }
-        /// <summary>
-        /// LoadFile - this is a generic method which uploads data from a given xml file
-        /// </summary>
-        /// <param name="root"></param>
-        /// <param name="filePath"></param>
-        private void LoadFile(XElement root, string filePath)
-        {
-            try { root = XElement.Load(filePath); }
-            catch { throw new Exception($"Error: File {filePath} upload failed"); }
-        }
-        /// <summary>
-        /// GetBusList - returns a list of busses from the XML file using XElement technique.
-        /// </summary>
-        /// <returns></returns>
-        public static List<Bus> GetBusList()
-        {
-            List<Bus> busList;
-            try 
-            {
-                busList = (from bus in busRoot.Elements()
-                           select new Bus()
-                           {
-                               BusLicense =bus.Element("license").Value,
-                               BusRegDate =DateTime.Parse(bus.Element("regDate").Value),
-                               BusMaintenanceDate = DateTime.Parse(bus.Element("maintenanceDate").Value),
-                               BusMileage = int.Parse(bus.Element("mileage").Value),
-                               BusFuel = int.Parse(bus.Element("fuel").Value),
-                               // BusStatus = Enum.Parse(,bus.Element("status").Value), // can't figure out how to convert to an enum
-                               BusErased = bool.Parse(bus.Element("isErased").Value),
-                           }).ToList();
-            }
-            catch { busList = null; }
-            return busList;
-        }
-        /// <summary>
-        /// SaveBusList - saves the list of busses to an XML file using the XElement technique.
-        /// </summary>
-        /// <param name="busList"></param>
-        public static void SaveBusList(List<Bus> busList)
-        {
-            busRoot = new XElement("buses", from bus in busList
-                                            select new XElement("bus", new XElement("license", bus.BusLicense),
+
+            XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
+
+            XElement busReturn = (from b in busRoot.Elements()
+                             where b.Element("license").Value == bus.BusLicense
+                             select b).FirstOrDefault();
+
+            if(busReturn != null)
+            { throw new DO.InvalidBusLicenseException(bus.BusLicense, $"Duplicate bus - bus {bus.BusLicense} already exists in system."); }
+
+             XElement busElement  = new XElement ("bus", new XElement("license", bus.BusLicense),
                                             new XElement("regDate", bus.BusRegDate),
                                             new XElement("maintenanceDate", bus.BusMaintenanceDate),
                                             new XElement("mileage", bus.BusMileage),
                                             new XElement("fuel", bus.BusFuel),
-                                            new XElement("status", bus.BusStatus),
-                                            new XElement("isErased", bus.BusErased)));
-            busRoot.Save(busPath);
+                                            new XElement("status", bus.BusStatus.ToString()),
+                                            new XElement("isErased", bus.BusErased));
+            busRoot.Add(busElement);
+            XMLTools.SaveListToXMLElement(busRoot,busPath);
         }
-      
-        #endregion
-
-
-        //* Implemetation of all CRUD methods of DO Entities using XML files *//
-
-        #region BUS 
-        //create
-        public void AddBus(Bus bus)
-        {
-            //not yet done
-           // CheckXML(busRoot, "Busses", busPath);
-           // List<Bus> fleet = GetBusList();
-
-            XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
-
-            throw new NotImplementedException();
-        }
-        //XElement personsRootElem = XMLTools.LoadListFromXMLElement(personsPath);
-
-        //XElement per1 = (from p in personsRootElem.Elements()
-        //                 where int.Parse(p.Element("ID").Value) == person.ID
-        //                 select p).FirstOrDefault();
-
-        //    if (per1 != null)
-        //        throw new DO.BadPersonIdException(person.ID, "Duplicate person ID");
-
-        //    XElement personElem = new XElement("Person",
-        //                           new XElement("ID", person.ID),
-        //                           new XElement("Name", person.Name),
-        //                           new XElement("Street", person.Street),
-        //                           new XElement("HouseNumber", person.HouseNumber.ToString()),
-        //                           new XElement("City", person.City),
-        //                           new XElement("BirthDate", person.BirthDate),
-        //                           new XElement("PersonalStatus", person.PersonalStatus.ToString()));
-
-        //personsRootElem.Add(personElem);
-            
-        //    XMLTools.SaveListToXMLElement(personsRootElem, personsPath);
         //retrieve
         public Bus GetBus(string license)
         {
@@ -206,57 +138,131 @@ namespace DL
         //update
         public void UpdateBus(Bus bus)
         {
-            //not yet done
-            throw new NotImplementedException();
+            XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
+
+            XElement busFind = (from b in busRoot.Elements()
+                                  where b.Element("license").Value == bus.BusLicense
+                                  select b).FirstOrDefault();
+
+            if (busFind != null)
+            {
+                //no need to update fields license and registaration date as those are specific to newly added busses and never need changing.
+                busFind.Element("maintenanceDate").Value = bus.BusMaintenanceDate.ToString();
+                busFind.Element("mileage").Value = bus.BusMileage.ToString();
+                busFind.Element("fuel").Value = bus.BusFuel.ToString();
+                busFind.Element("status").Value = bus.BusStatus.ToString();
+                busFind.Element("isErased").Value = bus.BusErased.ToString();
+            }
+            else throw new DO.InvalidBusLicenseException(bus.BusLicense, $"Error updating bus fleet: bus {bus.BusLicense} cannot be found in the system.");
+          
+            XMLTools.SaveListToXMLElement(busRoot, busPath);
         }
         //delete
         public void DeleteBus(string license)
         {
-            //not yet done
-            throw new NotImplementedException();
-        }
+            XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
+            XElement busFind = (from b in busRoot.Elements()
+                          where b.Element("license").Value == license
+                          select b).FirstOrDefault();
+
+            if(busFind != null)
+            {
+                busFind.Remove();
+                XMLTools.SaveListToXMLElement(busRoot, busPath);
+            }
+            else throw new DO.InvalidBusLicenseException(license, $"Error deleting bus from fleet: bus {license} cannot be found in the system.");
+        }
         #endregion
 
         #region BusLine
+        //create
         public void AddBusLine(BusLine busLine)
         {
-            throw new NotImplementedException();
+            List<BusLine> list = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == busLine.BusLineID) != null)
+                throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Duplicate! line {busLine.BusLineID} already exists.");
+
+            //if(GetBusLine(busLine.BusLineID) == null)
+            //    throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Line {busLine.BusLineID} cannot be found in system.");
+
+            list.Add(busLine);
+            XMLTools.SaveListToXMLSerializer(list,linePath);
         }
-        public void DeleteBusLine(int lineID)
-        {
-            throw new NotImplementedException();
-        }
+        //retrieve
         public BusLine GetBusLine(int lineID)
         {
-            throw new NotImplementedException();
+            List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
+
+            DO.BusLine bline = listLines.Find(l => l.BusLineID == lineID);
+
+            if (bline != null)
+                return bline;
+            else 
+                throw new DO.InvalidBusLineException(lineID.ToString(), $"Line {lineID} cannot be found in system.");
         }
         public IEnumerable<BusLine> GetAllBusLines()
         {
-            throw new NotImplementedException();
+            List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
+
+            return from bline in listLines
+                   select bline;
         }
         public IEnumerable<object> GetBusLineWithSelectedFields(Func<BusLine, object> generate)
         {
-            throw new NotImplementedException();
-        }
+            List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
+            return from bline in listLines
+                   select generate(bline);
+        }
+        //update
         public void UpdateBusLine(BusLine busline)
         {
-            throw new NotImplementedException();
-        }
+            List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
-        #endregion
+            DO.BusLine bline = listLines.Find(l => l.BusLineID == busline.BusLineID);
+            if (bline != null)
+            {
+                listLines.Remove(bline);
+                listLines.Add(busline);
+            }
+            else new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"Line {busline.BusLineID} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(listLines, linePath);    
+        }
+        //delete
+        public void DeleteBusLine(int lineID)
+        {
+            List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
+
+            DO.BusLine bline = listLines.Find(l => l.BusLineID == lineID);
+            if (bline != null)
+            {
+                listLines.Remove(bline);
+            }
+            else new DO.InvalidBusLineException(lineID.ToString(), $"Line {lineID} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(listLines, linePath);
+        }
+            #endregion
 
         #region BusOnTrip
+        //create
         public void AddBusOnTrip(BusOnTrip busOnTrip)
         {
-            throw new NotImplementedException();
-        }
-        public void DeleteBusOnTrip(int roadID)
-        {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
 
+            if (list.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
+                throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Duplicate! line {busOnTrip.BusRoadID} already exists.");
+
+            if (GetBusOnTrip(busOnTrip.BusRoadID) == null)
+                throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Line {busOnTrip.BusRoadID} cannot be found in system.");
+
+            list.Add(busOnTrip);
+            XMLTools.SaveListToXMLSerializer(list, onTripPath);
         }
+        //retrieve
         public BusOnTrip GetBusOnTrip(int roadID)
         {
             throw new NotImplementedException();
@@ -265,33 +271,45 @@ namespace DL
         {
             throw new NotImplementedException();
         }
-
-
         public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
         {
             throw new NotImplementedException();
         }
+        //update
         public void UpdateBusOnTrip(BusOnTrip busOnTrip)
         {
             throw new NotImplementedException();
+        }
+        //delete
+        public void DeleteBusOnTrip(int roadID)
+        {
+            throw new NotImplementedException();
+
         }
 
         #endregion
 
         #region BusStop
+        //create
         public void AddBusStop(BusStop busStop)
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            if (list.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
+                throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Duplicate! Stop {busStop.StopCode} already exists.");
+
+            if (GetBusStop(busStop.StopCode) == null)
+                throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Stop {busStop.StopCode} cannot be found in system.");
+
+            list.Add(busStop);
+            XMLTools.SaveListToXMLSerializer(list, stopPath); ;
         }
-        public void DeleteBusStop(int stopCode)
-        {
-            throw new NotImplementedException();
-        }
+        
+        //retrieve
         public IEnumerable<BusStop> GetAllBusStops()
         {
             throw new NotImplementedException();
         }
-
 
         public BusStop GetBusStop(int stopCode)
         {
@@ -302,19 +320,31 @@ namespace DL
         {
             throw new NotImplementedException();
         }
-
-
+        //update
         public void UpdateBusStop(BusStop busStop)
         {
             throw new NotImplementedException();
         }
-
+        //delete
+        public void DeleteBusStop(int stopCode)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region LineLeaving
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
@@ -349,7 +379,16 @@ namespace DL
 
         public void AddLineStation(LineStation lineStation)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteLineStation(string lineStationKey)
         {
@@ -378,7 +417,16 @@ namespace DL
         #region Staff
         public void AddStaff(Staff staff)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteStaff(string staffID)
         {
@@ -415,7 +463,16 @@ namespace DL
 
         public void AddSuccessiveStations(SuccessiveStations successiveStations)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteSuccessiveStations(string entityKey)
         {
@@ -444,7 +501,16 @@ namespace DL
         #region User
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteUser(string name)
         {
@@ -471,7 +537,16 @@ namespace DL
         #region UserTrip
         public void AddUserTrip(UserTrip userTrip)
         {
-            throw new NotImplementedException();
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
 
         public void DeleteUserTrip(int travelID)

@@ -46,3 +46,7 @@ IMPORTANT THINGS TO LOOK UP AND LEARN HOW TO DO
 
 -Eveytime we create a busStop we see if it already exists in StationInRoute collection , if yes we add the line to the list of line of the collection,
 if no we create a new object and add it to the list. List of stations in the PL.
+
+
+
+///addition of running numbers?
