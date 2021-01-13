@@ -565,7 +565,9 @@ namespace DAL
             //check if staff member exsists already
             if ((DataSource.staffList.FirstOrDefault(st => st.BusDriverID == staff.BusDriverID) != null))
             {
-                throw new DO.StaffAlreadyInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is already listed in the system");
+                int index = DataSource.staffList.FindIndex(x => x.BusDriverID == staff.BusDriverID); //if already exists, adds 1 to the number of lines driven
+                DataSource.staffList[index].StaffNoOfLines++;
+                //throw new DO.StaffAlreadyInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is already listed in the system");
             } //it is a new staff member so can add to list:
             DataSource.staffList.Add(staff.Clone());
         }

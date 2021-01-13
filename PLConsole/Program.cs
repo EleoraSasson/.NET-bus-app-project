@@ -19,6 +19,8 @@ namespace PLConsole
             //Testing DL:
 
             //IDAL dal = DLFactory.GetDL();
+            int n;
+            Console.WriteLine(n);
             //Console.WriteLine("Testing AddBus:");
             //Bus bus = new Bus(); //decaring an instance of type Bus
             ////init: .. happens in the BL in the add of that IBL

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DALApi;
 using DO;
 using BO;
+using DS;
 
 namespace BLApi
 {
@@ -124,13 +125,15 @@ namespace BLApi
 
         #region CRUD CompanySchedule
 
-        public void AddCompanySchedule(BusRoute b, Staff staff)
+        public void AddCompanySchedule(ScheduleOfRoute s)
         {
-            ScheduleOfRoute schedule = new ScheduleOfRoute();
-            schedule.CurrentRoute = b;
-            schedule.SelectedStaff = staff;
-            try { AddScheduleOfRoute(schedule); }
-            catch { throw new CompanyScheduleAlreadyInSystemException(b.Route.BusLineNo, "Bus route schedule already found in the system."); }
+            try
+            {
+                addBusRoute(s.CurrentRoute);
+                dal.AddStaff(s.SelectedStaff);
+            }
+            //try { AddScheduleOfRoute(schedule); }
+            catch { throw new CompanyScheduleAlreadyInSystemException(s.CurrentRoute.Route.BusLineNo, "Bus route schedule already found in the system."); }
         }
 
         private void AddScheduleOfRoute(ScheduleOfRoute schedule)
@@ -138,13 +141,14 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-        public void DeleteCompanySchedule(BusRoute b, Staff staff)
+        public void DeleteCompanySchedule(ScheduleOfRoute s)
         {
-            ScheduleOfRoute schedule = new ScheduleOfRoute();
-            schedule.CurrentRoute = b;
-            schedule.SelectedStaff = staff;
-            try { deleteSchedule(schedule); }
-            catch { throw new CompanyScheduleMissingFromSystemException(b.Route.BusLineNo, "Bus route schedule cannot be found in the system."); }
+            try 
+            {
+                deleteBusRoute(s.CurrentRoute);
+                dal.DeleteStaff(s.SelectedStaff.BusDriverID);
+            }
+            catch { throw new CompanyScheduleMissingFromSystemException(s.CurrentRoute.Route.BusLineNo, "Bus route schedule cannot be found in the system."); }
         }
 
         IEnumerable<CompanySchedule> IBL.GetAllCompanySchedules()
@@ -165,11 +169,13 @@ namespace BLApi
 
         void IBL.UpdateCompanySchedule(BusRoute b, Staff staff)
         {
-            ScheduleOfRoute schedule = new ScheduleOfRoute();
-            schedule.CurrentRoute = b;
-            schedule.SelectedStaff = staff;
-            try { UpdateSchedule(schedule); }
-            catch { throw new CompanyScheduleMissingFromSystemException(b.Route.BusLineNo, "Bus route schedule cannot be found in the system."); }
+            //ScheduleOfRoute schedule = new ScheduleOfRoute();
+            //schedule.CurrentRoute = b;
+            //schedule.SelectedStaff = staff;
+            //try { UpdateSchedule(schedule); }
+            //catch { throw new CompanyScheduleMissingFromSystemException(b.Route.BusLineNo, "Bus route schedule cannot be found in the system."); }
+            try { dal.UpdateBus(b.)}
+            else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
         }
 
         #endregion
