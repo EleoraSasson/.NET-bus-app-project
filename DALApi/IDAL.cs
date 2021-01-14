@@ -23,7 +23,7 @@ namespace DALApi
         #region BusLine
         IEnumerable<DO.BusLine> GetAllBusLines(); //IEnumerable
         IEnumerable<object> GetBusLineWithSelectedFields(Func<DO.BusLine, object> generate); //IEnumerable
-        void AddBusLine(BusLine busLine);//create
+        int AddBusLine(BusLine busLine);//create
         BusLine GetBusLine(int lineID);//retrieve
         void UpdateBusLine(BusLine busline);//update
         void DeleteBusLine(int lineID);//delete              
@@ -32,7 +32,7 @@ namespace DALApi
         #region BusOnTrip
         IEnumerable<DO.BusOnTrip> GetAllBusesOnTrip(); //IEnumerable
         IEnumerable<object> GetBusOnTripWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
-        void AddBusOnTrip(BusOnTrip busOnTrip);//create
+        int AddBusOnTrip(BusOnTrip busOnTrip);//create
         BusOnTrip GetBusOnTrip(int roadID);//retrieve
         void UpdateBusOnTrip(BusOnTrip busOnTrip);//update
         void DeleteBusOnTrip(int roadID);//delete
@@ -41,7 +41,7 @@ namespace DALApi
 
         #region BusStop
         IEnumerable<DO.BusStop> GetAllBusStops(); //IEnumerable
-        IEnumerable<object> GetBusStopWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
+        //IEnumerable<object> GetBusStopWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
         void AddBusStop(BusStop busStop);//create
         BusStop GetBusStop(int stopCode);//retrieve
         void UpdateBusStop(BusStop busStop);//update
@@ -128,7 +128,7 @@ namespace DALApi
         #region UserTrip
         IEnumerable<DO.UserTrip> GetAllUserTrip(); //IEnumerable
         IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
-        void AddUserTrip(UserTrip userTrip);//create
+        int AddUserTrip(UserTrip userTrip);//create
         UserTrip GetUserTrip(int travelID);//retrieve
         void UpdateUserTrip(int travelID);//update
         void DeleteUserTrip(int travelID);//delete

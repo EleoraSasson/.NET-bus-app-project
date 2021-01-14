@@ -8,7 +8,6 @@ using DALApi; //referance to DALApi interface
 using DO; //reference to Data Object
 using DLObject;
 using DS;
-//using DO might need to access some things from the interface
 
 namespace DAL 
 {
@@ -25,12 +24,6 @@ namespace DAL
         DLObject() { }
         public static DLObject Instance { get => instance; }
         #endregion
-
-        LineStation lineStation;
-        Staff staff;
-        SuccessiveStations successiveStations;
-        User user;
-        UserTrip userTrip;
 
         #region CRUD Implementation - Bus
 
@@ -69,9 +62,8 @@ namespace DAL
         public IEnumerable<Bus> GetAllBuses()
         {
             return from Bus in DataSource.busList
+                   select Bus.Clone();
 
-                   select Bus.Clone(); 
-                    
         }
 
         public IEnumerable<object> GetBusListWithSelectedFields(Predicate<Bus> predicate)
@@ -94,7 +86,7 @@ namespace DAL
             if (bus != null)
             {
                 DataSource.busList.Remove(bus);
-                DataSource.busList.Add(bus.Clone());
+                DataSource.busList.Add(buss.Clone());
             }
             else
                 throw new DO.InvalidBusLicenseException(buss.BusLicense, $"bus: {buss.BusLicense} does not exist.");
@@ -141,11 +133,13 @@ namespace DAL
         /// parameter: Bus Line
         /// return type: void
         /// </summary>
-        public void AddBusLine(BusLine busLine)
-        {//add asigning of running number
+        public int AddBusLine(BusLine busLine)
+        {
+            busLine.BusLineID = DO.RunningNumbers.LineRunNum;
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), "Duplicate bus license number");
             DataSource.busLineList.Add(busLine.Clone());
+            return busLine.BusLineID; //return running number
         }
 
         /// <summary>
@@ -223,11 +217,13 @@ namespace DAL
         /// parameter: BusOnTrip
         /// return type: void
         /// </summary>
-        public void AddBusOnTrip(BusOnTrip busOnTrip)
+        public int AddBusOnTrip(BusOnTrip busOnTrip)
         {
+            busOnTrip.BusRoadID = DO.RunningNumbers.BusRunNum;
             if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), "Duplicate bus on trip ID");
             DataSource.busOnTripList.Add(busOnTrip.Clone());
+            return busOnTrip.BusRoadID; //return running number
         }
 
         /// <summary>
@@ -464,7 +460,7 @@ namespace DAL
         public IEnumerable<object> GetLineStationWithSelectedFields(Func<LineStation, object> generate)
         {
             return from LineStation in DataSource.lineStationList
-                   select generate(GetLineStation(lineStation.lineID)); //check
+                   select generate(GetLineStation(LineStation.lineID)); //check
         }
 
         /// <summary>
@@ -498,7 +494,7 @@ namespace DAL
 
             if (findLineStation != null)
             {
-                return lineStation.Clone();
+                return findLineStation.Clone();
             }
             else throw new DO.MissingLineStationException(lineStationKey, $"No data found for LineStation: {lineStationKey}");
         }
@@ -547,7 +543,7 @@ namespace DAL
         public IEnumerable<Staff> GetAllStaff()
         {
             return from Staff in DataSource.staffList
-                   select staff.Clone();
+                   select Staff.Clone();
         }
 
         public IEnumerable<object> GetStaffWithSelectedFields(Func<Staff, object> generate)
@@ -583,9 +579,9 @@ namespace DAL
 
             if (findStaff != null)
             {
-                return staff.Clone();
+                return findStaff.Clone();
             }
-            else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
+            else throw new DO.StaffNotInSystemException(findStaff.BusDriverID, $"Staff member {findStaff.BusDriverID} is not listed in the system");
         }
 
         /// <summary>
@@ -602,7 +598,7 @@ namespace DAL
                 DataSource.staffList.Remove(findStaff);
                 DataSource.staffList.Add(findStaff.Clone());
             }
-            else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
+            else throw new DO.StaffNotInSystemException(findStaff.BusDriverID, $"Staff member {findStaff.BusDriverID} is not listed in the system");
         }
 
         /// <summary>
@@ -618,7 +614,7 @@ namespace DAL
             {
                 DataSource.staffList.Remove(findStaff);
             }
-            else throw new DO.StaffNotInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is not listed in the system");
+            else throw new DO.StaffNotInSystemException(findStaff.BusDriverID, $"Staff member {findStaff.BusDriverID} is not listed in the system");
 
         }
         #endregion
@@ -671,7 +667,7 @@ namespace DAL
             DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
             if (findStations != null)
             {
-                return successiveStations.Clone();
+                return findStations.Clone();
             }
             else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
         }
@@ -754,7 +750,7 @@ namespace DAL
 
             if (findUser != null)
             {
-                return user.Clone();
+                return findUser.Clone();
             }
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
@@ -816,8 +812,9 @@ namespace DAL
         /// parameter: UserTrip
         /// return type: void
         /// </summary>
-        public void AddUserTrip(UserTrip userTrip)
+        public int AddUserTrip(UserTrip userTrip)
         {
+            userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
             DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
             if (findTrip != null)
             {
@@ -825,6 +822,7 @@ namespace DAL
             }
 
             DataSource.userTripList.Add(findTrip.Clone());
+            return userTrip.userTravelID; //return running number
         }
 
         /// <summary>
@@ -837,7 +835,7 @@ namespace DAL
                 DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
             if (findTrip != null)
             {
-                return userTrip.Clone();
+                return findTrip.Clone();
             }
             else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
         }

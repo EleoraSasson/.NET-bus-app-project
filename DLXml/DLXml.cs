@@ -177,18 +177,17 @@ namespace DAL
 
         #region BusLine
         //create
-        public void AddBusLine(BusLine busLine)
+        public int AddBusLine(BusLine busLine)
         {
             List<BusLine> list = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
+            busLine.BusLineID = DO.RunningNumbers.LineRunNum;
             if (list.FirstOrDefault(l => l.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Duplicate! line {busLine.BusLineID} already exists.");
-
-            //if(GetBusLine(busLine.BusLineID) == null)
-            //    throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Line {busLine.BusLineID} cannot be found in system.");
-
+            
             list.Add(busLine);
             XMLTools.SaveListToXMLSerializer(list, linePath);
+            return busLine.BusLineID; //returning running number
         }
         //retrieve
         public BusLine GetBusLine(int lineID)
@@ -249,18 +248,17 @@ namespace DAL
 
         #region BusOnTrip
         //create
-        public void AddBusOnTrip(BusOnTrip busOnTrip)
+        public int AddBusOnTrip(BusOnTrip busOnTrip)
         {
             List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
 
+            busOnTrip.BusRoadID = DO.RunningNumbers.BusRunNum;
             if (list.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Duplicate! line {busOnTrip.BusRoadID} already exists.");
 
-            //if (GetBusOnTrip(busOnTrip.BusRoadID) == null)
-            //    throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Line {busOnTrip.BusRoadID} cannot be found in system.");
-
             list.Add(busOnTrip);
             XMLTools.SaveListToXMLSerializer(list, onTripPath);
+            return busOnTrip.BusRoadID; //returning running number
         }
         //retrieve
         public BusOnTrip GetBusOnTrip(int roadID)
@@ -407,14 +405,11 @@ namespace DAL
             if (list.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
                 throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} already exists.");
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(l => l.BusLineID == lineLeaving.BusLineID) != null)
+                throw new DO.InvalidBusLineException(lineLeaving.BusLineID.ToString(),$"Duplicate! line {lineLeaving.BusLineID} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
-
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(lineLeaving);
+            XMLTools.SaveListToXMLSerializer(list, leavingPath);
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
@@ -483,16 +478,13 @@ namespace DAL
 
         public void AddLineStation(LineStation lineStation)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(s => s.lineID == lineStation.lineID) != null)
+                throw new DO.InvalidBusLineException(lineStation.lineID.ToString(), $"Duplicate! line {lineStation.lineID} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
-
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(lineStation);
+            XMLTools.SaveListToXMLSerializer(list, stationPath);
         }
         public void DeleteLineStation(string lineStationKey)
         {
@@ -639,18 +631,19 @@ namespace DAL
         #endregion
 
         #region UserTrip
-        public void AddUserTrip(UserTrip userTrip)
+        public int AddUserTrip(UserTrip userTrip)
         {
-            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<UserTrip> list = XMLTools.LoadListFromXMLSerializer<UserTrip>(userTripPath);
 
-            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
 
-            //if (Get/**/(/**/D) == null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            if (list.FirstOrDefault(ut => ut.userTravelID == userTrip.userTravelID) != null)
+                throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), $"Duplicate user {userTrip.userTravelID}.");
 
-            //list.Add(/**/);
-            //XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(userTrip);
+            XMLTools.SaveListToXMLSerializer(list, userTripPath);
+
+            return userTrip.userTravelID; //returning running number
         }
 
         public void DeleteUserTrip(int travelID)

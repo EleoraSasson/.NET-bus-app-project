@@ -55,7 +55,8 @@ namespace PLConsole
             bl.AddToBusFleet(bus3);
 
             Console.WriteLine("getting all buses");
-            Console.WriteLine(bl.GetEntireBusFleet());
+            List<Bus> fleet = bl.GetEntireBusFleet().ToList();
+            Console.WriteLine(fleet);
             Console.WriteLine("getting one bus - no error");
             Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
             Console.WriteLine("update bus that you got");
@@ -68,6 +69,7 @@ namespace PLConsole
             Console.WriteLine(bl.GetEntireBusFleet());
             Console.WriteLine("getting one bus that does not exist");
             Console.WriteLine(bl.GetBusFromFleet("test"));
+
 
         }
             
