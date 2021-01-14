@@ -8,6 +8,9 @@ namespace BLApi
 {
     public static class BLFactory
     {
-        //static GetBL();
+        public static IBL GetBL()
+        {
+            return BLImp.Instance;
+        }
     }
 }

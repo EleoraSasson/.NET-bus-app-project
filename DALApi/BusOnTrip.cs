@@ -75,7 +75,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Line" + BusRunning + "with Bus No - " + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusActualDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed + "stations and it's total transit time is " + BusTransitT + ".\n"; 
+            return "Line" + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusActualDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed + "stations and it's total transit time is " + BusTransitT + ".\n"; 
         }
     }
 }

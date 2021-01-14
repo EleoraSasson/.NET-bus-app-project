@@ -10,7 +10,7 @@ using DO;
 using System.Xml.Serialization;
 
 
-namespace DL
+namespace DAL
 {
     class DLXml : IDAL
     {
@@ -59,21 +59,21 @@ namespace DL
             XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
             XElement busReturn = (from b in busRoot.Elements()
-                             where b.Element("license").Value == bus.BusLicense
-                             select b).FirstOrDefault();
+                                  where b.Element("license").Value == bus.BusLicense
+                                  select b).FirstOrDefault();
 
-            if(busReturn != null)
+            if (busReturn != null)
             { throw new DO.InvalidBusLicenseException(bus.BusLicense, $"Duplicate bus - bus {bus.BusLicense} already exists in system."); }
 
-             XElement busElement  = new XElement ("bus", new XElement("license", bus.BusLicense),
-                                            new XElement("regDate", bus.BusRegDate),
-                                            new XElement("maintenanceDate", bus.BusMaintenanceDate),
-                                            new XElement("mileage", bus.BusMileage),
-                                            new XElement("fuel", bus.BusFuel),
-                                            new XElement("status", bus.BusStatus.ToString()),
-                                            new XElement("isErased", bus.BusErased));
+            XElement busElement = new XElement("bus", new XElement("license", bus.BusLicense),
+                                           new XElement("regDate", bus.BusRegDate),
+                                           new XElement("maintenanceDate", bus.BusMaintenanceDate),
+                                           new XElement("mileage", bus.BusMileage),
+                                           new XElement("fuel", bus.BusFuel),
+                                           new XElement("status", bus.BusStatus.ToString()),
+                                           new XElement("isErased", bus.BusErased));
             busRoot.Add(busElement);
-            XMLTools.SaveListToXMLElement(busRoot,busPath);
+            XMLTools.SaveListToXMLElement(busRoot, busPath);
         }
         //retrieve
         public Bus GetBus(string license)
@@ -122,18 +122,18 @@ namespace DL
             XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
             return from bus in busRoot.Elements()
-                    let b = new Bus()
-                    {
-                        BusLicense = bus.Element("license").Value,
-                        BusRegDate = DateTime.Parse(bus.Element("regDate").Value),
-                        BusMaintenanceDate = DateTime.Parse(bus.Element("maintenanceDate").Value),
-                        BusMileage = int.Parse(bus.Element("mileage").Value),
-                        BusFuel = int.Parse(bus.Element("fuel").Value),
-                        BusStatus = (Status)Enum.Parse(typeof(Status), bus.Element("status").Value),
-                        BusErased = bool.Parse(bus.Element("isErased").Value),
-                    }
-                    where predicate(b)
-                    select b;
+                   let b = new Bus()
+                   {
+                       BusLicense = bus.Element("license").Value,
+                       BusRegDate = DateTime.Parse(bus.Element("regDate").Value),
+                       BusMaintenanceDate = DateTime.Parse(bus.Element("maintenanceDate").Value),
+                       BusMileage = int.Parse(bus.Element("mileage").Value),
+                       BusFuel = int.Parse(bus.Element("fuel").Value),
+                       BusStatus = (Status)Enum.Parse(typeof(Status), bus.Element("status").Value),
+                       BusErased = bool.Parse(bus.Element("isErased").Value),
+                   }
+                   where predicate(b)
+                   select b;
         }
         //update
         public void UpdateBus(Bus bus)
@@ -141,8 +141,8 @@ namespace DL
             XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
             XElement busFind = (from b in busRoot.Elements()
-                                  where b.Element("license").Value == bus.BusLicense
-                                  select b).FirstOrDefault();
+                                where b.Element("license").Value == bus.BusLicense
+                                select b).FirstOrDefault();
 
             if (busFind != null)
             {
@@ -154,7 +154,7 @@ namespace DL
                 busFind.Element("isErased").Value = bus.BusErased.ToString();
             }
             else throw new DO.InvalidBusLicenseException(bus.BusLicense, $"Error updating bus fleet: bus {bus.BusLicense} cannot be found in the system.");
-          
+
             XMLTools.SaveListToXMLElement(busRoot, busPath);
         }
         //delete
@@ -163,10 +163,10 @@ namespace DL
             XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
             XElement busFind = (from b in busRoot.Elements()
-                          where b.Element("license").Value == license
-                          select b).FirstOrDefault();
+                                where b.Element("license").Value == license
+                                select b).FirstOrDefault();
 
-            if(busFind != null)
+            if (busFind != null)
             {
                 busFind.Remove();
                 XMLTools.SaveListToXMLElement(busRoot, busPath);
@@ -188,7 +188,7 @@ namespace DL
             //    throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Line {busLine.BusLineID} cannot be found in system.");
 
             list.Add(busLine);
-            XMLTools.SaveListToXMLSerializer(list,linePath);
+            XMLTools.SaveListToXMLSerializer(list, linePath);
         }
         //retrieve
         public BusLine GetBusLine(int lineID)
@@ -199,7 +199,7 @@ namespace DL
 
             if (bline != null)
                 return bline;
-            else 
+            else
                 throw new DO.InvalidBusLineException(lineID.ToString(), $"Line {lineID} cannot be found in system.");
         }
         public IEnumerable<BusLine> GetAllBusLines()
@@ -229,7 +229,7 @@ namespace DL
             }
             else new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"Line {busline.BusLineID} cannot be found in system.");
 
-            XMLTools.SaveListToXMLSerializer(listLines, linePath);    
+            XMLTools.SaveListToXMLSerializer(listLines, linePath);
         }
         //delete
         public void DeleteBusLine(int lineID)
@@ -245,7 +245,7 @@ namespace DL
 
             XMLTools.SaveListToXMLSerializer(listLines, linePath);
         }
-            #endregion
+        #endregion
 
         #region BusOnTrip
         //create
@@ -304,7 +304,7 @@ namespace DL
             list.Add(busStop);
             XMLTools.SaveListToXMLSerializer(list, stopPath); ;
         }
-        
+
         //retrieve
         public IEnumerable<BusStop> GetAllBusStops()
         {
@@ -335,16 +335,16 @@ namespace DL
         #region LineLeaving
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //if (Get/**/(/**/D) == null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //list.Add(/**/);
+            //XMLTools.SaveListToXMLSerializer(list, /**/);
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
@@ -379,16 +379,16 @@ namespace DL
 
         public void AddLineStation(LineStation lineStation)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //if (Get/**/(/**/D) == null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //list.Add(/**/);
+            //XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteLineStation(string lineStationKey)
         {
@@ -417,16 +417,16 @@ namespace DL
         #region Staff
         public void AddStaff(Staff staff)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //if (Get/**/(/**/D) == null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //list.Add(/**/);
+            //XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteStaff(string staffID)
         {
@@ -463,16 +463,16 @@ namespace DL
 
         public void AddSuccessiveStations(SuccessiveStations successiveStations)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //    List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //    if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //        throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //    if (Get/**/(/**/D) == null)
+            //        throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //    list.Add(/**/);
+            //    XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteSuccessiveStations(string entityKey)
         {
@@ -501,16 +501,16 @@ namespace DL
         #region User
         public void AddUser(User user)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //    List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //    if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //        throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //    if (Get/**/(/**/D) == null)
+            //        throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //    list.Add(/**/);
+            //    XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteUser(string name)
         {
@@ -537,16 +537,16 @@ namespace DL
         #region UserTrip
         public void AddUserTrip(UserTrip userTrip)
         {
-            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            if (Get/**/(/**/D) == null)
-                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            //if (Get/**/(/**/D) == null)
+            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            list.Add(/**/);
-            XMLTools.SaveListToXMLSerializer(list, /**/);
+            //list.Add(/**/);
+            //XMLTools.SaveListToXMLSerializer(list, /**/);
         }
 
         public void DeleteUserTrip(int travelID)

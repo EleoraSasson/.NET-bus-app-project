@@ -50,6 +50,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BLApi\BLApi.csproj">
+      <Project>{2b467914-2571-4c62-b710-719898781e1d}</Project>
+      <Name>BLApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLObject\BLObject.csproj">
+      <Project>{081bfa0f-534c-467b-8e56-5bcd05e2d632}</Project>
+      <Name>BLObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BL\BL.csproj">
+      <Project>{414973bc-3024-40d4-a4f9-c50202006ee7}</Project>
+      <Name>BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DALApi\DALApi.csproj">
       <Project>{a7ef015f-768e-4752-b675-66afa308770b}</Project>
       <Name>DALApi</Name>

@@ -10,23 +10,12 @@ namespace BLApi
 {
     public interface IBL
     {
-
-        //#region Bus
-        //IEnumerable<DO.Bus> GetAllBuses();
-        //IEnumerable<object> GetBusListWithSelectedFields(Func<DO.Bus, object> generate);
-        //void AddBus(Bus bus); //create
-        //Bus GetBus(string license); //retrieve
-        //void UpdateBus(Bus bus); //update
-        //void DeleteBus(string license); //delete
-        //#endregion
-
         /* IMPLEMENTING CRUD METHODS FOR BO ENTITIES */
 
         #region BusFleet
-        IEnumerable<BusFleet> GetEntireBusFleet();
-        IEnumerable<BusFleet> GetBusFleetWithSelectedFields(Predicate<BusFleet> predicate);
+        IEnumerable<Bus> GetEntireBusFleet();
         void AddToBusFleet(Bus bus); //create
-        BusFleet GetFleet(); //retrieve
+        Bus GetBusFromFleet(string license); //retrieve
         void UpdateBusFleet(Bus bus); //update
         void DeleteFromBusFleet(Bus bus); //delete
         #endregion
@@ -34,6 +23,7 @@ namespace BLApi
         #region BusRoute
         IEnumerable<BusRoute> GetAllStationsInBusRoute(); 
         IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
+        void AddBusRoute(BusRoute broute);//create
         void AddStationToBusRoute(LineStation line); //create
         BusRoute GetStationsInBusRoute(); //retrieve
         void UpdateBusRoute(LineStation line); //update

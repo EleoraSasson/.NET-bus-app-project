@@ -44,7 +44,7 @@
     <Compile Include="AdminPortal.cs" />
     <Compile Include="BLExceptions.cs" />
     <Compile Include="BLFactory.cs" />
-    <Compile Include="BLImp1.cs" />
+    <Compile Include="BLImp.cs" />
     <Compile Include="BusFleet.cs" />
     <Compile Include="BusRoute.cs" />
     <Compile Include="CompanySchedule.cs" />

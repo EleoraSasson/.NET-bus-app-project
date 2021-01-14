@@ -43,7 +43,7 @@ namespace BO
         /// </summary>
         public IEnumerable<BusRoute> CurrentLines
         {
-            get { return lines.; }
+            get { return lines; }
             set { lines = value; }
         }
 

@@ -5,24 +5,100 @@ using System.Text;
 using System.Threading.Tasks;
 using DALApi;
 using DO;
+using BL;
+using BLApi;
+using BO;
 
 namespace PLConsole
-{
+{ 
     class Program
-    {
+    { 
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to our Tetsting Zone!!");
+
+            IBL bl = BLFactory.GetBL();
+
+            Console.WriteLine("Testing BusFleet");
+            DateTime time = new DateTime(2017, 1, 18);
+
+            Bus bus1 = new Bus()
+            {
+                BusLicense = "123-23-123",
+                BusMaintenanceDate = DateTime.Now,
+                BusRegDate = time,
+                BusMileage = 725,
+                BusFuel = 785
+            };
+            // not setting erased and status as done in CRUD
+
+            Bus bus2 = new Bus()
+            {
+                BusLicense = "345-54-345",
+                BusMaintenanceDate = DateTime.Now,
+                BusRegDate = time,
+                BusMileage = 75,
+                BusFuel = 753
+            };
+
+            Bus bus3 = new Bus()
+            {
+                BusLicense = "256-23-123",
+                BusMaintenanceDate = DateTime.Now,
+                BusRegDate = time,
+                BusMileage = 650,
+                BusFuel = 1200
+            };
+
+            bl.AddToBusFleet(bus1);
+            bl.AddToBusFleet(bus2);
+            bl.AddToBusFleet(bus3);
+
+            Console.WriteLine("getting all buses");
+            Console.WriteLine(bl.GetEntireBusFleet());
+            Console.WriteLine("getting one bus - no error");
+            Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
+            Console.WriteLine("update bus that you got");
+            bus3.BusFuel = 0;
+            bl.UpdateBusFleet(bus3);
+            Console.WriteLine("getting one bus - no error");
+            Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
+            bl.DeleteFromBusFleet(bus2);
+            Console.WriteLine("reprint fleet without bus 2");
+            Console.WriteLine(bl.GetEntireBusFleet());
+            Console.WriteLine("getting one bus that does not exist");
+            Console.WriteLine(bl.GetBusFromFleet("test"));
+
+        }
+            
+    }
+}
+
+//namespace PLConsole
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
 
 
-            Console.WriteLine("Welcome to our Testing Zone!");
+//            Console.WriteLine("Welcome to our Testing Zone!");
 
-            //Testing DL:
+//            IBL bl = BLFactory.GetBL();
 
+//            BusLine line = new BusLine() { BusLineNo = 1, BusLineID = 123456, BusRegion = Regions.Center_Jerusalem, BusEnd = "cherry", BusStart = "berry", LineErased = false; }
+//            BO.BusRoute route = new BO.BusRoute()
+//            {
+//                route.Route =line;
+//            }
+//             bl.AddBusRoute(route);
+//        }
+  
             //IDAL dal = DLFactory.GetDL();
-            int n;
-            Console.WriteLine(n);
-            //Console.WriteLine("Testing AddBus:");
-            //Bus bus = new Bus(); //decaring an instance of type Bus
+            //int n;
+            //Console.WriteLine(n);
+            ////Console.WriteLine("Testing AddBus:");
+            ////Bus bus = new Bus(); //decaring an instance of type Bus
             ////init: .. happens in the BL in the add of that IBL
             //bus.BusErased = false;
             //bus.BusFuel = 300;
@@ -72,9 +148,3 @@ namespace PLConsole
             ///
            
             // Testing BL
-
-
-        }
-    }
-
-}
