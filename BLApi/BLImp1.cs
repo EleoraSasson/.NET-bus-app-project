@@ -99,9 +99,10 @@ namespace BLApi
         }
 
 
-        public IEnumerable<ScheduleOfRoute> IBL.GetAllSchedulesOfRoute()
+        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
         {
             throw new NotImplementedException();
+            //return new List<ScheduleOfRoute>();
         }
 
 
@@ -129,7 +130,7 @@ namespace BLApi
         {
             try
             {
-                addBusRoute(s.CurrentRoute);
+               // addBusRoute(s.CurrentRoute);
                 dal.AddStaff(s.SelectedStaff);
             }
             //try { AddScheduleOfRoute(schedule); }
@@ -216,12 +217,16 @@ namespace BLApi
         #endregion
 
 
-
-        void IBL.AddStationToBusRoute(LineStation line)
+        #region CRUD BusRoute
+        void AddBusRoute(BO.BusRoute bRoute)
         {
+
+            int idLine = dal.AddBusLine(bRoute.Route);   
+            //loop or select to go through list of BusStations inside of BusRoute, 
             throw new NotImplementedException();
         }
 
+        #endregion
         void IBL.AddToBusFleet(Bus bus)
         {
             throw new NotImplementedException();
