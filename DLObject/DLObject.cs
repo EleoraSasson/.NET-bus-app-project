@@ -389,7 +389,7 @@ namespace DAL
         {
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
             if (DataSource.lineLeavingList.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
-                throw new DO.InvalidStopCodeException(key, "Duplicate line leaving.");
+                throw new DO.InvalidLineLeavingKeyException(key, "Duplicate line leaving.");
             DataSource.lineLeavingList.Add(lineLeaving.Clone());
         }
 

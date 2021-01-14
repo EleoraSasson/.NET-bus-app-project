@@ -256,8 +256,8 @@ namespace DAL
             if (list.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Duplicate! line {busOnTrip.BusRoadID} already exists.");
 
-            if (GetBusOnTrip(busOnTrip.BusRoadID) == null)
-                throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Line {busOnTrip.BusRoadID} cannot be found in system.");
+            //if (GetBusOnTrip(busOnTrip.BusRoadID) == null)
+            //    throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Line {busOnTrip.BusRoadID} cannot be found in system.");
 
             list.Add(busOnTrip);
             XMLTools.SaveListToXMLSerializer(list, onTripPath);
@@ -265,25 +265,61 @@ namespace DAL
         //retrieve
         public BusOnTrip GetBusOnTrip(int roadID)
         {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
+
+            DO.BusOnTrip bonTrip = list.Find(l => l.BusRoadID == roadID);
+
+            if (bonTrip != null)
+                return bonTrip;
+            else
+                throw new DO.InvalidBusOnTripIDException(bonTrip.BusRoadID.ToString(), $"Line {bonTrip.BusRoadID} cannot be found in system.");
         }
+
         public IEnumerable<object> GetBusOnTripWithSelectedFields(Func<BusOnTrip, object> generate)
         {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
+
+            return from bonTrip in list
+                   select generate(bonTrip);
         }
+
         public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
         {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
+
+            return from bonTrip in list
+                   select bonTrip;
         }
         //update
         public void UpdateBusOnTrip(BusOnTrip busOnTrip)
         {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
+
+            DO.BusOnTrip bonTrip = list.Find(l => l.BusRoadID == busOnTrip.BusRoadID);
+            if (bonTrip != null)
+            {
+                list.Remove(bonTrip);
+                list.Add(bonTrip);
+            }
+            else 
+                throw new DO.InvalidBusOnTripIDException(bonTrip.BusRoadID.ToString(), $"Line {bonTrip.BusRoadID} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, onTripPath);
         }
         //delete
         public void DeleteBusOnTrip(int roadID)
         {
-            throw new NotImplementedException();
+            List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
+
+            DO.BusOnTrip bonTrip = list.Find(l => l.BusRoadID == roadID);
+            if (bonTrip != null)
+            {
+                list.Remove(bonTrip);
+            }
+            else
+                throw new DO.InvalidBusOnTripIDException(roadID.ToString(), $"Line {roadID} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, onTripPath);
 
         }
 
@@ -298,79 +334,147 @@ namespace DAL
             if (list.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
                 throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Duplicate! Stop {busStop.StopCode} already exists.");
 
-            if (GetBusStop(busStop.StopCode) == null)
-                throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Stop {busStop.StopCode} cannot be found in system.");
-
             list.Add(busStop);
-            XMLTools.SaveListToXMLSerializer(list, stopPath); ;
+            XMLTools.SaveListToXMLSerializer(list, stopPath); 
         }
 
         //retrieve
         public IEnumerable<BusStop> GetAllBusStops()
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            return from bStop in list
+                   select bStop;
         }
 
         public BusStop GetBusStop(int stopCode)
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            DO.BusStop bStop = list.Find(l => l.StopCode == stopCode);
+
+            if (bStop != null)
+                return bStop;
+            else
+                throw new DO.InvalidStopCodeException(bStop.StopCode.ToString(), $"Line {bStop.StopCode} cannot be found in system.");
         }
 
-        public IEnumerable<object> GetBusStopWithSelectedFields(Func<BusOnTrip, object> generate)
+        public IEnumerable<object> GetBusStopWithSelectedFields(Func<BusStop, object> generate)
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            return from bStop in list
+                   select generate(bStop);
         }
         //update
         public void UpdateBusStop(BusStop busStop)
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            DO.BusStop bStop = list.Find(l => l.StopCode == busStop.StopCode);
+            if (bStop != null)
+            {
+                list.Remove(bStop);
+                list.Add(bStop);
+            }
+            else
+                throw new DO.InvalidStopCodeException(bStop.StopCode.ToString(), $"Line {bStop.StopCode} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, stopPath);
         }
         //delete
         public void DeleteBusStop(int stopCode)
         {
-            throw new NotImplementedException();
+            List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
+
+            DO.BusStop bStop = list.Find(l => l.StopCode == stopCode);
+            if (bStop != null)
+            {
+                list.Remove(bStop);
+            }
+            else
+                throw new DO.InvalidBusOnTripIDException(stopCode.ToString(), $"Line {stopCode} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, stopPath);
         }
         #endregion
 
         #region LineLeaving
         public void AddLineLeaving(LineLeaving lineLeaving)
         {
-            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+            string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
+            if (list.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} already exists.");
 
-            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            //if (Get/**/(/**/D) == null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            //list.Add(/**/);
-            //XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
 
         public void DeleteLineLeaving(int lineID, TimeSpan startTime)
         {
-            throw new NotImplementedException();
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+            string key = lineID.ToString() + startTime.ToString();
+            DO.LineLeaving leaving = list.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
+            if (leaving != null)
+            {
+                list.Remove(leaving);
+            }
+            else
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, leavingPath);
         }
 
         public IEnumerable<LineLeaving> GetAllLinesLeaving()
         {
-            throw new NotImplementedException();
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+
+            return from leaving in list
+                   select leaving;
         }
 
         public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
         {
-            throw new NotImplementedException();
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+            string key = lineID.ToString() + startTime.ToString();
+            DO.LineLeaving line = list.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
+
+            if (line != null)
+                return line;
+            else
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
         }
 
         public IEnumerable<object> GetLineLeavingWithSelectedFields(Func<LineLeaving, object> generate)
         {
-            throw new NotImplementedException();
-        }
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
 
+            return from leaving in list
+                   select generate(leaving);
+        }
 
         public void UpdateLineLeaving(LineLeaving lineLeaving)
         {
-            throw new NotImplementedException();
+            List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+            string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
+            DO.LineLeaving line = list.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
+           
+            if (line != null)
+            {
+                list.Remove(line);
+                list.Add(line);
+            }
+            else
+                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, leavingPath);
         }
 
         #endregion
@@ -379,16 +483,16 @@ namespace DAL
 
         public void AddLineStation(LineStation lineStation)
         {
-            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
 
-            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
+                throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
 
-            //if (Get/**/(/**/D) == null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
+            if (Get/**/(/**/D) == null)
+                throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
 
-            //list.Add(/**/);
-            //XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(/**/);
+            XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteLineStation(string lineStationKey)
         {
