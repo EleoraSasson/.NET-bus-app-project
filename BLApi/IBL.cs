@@ -24,10 +24,10 @@ namespace BLApi
         IEnumerable<BusRoute> GetAllStationsInBusRoute(); 
         IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
         void AddBusRoute(BusRoute broute);//create
-        void AddStationToBusRoute(LineStation line); //create
+        void AddStationToBusRoute(BusRoute broute, LineStation line); //create
         BusRoute GetStationsInBusRoute(); //retrieve
-        void UpdateBusRoute(LineStation line); //update
-        void DeleteFromBusRoute(LineStation line); //delete
+        void UpdateBusRoute(BusRoute broute); //update
+        void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
 
         #endregion
 

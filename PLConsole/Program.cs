@@ -15,7 +15,7 @@ namespace PLConsole
     { 
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to our Tetsting Zone!!");
+            Console.WriteLine("Welcome to our Testing Zone!!");
 
             IBL bl = BLFactory.GetBL();
 
@@ -53,10 +53,9 @@ namespace PLConsole
             bl.AddToBusFleet(bus1);
             bl.AddToBusFleet(bus2);
             bl.AddToBusFleet(bus3);
-
+      
             Console.WriteLine("getting all buses");
-            List<Bus> fleet = bl.GetEntireBusFleet().ToList();
-            Console.WriteLine(fleet);
+            Console.WriteLine(bl.GetEntireBusFleet());
             Console.WriteLine("getting one bus - no error");
             Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
             Console.WriteLine("update bus that you got");
@@ -70,6 +69,9 @@ namespace PLConsole
             Console.WriteLine("getting one bus that does not exist");
             Console.WriteLine(bl.GetBusFromFleet("test"));
 
+            Console.WriteLine("Testing BusRoute");
+
+            
 
         }
             

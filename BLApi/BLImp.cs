@@ -58,7 +58,7 @@ namespace BLApi
         #endregion
 
         #region BusRoutes
-
+        //create
         public void AddBusRoute(BO.BusRoute broute)
         {
             dal.AddBusLine(broute.Route);
@@ -67,20 +67,21 @@ namespace BLApi
             { dal.AddLineStation(lineS); }
 
         }
-
+        public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
+        {
+            dal.AddLineStation(station);
+            UpdateBusRoute(broute);//update line        
+        }
+        //retrieve
         public BusRoute GetStationsInBusRoute()
         {
             throw new NotImplementedException();
+            //return dal.GetLineStation();
         }
 
-        public void AddStationToBusRoute(LineStation line)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
         public IEnumerable<BusRoute> GetAllStationsInBusRoute()
         {
+            //return dal.GetAllLineStations();
             throw new NotImplementedException();
         }
 
@@ -88,21 +89,37 @@ namespace BLApi
         {
             throw new NotImplementedException();
         }
-
-        //public void AddStationToBusRoute(LineStation line)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public void UpdateBusRoute(LineStation line)
+        //update
+        public void UpdateBusRoute(BO.BusRoute broute)
         {
-            throw new NotImplementedException();
+            dal.UpdateBusLine(broute.Route);
+
+            foreach (var lineS in broute.RouteStops)
+            {
+                dal.UpdateLineStation(lineS.lineID + lineS.stationCode);
+            }
+        }
+        //delete
+        public void DeleteFromBusRoute(BO.BusRoute broute, DO.LineStation station)
+        {
+            foreach (var lineS in broute.RouteStops)
+            {
+                if ((station.lineID + station.stationCode) == (lineS.lineID + lineS.stationCode))
+                {
+                    dal.DeleteLineStation(lineS.lineID + lineS.stationCode);
+                    UpdateBusRoute(broute);//update line
+                }
+                else throw new MissingLineStationException(lineS.lineID + lineS.stationCode, $"Line Station {lineS.lineID + lineS.stationCode} cannot be deleted as it is missing from the system");
+            }
         }
 
-        public void DeleteFromBusRoute(LineStation line)
-        {
-            throw new NotImplementedException();
-        }
+
+        #endregion
+
+
+
+
+
 
         public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
         {
@@ -190,6 +207,12 @@ namespace BLApi
         }
 
         public void DeleteStationInRoute(BusStop s)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void UpdateBusRoute(LineStation line)
         {
             throw new NotImplementedException();
         }
