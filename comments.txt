@@ -1,52 +1,13 @@
-
-Hi, lets take a fresh start!
-
-//Gila:
-// I made the following changes:
-
-DO.BusLine - removed the leaving property it was unnecessary
-DO.Staff - added properties LoginPassword; StaffPostion; StaffYrsWorked
-
-//I added:
-In the BLApi I added the classes ScheduleOfRoute and ComapanySchedule with their necessary properties
-- the idea is that BusRoute forms the complete route; ScheduleOFRoute adds the timing of start and end time of the route and how many times the rout runs in a day; 
-and then CompanySchedule is an IEnumerable list of all the Schedules of all the routes defined in the company.
-
-- added the class StationWithRoutes this is supposed to simulate the papers by busstops that show what routes pass through this busStop
+"Just because you cannot do everything, does not mean you cannot do something! - Rabbi Altman"
+Every bit we do, do counts! Kol Hakavod!! :) 
 
 
-
-To ask Esther: Thank you so much for your help :) We really appreciate it! [further praises to follow...] 
-(1) our program crashes becuase there is an issue (we think) with the bin and files and properties etc
-(2) Where do we put our methods???
-(3) IEnumerabble<>???????? aka delegates aka passing from DO to BO
-(4) Succsive stations  & BusOnRoute are both relevant to being on a trip AKA as a user....what are they intended for
-
-//ELEORA
-dl object rewrite the exceptions [DONE]
-user shouldn't be able to set the status of the bus (must be available when added to the busList)
-IEnumerable GetListWithSelectedFields
-
-//GILA
-xml files :) 
+NB THINGS TO FIX IN PLCONSOLE
+- IEnumerable does not print out all the in=tems in the get functions :(
+- The update funstion for the BusRoute doesn't work :(
+- when adding stations to a line it should change the start and end stop if the BusLine Properties (ideally)
 
 
-IMPORTANT THINGS TO LOOK UP AND LEARN HOW TO DO
-- xml files {GILA} 
-- BLIMP {ELEORA}
-- each read stage 2 of project {BOTH}
-
-//ask esther:
-- BL FACTORY
-- Get item given a certain file ... IEnumerable<>(<func,object> generate )..??? 
-- Decrypting
-
-//Eleora's late comments 
--We shoudln't be able to CRUD from bus schedule (only from company schedule). Company Schedule goes in the PL as an observable collection?
-
--Eveytime we create a busStop we see if it already exists in StationInRoute collection , if yes we add the line to the list of line of the collection,
-if no we create a new object and add it to the list. List of stations in the PL.
-
-
-
-///addition of running numbers?
+Additional Notes:
+- add decrypting
+- look up func<> delegates or something

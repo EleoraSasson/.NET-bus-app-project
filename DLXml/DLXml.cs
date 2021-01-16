@@ -476,8 +476,9 @@ namespace DAL
 
         #region LineStation
 
-        public void AddLineStation(LineStation lineStation)
+        public void AddLineStation(LineStation lineStation, int lineID)
         {
+            lineStation.lineID = lineID.ToString(); //assigning the LineID to Linestation
             List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
 
             if (list.FirstOrDefault(s => s.lineID == lineStation.lineID) != null)

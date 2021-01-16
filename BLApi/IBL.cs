@@ -21,11 +21,11 @@ namespace BLApi
         #endregion
 
         #region BusRoute
-        IEnumerable<BusRoute> GetAllStationsInBusRoute(); 
-        IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
+        IEnumerable<LineStation> GetAllStationsInBusRoute(string lineID); 
+        //IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
         void AddBusRoute(BusRoute broute);//create
         void AddStationToBusRoute(BusRoute broute, LineStation line); //create
-        BusRoute GetStationsInBusRoute(); //retrieve
+        BusRoute GetBusRoute(int lineID); //retrieve
         void UpdateBusRoute(BusRoute broute); //update
         void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
 

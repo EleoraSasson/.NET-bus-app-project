@@ -17,18 +17,22 @@ namespace PLConsole
         {
             Console.WriteLine("Welcome to our Testing Zone!!");
 
-            IBL bl = BLFactory.GetBL();
+            IBL bl = BLFactory.GetBL(); //creating bl 
 
+            #region Testing BusFleet
             Console.WriteLine("Testing BusFleet");
-            DateTime time = new DateTime(2017, 1, 18);
+            
+            DateTime time1 = new DateTime(2017, 1, 18);
+            DateTime time2 = new DateTime(1999, 8, 25);
+            DateTime time3 = new DateTime(2000, 5, 28);
 
             Bus bus1 = new Bus()
             {
                 BusLicense = "123-23-123",
                 BusMaintenanceDate = DateTime.Now,
-                BusRegDate = time,
-                BusMileage = 725,
-                BusFuel = 785
+                BusRegDate = time1,
+                BusMileage = 700,
+                BusFuel = 650
             };
             // not setting erased and status as done in CRUD
 
@@ -36,17 +40,17 @@ namespace PLConsole
             {
                 BusLicense = "345-54-345",
                 BusMaintenanceDate = DateTime.Now,
-                BusRegDate = time,
-                BusMileage = 75,
-                BusFuel = 753
+                BusRegDate = time2,
+                BusMileage = 300,
+                BusFuel = 450
             };
 
             Bus bus3 = new Bus()
             {
                 BusLicense = "256-23-123",
                 BusMaintenanceDate = DateTime.Now,
-                BusRegDate = time,
-                BusMileage = 650,
+                BusRegDate = time3,
+                BusMileage = 600,
                 BusFuel = 1200
             };
 
@@ -55,100 +59,138 @@ namespace PLConsole
             bl.AddToBusFleet(bus3);
       
             Console.WriteLine("getting all buses");
+
             Console.WriteLine(bl.GetEntireBusFleet());
-            Console.WriteLine("getting one bus - no error");
+
+            Console.WriteLine("getting bus3 - no error");
+
             Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
-            Console.WriteLine("update bus that you got");
-            bus3.BusFuel = 0;
-            bl.UpdateBusFleet(bus3);
-            Console.WriteLine("getting one bus - no error");
+
+            Console.WriteLine("updating bus3 - changing fuel to 0 and mileage to 700");
+
+            bus3.BusFuel = 0;//changing fuel to 0 
+            bus3.BusMileage = 700; //chaning mileage to 700
+            bl.UpdateBusFleet(bus3); //updating
+
+            Console.WriteLine("getting updated bus3");
             Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
-            bl.DeleteFromBusFleet(bus2);
+
+            Console.WriteLine("removing bus 2");
+            bl.DeleteFromBusFleet(bus2);//deleting bus2
+
             Console.WriteLine("reprint fleet without bus 2");
             Console.WriteLine(bl.GetEntireBusFleet());
-            Console.WriteLine("getting one bus that does not exist");
-            Console.WriteLine(bl.GetBusFromFleet("test"));
 
+            //Console.WriteLine("getting one bus that does not exist");
+
+            //Console.WriteLine(bl.GetBusFromFleet("111-11-111"));
+            #endregion
+
+            #region Testing BusRoute
             Console.WriteLine("Testing BusRoute");
 
-            
+            BusLine line1 = new BusLine()
+            { //line ID not included as that should be put in the dl layer of addBusLine
+                BusLineNo = 1,
+                BusRegion = Regions.Center_Jerusalem,
+                BusStart = "12345",
+                BusEnd = "67890",
+            };
+            BusLine line2 = new BusLine()
+            { //line ID not included as that should be put in the dl layer of addBusLine
+                BusLineNo = 2,
+                BusRegion = Regions.North_Haifa,
+                BusStart = "54321",
+                BusEnd = "09876",
+            };
+
+            LineStation sta1 = new LineStation()
+            {
+                //line ID not included as set later in dl add
+                stationCode = "11111",
+                stationNumber = 1, //really should be added later for now will leave - how??
+            };
+            LineStation sta2 = new LineStation()
+            {
+                //line ID not included as set later in dl add
+                stationCode = "22222",
+                stationNumber = 2, //really should be added later for now will leave - how??
+            };
+            LineStation sta3 = new LineStation()
+            {
+                //line ID not included as set later in dl add
+                stationCode = "33333",
+                stationNumber = 3, //really should be added later for now will leave - how??
+            };
+            LineStation sta4 = new LineStation()
+            {
+                //line ID not included as set later in dl add
+                stationCode = "44444",
+                stationNumber = 4, //really should be added later for now will leave - how??
+            };
+            LineStation sta5 = new LineStation()
+            {
+                //line ID not included as set later in dl add
+                stationCode = "55555",
+                stationNumber = 5, //really should be added later for now will leave - how??
+            };
+
+            List<LineStation> stations1 = new List<LineStation>();
+            stations1.Add(sta1);
+            stations1.Add(sta2);
+
+
+            List<LineStation> stations2 = new List<LineStation>();
+            stations2.Add(sta4);
+            stations2.Add(sta5);
+
+            BusRoute bRoute1 = new BusRoute()
+            {
+
+                Route = line1,
+                RouteStops = stations1,
+            };
+
+
+            BusRoute bRoute2 = new BusRoute()
+            {
+
+                Route = line2,
+                RouteStops = stations2,
+            };
+
+            Console.WriteLine("adding bRoute1 and bRoute2");
+            bl.AddBusRoute(bRoute1);
+            bl.AddBusRoute(bRoute2);
+
+            Console.WriteLine("getting all busRoutes");
+            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID)); 
+
+            Console.WriteLine("adding a station to busRoute 1");
+            bl.AddStationToBusRoute(bRoute1, sta3);
+            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID)); 
+
+            Console.WriteLine("getting all the stations in bRoute2");
+            Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()));
+
+            Console.WriteLine("updating the region of BusRoute2");
+            bRoute2.Route.BusRegion = Regions.National;
+           // bl.UpdateBusRoute(bRoute2);
+
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo));
+
+            Console.WriteLine("deleting a busStop from bRoute1");
+            List<LineStation>stations = bRoute1.RouteStops.ToList();
+            stations.Remove(sta2);
+            bRoute1.RouteStops = stations;
+            Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute1.Route.BusLineID.ToString()));
+            #endregion
+
 
         }
-            
+
     }
 }
 
-//namespace PLConsole
-//{
-//    class Program
-//    {
-//        static void Main(string[] args)
-//        {
 
-
-//            Console.WriteLine("Welcome to our Testing Zone!");
-
-//            IBL bl = BLFactory.GetBL();
-
-//            BusLine line = new BusLine() { BusLineNo = 1, BusLineID = 123456, BusRegion = Regions.Center_Jerusalem, BusEnd = "cherry", BusStart = "berry", LineErased = false; }
-//            BO.BusRoute route = new BO.BusRoute()
-//            {
-//                route.Route =line;
-//            }
-//             bl.AddBusRoute(route);
-//        }
-  
-            //IDAL dal = DLFactory.GetDL();
-            //int n;
-            //Console.WriteLine(n);
-            ////Console.WriteLine("Testing AddBus:");
-            ////Bus bus = new Bus(); //decaring an instance of type Bus
-            ////init: .. happens in the BL in the add of that IBL
-            //bus.BusErased = false;
-            //bus.BusFuel = 300;
-            //bus.BusLicense = "12-241-12";
-            //bus.BusMaintenanceDate = DateTime.Now;
-            //bus.BusRegDate = DateTime.Now;
-            //bus.BusStatus = Status.Available;
-            ////adding the bus to the DL:
-            //dal.AddBus(bus);
-            //Console.WriteLine(bus);
-            ////Console.WriteLine("testing delete bus");
-            ////dal.DeleteBus(bus.BusLicense);
-            ////Console.WriteLine(dal.GetBus(bus.BusLicense));
-            //Bus bus2 = new Bus();
-            //bus2.BusErased = false;
-            //bus2.BusFuel = 200;
-            //bus2.BusLicense = "12-200-12";
-            //bus2.BusMaintenanceDate = DateTime.Now;
-            //bus2.BusRegDate = DateTime.Now;
-            //bus2.BusStatus = Status.AtService;
-            //dal.AddBus(bus2);
-
-            //Bus bus3 = new Bus();
-            //bus3.BusErased = false;
-            //bus3.BusFuel = 1200;
-            //bus3.BusLicense = "00-200-12";
-            //bus3.BusMaintenanceDate = DateTime.Now;
-            //bus3.BusRegDate = DateTime.Now;
-            //bus3.BusStatus = Status.Available;
-            //dal.AddBus(bus3);
-
-            //IEnumerable<Bus> buses = dal.GetAllBuses();
-            //foreach (var b in buses)
-            //    Console.WriteLine(b);
-
-            ////IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(Bus, Status)
-            ////    {
-            ////    var object = Bus.Items
-            ////         .Select(c => c.EmployeeFields)     // Select the fields per employee
-            ////         .SelectMany(fields => fields)      // Flatten to a single sequence of fields
-            ////         .OfType<EmployeeID>()              // Filter to only EmployeeID fields
-            ////         .Select(id => id.Item)             // Convert to strings
-            ////         .ToList();
-            ////}
-
-            //// IEnumerable<Bus> buss = dal.GetBusListWithSelectedFields(dal.GetBus);
-            ///
-           
-            // Testing BL

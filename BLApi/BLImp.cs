@@ -61,34 +61,42 @@ namespace BLApi
         //create
         public void AddBusRoute(BO.BusRoute broute)
         {
-            dal.AddBusLine(broute.Route);
+            var RouteID = dal.AddBusLine(broute.Route);
 
             foreach ( var lineS in broute.RouteStops)
-            { dal.AddLineStation(lineS); }
+            { dal.AddLineStation(lineS, RouteID); }
 
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
-            dal.AddLineStation(station);
-            UpdateBusRoute(broute);//update line        
+            dal.AddLineStation(station, broute.Route.BusLineID);
         }
         //retrieve
-        public BusRoute GetStationsInBusRoute()
+        public BusRoute GetBusRoute(int lineID)
         {
-            throw new NotImplementedException();
-            //return dal.GetLineStation();
+            BusRoute broute = new BusRoute();//create an instance of BusRoute
+            broute.Route = dal.GetBusLine(lineID); //get the BusLine with that ID and place in route
+            IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
+            broute.RouteStops = (from st in stations
+                                   where st.lineID == lineID.ToString()
+                                   select st); //select all the LineStations that have that ID and place in routeStops
+            return broute;
         }
 
-        public IEnumerable<BusRoute> GetAllStationsInBusRoute()
+        public IEnumerable<LineStation> GetAllStationsInBusRoute( string lineID )
         {
-            //return dal.GetAllLineStations();
-            throw new NotImplementedException();
+            IEnumerable<LineStation> stations = dal.GetAllLineStations();
+            var stationsInRoute = (from st in stations
+                                                 where st.lineID == lineID
+                                                 select st);//select all the stations with the same ID as the route you want
+            return stationsInRoute;
         }
 
-        public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         //update
         public void UpdateBusRoute(BO.BusRoute broute)
         {
@@ -96,7 +104,7 @@ namespace BLApi
 
             foreach (var lineS in broute.RouteStops)
             {
-                dal.UpdateLineStation(lineS.lineID + lineS.stationCode);
+                dal.UpdateLineStation(broute.Route.BusLineID + lineS.stationCode);
             }
         }
         //delete
@@ -113,10 +121,9 @@ namespace BLApi
             }
         }
 
-
         #endregion
 
-
+        #region BusStations
 
 
 
