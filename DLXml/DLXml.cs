@@ -670,81 +670,109 @@ namespace DAL
         #region User
         public void AddUser(User user)
         {
-            //    List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
 
-            //    if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //        throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(b => b.userName == user.userName) != null)
+                throw new DO.ExsistingUserException(user.userName, $"User {user.userName} already exists.");
 
-            //    if (Get/**/(/**/D) == null)
-            //        throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
-
-            //    list.Add(/**/);
-            //    XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(user);
+            XMLTools.SaveListToXMLSerializer(list, userPath);
         } 
         public void DeleteUser(string name)
         {
-            throw new NotImplementedException();
+            List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
+
+            DO.User user = list.Find(u => u.userName == name);
+            if (user != null)
+            {
+                list.Remove(user);
+            }
+            else
+                throw new DO.MissingUserException(name, $"User {name} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, userPath);
         }
         public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
+
+            return from user in list
+                   select user;
         }
 
 
         public User GetUser(string name)
         {
-            throw new NotImplementedException();
+            List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
+
+            DO.User user = list.Find(u => u.userName == name);
+
+            if (user != null)
+                return user;
+            else
+                throw new DO.MissingUserException(name, $"User {name} cannot be found in system.");
         }
 
         public void UpdateUser(string name)
         {
-            throw new NotImplementedException();
+            List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
+
+            DO.User user = list.Find(u => u.userName == name);
+            if (user != null)
+            {
+                list.Remove(user);
+                list.Add(user);
+            }
+            else
+                throw new DO.MissingUserException(name, $"User {name} cannot be found in system.");
+
+            XMLTools.SaveListToXMLSerializer(list, userPath);
         }
 
         #endregion
 
         #region UserTrip
-        public int AddUserTrip(UserTrip userTrip)
-        {
-            List<UserTrip> list = XMLTools.LoadListFromXMLSerializer<UserTrip>(userTripPath);
+        //public int AddUserTrip(UserTrip userTrip)
+        //{
+        //    List<UserTrip> list = XMLTools.LoadListFromXMLSerializer<UserTrip>(userTripPath);
 
-            userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
+        //    userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
 
-            if (list.FirstOrDefault(ut => ut.userTravelID == userTrip.userTravelID) != null)
-                throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), $"Duplicate user {userTrip.userTravelID}.");
+        //    if (list.FirstOrDefault(ut => ut.userTravelID == userTrip.userTravelID) != null)
+        //        throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), $"Duplicate user {userTrip.userTravelID}.");
 
-            list.Add(userTrip);
-            XMLTools.SaveListToXMLSerializer(list, userTripPath);
+        //    list.Add(userTrip);
+        //    XMLTools.SaveListToXMLSerializer(list, userTripPath);
 
-            return userTrip.userTravelID; //returning running number
-        }
+        //    return userTrip.userTravelID; //returning running number
+        //}
 
-        public void DeleteUserTrip(int travelID)
-        {
-            throw new NotImplementedException();
-        }
-        public void UpdateUserTrip(int travelID)
-        {
-            throw new NotImplementedException();
-        }
-        public IEnumerable<UserTrip> GetAllUserTrip()
-        {
-            throw new NotImplementedException();
-        }
+        //public void DeleteUserTrip(int travelID)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void UpdateUserTrip(int travelID)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public IEnumerable<UserTrip> GetAllUserTrip()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public UserTrip GetUserTrip(int travelID)
-        {
-            throw new NotImplementedException();
-        }
-        public IEnumerable<object> GetUserTripWithSelectedFields(Func<UserTrip, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public UserTrip GetUserTrip(int travelID)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public IEnumerable<object> GetUserTripWithSelectedFields(Func<UserTrip, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public IEnumerable<object> GetUserWithSelectedFields(Func<SuccessiveStations, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<object> GetUserWithSelectedFields(Func<SuccessiveStations, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
 
