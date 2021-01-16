@@ -488,41 +488,73 @@ namespace DAL
         }
         public void DeleteLineStation(string lineStationKey)
         {
-            throw new NotImplementedException();
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
+           
+            DO.LineStation station = list.Find(l => l.lineID  == lineStationKey);
+            if (station != null)
+            {
+                list.Remove(station);
+            }
+            else
+                throw new DO.InvalidBusLineException(lineStationKey, $"Line leaving {lineStationKey} does not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, stationPath);
         }
         public IEnumerable<LineStation> GetAllLineStations()
         {
-            throw new NotImplementedException();
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
+
+            return from station in list
+                   select station;
         }
 
         public LineStation GetLineStation(string lineStationKey)
         {
-            throw new NotImplementedException();
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
+             
+            DO.LineStation line = list.Find(l => l.lineID == lineStationKey);
+
+            if (line != null)
+                return line;
+            else
+                throw new DO.InvalidBusLineException(lineStationKey, $"Line leaving {lineStationKey} does not exist.");
         }
 
         public IEnumerable<object> GetLineStationWithSelectedFields(Func<LineStation, object> generate)
         {
-            throw new NotImplementedException();
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
+
+            return from line in list
+                   select generate(line);
         }
         public void UpdateLineStation(string lineStationKey)
         {
-            throw new NotImplementedException();
+            List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
+
+            DO.LineStation line = list.Find(l => l.lineID == lineStationKey);
+
+            if (line != null)
+            {
+                list.Remove(line);
+                list.Add(line);
+            }
+            else
+                throw new DO.InvalidBusLineException(lineStationKey, $"Line leaving {lineStationKey} does not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, stationPath);
         }
         #endregion
 
         #region Staff
         public void AddStaff(Staff staff)
         {
-            //List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<Staff> list = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
 
-            //if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            if (list.FirstOrDefault(s => s.BusDriverID  == staff.BusDriverID) != null)
+                throw new DO.StaffAlreadyInSystemException(lineStation.lineID.ToString(), $"Duplicate! line {lineStation.lineID} already exists.");
 
-            //if (Get/**/(/**/D) == null)
-            //    throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
-
-            //list.Add(/**/);
-            //XMLTools.SaveListToXMLSerializer(list, /**/);
+            list.Add(lineStation);
+            XMLTools.SaveListToXMLSerializer(list, stationPath);
         }
         public void DeleteStaff(string staffID)
         {
@@ -553,44 +585,84 @@ namespace DAL
 
 
 
-        #endregion
+        #endregion     //not finished!!!      //not finished!!
 
         #region SuccessiveStations
 
         public void AddSuccessiveStations(SuccessiveStations successiveStations)
         {
-            //    List</**/> list = XMLTools.LoadListFromXMLSerializer</**/>(linePath);
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+            //check if station 1 exists
+            if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
+            {
+                if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
+                        {
+                            throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
+                        }
+            }
 
-            //    if (list.FirstOrDefault(l => l.BusLineID == /**/) != null)
-            //        throw new DO.InvalidBusLineException(/**/, $"Duplicate! line {/**/} already exists.");
+            list.Add(successiveStations);
+            XMLTools.SaveListToXMLSerializer(list, succSPath);
 
-            //    if (Get/**/(/**/D) == null)
-            //        throw new DO.InvalidBusLineException(/**/, $"Line {/**/} cannot be found in system.");
-
-            //    list.Add(/**/);
-            //    XMLTools.SaveListToXMLSerializer(list, /**/);
         }
         public void DeleteSuccessiveStations(string entityKey)
         {
-            throw new NotImplementedException();
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+
+            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+            if (station != null)
+            {
+                list.Remove(station);
+            }
+            else
+                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, stationPath);
         }
         public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
         {
-            throw new NotImplementedException();
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+
+            return from stations in list
+                   select stations;
         }
 
         public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
         {
-            throw new NotImplementedException();
+            var entityKey = stat1.ToString() + stat2.ToString();
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+
+            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+
+            if (station != null)
+                return station;
+            else
+                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+
         }
 
         public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
         {
-            throw new NotImplementedException();
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+
+            return from stations in list
+                   select generate(stations);
         }
-        public void UpdateSuccessiveStations(string entityKey)
+        public void UpdateSuccessiveStations(int stat1, int stat2)
         {
-            throw new NotImplementedException();
+            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+            var entityKey = stat1.ToString() + stat2.ToString();
+            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+
+            if (station != null)
+            {
+                list.Remove(station);
+                list.Add(station);
+            }
+            else
+                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+
+            XMLTools.SaveListToXMLSerializer(list, succSPath);
         }
         #endregion
 
@@ -607,7 +679,7 @@ namespace DAL
 
             //    list.Add(/**/);
             //    XMLTools.SaveListToXMLSerializer(list, /**/);
-        }
+        } 
         public void DeleteUser(string name)
         {
             throw new NotImplementedException();

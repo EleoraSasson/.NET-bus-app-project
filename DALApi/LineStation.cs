@@ -22,8 +22,7 @@ namespace DO
             get { return station; }
             set { station = value; }
         }
-
-
+         
         private int stationNum;
 
         public int stationNumber //number of stations on the line
