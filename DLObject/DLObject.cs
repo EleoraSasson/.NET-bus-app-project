@@ -63,7 +63,6 @@ namespace DAL
         {
             return from Bus in DataSource.busList
                    select Bus.Clone();
-
         }
 
         public IEnumerable<object> GetBusListWithSelectedFields(Predicate<Bus> predicate)
@@ -169,7 +168,7 @@ namespace DAL
             if (line != null)
             {
                 DataSource.busLineList.Remove(line);
-                DataSource.busLineList.Add(line.Clone());
+                DataSource.busLineList.Add(busline.Clone());
             }
             else
                 throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"Bus {busline.BusLineID}"); 
@@ -468,11 +467,13 @@ namespace DAL
         /// parameter: LineLeaving
         /// return type: void
         /// </summary>
-        public void AddLineStation(LineStation lineStation)
+        public void AddLineStation(LineStation lineStation, int lineID)
         {
-            var entityKey = lineStation.lineID + lineStation.stationCode;
+
+            lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
+            var entityKey = lineID + lineStation.stationCode;
             //check if line exsists
-            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineStation.lineID) != null))
+            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineID.ToString()) != null))
             {
                 //if line exsists see if it holds the same station
                 if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))

@@ -58,51 +58,75 @@ namespace BLApi
         #endregion
 
         #region BusRoutes
-
+        //create
         public void AddBusRoute(BO.BusRoute broute)
         {
-            dal.AddBusLine(broute.Route);
+            var RouteID = dal.AddBusLine(broute.Route);
 
             foreach ( var lineS in broute.RouteStops)
-            { dal.AddLineStation(lineS); }
+            { dal.AddLineStation(lineS, RouteID); }
 
         }
-
-        public BusRoute GetStationsInBusRoute()
+        public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
-            throw new NotImplementedException();
+            dal.AddLineStation(station, broute.Route.BusLineID);
         }
-
-        public void AddStationToBusRoute(LineStation line)
+        //retrieve
+        public BusRoute GetBusRoute(int lineID)
         {
-            throw new NotImplementedException();
+            BusRoute broute = new BusRoute();//create an instance of BusRoute
+            broute.Route = dal.GetBusLine(lineID); //get the BusLine with that ID and place in route
+            IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
+            broute.RouteStops = (from st in stations
+                                   where st.lineID == lineID.ToString()
+                                   select st); //select all the LineStations that have that ID and place in routeStops
+            return broute;
         }
 
-        #endregion
-        public IEnumerable<BusRoute> GetAllStationsInBusRoute()
+        public IEnumerable<LineStation> GetAllStationsInBusRoute( string lineID )
         {
-            throw new NotImplementedException();
+            IEnumerable<LineStation> stations = dal.GetAllLineStations();
+            var stationsInRoute = (from st in stations
+                                                 where st.lineID == lineID
+                                                 select st);//select all the stations with the same ID as the route you want
+            return stationsInRoute;
         }
 
-        public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public void AddStationToBusRoute(LineStation line)
+        //public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
         //{
         //    throw new NotImplementedException();
         //}
 
-        public void UpdateBusRoute(LineStation line)
+        //update
+        public void UpdateBusRoute(BO.BusRoute broute)
         {
-            throw new NotImplementedException();
+            dal.UpdateBusLine(broute.Route);
+
+            foreach (var lineS in broute.RouteStops)
+            {
+                dal.UpdateLineStation(broute.Route.BusLineID + lineS.stationCode);
+            }
+        }
+        //delete
+        public void DeleteFromBusRoute(BO.BusRoute broute, DO.LineStation station)
+        {
+            foreach (var lineS in broute.RouteStops)
+            {
+                if ((station.lineID + station.stationCode) == (lineS.lineID + lineS.stationCode))
+                {
+                    dal.DeleteLineStation(lineS.lineID + lineS.stationCode);
+                    UpdateBusRoute(broute);//update line
+                }
+                else throw new MissingLineStationException(lineS.lineID + lineS.stationCode, $"Line Station {lineS.lineID + lineS.stationCode} cannot be deleted as it is missing from the system");
+            }
         }
 
-        public void DeleteFromBusRoute(LineStation line)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
+
+        #region BusStations
+
+
+
 
         public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
         {
@@ -190,6 +214,12 @@ namespace BLApi
         }
 
         public void DeleteStationInRoute(BusStop s)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void UpdateBusRoute(LineStation line)
         {
             throw new NotImplementedException();
         }
