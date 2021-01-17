@@ -470,16 +470,16 @@ namespace DAL
         /// </summary>
         public int AddLineStation(LineStation lineStation, int lineID)
         {
-            ////checking to see if the station you want to add exsists and is active:
-            //var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
-            //if (statCheck == null)
-            //{ //null therefore BusStop does not exsist 
-            //    throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
-            //}
-            //else if (statCheck.StopActive == false) //stop is no longer active
-            //{
-            //    throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
-            //}
+            //checking to see if the station you want to add exsists and is active:
+            var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
+            if (statCheck == null)
+            { //null therefore BusStop does not exsist 
+                throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
+            }
+            else if (statCheck.StopActive == false) //stop is no longer active
+            {
+                throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
+            }
 
             lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
             var entityKey = lineID + lineStation.stationCode; //defining entity key
@@ -487,13 +487,10 @@ namespace DAL
             List<LineStation> thisRoute = DataSource.lineStationList.FindAll(stat => stat.lineID == lineID.ToString());//finding all lineStations in this specific route
             int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
             //check if line exsists
-            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineID.ToString()) != null))
+
+            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID + line.stationCode  == entityKey) != null))
             {
-                //if line exsists see if it holds the same station
-                if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))
-                {
-                    throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
-                }
+                throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation");
             } //it is a new LineSation so can add to collection:
             lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             DataSource.lineStationList.Add(lineStation.Clone());

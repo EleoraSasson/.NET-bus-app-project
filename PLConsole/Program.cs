@@ -193,7 +193,7 @@ namespace PLConsole
             bRoute2.Route.BusRegion = Regions.National;
             bl.UpdateBusRoute(bRoute2);
 
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID)); //check here for error!!! & check deletion!
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID));
 
             Console.WriteLine("deleting a busStop from bRoute1");
             List<LineStation> stations = bRoute1.RouteStops.ToList();
@@ -204,82 +204,27 @@ namespace PLConsole
             foreach (LineStation ls in stationList)
                 Console.WriteLine(ls);
 
-       
+
             #endregion
 
             #region Testing StationWithRoutes
 
-            Random lat = new Random();
-            Random lon = new Random();
 
-            var randLat = lat.NextDouble() * (33.30 - 31.30) + 31.30;
-            var randLong = lon.NextDouble() * (35.50 - 34.30) + 34.30;
+            Console.WriteLine("adding a station to busRoute 1");
+            bl.AddStationToBusRoute(bRoute1, sta4);
+            var rs = bl.GetStationWithRoute(sta4.stationCode);
+            Console.WriteLine(rs.CurrentStation);
+            List<LineStation> lineIDs = new List<LineStation>();
 
-            BusStop stop1 = new BusStop()
-            {
-                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
-                StopCode = "11111",
-                StopName = "Cherry - Sugar Cane"
-                //stopActive set in the dl automatically to be active
-            };
-            BusStop stop2 = new BusStop()
-            {
-                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
-                StopCode = "22222",
-                StopName = "Strawberry - Cream"
-                //stopActive set in the dl automatically to be active
-            };
-            BusStop stop3 = new BusStop()
-            {
-                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
-                StopCode = "33333",
-                StopName = "Peanut - Butter"
-                //stopActive set in the dl automatically to be active
-            };
-            BusStop stop4 = new BusStop()
-            {
-                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
-                StopCode = "44444",
-                StopName = "Orange - Lemonade"
-                //stopActive set in the dl automatically to be active
-            };
-            BusStop stop5 = new BusStop()
-            {
-                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
-                StopCode = "55555",
-                StopName = "Apricot-Litchi"
-                //stopActive set in the dl automatically to be active
-            };
+            lineIDs = rs.CurrentLines.ToList();
+            foreach (var line in lineIDs)
+                Console.WriteLine(line.lineID);
 
-            StationWithRoutes RStat1 = new StationWithRoutes()
-            {
-                CurrentStation = stop1,
-                ///CurrentLines set in the bl layer 
-            };
+            
 
-            StationWithRoutes RStat2 = new StationWithRoutes()
-            {
-                CurrentStation = stop2,
-                ///CurrentLines set in the bl layer 
-            };
+          
 
-            StationWithRoutes RStat3 = new StationWithRoutes()
-            {
-                CurrentStation = stop3,
-                ///CurrentLines set in the bl layer 
-            };
 
-            StationWithRoutes RStat4 = new StationWithRoutes()
-            {
-                CurrentStation = stop4,
-                ///CurrentLines set in the bl layer 
-            };
-
-            StationWithRoutes RStat5 = new StationWithRoutes()
-            {
-                CurrentStation = stop5,
-                ///CurrentLines set in the bl layer 
-            };
 
 
 

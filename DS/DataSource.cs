@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 using DALApi;
+using System.Device.Location;
 
 namespace DS
 {
@@ -34,6 +35,56 @@ namespace DS
 
             //Defines and a new list of BusStops and adds an object of type BusStop to the List:
             busStopList = new List<BusStop>();
+            Random lat = new Random();
+            Random lon = new Random();
+
+            var randLat = lat.NextDouble() * (33.30 - 31.30) + 31.30;
+            var randLong = lon.NextDouble() * (35.50 - 34.30) + 34.30;
+
+            BusStop stop1 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "11111",
+                StopName = "Cherry - Sugar Cane",
+                StopActive = true
+             };
+
+            BusStop stop2 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "22222",
+                StopName = "Strawberry - Cream",
+                StopActive = true
+            };
+            BusStop stop3 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "33333",
+                StopName = "Peanut - Butter",
+                StopActive = true
+             };
+                
+            BusStop stop4 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "44444",
+                StopName = "Orange - Lemonade",
+                StopActive = true
+            };
+
+            BusStop stop5 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "55555",
+                StopName = "Apricot-Litchi",
+                StopActive = true
+            };
+
+            busStopList.Add(stop1);
+            busStopList.Add(stop2);
+            busStopList.Add(stop3);
+            busStopList.Add(stop4);
+            busStopList.Add(stop5);
 
             //Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
             lineLeavingList = new List<LineLeaving>();

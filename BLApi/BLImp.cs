@@ -151,16 +151,19 @@ namespace BLApi
         // the active status of the busStop.
 
         //retrieve 
-        public StationWithRoutes GetStationWithRoute(string stationCode)
+        public StationWithRoutes GetStationWithRoute (string stationCode)
         {
-            throw new NotImplementedException();
-            //maybe the same thing as the one above so which one should we use???
+            StationWithRoutes thisStation = new StationWithRoutes(); //define this stationWithRoutes
+            thisStation.CurrentStation = dal.GetBusStop(stationCode); //get the BusStop we are reffering too
+            IEnumerable<LineStation> stationList = dal.GetAllLineStations(); //create a temporary list pf all the LineStations
+            thisStation.CurrentLines = (from ls in stationList where ls.stationCode == stationCode select ls); //take only the lineStations taht share our BusStation code
+            return thisStation; //return our new object of thisStation
         }
         //update:
         public void UpdateStationWithRoutes(StationWithRoutes station)
         {
-            //only can update the active status ///check if already on route if already assigned toa route then cannot update. if not assigned no problem
-            throw new NotImplementedException();
+            try { dal.UpdateBusStop(station.CurrentStation); }
+            catch { throw new DO.InvalidStopCodeException(station.CurrentStation.StopCode, $"station {station.CurrentStation.StopCode} could not be updated, invalid station code."); }
         }
         #endregion
 
