@@ -61,7 +61,12 @@ namespace PLConsole
 
             Console.WriteLine("getting all buses");
 
-            Console.WriteLine(bl.GetEntireBusFleet());
+            List<Bus> fleet = new List<Bus>();
+
+            fleet = bl.GetEntireBusFleet().ToList(); 
+
+            foreach (Bus b in fleet)
+                Console.WriteLine(b);
 
             Console.WriteLine("getting bus3 - no error");
 
@@ -80,7 +85,9 @@ namespace PLConsole
             bl.DeleteFromBusFleet(bus2);//deleting bus2
 
             Console.WriteLine("reprint fleet without bus 2");
-            Console.WriteLine(bl.GetEntireBusFleet());
+            fleet = bl.GetEntireBusFleet().ToList();
+            foreach (Bus b in fleet)
+                Console.WriteLine(b);
 
             //Console.WriteLine("getting one bus that does not exist");
 
@@ -178,19 +185,26 @@ namespace PLConsole
             Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
 
             Console.WriteLine("getting all the stations in bRoute2");
-            Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()));
+            List<LineStation> stationList = bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()).ToList();
+            foreach (LineStation ls in stationList)
+                Console.WriteLine(ls);
 
             Console.WriteLine("updating the region of BusRoute2");
             bRoute2.Route.BusRegion = Regions.National;
-            bl.UpdateBusRoute(bRoute2); 
+            bl.UpdateBusRoute(bRoute2);
 
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo)); //check here for error!!! & check deletion!
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID)); //check here for error!!! & check deletion!
 
-            Console.WriteLine("deleting a busStop from bRoute1"); 
+            Console.WriteLine("deleting a busStop from bRoute1");
             List<LineStation> stations = bRoute1.RouteStops.ToList();
             stations.Remove(sta2);
             bRoute1.RouteStops = stations;
-            Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute1.Route.BusLineID.ToString()));
+
+            stationList = bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()).ToList();
+            foreach (LineStation ls in stationList)
+                Console.WriteLine(ls);
+
+       
             #endregion
 
             #region Testing StationWithRoutes

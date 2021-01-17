@@ -3,7 +3,7 @@ Every bit we do, do counts! Kol Hakavod!! :)
 
 
 NB THINGS TO FIX IN PLCONSOLE
-- IEnumerable does not print out all the in=tems in the get functions :(
+- IEnumerable does not print out all the in=tems in the get functions ------> FIXED!!
 - The update funstion for the BusRoute doesn't work :( -----------> FIXED YAY!!! :)
 - when adding stations to a line it should change the start and end stop if the BusLine Properties (ideally) ---> YAY DONE AND WORKS BH!!!
 

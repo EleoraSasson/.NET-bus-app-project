@@ -470,16 +470,16 @@ namespace DAL
         /// </summary>
         public int AddLineStation(LineStation lineStation, int lineID)
         {
-            //checking to see if the station you want to add exsists and is active:
-            var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
-            if (statCheck == null)
-            { //null therefore BusStop does not exsist 
-                throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
-            }
-            else if (statCheck.StopActive == false) //stop is no longer active
-            {
-                throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
-            }
+            ////checking to see if the station you want to add exsists and is active:
+            //var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
+            //if (statCheck == null)
+            //{ //null therefore BusStop does not exsist 
+            //    throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
+            //}
+            //else if (statCheck.StopActive == false) //stop is no longer active
+            //{
+            //    throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
+            //}
 
             lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
             var entityKey = lineID + lineStation.stationCode; //defining entity key
