@@ -11,3 +11,9 @@ NB THINGS TO FIX IN PLCONSOLE
 Additional Notes:
 - add decrypting
 - look up func<> delegates or something
+
+
+
+//Eleora
+Do we really need user trip?
+Help with staff
