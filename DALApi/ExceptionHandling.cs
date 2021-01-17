@@ -95,6 +95,27 @@ namespace DO
 
         public override string ToString() => base.ToString() + $", invalid bus license: {stopCode}";
     }
+    public class MissingBusStopException : Exception
+    {
+        public string stopCode;
+
+        public MissingBusStopException(string code) : base() => stopCode = code;
+        public MissingBusStopException(string code, string msg) : base(msg) { stopCode = code; }
+        public MissingBusStopException(string code, string msg, Exception innerException) : base(msg, innerException) { stopCode = code; }
+
+        public override string ToString() => base.ToString() + $",{stopCode} is missing";
+    }
+
+    public class NonActiveBusStopException : Exception
+    {
+        public string stopCode;
+
+        public NonActiveBusStopException(string code) : base() => stopCode = code;
+        public NonActiveBusStopException(string code, string msg) : base(msg) { stopCode = code; }
+        public NonActiveBusStopException(string code, string msg, Exception innerException) : base(msg, innerException) { stopCode = code; }
+
+        public override string ToString() => base.ToString() + $",{stopCode} is no longer active";
+    }
     #endregion
 
     #region LineLeaving Exceptions

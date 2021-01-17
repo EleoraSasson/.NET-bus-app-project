@@ -50,13 +50,11 @@ namespace BLApi
         #endregion
 
         #region StationWithRoutes
-        IEnumerable<StationWithRoutes> GetAllStationsInRoute();
-        IEnumerable<StationWithRoutes> GetStationsInRouteWithSelectedFields(Func<StationWithRoutes, object> generate);
-        void AddsStationInRoute(BusStop s); //create
-        StationWithRoutes GetStationInRoute(); //retrieve
-        void UpdateStationInRoute(BusStop s); //update
-        void DeleteStationInRoute(BusStop s); //delete
+        //NOTE: there are no addition or deletion methods in this crud implementation for this class
+        // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
+        // the active status of the busStop.
+        StationWithRoutes GetStationWithRoute(string stationCode); //retrieve
+        void UpdateStationWithRoutes(StationWithRoutes station);//update
         #endregion
-
     }
 }

@@ -8,11 +8,12 @@ using DO;
 using BL;
 using BLApi;
 using BO;
+using System.Device.Location;
 
 namespace PLConsole
 { 
     class Program 
-    { 
+    {
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to our Testing Zone!!");
@@ -170,29 +171,104 @@ namespace PLConsole
 
             Console.WriteLine("getting all busRoutes");
             Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID)); 
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID));
 
             Console.WriteLine("adding a station to busRoute 1");
             bl.AddStationToBusRoute(bRoute1, sta3);
-            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID)); 
+            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
 
             Console.WriteLine("getting all the stations in bRoute2");
             Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()));
 
             Console.WriteLine("updating the region of BusRoute2");
             bRoute2.Route.BusRegion = Regions.National;
-            bl.UpdateBusRoute(bRoute2); //check here for error!!!
+            bl.UpdateBusRoute(bRoute2); 
 
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo));
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo)); //check here for error!!! & check deletion!
 
-            Console.WriteLine("deleting a busStop from bRoute1");
-            List<LineStation>stations = bRoute1.RouteStops.ToList();
+            Console.WriteLine("deleting a busStop from bRoute1"); 
+            List<LineStation> stations = bRoute1.RouteStops.ToList();
             stations.Remove(sta2);
             bRoute1.RouteStops = stations;
             Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute1.Route.BusLineID.ToString()));
             #endregion
 
             #region Testing StationWithRoutes
+
+            Random lat = new Random();
+            Random lon = new Random();
+
+            var randLat = lat.NextDouble() * (33.30 - 31.30) + 31.30;
+            var randLong = lon.NextDouble() * (35.50 - 34.30) + 34.30;
+
+            BusStop stop1 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "11111",
+                StopName = "Cherry - Sugar Cane"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop2 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "22222",
+                StopName = "Strawberry - Cream"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop3 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "33333",
+                StopName = "Peanut - Butter"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop4 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "44444",
+                StopName = "Orange - Lemonade"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop5 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "55555",
+                StopName = "Apricot-Litchi"
+                //stopActive set in the dl automatically to be active
+            };
+
+            StationWithRoutes RStat1 = new StationWithRoutes()
+            {
+                CurrentStation = stop1,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat2 = new StationWithRoutes()
+            {
+                CurrentStation = stop2,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat3 = new StationWithRoutes()
+            {
+                CurrentStation = stop3,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat4 = new StationWithRoutes()
+            {
+                CurrentStation = stop4,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat5 = new StationWithRoutes()
+            {
+                CurrentStation = stop5,
+                ///CurrentLines set in the bl layer 
+            };
+
+
+
             #endregion
             //write and implement check for StationsWithRoutes
         }

@@ -146,44 +146,56 @@ namespace BLApi
         #endregion
 
         #region StationsWithRoutes
-        //create
-        //retrieve
-        //update
-        //delete
+        //NOTE: there are no addition or deletion methods in this crud implementation for this class
+        // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
+        // the active status of the busStop.
+
+        //retrieve 
+        public StationWithRoutes GetStationWithRoute(string stationCode)
+        {
+            throw new NotImplementedException();
+            //maybe the same thing as the one above so which one should we use???
+        }
+        //update:
+        public void UpdateStationWithRoutes(StationWithRoutes station)
+        {
+            //only can update the active status ///check if already on route if already assigned toa route then cannot update. if not assigned no problem
+            throw new NotImplementedException();
+        }
         #endregion
 
 
-
-
-        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate)
         {
             throw new NotImplementedException();
         }
-
-        public void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ScheduleOfRoute GetScheduleOfRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteScheduleOfRoute(ScheduleOfRoute s)
         {
             throw new NotImplementedException();
         }
+        public void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff)
+        {
+            throw new NotImplementedException();
+        }
+        public ScheduleOfRoute GetScheduleOfRoute()
+        {
+            throw new NotImplementedException();
+        }
+        public void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
+        {
+            throw new NotImplementedException();
+        }
+
+
+     
+
+        
+
 
         public IEnumerable<CompanySchedule> GetAllCompanySchedules()
         {
@@ -215,41 +227,9 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-        public IEnumerable<StationWithRoutes> GetAllStationsInRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<StationWithRoutes> GetStationsInRouteWithSelectedFields(Func<StationWithRoutes, object> generate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddsStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StationWithRoutes GetStationInRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
+      
 
 
-        public void UpdateBusRoute(LineStation line)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     //    #region CRUD BusFleet

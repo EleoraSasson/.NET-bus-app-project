@@ -43,9 +43,9 @@ namespace DALApi
         IEnumerable<DO.BusStop> GetAllBusStops(); //IEnumerable
         //IEnumerable<object> GetBusStopWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
         void AddBusStop(BusStop busStop);//create
-        BusStop GetBusStop(int stopCode);//retrieve
+        BusStop GetBusStop(string stopCode);//retrieve
         void UpdateBusStop(BusStop busStop);//update
-        void DeleteBusStop(int stopCode);//delete
+        void DeleteBusStop(string stopCode);//delete
         #endregion
 
         #region LineLeaving

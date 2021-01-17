@@ -15,5 +15,5 @@ Additional Notes:
 
 
 //Eleora
-Do we really need user trip?
-Help with staff
+Do we really need user trip? - maybe not anymore beacause we may not track user trips anymore
+Help with staff --> sure :)

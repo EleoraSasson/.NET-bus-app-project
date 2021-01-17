@@ -301,6 +301,7 @@ namespace DAL
         /// </summary>
         public void AddBusStop(BusStop busStop)
         {
+            busStop.StopActive = true; //all BusStops added are initially set to being active
             if (DataSource.busStopList.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
                 throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), "Duplicate bus stop code");
             DataSource.busStopList.Add(busStop.Clone());
@@ -311,7 +312,7 @@ namespace DAL
         /// parameter: int (stop code)
         /// return type: BusLine
         /// </summary>
-        public BusStop GetBusStop(int stopCode)
+        public BusStop GetBusStop(string stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode); //define list bus
 
@@ -344,7 +345,7 @@ namespace DAL
         /// parameter: int (stop code)
         /// return type: void
         /// </summary>
-        public void DeleteBusStop(int stopCode)
+        public void DeleteBusStop(string stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode);
 
@@ -469,7 +470,17 @@ namespace DAL
         /// </summary>
         public int AddLineStation(LineStation lineStation, int lineID)
         {
-            
+            //checking to see if the station you want to add exsists and is active:
+            var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
+            if (statCheck == null)
+            { //null therefore BusStop does not exsist 
+                throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
+            }
+            else if (statCheck.StopActive == false) //stop is no longer active
+            {
+                throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
+            }
+
             lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
             var entityKey = lineID + lineStation.stationCode; //defining entity key
 
