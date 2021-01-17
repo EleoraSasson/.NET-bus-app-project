@@ -19,7 +19,7 @@ namespace DO
         ///  Description: This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line.
         ///  Type: Private Property.
         /// </summary>
-        private static int runNum_line = 01;
+        private static int runNum_line = 11;
 
         /// <summary>
         /// Description: This is a 2 digit running number that acts as the bus line ID and is used to identify the specific bus line. 
@@ -30,13 +30,13 @@ namespace DO
 
         #region Running Number Bus - RoadID
         /// <summary>
-        /// Description: This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
+        /// Description: This is a 3 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
         /// on a trip.
         /// Type: Private Property.
         /// </summary>
-        private static int runNum_bus = 1111;
+        private static int runNum_bus = 111;
         /// <summary>
-        /// Description: This is a 4 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
+        /// Description: This is a 3 digit running number that acts as the buses road ID and is used to identify the specific bus that is currently 
         /// on a trip.
         /// Type: Public Property.
         /// </summary>

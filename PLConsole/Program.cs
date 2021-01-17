@@ -11,7 +11,7 @@ using BO;
 
 namespace PLConsole
 { 
-    class Program
+    class Program 
     { 
         static void Main(string[] args)
         {
@@ -21,7 +21,7 @@ namespace PLConsole
 
             #region Testing BusFleet
             Console.WriteLine("Testing BusFleet");
-            
+
             DateTime time1 = new DateTime(2017, 1, 18);
             DateTime time2 = new DateTime(1999, 8, 25);
             DateTime time3 = new DateTime(2000, 5, 28);
@@ -57,7 +57,7 @@ namespace PLConsole
             bl.AddToBusFleet(bus1);
             bl.AddToBusFleet(bus2);
             bl.AddToBusFleet(bus3);
-      
+
             Console.WriteLine("getting all buses");
 
             Console.WriteLine(bl.GetEntireBusFleet());
@@ -85,7 +85,10 @@ namespace PLConsole
 
             //Console.WriteLine(bl.GetBusFromFleet("111-11-111"));
             #endregion
-
+            //NOTE TO SELF - for BusRoute check why the program is crashing by the update function and see that update actually updates
+            // also change the style of the setting info so that start and end stations are also set in the add and changed accordingly when 
+            // new stations are added to the routes
+            //maybe edit the running numbers ID patter so it satrst at higher than 1?
             #region Testing BusRoute
             Console.WriteLine("Testing BusRoute");
 
@@ -93,15 +96,17 @@ namespace PLConsole
             { //line ID not included as that should be put in the dl layer of addBusLine
                 BusLineNo = 1,
                 BusRegion = Regions.Center_Jerusalem,
-                BusStart = "12345",
-                BusEnd = "67890",
+                //BusStart = "12345",
+                //BusEnd = "67890",
+                //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
             };
             BusLine line2 = new BusLine()
             { //line ID not included as that should be put in the dl layer of addBusLine
                 BusLineNo = 2,
                 BusRegion = Regions.North_Haifa,
-                BusStart = "54321",
-                BusEnd = "09876",
+                //BusStart = "54321",
+                //BusEnd = "09876",
+                //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
             };
 
             LineStation sta1 = new LineStation()
@@ -176,7 +181,7 @@ namespace PLConsole
 
             Console.WriteLine("updating the region of BusRoute2");
             bRoute2.Route.BusRegion = Regions.National;
-           // bl.UpdateBusRoute(bRoute2);
+            bl.UpdateBusRoute(bRoute2); //check here for error!!!
 
             Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo));
 
@@ -187,7 +192,9 @@ namespace PLConsole
             Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute1.Route.BusLineID.ToString()));
             #endregion
 
-
+            #region Testing StationWithRoutes
+            #endregion
+            //write and implement check for StationsWithRoutes
         }
 
     }

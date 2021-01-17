@@ -467,11 +467,14 @@ namespace DAL
         /// parameter: LineLeaving
         /// return type: void
         /// </summary>
-        public void AddLineStation(LineStation lineStation, int lineID)
+        public int AddLineStation(LineStation lineStation, int lineID)
         {
-
+            
             lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
-            var entityKey = lineID + lineStation.stationCode;
+            var entityKey = lineID + lineStation.stationCode; //defining entity key
+
+            List<LineStation> thisRoute = DataSource.lineStationList.FindAll(stat => stat.lineID == lineID.ToString());//finding all lineStations in this specific route
+            int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
             //check if line exsists
             if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineID.ToString()) != null))
             {
@@ -481,7 +484,10 @@ namespace DAL
                     throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
                 }
             } //it is a new LineSation so can add to collection:
+            lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             DataSource.lineStationList.Add(lineStation.Clone());
+
+            return lineStation.stationNumber;//return which number station this is
         }
 
         /// <summary>
@@ -507,7 +513,7 @@ namespace DAL
         /// </summary>
         public void UpdateLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => (line.lineID + line.stationCode) == lineStationKey);
 
             if (findLineStation != null)
             {

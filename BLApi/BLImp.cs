@@ -64,12 +64,34 @@ namespace BLApi
             var RouteID = dal.AddBusLine(broute.Route);
 
             foreach ( var lineS in broute.RouteStops)
-            { dal.AddLineStation(lineS, RouteID); }
+            { 
+                int stationCount = dal.AddLineStation(lineS, RouteID);
+                if (stationCount == 1) //it is the first station 
+                {
+                    broute.Route.BusStart = lineS.stationCode;
+                    broute.Route.BusEnd = lineS.stationCode;
+                }
+                else // this is not the first station to be added
+                {
+                    broute.Route.BusEnd = lineS.stationCode; //but it is currently the last station
+                }
+            }
 
+            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
-            dal.AddLineStation(station, broute.Route.BusLineID);
+           int stationCount = dal.AddLineStation(station, broute.Route.BusLineID);
+            if (stationCount == 1) //it is the first station 
+            {
+                broute.Route.BusStart = station.stationCode;
+                broute.Route.BusEnd = station.stationCode;
+            }
+            else // this is not the first station to be added
+            {
+                broute.Route.BusEnd = station.stationCode; //but it is currently the last station
+            }
+            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         //retrieve
         public BusRoute GetBusRoute(int lineID)
@@ -123,7 +145,12 @@ namespace BLApi
 
         #endregion
 
-        #region BusStations
+        #region StationsWithRoutes
+        //create
+        //retrieve
+        //update
+        //delete
+        #endregion
 
 
 

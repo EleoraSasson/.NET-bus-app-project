@@ -76,7 +76,7 @@ namespace DALApi
         /// Return type: void
         /// </summary>
         /// <returns></returns>
-        void AddLineStation(LineStation lineStation, int lineID);//create
+        int AddLineStation(LineStation lineStation, int lineID);//create
         /// <summary>
         /// Action: This method gets a specific Line-Station pair.
         /// Return type: LineStation
