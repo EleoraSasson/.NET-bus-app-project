@@ -4,8 +4,8 @@ Every bit we do, do counts! Kol Hakavod!! :)
 
 NB THINGS TO FIX IN PLCONSOLE
 - IEnumerable does not print out all the in=tems in the get functions :(
-- The update funstion for the BusRoute doesn't work :(
-- when adding stations to a line it should change the start and end stop if the BusLine Properties (ideally)
+- The update funstion for the BusRoute doesn't work :( -----------> FIXED YAY!!! :)
+- when adding stations to a line it should change the start and end stop if the BusLine Properties (ideally) ---> YAY DONE AND WORKS BH!!!
 
 
 Additional Notes:
@@ -15,5 +15,5 @@ Additional Notes:
 
 
 //Eleora
-Do we really need user trip?
-Help with staff
+Do we really need user trip? - maybe not anymore beacause we may not track user trips anymore
+Help with staff --> sure :)

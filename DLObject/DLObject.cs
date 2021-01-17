@@ -301,6 +301,7 @@ namespace DAL
         /// </summary>
         public void AddBusStop(BusStop busStop)
         {
+            busStop.StopActive = true; //all BusStops added are initially set to being active
             if (DataSource.busStopList.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
                 throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), "Duplicate bus stop code");
             DataSource.busStopList.Add(busStop.Clone());
@@ -311,7 +312,7 @@ namespace DAL
         /// parameter: int (stop code)
         /// return type: BusLine
         /// </summary>
-        public BusStop GetBusStop(int stopCode)
+        public BusStop GetBusStop(string stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode); //define list bus
 
@@ -344,7 +345,7 @@ namespace DAL
         /// parameter: int (stop code)
         /// return type: void
         /// </summary>
-        public void DeleteBusStop(int stopCode)
+        public void DeleteBusStop(string stopCode)
         {
             DO.BusStop stop = DataSource.busStopList.Find(b => b.StopCode == stopCode);
 
@@ -467,11 +468,24 @@ namespace DAL
         /// parameter: LineLeaving
         /// return type: void
         /// </summary>
-        public void AddLineStation(LineStation lineStation, int lineID)
+        public int AddLineStation(LineStation lineStation, int lineID)
         {
+            //checking to see if the station you want to add exsists and is active:
+            var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
+            if (statCheck == null)
+            { //null therefore BusStop does not exsist 
+                throw new DO.MissingBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} does not exsist so cannot be added to a route.");
+            }
+            else if (statCheck.StopActive == false) //stop is no longer active
+            {
+                throw new DO.NonActiveBusStopException(lineStation.stationCode, $"Bus Station with station code {lineStation.stationCode} is currently not in use and cannot be added to a route.");
+            }
 
             lineStation.lineID = lineID.ToString(); //assinging the lineID to LineStation
-            var entityKey = lineID + lineStation.stationCode;
+            var entityKey = lineID + lineStation.stationCode; //defining entity key
+
+            List<LineStation> thisRoute = DataSource.lineStationList.FindAll(stat => stat.lineID == lineID.ToString());//finding all lineStations in this specific route
+            int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
             //check if line exsists
             if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineID.ToString()) != null))
             {
@@ -481,7 +495,10 @@ namespace DAL
                     throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
                 }
             } //it is a new LineSation so can add to collection:
+            lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             DataSource.lineStationList.Add(lineStation.Clone());
+
+            return lineStation.stationNumber;//return which number station this is
         }
 
         /// <summary>
@@ -507,7 +524,7 @@ namespace DAL
         /// </summary>
         public void UpdateLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => (line.lineID + line.stationCode) == lineStationKey);
 
             if (findLineStation != null)
             {

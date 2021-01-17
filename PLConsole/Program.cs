@@ -8,11 +8,12 @@ using DO;
 using BL;
 using BLApi;
 using BO;
+using System.Device.Location;
 
 namespace PLConsole
 { 
-    class Program
-    { 
+    class Program 
+    {
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to our Testing Zone!!");
@@ -21,7 +22,7 @@ namespace PLConsole
 
             #region Testing BusFleet
             Console.WriteLine("Testing BusFleet");
-            
+
             DateTime time1 = new DateTime(2017, 1, 18);
             DateTime time2 = new DateTime(1999, 8, 25);
             DateTime time3 = new DateTime(2000, 5, 28);
@@ -57,7 +58,7 @@ namespace PLConsole
             bl.AddToBusFleet(bus1);
             bl.AddToBusFleet(bus2);
             bl.AddToBusFleet(bus3);
-      
+
             Console.WriteLine("getting all buses");
 
             Console.WriteLine(bl.GetEntireBusFleet());
@@ -85,7 +86,10 @@ namespace PLConsole
 
             //Console.WriteLine(bl.GetBusFromFleet("111-11-111"));
             #endregion
-
+            //NOTE TO SELF - for BusRoute check why the program is crashing by the update function and see that update actually updates
+            // also change the style of the setting info so that start and end stations are also set in the add and changed accordingly when 
+            // new stations are added to the routes
+            //maybe edit the running numbers ID patter so it satrst at higher than 1?
             #region Testing BusRoute
             Console.WriteLine("Testing BusRoute");
 
@@ -93,15 +97,17 @@ namespace PLConsole
             { //line ID not included as that should be put in the dl layer of addBusLine
                 BusLineNo = 1,
                 BusRegion = Regions.Center_Jerusalem,
-                BusStart = "12345",
-                BusEnd = "67890",
+                //BusStart = "12345",
+                //BusEnd = "67890",
+                //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
             };
             BusLine line2 = new BusLine()
             { //line ID not included as that should be put in the dl layer of addBusLine
                 BusLineNo = 2,
                 BusRegion = Regions.North_Haifa,
-                BusStart = "54321",
-                BusEnd = "09876",
+                //BusStart = "54321",
+                //BusEnd = "09876",
+                //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
             };
 
             LineStation sta1 = new LineStation()
@@ -165,29 +171,106 @@ namespace PLConsole
 
             Console.WriteLine("getting all busRoutes");
             Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID)); 
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineID));
 
             Console.WriteLine("adding a station to busRoute 1");
             bl.AddStationToBusRoute(bRoute1, sta3);
-            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID)); 
+            Console.WriteLine(bl.GetBusRoute(bRoute1.Route.BusLineID));
 
             Console.WriteLine("getting all the stations in bRoute2");
             Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute2.Route.BusLineID.ToString()));
 
             Console.WriteLine("updating the region of BusRoute2");
             bRoute2.Route.BusRegion = Regions.National;
-           // bl.UpdateBusRoute(bRoute2);
+            bl.UpdateBusRoute(bRoute2); 
 
-            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo));
+            Console.WriteLine(bl.GetBusRoute(bRoute2.Route.BusLineNo)); //check here for error!!! & check deletion!
 
-            Console.WriteLine("deleting a busStop from bRoute1");
-            List<LineStation>stations = bRoute1.RouteStops.ToList();
+            Console.WriteLine("deleting a busStop from bRoute1"); 
+            List<LineStation> stations = bRoute1.RouteStops.ToList();
             stations.Remove(sta2);
             bRoute1.RouteStops = stations;
             Console.WriteLine(bl.GetAllStationsInBusRoute(bRoute1.Route.BusLineID.ToString()));
             #endregion
 
+            #region Testing StationWithRoutes
 
+            Random lat = new Random();
+            Random lon = new Random();
+
+            var randLat = lat.NextDouble() * (33.30 - 31.30) + 31.30;
+            var randLong = lon.NextDouble() * (35.50 - 34.30) + 34.30;
+
+            BusStop stop1 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "11111",
+                StopName = "Cherry - Sugar Cane"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop2 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "22222",
+                StopName = "Strawberry - Cream"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop3 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "33333",
+                StopName = "Peanut - Butter"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop4 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "44444",
+                StopName = "Orange - Lemonade"
+                //stopActive set in the dl automatically to be active
+            };
+            BusStop stop5 = new BusStop()
+            {
+                StopLocation = new GeoCoordinate() { Longitude = randLong, Latitude = randLat },
+                StopCode = "55555",
+                StopName = "Apricot-Litchi"
+                //stopActive set in the dl automatically to be active
+            };
+
+            StationWithRoutes RStat1 = new StationWithRoutes()
+            {
+                CurrentStation = stop1,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat2 = new StationWithRoutes()
+            {
+                CurrentStation = stop2,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat3 = new StationWithRoutes()
+            {
+                CurrentStation = stop3,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat4 = new StationWithRoutes()
+            {
+                CurrentStation = stop4,
+                ///CurrentLines set in the bl layer 
+            };
+
+            StationWithRoutes RStat5 = new StationWithRoutes()
+            {
+                CurrentStation = stop5,
+                ///CurrentLines set in the bl layer 
+            };
+
+
+
+            #endregion
+            //write and implement check for StationsWithRoutes
         }
 
     }

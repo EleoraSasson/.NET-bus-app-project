@@ -64,12 +64,34 @@ namespace BLApi
             var RouteID = dal.AddBusLine(broute.Route);
 
             foreach ( var lineS in broute.RouteStops)
-            { dal.AddLineStation(lineS, RouteID); }
+            { 
+                int stationCount = dal.AddLineStation(lineS, RouteID);
+                if (stationCount == 1) //it is the first station 
+                {
+                    broute.Route.BusStart = lineS.stationCode;
+                    broute.Route.BusEnd = lineS.stationCode;
+                }
+                else // this is not the first station to be added
+                {
+                    broute.Route.BusEnd = lineS.stationCode; //but it is currently the last station
+                }
+            }
 
+            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
-            dal.AddLineStation(station, broute.Route.BusLineID);
+           int stationCount = dal.AddLineStation(station, broute.Route.BusLineID);
+            if (stationCount == 1) //it is the first station 
+            {
+                broute.Route.BusStart = station.stationCode;
+                broute.Route.BusEnd = station.stationCode;
+            }
+            else // this is not the first station to be added
+            {
+                broute.Route.BusEnd = station.stationCode; //but it is currently the last station
+            }
+            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         //retrieve
         public BusRoute GetBusRoute(int lineID)
@@ -123,40 +145,57 @@ namespace BLApi
 
         #endregion
 
-        #region BusStations
+        #region StationsWithRoutes
+        //NOTE: there are no addition or deletion methods in this crud implementation for this class
+        // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
+        // the active status of the busStop.
 
-
-
-
-        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
+        //retrieve 
+        public StationWithRoutes GetStationWithRoute(string stationCode)
         {
             throw new NotImplementedException();
+            //maybe the same thing as the one above so which one should we use???
         }
+        //update:
+        public void UpdateStationWithRoutes(StationWithRoutes station)
+        {
+            //only can update the active status ///check if already on route if already assigned toa route then cannot update. if not assigned no problem
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
 
         public IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate)
         {
             throw new NotImplementedException();
         }
-
-        public void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ScheduleOfRoute GetScheduleOfRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DeleteScheduleOfRoute(ScheduleOfRoute s)
         {
             throw new NotImplementedException();
         }
+        public void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff)
+        {
+            throw new NotImplementedException();
+        }
+        public ScheduleOfRoute GetScheduleOfRoute()
+        {
+            throw new NotImplementedException();
+        }
+        public void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
+        {
+            throw new NotImplementedException();
+        }
+
+
+     
+
+        
+
 
         public IEnumerable<CompanySchedule> GetAllCompanySchedules()
         {
@@ -188,41 +227,9 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-        public IEnumerable<StationWithRoutes> GetAllStationsInRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<StationWithRoutes> GetStationsInRouteWithSelectedFields(Func<StationWithRoutes, object> generate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddsStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
-
-        public StationWithRoutes GetStationInRoute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteStationInRoute(BusStop s)
-        {
-            throw new NotImplementedException();
-        }
+      
 
 
-        public void UpdateBusRoute(LineStation line)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     //    #region CRUD BusFleet

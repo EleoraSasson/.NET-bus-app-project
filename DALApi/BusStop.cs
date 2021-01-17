@@ -12,9 +12,9 @@ namespace DO
         /* PROPERTIES */
 
         // Station Code:
-        private int code;
+        private string code;
 
-        public int StopCode
+        public string StopCode
         {
             get { return code; }
             set { code = value; }
