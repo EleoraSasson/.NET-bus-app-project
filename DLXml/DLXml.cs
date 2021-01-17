@@ -547,21 +547,31 @@ namespace DAL
         #endregion
 
         #region Staff
-        public void AddStaff(Staff staff)
+        public void AddStaff(Staff staff) //change it to an excpetion
         {
             List<Staff> list = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
 
             if (list.FirstOrDefault(s => s.BusDriverID  == staff.BusDriverID) != null)
-                throw new DO.StaffAlreadyInSystemException(lineStation.lineID.ToString(), $"Duplicate! line {lineStation.lineID} already exists.");
+            {
+                DO.Staff st = list.Find(l => l.BusDriverID == staff.BusDriverID);
+                st.StaffNoOfLines++;
+            }
 
-            list.Add(lineStation);
-            XMLTools.SaveListToXMLSerializer(list, stationPath);
+            list.Add(staff);
+            XMLTools.SaveListToXMLSerializer(list, staffPath);
         }
+
         public void DeleteStaff(string staffID)
         {
-            throw new NotImplementedException();
-        }
+            List<Staff> list = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
 
+            if (list.FirstOrDefault(s => s.BusDriverID == staffID) != null)
+            {
+                DO.Staff st = list.Find(l => l.BusDriverID == staffID);
+                if (st.StaffNoOfLines != 0)
+                    throw new StaffAlreadyInSystemException(staffID, $"Staff {staffID} cannot be deleted.");
+            }
+        }
 
         public IEnumerable<Staff> GetAllStaff()
         {
@@ -586,7 +596,7 @@ namespace DAL
 
 
 
-        #endregion     //not finished!!!      //not finished!!
+        #endregion      
 
         #region SuccessiveStations
 
@@ -774,7 +784,7 @@ namespace DAL
         //    throw new NotImplementedException();
         //}
 
-        #endregion
+        #endregion 
 
     }
 }

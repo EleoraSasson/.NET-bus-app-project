@@ -125,14 +125,14 @@ namespace DALApi
         void DeleteUser(string name);//delete
         #endregion
 
-        #region UserTrip
-        IEnumerable<DO.UserTrip> GetAllUserTrip(); //IEnumerable
-        IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
-        int AddUserTrip(UserTrip userTrip);//create
-        UserTrip GetUserTrip(int travelID);//retrieve
-        void UpdateUserTrip(int travelID);//update
-        void DeleteUserTrip(int travelID);//delete
+        //#region UserTrip
+        //IEnumerable<DO.UserTrip> GetAllUserTrip(); //IEnumerable
+        //IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
+        //int AddUserTrip(UserTrip userTrip);//create
+        //UserTrip GetUserTrip(int travelID);//retrieve
+        //void UpdateUserTrip(int travelID);//update
+        //void DeleteUserTrip(int travelID);//delete
 
-        #endregion
+        //#endregion
     }
 }

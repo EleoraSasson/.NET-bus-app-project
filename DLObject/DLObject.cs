@@ -791,93 +791,93 @@ namespace DAL
         }
         #endregion
 
-        #region CRUD Implementation - UserTrip
+        //#region CRUD Implementation - UserTrip
 
-        /// <summary>
-        /// GetAllUsers: gets all users from the collection  
-        /// parameter: none
-        /// return type: IEnumerable
-        /// </summary>
-        public IEnumerable<UserTrip> GetAllUserTrip()
-        {
-            throw new NotImplementedException();
-        }
+        ///// <summary>
+        ///// GetAllUsers: gets all users from the collection  
+        ///// parameter: none
+        ///// return type: IEnumerable
+        ///// </summary>
+        //public IEnumerable<UserTrip> GetAllUserTrip()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public IEnumerable<object> GetUserTripWithSelectedFields(Func<UserTrip, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<object> GetUserTripWithSelectedFields(Func<UserTrip, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        /// <summary>
-        /// AddUserTrip: adds a user trip to the collection of user trips
-        /// parameter: UserTrip
-        /// return type: void
-        /// </summary>
-        public int AddUserTrip(UserTrip userTrip)
-        {
-            userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
-            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
-            if (findTrip != null)
-            {
-                throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), "Duplicate UserTrip");
-            }
+        ///// <summary>
+        ///// AddUserTrip: adds a user trip to the collection of user trips
+        ///// parameter: UserTrip
+        ///// return type: void
+        ///// </summary>
+        //public int AddUserTrip(UserTrip userTrip)
+        //{
+        //    userTrip.userTravelID = DO.RunningNumbers.UserRunNum;
+        //    DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == userTrip.userTravelID);
+        //    if (findTrip != null)
+        //    {
+        //        throw new DO.ExsistingUserTripException(userTrip.userTravelID.ToString(), "Duplicate UserTrip");
+        //    }
 
-            DataSource.userTripList.Add(findTrip.Clone());
-            return userTrip.userTravelID; //return running number
-        }
+        //    DataSource.userTripList.Add(findTrip.Clone());
+        //    return userTrip.userTravelID; //return running number
+        //}
 
-        /// <summary>
-        /// GetUserTrip: gets a user trip from the collection of user trips
-        /// parameter: int (travel ID)
-        /// return type: UserTrip
-        /// </summary>
-        public UserTrip GetUserTrip(int travelID)
-        {
-                DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
-            if (findTrip != null)
-            {
-                return findTrip.Clone();
-            }
-            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
-        }
+        ///// <summary>
+        ///// GetUserTrip: gets a user trip from the collection of user trips
+        ///// parameter: int (travel ID)
+        ///// return type: UserTrip
+        ///// </summary>
+        //public UserTrip GetUserTrip(int travelID)
+        //{
+        //        DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+        //    if (findTrip != null)
+        //    {
+        //        return findTrip.Clone();
+        //    }
+        //    else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
+        //}
 
-        /// <summary>
-        /// UpdateUserTrip: updates a user trip from the collection of user trips
-        /// parameter: int (travel ID)                                              
-        /// return type: void
-        /// </summary>
-        public void UpdateUserTrip(int travelID)
-        {
-            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
-            if (findTrip != null)
-            {
-                DataSource.userTripList.Remove(findTrip);
-                DataSource.userTripList.Add(findTrip.Clone());
-            }
-            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
-        }
+        ///// <summary>
+        ///// UpdateUserTrip: updates a user trip from the collection of user trips
+        ///// parameter: int (travel ID)                                              
+        ///// return type: void
+        ///// </summary>
+        //public void UpdateUserTrip(int travelID)
+        //{
+        //    DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+        //    if (findTrip != null)
+        //    {
+        //        DataSource.userTripList.Remove(findTrip);
+        //        DataSource.userTripList.Add(findTrip.Clone());
+        //    }
+        //    else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
+        //}
 
-        /// <summary>
-        /// DeleteUserTrip: deletes a user trip from the collection of user trips
-        /// parameter:  int (travel ID)  
-        /// return type: void
-        /// </summary>
-        public void DeleteUserTrip(int travelID)
-        {
-            DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
-            if (findTrip != null)
-            {
-                DataSource.userTripList.Remove(findTrip);
-            }
-            else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
-        }
+        ///// <summary>
+        ///// DeleteUserTrip: deletes a user trip from the collection of user trips
+        ///// parameter:  int (travel ID)  
+        ///// return type: void
+        ///// </summary>
+        //public void DeleteUserTrip(int travelID)
+        //{
+        //    DO.UserTrip findTrip = DataSource.userTripList.Find(utrip => utrip.userTravelID == travelID);
+        //    if (findTrip != null)
+        //    {
+        //        DataSource.userTripList.Remove(findTrip);
+        //    }
+        //    else throw new DO.MissingUserTripException(travelID.ToString(), $"No data found for UserTrip: {travelID}");
+        //}
 
-        public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<object> GetBusListWithSelectedFields(Func<Bus, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        #endregion
+        //#endregion
 
     }
 }
