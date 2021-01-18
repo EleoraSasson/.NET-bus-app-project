@@ -22,7 +22,7 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
 
-        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick" SelectionChanged="lv_BusList_SelectionChanged">
+        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="2" Grid.Column="2" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="#FF356BCB" Background="#FFE8EBF7" MouseDoubleClick="lv_BusList_MouseDoubleClick">
             <ListView.ItemContainerStyle>
                 <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
                     <Setter Property="ToolTip">

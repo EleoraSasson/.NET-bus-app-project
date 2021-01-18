@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,13 +28,13 @@ namespace UI
         //I believe we have to create a PO Object which can then be put into a collection?
         public IBL bl = BLFactory.GetBL(); //create bl instance 
 
-        
+
 
 
         public AdminManagerWindow()
         {
             InitializeComponent();
-               
+
         }
 
         #region ManagerTab
@@ -55,7 +56,7 @@ namespace UI
 
 
 
-        //    /*RELEVANT VARIABLES & LISTS*/
+        //    /RELEVANT VARIABLES & LISTS/
 
         //    public static ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
 
@@ -77,7 +78,7 @@ namespace UI
         //        }
         //    }
 
-        //    /*Main Window*/
+        //    /Main Window/
         //    public MainWindow()
         //    {
         //        InitializeComponent();
