@@ -35,21 +35,17 @@ namespace BO
         /// Value Type: IEnumerable<BO.BusRoute> , is a countable list of routes defined in the company that pass through
         /// the current station
         /// </summary>
-        private IEnumerable<LineStation> lines;
+        private IEnumerable<BusRoute> lines;
         /// <summary>
         /// Public BLObject "CurrentLines" -
         /// Value Type: IEnumerable<BO.BusRoute> , is a countable list of routes defined in the company that pass through
         /// the current station
         /// </summary>
-        public IEnumerable<LineStation> CurrentLines
+        public IEnumerable<BusRoute> CurrentLines
         {
             get { return lines; }
             set { lines = value; }
         }
 
-        public override string ToString()
-        {
-            return "BusStop " + CurrentStation.ToString() + " has the following lines that come to it: ";
-        }
     }
 }
