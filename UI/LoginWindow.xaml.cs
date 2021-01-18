@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace UI
         private void b_LoginAdmin_Click(object sender, RoutedEventArgs e)
         {
             AdminManagerWindow adminWin = new AdminManagerWindow();
-            adminWin.Show(); 
+            adminWin.Show();
             this.Close();
         }
     }
