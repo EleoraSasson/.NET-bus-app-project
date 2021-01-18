@@ -86,8 +86,8 @@ namespace DS
             busStopList.Add(stop4);
             busStopList.Add(stop5);
 
-			//Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
-			lineLeavingList = new List<LineLeaving>();
+            //Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
+            lineLeavingList = new List<LineLeaving>();
 
             //Defines and a new list of LineStations and adds an object of type LineStation to the List:
             lineStationList = new List<LineStation>();

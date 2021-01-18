@@ -33,17 +33,5 @@ namespace UI
         {
 
         }
-
-        private void b_LoginUser_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void b_LoginAdmin_Click(object sender, RoutedEventArgs e)
-        {
-            AdminManagerWindow adminWin = new AdminManagerWindow();
-            adminWin.Show();
-            this.Close();
-        }
     }
 }

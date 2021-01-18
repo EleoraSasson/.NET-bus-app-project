@@ -98,9 +98,7 @@ namespace Ex3b_GUI
             return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
         }
 
-        private void lv_BusList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
+
     }
 }

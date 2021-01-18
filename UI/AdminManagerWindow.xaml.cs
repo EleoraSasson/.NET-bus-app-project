@@ -14,8 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
-using BLApi;
-using BO;
 
 namespace UI
 {
@@ -24,16 +22,9 @@ namespace UI
     /// </summary>
     public partial class AdminManagerWindow : Window
     {
-        //I believe we have to create a PO Object which can then be put into a collection?
-        public IBL bl = BLFactory.GetBL(); //create bl instance 
-
-        
-
-
         public AdminManagerWindow()
         {
             InitializeComponent();
-               
         }
 
         #region ManagerTab
@@ -41,20 +32,6 @@ namespace UI
 
         #region BusTab
         #region BusFleet
-
-        private void lv_BusList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void b_AddBus_Click(object sender, RoutedEventArgs e)
-        {
-            //        AddBusWindow addWin = new AddBusWindow();
-            //        addWin.Show();
-        }
-
-
-
         //    /*RELEVANT VARIABLES & LISTS*/
 
         //    public static ObservableCollection<Bus> BusList = new ObservableCollection<Bus>();
@@ -137,15 +114,12 @@ namespace UI
 
         //}
         #endregion
-
         #region BusRoute
 
         #endregion
-
         #region BusSchedule
 
         #endregion
-
         #endregion
 
         #region StaffTab
@@ -154,84 +128,27 @@ namespace UI
         #region UserTab
         #endregion
 
+        private void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                //do the search
+            }
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
 
-        private void Cb_RouteID_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+            System.Windows.Data.CollectionViewSource adminPortalViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("adminPortalViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // adminPortalViewSource.Source = [generic data source]
         }
 
-        private void Tb_RouteID_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_Freq_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_TimeSart_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_TimeEnd_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_Driver_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void ChB_IsActive_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void lb_BusStops_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_Region_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void b_AddRoute_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Cb_RouteNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Dg_BusSchedule_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Cb_Region_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Cb_Search_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Tb_SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+      
     }
 }
