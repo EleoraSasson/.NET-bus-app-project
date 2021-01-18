@@ -68,6 +68,7 @@
     <Compile Include="BusInfoWindow.xaml.cs">
       <DependentUpon>BusInfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PO.cs" />
     <Compile Include="UserWindow.xaml.cs">
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
@@ -93,7 +94,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Properties\DataSources\BO.AdminPortal.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,6 +106,10 @@
     <ProjectReference Include="..\BLApi\BLApi.csproj">
       <Project>{2b467914-2571-4c62-b710-719898781e1d}</Project>
       <Name>BLApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLObject\BLObject.csproj">
+      <Project>{081bfa0f-534c-467b-8e56-5bcd05e2d632}</Project>
+      <Name>BLObject</Name>
     </ProjectReference>
     <ProjectReference Include="..\BL\BL.csproj">
       <Project>{414973bc-3024-40d4-a4f9-c50202006ee7}</Project>
@@ -148,6 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GiloreTravels Design Element.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
