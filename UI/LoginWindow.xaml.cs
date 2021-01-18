@@ -43,7 +43,7 @@ namespace UI
         {
             AdminManagerWindow adminWin = new AdminManagerWindow();
             adminWin.Show();
-            this.Close();
+            this.Close(); 
         }
     }
 }
