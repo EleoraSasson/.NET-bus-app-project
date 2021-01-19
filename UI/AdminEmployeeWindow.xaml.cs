@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BO;
+using BLApi;
 
 namespace UI
 {
@@ -19,9 +21,20 @@ namespace UI
     /// </summary>
     public partial class AdminEmployeeWindow : Window
     {
+        public static IBL bl = BLFactory.GetBL();
         public AdminEmployeeWindow()
         {
             InitializeComponent();
+            lb.DataContext = bl.GetAllBusRoutes().ToList();
+        }
+
+        private void lb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void lb_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

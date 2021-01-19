@@ -41,9 +41,11 @@ namespace BLApi
             else throw new BusMissingFromSystemException(license, $"Bus {license} cannot be found");
         }
 
-        public IEnumerable<Bus> GetEntireBusFleet()
+        public BusFleet GetEntireBusFleet()
         {
-           return dal.GetAllBuses(); 
+            BusFleet fleet = new BusFleet();
+            fleet.busesInFleet = dal.GetAllBuses();
+            return fleet;
         }
         //update
         public void UpdateBusFleet(Bus bus)
@@ -94,26 +96,51 @@ namespace BLApi
             dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         //retrieve
-        public BusRoute GetBusRoute(int lineID)
+        public BusRoute GetBusRoute(BusRoute route)
         {
             BusRoute broute = new BusRoute();//create an instance of BusRoute
-            broute.Route = dal.GetBusLine(lineID); //get the BusLine with that ID and place in route
+            broute.Route = dal.GetBusLine(route.Route.BusLineID); //get the BusLine with that ID and place in route
             IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
             broute.RouteStops = (from st in stations
-                                   where st.lineID == lineID.ToString()
+                                   where st.lineID == route.Route.BusLineID.ToString()
                                    select st); //select all the LineStations that have that ID and place in routeStops
             return broute;
         }
 
-        public IEnumerable<LineStation> GetAllStationsInBusRoute( string lineID )
+        public IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute)
         {
-            IEnumerable<LineStation> stations = dal.GetAllLineStations();
-            var stationsInRoute = (from st in stations
-                                                 where st.lineID == lineID
-                                                 select st);//select all the stations with the same ID as the route you want
-            return stationsInRoute;
+            List<Stations> listStations = new List<Stations>();
+            foreach (var st in dal.GetAllLineStations())
+            {
+                if (st.lineID == broute.Route.BusLineID.ToString())
+                {
+                    Stations station = new Stations();
+                    station.StatStation = st;
+                    listStations.Add(station);
+                }
+            }
+
+            return listStations;
         }
 
+        public IEnumerable<BusRoute> GetAllBusRoutes()
+        {
+            List<BusRoute> routeList = new List<BusRoute>();
+            IEnumerable<BusLine> lines = dal.GetAllBusLines();
+            IEnumerable<LineStation> stations = dal.GetAllLineStations();
+
+            foreach (var line in lines)
+            {
+                BusRoute bRoute = new BusRoute();
+                bRoute.Route = line;
+                bRoute.RouteStops = (from ls in stations
+                                            where line.BusLineID.ToString() == ls.lineID
+                                            select ls);
+                routeList.Add(bRoute);
+            }
+
+            return routeList;
+        }
         //public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
         //{
         //    throw new NotImplementedException();

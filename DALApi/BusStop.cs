@@ -36,7 +36,6 @@ namespace DO
         }
 
         // Station Name:
-        //look how to define - baed on address
         private string name;
 
         public string StopName
@@ -45,8 +44,15 @@ namespace DO
             set { name = value; }
         }
 
-        // Address:
-        // use geocordinate and convert to a TosString physical address?? This is optional
+        //Station Address
+        private string address;
+
+        public string StopAddress
+        {
+            get { return address; }
+            set { address = value; }
+        }
+
 
         //additional Information
         // Active/Not_Active [tells us if the stop is available for buses to go to (active and in use) or not (undergoing repairs or no longer in use)]

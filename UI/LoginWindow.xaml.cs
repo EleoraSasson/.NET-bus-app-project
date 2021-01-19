@@ -37,7 +37,9 @@ namespace UI
 
         private void b_LoginUser_Click(object sender, RoutedEventArgs e)
         {
-
+            UserWindow userWin = new UserWindow();
+            userWin.Show();
+            this.Close();
         }
 
         private void b_LoginAdmin_Click(object sender, RoutedEventArgs e)

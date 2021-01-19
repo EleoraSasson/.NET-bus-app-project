@@ -13,7 +13,7 @@ namespace BLApi
         /* IMPLEMENTING CRUD METHODS FOR BO ENTITIES */
 
         #region BusFleet
-        IEnumerable<Bus> GetEntireBusFleet();
+        BusFleet GetEntireBusFleet();
         void AddToBusFleet(Bus bus); //create
         Bus GetBusFromFleet(string license); //retrieve
         void UpdateBusFleet(Bus bus); //update
@@ -21,11 +21,11 @@ namespace BLApi
         #endregion
 
         #region BusRoute
-        IEnumerable<LineStation> GetAllStationsInBusRoute(string lineID); 
-        //IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate);
+        IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute);
+        IEnumerable<BusRoute> GetAllBusRoutes();
         void AddBusRoute(BusRoute broute);//create
         void AddStationToBusRoute(BusRoute broute, LineStation line); //create
-        BusRoute GetBusRoute(int lineID); //retrieve
+        BusRoute GetBusRoute(BusRoute broute); //retrieve
         void UpdateBusRoute(BusRoute broute); //update
         void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
 

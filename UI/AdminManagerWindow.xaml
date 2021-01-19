@@ -1,5 +1,4 @@
-﻿
-<Window
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,6 +8,7 @@
         mc:Ignorable="d"
         Title="Gilore Travels &gt; Admin Portal " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1"
     ResizeMode="CanMinimize">
+
 
     <Grid x:Name="BasicGrid">
         <Grid.ColumnDefinitions>
@@ -81,9 +81,9 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView x:Name="gv_BusList">
-                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Road ID:" Width="90" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding }"/>
+                                                    <GridViewColumn Header="Road ID:" Width="90" DisplayMemberBinding="{Binding }"/>
+                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding }"/>
                                                     <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding}"/>
                                                     <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding}"/>
                                                     <GridViewColumn Header="More Options:" Width="100">
@@ -110,7 +110,7 @@
                                         </ListView>
                                         <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="90,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click"/>
                                         <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26"/>
-                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="15,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" TextChanged="TextBox_TextChanged" />
+                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="15,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" />
 
                                     </Grid>
                                 </StackPanel>
@@ -122,32 +122,32 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="270">
-                                    <Grid x:Name="ExpanderGridStations" Width="655" Margin="5">
+                                <StackPanel Orientation="Vertical" Height="270">
+                                    <Grid Name="RouteIDGrid" Width="655" Margin="16,5,15,5" Height="37">
+                                        <Label x:Name="l_RouteID" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,552,0" Content="Route ID:"/>
+                                        <ComboBox x:Name="Cb_RouteID" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,10,0,0" Width="50" ItemsSource="{Binding }" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                    </Grid>
+                                    <Grid x:Name="ExpanderGridRouteInfo" Width="655" Margin="16,5" Height="232" >
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="stationInfoC0" Width="1*"/>
-                                            <ColumnDefinition x:Name="stationInfoC1" Width="1*"/>
-                                            <ColumnDefinition x:Name="stationInfoC2" Width="4*"/>
+                                            <ColumnDefinition x:Name="stationInfoC0" Width="109*"/>
+                                            <ColumnDefinition x:Name="stationInfoC1" Width="109*"/>
+                                            <ColumnDefinition x:Name="stationInfoC2" Width="215*"/>
+                                            <ColumnDefinition Width="222*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label x:Name="l_RouteID" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,15,0,0" Content="Route ID:"/>
-                                        <Label x:Name="l_RouteNO" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,50,0,0" Content="Route Number:"/>
-                                        <Label x:Name="l_Freq" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,85,0,0" Content="Route Frequency:" Width="99"/>
-                                        <Label x:Name="l_TimeStart" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,120,0,0" Content="Starting Time:"/>
-                                        <Label x:Name="l_TimeEnd" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,155,0,0" Content="Ending Time:"/>
-                                        <Label x:Name="l_Driver" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,190,0,0" Content="Assigned Driver:"/>
-                                        <Label x:Name="l_Active" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="25,225,0,0" Content="Is Active:"/>
-                                        <ComboBox x:Name="Cb_RouteID" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,16,0,0" Width="50" ItemsSource="{Binding Route.Busline.LineID}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="Cb_RouteID_SelectionChanged"/>
-                                        <TextBox x:Name="Tb_RouteNum" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,51,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_RouteID_TextChanged"/>
-                                        <TextBox x:Name="Tb_Freq" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,86,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_Freq_TextChanged" />
-                                        <TextBox x:Name="Tb_TimeSart" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,121,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_TimeSart_TextChanged"/>
-                                        <TextBox x:Name="Tb_TimeEnd" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,156,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_TimeEnd_TextChanged"/>
-                                        <TextBox x:Name="Tb_Driver" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,191,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_Driver_TextChanged" />
-                                        <CheckBox x:Name="ChB_IsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,230,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" Checked="ChB_IsActive_Checked"/>
-                                        <Label x:Name="l_Region" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,128,0" Content="Region of Route:"/>
-                                        <TextBox x:Name="Tb_Region" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="314,18,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_Region_TextChanged"/>
-                                        <Label x:Name="l_BusStops" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,37,319,0" Content="Stops on Route:"/>
-                                        <ListBox x:Name="lb_BusStops" ItemsSource="{Binding}" Margin="28,58,39,44" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_BusStops_SelectionChanged"/>
-                                        <Button x:Name="b_AddRoute" Grid.Column="2" Margin="298,225,39,10" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
+
+                                        <Label x:Name="l_RouteNO" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,61,0,0" Content="Route Number:"/>
+                                        <Label x:Name="l_TimeStart" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,96,0,0" Content="Starting Station:"/>
+                                        <Label x:Name="l_TimeEnd" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,131,0,0" Content="Ending Station:"/>
+                                        <Label x:Name="l_Active" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,178,0,0" Content="Line Erased:"/>
+                                        <TextBox x:Name="Tb_RouteNum" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,62,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusLineNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <TextBox x:Name="Tb_TimeSart" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,97,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusStart, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <TextBox x:Name="Tb_TimeEnd" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,132,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusEnd, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <CheckBox x:Name="ChB_IsActive" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,183,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsChecked="{Binding Route.LineErased, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <Label x:Name="l_Region" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,0,0" Content="Region of Route:" />
+                                        <TextBox x:Name="Tb_Region" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Width="104" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusRegion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <Label x:Name="l_BusStops" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,97,0" Content="Stops on Route:"/>
+                                        <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2"/>
+                                        <Button x:Name="b_AddRoute" Grid.Column="3" Grid.Row="1" Margin="83,176,39,27" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
                                                 Click="b_AddRoute_Click"/>
                                     </Grid>
                                 </StackPanel>
@@ -172,13 +172,13 @@
                                         <Label x:Name="l_Address" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,143,0,0" Content="Address:"/>
 
                                         <Label x:Name="l_StopActive" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,187,0,0" Content="Is Active:"/>
-                                        <ComboBox x:Name="Cb_StationNo" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" Width="50" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="Cb_RouteNo_SelectionChanged"/>
-                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,74,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_RouteID_TextChanged"/>
-                                        <TextBox x:Name="Tb_StationLon" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,109,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_Freq_TextChanged" />
-                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,144,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextChanged="Tb_TimeSart_TextChanged"/>
-                                        <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,192,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" Checked="ChB_IsActive_Checked"/>
+                                        <ComboBox x:Name="Cb_StationNo" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" Width="50" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,74,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <TextBox x:Name="Tb_StationLon" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,109,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
+                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,144,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,192,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
                                         <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,204,0" Content="Lines that pass through this Station:" Width="205"/>
-                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,47,39,55" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_BusStops_SelectionChanged"/>
+                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,47,39,55" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
 
                                     </Grid>
                                 </StackPanel>
@@ -247,7 +247,7 @@
                             <ColumnDefinition Width="479*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock HorizontalAlignment="Left" Margin="30,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top"/>
-                        <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="73,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" TextChanged="TextBox_TextChanged"/>
+                        <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="73,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" />
                         <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="46,69,0,0" VerticalAlignment="Top" Width="293" Grid.ColumnSpan="2">
                             <ListView.View>
                                 <GridView>
@@ -259,17 +259,16 @@
                             </ListView.View>
                         </ListView>
                         <Image x:Name="StaffImage" HorizontalAlignment="Left" Height="67" Margin="186.5,55,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.39,0.093" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
+                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info">
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
                 <TabItem Header="Simulation">
-                    <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
 
