@@ -172,6 +172,41 @@ namespace BLApi
 
         #endregion
 
+        // public void AddBusStation(string code, )
+
+        public string GetBusStationsCode(BusStations bs)
+        {
+            List<BusStop> bus = dal.GetAllBusStops().ToList();
+            foreach (BusStop b in bus)
+            {
+                if (b.StopCode == bs.Stop.StopCode)
+                {
+                    return b.StopCode;
+                }
+            }
+            throw new  BusStationNotInSystem(bs.Stop.StopCode, $"Station {bs.Stop.StopCode} does not exist.");
+        }
+
+        public IEnumerable<BusStations> getAllBusStops()
+        {
+            List<BusStations> stationList = new List<BusStations>();
+            IEnumerable<BusStop> stops = dal.GetAllBusStops();
+
+            foreach (var stopp in stops)
+            {
+                BusStations bs = new BusStations();
+                bs.Stop = new BusStop();
+                bs.Stop.StopName = stopp.StopName; 
+                bs.Stop.StopLocation = stopp.StopLocation;
+                bs.Stop.StopCode = stopp.StopCode;
+                bs.Stop.StopAddress = stopp.StopAddress;
+                bs.Stop.StopActive = stopp.StopActive;
+                stationList.Add(bs);
+            }
+
+            return stationList;
+        }
+
         #region StationsWithRoutes
         //NOTE: there are no addition or deletion methods in this crud implementation for this class
         // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
@@ -180,8 +215,19 @@ namespace BLApi
         //retrieve 
         public StationWithRoutes GetStationWithRoute(string stationCode)
         {
-            throw new NotImplementedException();
-            //maybe the same thing as the one above so which one should we use???
+            StationWithRoutes swr = new StationWithRoutes();
+            List<BusRoute> broutes = GetAllBusRoutes().ToList();
+            foreach (BusRoute b in broutes)
+            {
+                foreach (LineStation l in b.RouteStops)
+                {
+                    if (l.stationCode == stationCode)
+                    {
+                        swr.CurrentLines.Add(b);
+                    }
+                }
+            }
+            return swr;
         }
         //update:
         public void UpdateStationWithRoutes(StationWithRoutes station)
@@ -191,7 +237,16 @@ namespace BLApi
         }
         #endregion
 
+        //#region BusStations
 
+        //public BusStop getOneBusStop(BusStations stations)
+        //{
+        //    string code = stations.stop.StopCode;
+        //    BusStop b = dal.GetBusStop(code);
+        //    return b;
+        //}
+
+        //#endregion
 
         public IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate)
         {

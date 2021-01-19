@@ -31,6 +31,15 @@ namespace BLApi
 
         #endregion
 
+        //#region BusStation
+        //BusStop getOneBusStop(BusStations busStations);
+        //#endregion
+
+        #region Stations
+        IEnumerable<BusStations> getAllBusStops();
+        string GetBusStationsCode(BusStations bs);
+        #endregion
+
         #region ScheduleOfRoute
         IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
         IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate);

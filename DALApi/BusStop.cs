@@ -29,8 +29,8 @@ namespace DO
             set
             {
                 location = value;
-                location.Latitude = 0;
-                location.Longitude = 0;
+                //location.Latitude = 0;
+                //location.Longitude = 0;
             }
 
         }

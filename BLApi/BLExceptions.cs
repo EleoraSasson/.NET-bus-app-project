@@ -32,7 +32,7 @@ namespace BO
 
     #endregion
 
-    #region CompanyScehdule Exceptions
+    #region CompanySchedule Exceptions
 
     public class CompanyScheduleAlreadyInSystemException : Exception
     {
@@ -54,6 +54,21 @@ namespace BO
 
         public override string ToString() => base.ToString() + $"{lineNo} does not exsist in the company schedule.";
     }
+    #endregion
+
+    #region Stations Exceptions
+
+    public class BusStationNotInSystem : Exception
+    {
+        public string stationNo;
+
+        public BusStationNotInSystem(string n) : base() => stationNo = n;
+        public BusStationNotInSystem(string n, string msg) : base(msg) { stationNo = n; }
+        public BusStationNotInSystem(string n, string msg, Exception innerException) : base(msg, innerException) { stationNo = n; }
+
+        public override string ToString() => base.ToString() + $"{stationNo} does not exist";
+    }
+
     #endregion
 
 }

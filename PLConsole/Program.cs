@@ -20,18 +20,24 @@ namespace PLConsole
 
             IBL bl = BLFactory.GetBL(); //creating bl 
 
-            BusFleet Bfleet = bl.GetEntireBusFleet();
-            foreach (var bus in Bfleet.busesInFleet.ToList())
-            {
-                Console.WriteLine(bus);
-            }
+            //BusFleet Bfleet = bl.GetEntireBusFleet();
+            //foreach (var bus in Bfleet.busesInFleet.ToList())
+            //{
+            //    Console.WriteLine(bus);
+            //}
 
-            List<BusRoute> routes = bl.GetAllBusRoutes().ToList();
-            foreach (var r in routes)
+            //List<BusRoute> routes = bl.GetAllBusRoutes().ToList();
+            //foreach (var r in routes)
+            //{
+            //    Console.WriteLine(r);
+            //}
+
+
+            List<BusStations> iamtired = bl.getAllBusStops().ToList();
+            foreach(var r in iamtired)
             {
                 Console.WriteLine(r);
             }
-
             //#region Testing BusFleet
             //Console.WriteLine("Testing BusFleet");
 

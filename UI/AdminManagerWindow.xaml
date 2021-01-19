@@ -53,12 +53,18 @@
                                 </Expander.Background>
                                 <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0*"/>
+                                            <ColumnDefinition Width="76*"/>
+                                            <ColumnDefinition Width="59*"/>
+                                            <ColumnDefinition Width="506*"/>
+                                        </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition x:Name="FleetList" Height="10*"/>
                                             <RowDefinition x:Name="AddToFleet" Height="1*"/>
                                         </Grid.RowDefinitions>
 
-                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="90,10,0,10" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged">
+                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="5,10,0.333,10.333" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="2" Grid.ColumnSpan="2">
                                             <ListView.ItemContainerStyle>
                                                 <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
                                                     <Setter Property="ToolTip">
@@ -108,9 +114,9 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="90,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click"/>
-                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26"/>
-                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="15,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" />
+                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5,236,0.333,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="2" Grid.ColumnSpan="2"/>
+                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1"/>
+                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" />
 
                                     </Grid>
                                 </StackPanel>
@@ -146,7 +152,7 @@
                                         <Label x:Name="l_Region" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,0,0" Content="Region of Route:" />
                                         <TextBox x:Name="Tb_Region" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Width="104" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusRegion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                                         <Label x:Name="l_BusStops" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,97,0" Content="Stops on Route:"/>
-                                        <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2"/>
+                                        <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2" SelectionChanged="lb_BusStops_SelectionChanged"/>
                                         <Button x:Name="b_AddRoute" Grid.Column="3" Grid.Row="1" Margin="83,176,39,27" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
                                                 Click="b_AddRoute_Click"/>
                                     </Grid>
@@ -160,6 +166,7 @@
                                     </LinearGradientBrush>
                                 </Expander.Background>
                                 <StackPanel Orientation="Horizontal" Height="270">
+
                                     <Grid x:Name="ExpanderGrid" Width="655" Margin="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="routeInfoC0" Width="1*"/>
@@ -173,12 +180,12 @@
 
                                         <Label x:Name="l_StopActive" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,187,0,0" Content="Is Active:"/>
                                         <ComboBox x:Name="Cb_StationNo" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" Width="50" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
-                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,74,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,74,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue "/>
                                         <TextBox x:Name="Tb_StationLon" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,109,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
-                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,144,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,144,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Stop.StopAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                                         <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,192,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
                                         <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,204,0" Content="Lines that pass through this Station:" Width="205"/>
-                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,47,39,55" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,47,39,55" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged"/>
 
                                     </Grid>
                                 </StackPanel>

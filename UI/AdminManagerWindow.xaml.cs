@@ -29,6 +29,10 @@ namespace UI
         public IBL bl = BLFactory.GetBL(); //create bl instance 
         public static ObservableCollection<BusRoute> routeCollection;
         public static ObservableCollection<Stations> stationCollection;
+        public static ObservableCollection<BusStations> stopCollection;
+        public static ObservableCollection<BusRoute> sWithRouteCollection;
+
+        BO.BusStations bStations;
         BO.BusRoute bRoute;
         
         public AdminManagerWindow()
@@ -39,8 +43,38 @@ namespace UI
             Cb_RouteID.DataContext = routeCollection;
             Cb_RouteID.DisplayMemberPath = "Route.BusLineID";
             Cb_RouteID.SelectionChanged += Cb_RouteID_SelectionChanged; //declaring the event handler
+
+            List<BusStations> stations = bl.getAllBusStops().ToList();
+            stopCollection = new ObservableCollection<BusStations>(stations);
+            Cb_StationNo.DataContext = stopCollection;
+            Cb_StationNo.DisplayMemberPath = "Stop.StopCode";
+            Cb_StationNo.SelectionChanged += Cb_StationNo_SelectionChanged;
         }
 
+        private void Cb_StationNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bStations = (Cb_StationNo.SelectedItem as BO.BusStations);
+            string code = bl.GetBusStationsCode(bStations);
+            BO.StationWithRoutes swr = bl.GetStationWithRoute(code);
+
+            List<BusRoute> lines = swr.CurrentLines;
+            sWithRouteCollection = new ObservableCollection<BusRoute>(lines);
+            lb_LineIDs.DataContext = sWithRouteCollection;
+
+            if (bStations != null)
+            {
+
+            }
+            //ExpanderGridRouteInfo.DataContext = bStations;
+            //List<StationWithRoutes> stopList = bl.get().ToList();
+            //stationCollection = new ObservableCollection<Stations>(stationList);
+            //lb_BusStops.DataContext = stationCollection;
+
+            //if (bRoute != null)
+            //{
+            //    ExpanderGridRouteInfo.DataContext = bl.GetBusRoute(bRoute);
+            //}
+        }
 
         #region ManagerTab
         #endregion
@@ -137,6 +171,14 @@ namespace UI
 
         }
 
-       
+        private void lb_BusStops_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void lb_LineIDs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
