@@ -149,7 +149,7 @@ namespace BLApi
             throw new  BusStationNotInSystem(bs.Stop.StopCode, $"Station {bs.Stop.StopCode} does not exist.");
         }
 
-        public IEnumerable<BusStations> getAllBusStops()
+        public IEnumerable<BusStations> GetAllBusStops()
         {
             List<BusStations> stationList = new List<BusStations>();
             IEnumerable<BusStop> stops = dal.GetAllBusStops();
@@ -256,6 +256,31 @@ namespace BLApi
         {
             dal.DeleteLineLeaving(sched.RouteSchedule.BusLineID, sched.RouteSchedule.BusFirstLine);
         }
+        #endregion
+
+        #region UserPortal
+
+        public IEnumerable<UserPortal> GetAllUsers()
+        {
+            List<UserPortal> userList = new List<UserPortal>();
+            IEnumerable<User> users = dal.GetAllUsers();
+
+            foreach (var user in users)
+            {
+                UserPortal up = new UserPortal();
+                up.Users = new User();
+                up.Users.adminPermission = user.adminPermission;
+                up.Users.userName = user.userName;
+                up.Users.userPassword = user.userPassword;
+                up.Users.userFirst = user.userFirst;
+                up.Users.userLast = user.userLast;
+                up.Users.userId = user.userId;
+                userList.Add(up);
+            }
+
+            return userList;
+        }
+
         #endregion
     }
 }

@@ -287,21 +287,37 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info">
-                    <Grid Background="#FFE5E5E5"/>
+                    <Grid Background="#FFE5E5E5">
+                        <ListView x:Name="lv_Users" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2">
+                            <ListView.View>
+                                <GridView x:Name="gv_UserList">
+                                    <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding Users.userName}"/>
+                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding Users.userFirst}"/>
+                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding Users.userLast}"/>
+                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding Users.userId}"/>
+                                    <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding Users.adminPermission}"/>
+                                    <GridViewColumn/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        </Grid>
+
                 </TabItem>
                 <TabItem Header="Simulation">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="SimulationBorderLeft" Width="5*"/>
-                            <ColumnDefinition x:Name="SimulationMiddle_C" Width="200*"/>
-                            <ColumnDefinition x:Name="SimulationBorderRight" Width="5*"/>
+                            <ColumnDefinition x:Name="SimulationBorderLeft" Width="17*"/>
+                            <ColumnDefinition x:Name="SimulationMiddle_C" Width="152*"/>
+                            <ColumnDefinition Width="13*"/>
+                            <ColumnDefinition Width="496*"/>
+                            <ColumnDefinition x:Name="SimulationBorderRight" Width="17*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition x:Name="SimulationBorderTop" Height="10*"/>
                             <RowDefinition x:Name="SimulationMIddle_R" Height="200*"/>
                             <RowDefinition x:Name="SimulationBorderBot" Height="10*"/>
                         </Grid.RowDefinitions>
-                        <Grid x:Name = "InnerSimulationGrid" Grid.Row="1" Grid.Column="1">
+                        <Grid x:Name = "InnerSimulationGrid" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="0.333,0.333,15.723,16.333" Grid.RowSpan="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="SimulationWindow" Width="413*"/>
                                 <ColumnDefinition x:Name="SimulationControl" Width="248*"/>

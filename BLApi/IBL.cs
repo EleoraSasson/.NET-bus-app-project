@@ -30,7 +30,7 @@ namespace BLApi
         #endregion
 
         #region Stations
-        IEnumerable<BusStations> getAllBusStops();
+        IEnumerable<BusStations> GetAllBusStops();
         string GetBusStationsCode(BusStations bs);
         #endregion
 
@@ -44,6 +44,10 @@ namespace BLApi
         #region Routes Through a Specific Station 
         IEnumerable<BusRoute> GetRoutesofStation(BusStations station); //retrieve
         #endregion
-       
+
+        #region UserPortal
+
+        IEnumerable<UserPortal> GetAllUsers();
+        #endregion
     }
 }
