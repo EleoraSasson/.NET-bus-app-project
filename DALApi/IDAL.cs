@@ -23,10 +23,10 @@ namespace DALApi
         #region BusLine
         IEnumerable<DO.BusLine> GetAllBusLines(); //IEnumerable
         IEnumerable<object> GetBusLineWithSelectedFields(Func<DO.BusLine, object> generate); //IEnumerable
-        int AddBusLine(BusLine busLine);//create
-        BusLine GetBusLine(int lineID);//retrieve
+        string AddBusLine(BusLine busLine);//create
+        BusLine GetBusLine(string lineID);//retrieve
         void UpdateBusLine(BusLine busline);//update
-        void DeleteBusLine(int lineID);//delete              
+        void DeleteBusLine(string lineID);//delete              
         #endregion
 
         #region BusOnTrip
@@ -51,10 +51,10 @@ namespace DALApi
         #region LineLeaving
         IEnumerable<DO.LineLeaving> GetAllLinesLeaving(); //IEnumerable
         IEnumerable<object> GetLineLeavingWithSelectedFields(Func<DO.LineLeaving, object> generate); //IEnumerable
-        void AddLineLeaving(LineLeaving lineLeaving);//create
-        LineLeaving GetLineLeaving(int lineID, TimeSpan startTime);//retrieve
+        void AddLineLeaving(LineLeaving lineLeaving, string lineID, string staffID);//create
+        LineLeaving GetLineLeaving(string lineID);//retrieve
         void UpdateLineLeaving(LineLeaving lineLeaving);//update
-        void DeleteLineLeaving(int lineID, TimeSpan startTime);//delete
+        void DeleteLineLeaving(string lineID, TimeSpan startTime);//delete
 
         #endregion
        
@@ -76,7 +76,7 @@ namespace DALApi
         /// Return type: void
         /// </summary>
         /// <returns></returns>
-        int AddLineStation(LineStation lineStation, int lineID);//create
+        int AddLineStation(LineStation lineStation, string lineID);//create
         /// <summary>
         /// Action: This method gets a specific Line-Station pair.
         /// Return type: LineStation
@@ -100,7 +100,7 @@ namespace DALApi
         #region Staff
         IEnumerable<DO.Staff> GetAllStaff(); //IEnumerable
         IEnumerable<object> GetStaffWithSelectedFields(Func<DO.Staff, object> generate); //IEnumerable
-        void AddStaff(Staff staff);//create
+        string AddStaff(Staff staff);//create
         Staff GetStaff(string staffID);//retrieve
         void UpdateStaff(string staffID/*, Action<Staff> update*/);//update
         void DeleteStaff(string staffID);//delete

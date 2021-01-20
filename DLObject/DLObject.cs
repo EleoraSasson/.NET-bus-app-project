@@ -132,11 +132,11 @@ namespace DAL
         /// parameter: Bus Line
         /// return type: void
         /// </summary>
-        public int AddBusLine(BusLine busLine)
+        public string AddBusLine(BusLine busLine)
         {
-            busLine.BusLineID = DO.RunningNumbers.LineRunNum;
+            busLine.BusLineID = DO.RunningNumbers.LineRunNum.ToString();
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
-                throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), "Duplicate bus license number");
+                throw new DO.InvalidBusLineException(busLine.BusLineID, "Duplicate bus license number");
             DataSource.busLineList.Add(busLine.Clone());
             return busLine.BusLineID; //return running number
         }
@@ -146,14 +146,14 @@ namespace DAL
         /// parameter: int (line ID)
         /// return type: BusLine
         /// </summary>
-        public BusLine GetBusLine(int lineID)
+        public BusLine GetBusLine(string lineID)
         {
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID); //define list bus
 
             if (line != null)
                 return line.Clone();
             else
-                throw new DO.InvalidBusLineException(lineID.ToString(), $"Bus {lineID} does not exist."); 
+                throw new DO.InvalidBusLineException(lineID, $"Bus {lineID} does not exist."); 
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace DAL
                 DataSource.busLineList.Add(busline.Clone());
             }
             else
-                throw new DO.InvalidBusLineException(busline.BusLineID.ToString(), $"Bus {busline.BusLineID}"); 
+                throw new DO.InvalidBusLineException(busline.BusLineID, $"Bus {busline.BusLineID}"); 
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace DAL
         /// parameter: int (line ID)
         /// return type: void
         /// </summary>
-        public void DeleteBusLine(int lineID)
+        public void DeleteBusLine(string lineID)
         {
             DO.BusLine line = DataSource.busLineList.Find(b => b.BusLineID == lineID);
 
@@ -381,8 +381,10 @@ namespace DAL
         /// parameter: LineLeaving
         /// return type: void
         /// </summary>
-        public void AddLineLeaving(LineLeaving lineLeaving)
+        public void AddLineLeaving(LineLeaving lineLeaving, string lineID, string staffID)
         {
+            lineLeaving.BusLineID = lineID; //set which line this lineleave=ing is reffering to
+            lineLeaving.BusDriver = staffID; //set which driver is on that route
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
             if (DataSource.lineLeavingList.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
                 throw new DO.InvalidLineLeavingKeyException(key, "Duplicate line leaving.");
@@ -394,15 +396,14 @@ namespace DAL
         /// parameter: int, TimeSpan (line ID, starting time)
         /// return type: LineLeaving
         /// </summary>
-        public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
+        public LineLeaving GetLineLeaving(string lineID)
         {
-            string key = lineID.ToString() + startTime.ToString();
-            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key); //define list bus
+            DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID == lineID); //define list bus
 
             if (line != null)
                 return line.Clone();
             else
-                throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} does not exist.");
+                throw new DO.InvalidLineLeavingKeyException(lineID, $"Line leaving for route {lineID} does not exist.");
         }
 
         /// <summary>
@@ -429,9 +430,9 @@ namespace DAL
         /// parameter: int, TimeSpan (line ID, starting time)
         /// return type: void
         /// </summary>
-        public void DeleteLineLeaving(int lineID, TimeSpan startTime)
+        public void DeleteLineLeaving(string lineID, TimeSpan startTime)
         {
-            string key = lineID.ToString() + startTime.ToString();
+            string key = lineID + startTime.ToString();
             DO.LineLeaving line = DataSource.lineLeavingList.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
 
             if (line != null)
@@ -468,7 +469,7 @@ namespace DAL
         /// parameter: LineLeaving
         /// return type: void
         /// </summary>
-        public int AddLineStation(LineStation lineStation, int lineID)
+        public int AddLineStation(LineStation lineStation, string lineID)
         {
             ////checking to see if the station you want to add exsists and is active:
             //var statCheck = DataSource.busStopList.FirstOrDefault(stop => stop.StopCode == lineStation.stationCode);
@@ -574,16 +575,20 @@ namespace DAL
         /// parameter: Staff
         /// return type: void
         /// </summary>
-        public void AddStaff(Staff staff)
+        public string AddStaff(Staff staff)
         {
-            //check if staff member exsists already
-            if ((DataSource.staffList.FirstOrDefault(st => st.BusDriverID == staff.BusDriverID) != null))
+            //NOTE: once a driver is assigned to a line that is all teh lines he can drive
+            if ((DataSource.staffList.FirstOrDefault(st => st.BusDriverID == staff.BusDriverID))!=null)
             {
-                int index = DataSource.staffList.FindIndex(x => x.BusDriverID == staff.BusDriverID); //if already exists, adds 1 to the number of lines driven
-                DataSource.staffList[index].StaffNoOfLines++;
-                //throw new DO.StaffAlreadyInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is already listed in the system");
-            } //it is a new staff member so can add to list:
+                //staff exsists already in system
+               if(DataSource.lineLeavingList.FirstOrDefault(ln => ln.BusDriver == staff.BusDriverID) != null)
+               { //staff drives a line 
+                    throw new DO.StaffAlreadyInSystemException(staff.BusDriverID, $"Staff member {staff.BusDriverID} is already listed in the system as driving another line");
+               }
+            }
             DataSource.staffList.Add(staff.Clone());
+            return staff.BusDriverID;
+
         }
 
         /// <summary>

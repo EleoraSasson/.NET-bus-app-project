@@ -23,9 +23,9 @@ namespace BLApi
         #region BusRoute
         IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute);
         IEnumerable<BusRoute> GetAllBusRoutes();
-        void AddBusRoute(BusRoute broute);//create
+        string AddBusRoute(BusRoute broute);//create
         void AddStationToBusRoute(BusRoute broute, LineStation line); //create
-        BusRoute GetBusRoute(BusRoute broute); //retrieve
+        BusRoute GetBusRoute(string lineID); //retrieve
         void UpdateBusRoute(BusRoute broute); //update
         void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
 
@@ -42,21 +42,12 @@ namespace BLApi
 
         #region ScheduleOfRoute
         IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
-        IEnumerable<ScheduleOfRoute> GetStationsInBusRouteWithSelectedFields(Func<ScheduleOfRoute, object> generate);
-        void AddScheduleOfRoute(ScheduleOfRoute s, Staff staff); //create
-        ScheduleOfRoute GetScheduleOfRoute(); //retrieve
-        void UpdateScheduleOfRoute(ScheduleOfRoute s, Staff staff); //update
-        void DeleteScheduleOfRoute(ScheduleOfRoute s); //delete
+        void AddScheduleOfRoute(ScheduleOfRoute sched); //create
+        ScheduleOfRoute GetScheduleOfRoute(string lineID); //retrieve
+        void UpdateScheduleOfRoute(ScheduleOfRoute sched); //update
+        void DeleteScheduleOfRoute(ScheduleOfRoute sched); //delete
         #endregion
 
-        #region CompanySchedule
-        IEnumerable<CompanySchedule> GetAllCompanySchedules();
-        IEnumerable<CompanySchedule> GetCompanySchedulesWithSelectedFields(Func<CompanySchedule, object> generate);
-        void AddCompanySchedule(BusRoute b, Staff s); //create
-        CompanySchedule GetCompanySchedule(); //retrieve
-        void UpdateCompanySchedule(BusRoute b, Staff ss); //update
-        void DeleteCompanySchedule(BusRoute b, Staff s); //delete
-        #endregion
 
         #region StationWithRoutes
         //NOTE: there are no addition or deletion methods in this crud implementation for this class

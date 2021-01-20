@@ -49,7 +49,6 @@
     <Compile Include="BusFleet.cs" />
     <Compile Include="BusRoute.cs" />
     <Compile Include="BusStations.cs" />
-    <Compile Include="CompanySchedule.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleOfRoute.cs" />

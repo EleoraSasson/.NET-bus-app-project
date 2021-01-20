@@ -13,9 +13,9 @@ namespace DO
         /* PROPERTIES */
 
         // Bus Line ID (auto-running number):
-        private int lineID;
+        private string lineID;
 
-        public int BusLineID
+        public string BusLineID
         {
             get { return lineID; }
             set { lineID = value; }

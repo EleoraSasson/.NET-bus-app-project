@@ -66,15 +66,6 @@ namespace DO
             set { lastName = value; }
         }
 
-        //number of lines driven by this driver
-        private int lines;
-
-        public int StaffNoOfLines
-        {
-            get { return lines; }
-            set { lines = value; }
-        }
-
         // Driver Cell-Phone Number:
         private string cellNo;
 

@@ -11,12 +11,21 @@ namespace DO
         /* PROPERTIES */
 
         // Bus Line ID:
-        private int lineID;
+        private string lineID;
 
-        public int BusLineID
+        public string BusLineID
         {
             get { return lineID; }
             set { lineID = value; }
+        }
+
+        // Staff ID of driver
+        private string driver;
+
+        public string BusDriver
+        {
+            get { return driver; }
+            set { driver = value; }
         }
 
         // Start Time [First Line]:
