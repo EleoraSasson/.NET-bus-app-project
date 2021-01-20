@@ -31,6 +31,7 @@ namespace UI
         public static ObservableCollection<BusStations> stopCollection;
         public static ObservableCollection<BusRoute> sWithRouteCollection;
         public static ObservableCollection<Buses> fleetCollection;
+        public static ObservableCollection<UserPortal> usersCollection;
 
         BO.BusStations bStation;
         BO.BusRoute bRoute;
@@ -45,7 +46,7 @@ namespace UI
             Cb_RouteID.DisplayMemberPath = "Route.BusLineID";
             Cb_RouteID.SelectionChanged += Cb_RouteID_SelectionChanged; //declaring the event handler
 
-            List<BusStations> stations = bl.getAllBusStops().ToList();
+            List<BusStations> stations = bl.GetAllBusStops().ToList();
             stopCollection = new ObservableCollection<BusStations>(stations);
             Cb_StationNo.DataContext = stopCollection;
             Cb_StationNo.DisplayMemberPath = "Stop.StopCode";
@@ -59,6 +60,10 @@ namespace UI
             cb_Simulation.DataContext = stopCollection;
             cb_Simulation.DisplayMemberPath = "Stop.StopCode";
             cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
+
+            List<UserPortal> users = bl.GetAllUsers().ToList();
+            usersCollection = new ObservableCollection<UserPortal>();
+            lv_Users.DataContext = usersCollection;
         }
 
         private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -165,6 +170,11 @@ namespace UI
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void UserLastName_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

@@ -16,12 +16,37 @@ namespace DO
             set { name = value; }
         }
 
+        private string first;
+
+        public string userFirst
+        {
+            get { return first; }
+            set { first = value; }
+        }
+
+        private string last;
+
+        public string userLast
+        {
+            get { return first; }
+            set { first = value; }
+        }
+
+
         private string password;
 
-        public string userPassword   //should we add properties for a password?
+        public string userPassword  
         {
             get { return password; }
             set { password = value; }
+        }
+
+        private string Id;
+
+        public string userId
+        {
+            get { return Id; }
+            set { Id = value; }
         }
 
         private bool permission;

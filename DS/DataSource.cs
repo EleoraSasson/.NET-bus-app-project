@@ -723,6 +723,62 @@ namespace DS
 				},
 			};
 			#endregion
+
+			#region INIT User
+
+			usersList = new List<User>()
+			{
+				new User
+				{
+					userName = "dave",
+					userPassword = "pss123",
+					userId = "234567",
+					userFirst = "David",
+					userLast = "Smith",
+					adminPermission = false
+				},
+
+				new User
+				{
+					userName = "dan",
+					userPassword = "mypass.2",
+					userId = "345678",
+					userFirst = "Daniel",
+					userLast = "Brown",
+					adminPermission = false
+				},
+
+				new User
+				{
+					userName = "Yossi",
+					userPassword = "00password",
+					userId = "456789",
+					userFirst = "Yossef",
+					userLast = "Garcia",
+					adminPermission = false
+				},
+
+				new User
+				{
+					userName = "Hanna",
+					userPassword = "login23",
+					userId = "123456",
+					userFirst = "Hanna",
+					userLast = "Miller",
+					adminPermission = false
+				},
+
+				new User
+				{
+					userName = "Nao",
+					userPassword = "pass12word",
+					userId = "567890",
+					userFirst = "Naomi",
+					userLast = "Davis",
+					adminPermission = false
+				},
+			};
+			#endregion
 		}
 
     }

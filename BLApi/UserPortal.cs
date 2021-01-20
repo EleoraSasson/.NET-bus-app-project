@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DO;
 
 namespace BO
 {
@@ -12,11 +13,13 @@ namespace BO
     /// </summary>
     public class UserPortal
     {
+        private User user;
 
-        //needs to get from DO.Userso that it can contain a list of all the usrs
-        //should have there passwords stored
-        //needs methods to authenticate a user and check its permission 
-        //needs method to add a user to the system
-        //needs to display the users personal info if requested (get)
+        public User Users
+        {
+            get { return user; }
+            set { user = value; }
+        }
+
     }
 }
