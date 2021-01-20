@@ -31,10 +31,10 @@ namespace UI
         public static ObservableCollection<BusStations> stopCollection;
         public static ObservableCollection<BusRoute> sWithRouteCollection;
         public static ObservableCollection<Buses> fleetCollection;
-
+        public static ObservableCollection<ScheduleOfRoute> companySchedule;
         BO.BusStations bStation;
         BO.BusRoute bRoute;
-        
+
         public AdminManagerWindow()
         {
             InitializeComponent();
@@ -56,6 +56,16 @@ namespace UI
             lv_BusList.DataContext = fleetCollection;
             tb_busNum.Text = fleetCollection.Count().ToString();
 
+            List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
+            foreach (var route in routeList)
+            {
+                ScheduleOfRoute singleRouteSched = bl.GetScheduleOfRoute(route);
+                routesSchedules.Add(singleRouteSched);
+            }
+            companySchedule = new ObservableCollection<ScheduleOfRoute>(routesSchedules);
+            Dg_BusSchedule.DataContext = companySchedule; 
+            
+
             cb_Simulation.DataContext = stopCollection;
             cb_Simulation.DisplayMemberPath = "Stop.StopCode";
             cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
@@ -63,7 +73,16 @@ namespace UI
 
         private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            dg_Simulation.DataContext = 0;//
+            
+            bStation = (Cb_StationNo.SelectedItem as BO.BusStations);
+            List<BusRoute> routesThroughStop = bl.GetRoutesofStation(bStation).ToList();
+            foreach (var route in routesThroughStop)
+            {
+                ScheduleOfRoute sched = bl.GetScheduleOfRoute(route);
+                companySchedule.Add(sched);
+            }
+            
+            dg_Simulation.DataContext = companySchedule;
         }
 
      

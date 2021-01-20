@@ -27,8 +27,8 @@
                 <TabItem Header="Manage Info">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="117*"/>
-                            <ColumnDefinition Width="230*"/>
+                            <ColumnDefinition Width="283*"/>
+                            <ColumnDefinition Width="411*"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </TabItem>
@@ -199,7 +199,8 @@
                                         <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,79,0" Content="Lines that pass through this Station:" Width="205" Height="30"/>
                                         <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,29,39,37" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged" Grid.ColumnSpan="2"/>
                                         <Button x:Name="b_AddStation" Grid.Column="2" Margin="298,182,39,12" Height="20" Width="100" Content="  +   Add Station" Background="WhiteSmoke" BorderBrush="CadetBlue"
-                                                Click="b_AddStation_Click" Grid.ColumnSpan="2"/>
+                                                 Grid.ColumnSpan="2"/>
+                                        <!--Click="b_AddStation_Click"-->
                                     </Grid>
                                 </StackPanel>
                             </Expander>
@@ -222,9 +223,9 @@
                                         <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10" SelectionChanged="Cb_Search_SelectionChanged"/>
                                         <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged" IsReadOnly="False"/>
                                         <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
-                                              AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged">
+                                              AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged" >
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Route No." Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Route No." Binding="{Binding CurrentRoute.Route.BusLineNo}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTemplateColumn Header="Date:" Width="60">
                                                     <DataGridTemplateColumn.CellTemplate>
@@ -307,11 +308,11 @@
                             </Grid.ColumnDefinitions>
                             <DataGrid  x:Name="dg_Simulation" Grid.Column="0" Margin="0,32,0,26"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Route No:" Width="70"/>
-                                    <DataGridTextColumn Header="Line ID:" Width="60"/>
-                                    <DataGridTextColumn Header="ETA:" Width="60"/>
-                                    <DataGridTextColumn Header="Arrives In:" Width="70"/>
-                                    <DataGridTextColumn Header="Destination Station:" Width="200"/>
+                                    <DataGridTextColumn Header="Route No:" Width="70" Binding="{Binding CurrentRoute.Route.BusLineNo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="Line ID:" Width="60" Binding="{Binding CurrentRoute.Route.BusLineID, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="ETA:" Width="60" Binding="{Binding BusOnRoute.BusFormalDT , Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="Arrives In:" Width="70" Binding="{Binding BusOnRoute.BusActualDT , Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
+                                    <DataGridTextColumn Header="Destination Station:" Width="200" Binding="{Binding CurrentRoute.RouteStops.stationCode , Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <Label x:Name="lb_cbSimulation" Grid.Column="1"  Margin="22,72,134,241" Content="Select Station:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" />

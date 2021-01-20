@@ -229,8 +229,9 @@ namespace BLApi
             dal.AddBusOnTrip(sched.BusOnRoute,lineID);
         }
         //retrieve
-        public ScheduleOfRoute GetScheduleOfRoute(string lineID)
+        public ScheduleOfRoute GetScheduleOfRoute(BusRoute route)
         {
+            string lineID = route.Route.BusLineID;
             ScheduleOfRoute sched = new ScheduleOfRoute();
 
             List<BusRoute> broutes = GetAllBusRoutes().ToList();
