@@ -55,16 +55,17 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="0*"/>
-                                            <ColumnDefinition Width="76*"/>
-                                            <ColumnDefinition Width="59*"/>
-                                            <ColumnDefinition Width="506*"/>
+                                            <ColumnDefinition Width="13*"/>
+                                            <ColumnDefinition Width="63*"/>
+                                            <ColumnDefinition Width="283*"/>
+                                            <ColumnDefinition Width="282*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition x:Name="FleetList" Height="10*"/>
                                             <RowDefinition x:Name="AddToFleet" Height="1*"/>
                                         </Grid.RowDefinitions>
 
-                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="5,10,0.333,10.333" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="2" Grid.ColumnSpan="2">
+                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="5,10,0,10" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="3" Grid.ColumnSpan="2">
                                             <ListView.ItemContainerStyle>
                                                 <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
                                                     <Setter Property="ToolTip">
@@ -78,7 +79,7 @@
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Foreground" Value ="Black"/>
                                                         </Trigger>
-                                                        <DataTrigger Binding="{Binding}"  Value="Available" >
+                                                        <DataTrigger Binding="{Binding bus.BusStatus}"  Value="Available" >
                                                             <Setter Property="Foreground" Value="DarkGreen" />
                                                             <Setter Property="Background" Value ="WhiteSmoke"/>
                                                         </DataTrigger>
@@ -87,24 +88,23 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView x:Name="gv_BusList">
-                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding }"/>
-                                                    <GridViewColumn Header="Road ID:" Width="90" DisplayMemberBinding="{Binding }"/>
-                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding }"/>
-                                                    <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding}"/>
-                                                    <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding}"/>
+                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding bus.BusLicense }"/>
+                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding bus.BusMileage }"/>
+                                                    <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding bus.BusFuel}"/>
+                                                    <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding bus.BusStatus}"/>
                                                     <GridViewColumn Header="More Options:" Width="100">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
                                                                 <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." IsEnabled="{Binding IsButtonEnabled}"/>
                                                                 <!--Click="B_Options_Click"-->
                                                                 <DataTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding}" Value="AtService">
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="AtService">
                                                                         <Setter Property="IsEnabled" Value="False"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding}" Value="Refueling">
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Refueling">
                                                                         <Setter Property="IsEnabled" Value="False"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding}" Value="Travelling">
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Travelling">
                                                                         <Setter Property="IsEnabled" Value="False"/>
                                                                     </DataTrigger>
                                                                 </DataTemplate.Triggers>
@@ -114,9 +114,9 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5,236,0.333,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="2" Grid.ColumnSpan="2"/>
-                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1"/>
-                                        <TextBox HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" />
+                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="3" Grid.ColumnSpan="2"/>
+                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                        <TextBox x:Name="tb_busNum" HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" Grid.ColumnSpan="2"  FontFamily="HP Simplified" IsReadOnly="True"/>
 
                                     </Grid>
                                 </StackPanel>
@@ -131,7 +131,7 @@
                                 <StackPanel Orientation="Vertical" Height="270">
                                     <Grid Name="RouteIDGrid" Width="655" Margin="16,5,15,5" Height="37">
                                         <Label x:Name="l_RouteID" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,552,0" Content="Route ID:"/>
-                                        <ComboBox x:Name="Cb_RouteID" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,10,0,0" Width="50" ItemsSource="{Binding }" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
+                                        <ComboBox x:Name="Cb_RouteID" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,10,0,0" Width="50" ItemsSource="{Binding }" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsEditable="False" />
                                     </Grid>
                                     <Grid x:Name="ExpanderGridRouteInfo" Width="655" Margin="16,5" Height="232" >
                                         <Grid.ColumnDefinitions>
@@ -145,14 +145,15 @@
                                         <Label x:Name="l_TimeStart" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,96,0,0" Content="Starting Station:"/>
                                         <Label x:Name="l_TimeEnd" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,131,0,0" Content="Ending Station:"/>
                                         <Label x:Name="l_Active" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,178,0,0" Content="Line Erased:"/>
-                                        <TextBox x:Name="Tb_RouteNum" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,62,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusLineNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                        <TextBox x:Name="Tb_TimeSart" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,97,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusStart, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                        <TextBox x:Name="Tb_TimeEnd" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,132,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusEnd, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                        <CheckBox x:Name="ChB_IsActive" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,183,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsChecked="{Binding Route.LineErased, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <TextBox x:Name="Tb_RouteNum" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,62,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusLineNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_TimeSart" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,97,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusStart, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_TimeEnd" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,132,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusEnd, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <CheckBox x:Name="ChB_IsActive" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,183,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue"  IsChecked="{Binding Route.LineErased, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
                                         <Label x:Name="l_Region" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,0,0" Content="Region of Route:" />
-                                        <TextBox x:Name="Tb_Region" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Width="104" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusRegion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                        <TextBox x:Name="Tb_Region" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Width="104" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusRegion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
                                         <Label x:Name="l_BusStops" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,97,0" Content="Stops on Route:"/>
-                                        <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2" SelectionChanged="lb_BusStops_SelectionChanged"/>
+                                        <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2" SelectionChanged="lb_BusStops_SelectionChanged" />
                                         <Button x:Name="b_AddRoute" Grid.Column="3" Grid.Row="1" Margin="83,176,39,27" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
                                                 Click="b_AddRoute_Click"/>
                                     </Grid>
@@ -165,28 +166,40 @@
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
                                 </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="270">
-
-                                    <Grid x:Name="ExpanderGrid" Width="655" Margin="5">
+                                <StackPanel Orientation="Vertical" Height="270">
+                                    <Grid Height="39">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="routeInfoC0" Width="1*"/>
-                                            <ColumnDefinition x:Name="routeInfoC1" Width="1*"/>
-                                            <ColumnDefinition x:Name="routeInfoC2" Width="4*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="48*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label x:Name="l_StationCode" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,23,0,0" Content="Station Code:"/>
-                                        <Label x:Name="l_StationLat" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,73,0,0" Content="Latitude:"/>
-                                        <Label x:Name="l_StationLon" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,108,0,0" Content="Longitude:" Width="99"/>
-                                        <Label x:Name="l_Address" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,143,0,0" Content="Address:"/>
+                                        <Label x:Name="l_StationCode" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,13,561,0" Content="Station Code:"/>
+                                        <ComboBox x:Name="Cb_StationNo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,13,0,0" Width="78" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsEditable="False" Grid.Column="1"/>
 
-                                        <Label x:Name="l_StopActive" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,187,0,0" Content="Is Active:"/>
-                                        <ComboBox x:Name="Cb_StationNo" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,24,0,0" Width="50" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue"/>
-                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,74,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue "/>
-                                        <TextBox x:Name="Tb_StationLon" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,109,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
-                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,144,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Stop.StopAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                                        <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,192,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" />
-                                        <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,24,204,0" Content="Lines that pass through this Station:" Width="205"/>
-                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,47,39,55" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged"/>
+                                    </Grid>
+                                    <Grid x:Name="ExpanderGrid" Width="655" Margin="16,5" Grid.Row="1" Height="214">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="162*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="routeInfoC0" Width="109*"/>
+                                            <ColumnDefinition x:Name="routeInfoC1" Width="109*"/>
+                                            <ColumnDefinition x:Name="routeInfoC2" Width="312*"/>
+                                            <ColumnDefinition Width="125*"/>
+                                        </Grid.ColumnDefinitions>
 
+                                        <Label x:Name="l_StationLat" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Latitude:" Margin="0,26,0,0"/>
+                                        <Label x:Name="l_StationLon" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,62,93,0" Content="Longitude:" Width="78" Height="25" RenderTransformOrigin="0.793,0.56" Grid.ColumnSpan="2"/>
+                                        <Label x:Name="l_Address" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93,108,0" Content="Address:" Grid.ColumnSpan="2"/>
+
+                                        <Label x:Name="l_StopActive" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,181,0,0" Content="Is Active:"/>
+                                        <TextBox x:Name="Tb_StationLat" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,29,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue " Text="{Binding Stop.StopLocation.Latitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_StationLon" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,63,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Stop.StopLocation.Longitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_StationAddress" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0" Width="104" Height="86"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextWrapping="Wrap" Text="{Binding Stop.StopAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,187,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsChecked="{Binding Stop.StopActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=true}" />
+                                        <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,79,0" Content="Lines that pass through this Station:" Width="205" Height="30"/>
+                                        <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,29,39,37" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged" Grid.ColumnSpan="2"/>
+                                        <Button x:Name="b_AddStation" Grid.Column="2" Margin="298,182,39,12" Height="20" Width="100" Content="  +   Add Station" Background="WhiteSmoke" BorderBrush="CadetBlue"
+                                                Click="b_AddStation_Click" Grid.ColumnSpan="2"/>
                                     </Grid>
                                 </StackPanel>
                             </Expander>
@@ -204,10 +217,10 @@
                                             <RowDefinition x:Name="Schedule" Height="10*"/>
                                         </Grid.RowDefinitions>
                                         <Label x:Name="l_SearchRegion" Grid.Row="0" Content="Select Region:" Margin="39,12,559,5"/>
-                                        <ComboBox x:Name="Cb_Region" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="129,13,600,9" SelectionChanged="Cb_Region_SelectionChanged"/>
+                                        <ComboBox x:Name="Cb_Region" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="129,13,600,9"  SelectionChanged="Cb_Region_SelectionChanged" />
                                         <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
                                         <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10" SelectionChanged="Cb_Search_SelectionChanged"/>
-                                        <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged"/>
+                                        <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged" IsReadOnly="False"/>
                                         <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
                                               AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged">
                                             <DataGrid.Columns>
@@ -276,7 +289,41 @@
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
                 <TabItem Header="Simulation">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="SimulationBorderLeft" Width="5*"/>
+                            <ColumnDefinition x:Name="SimulationMiddle_C" Width="200*"/>
+                            <ColumnDefinition x:Name="SimulationBorderRight" Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="SimulationBorderTop" Height="10*"/>
+                            <RowDefinition x:Name="SimulationMIddle_R" Height="200*"/>
+                            <RowDefinition x:Name="SimulationBorderBot" Height="10*"/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name = "InnerSimulationGrid" Grid.Row="1" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="SimulationWindow" Width="413*"/>
+                                <ColumnDefinition x:Name="SimulationControl" Width="248*"/>
+                            </Grid.ColumnDefinitions>
+                            <DataGrid  x:Name="dg_Simulation" Grid.Column="0" Margin="0,32,0,26"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Route No:" Width="70"/>
+                                    <DataGridTextColumn Header="Line ID:" Width="60"/>
+                                    <DataGridTextColumn Header="ETA:" Width="60"/>
+                                    <DataGridTextColumn Header="Arrives In:" Width="70"/>
+                                    <DataGridTextColumn Header="Destination Station:" Width="200"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Label x:Name="lb_cbSimulation" Grid.Column="1"  Margin="22,72,134,241" Content="Select Station:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" />
+                            <Label x:Name="lb_slSimulation" Grid.Column="1"  Margin="22,120,105,190" Content="Simulation Speed:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium"/>
+                            <ComboBox x:Name="cb_Simulation" Grid.Column="1" Margin="125,72,19,241"  Background="WhiteSmoke" BorderBrush="CadetBlue" ItemsSource="{Binding}"/>
+                            <Slider x:Name="sl_Simulation" Grid.Column="1" Margin="26,152,23,160" Cursor="Hand"/>
+                        </Grid>
+
+
+                    </Grid>
                 </TabItem>
+
             </TabControl>
 
         </Grid>

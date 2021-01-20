@@ -36,6 +36,7 @@ namespace DAL
         {
             if (DataSource.busList.FirstOrDefault(b => b.BusLicense == bus.BusLicense) != null)
                 throw new DO.InvalidBusLicenseException(bus.BusLicense, "Duplicate bus license number");
+          
             DataSource.busList.Add(bus.Clone());
         }
 
@@ -55,11 +56,11 @@ namespace DAL
         }
 
         /// <summary>
-        /// GetAllBuses: gets all buses from the collection   
+        /// GetAllBus: gets all buses from the collection   
         /// parameter: none
         /// return type: IEnumerable
         /// </summary>
-        public IEnumerable<Bus> GetAllBuses()
+        public IEnumerable<Bus> GetAllBus()
         {
             return from Bus in DataSource.busList
                    select Bus.Clone();
@@ -200,7 +201,7 @@ namespace DAL
         /// parameter: none
         /// return type: IEnumerable
         /// </summary>
-        public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
+        public IEnumerable<BusOnTrip> GetAllBusOnTrip()  
         {
             return from BusOnTrip in DataSource.busOnTripList
                    select BusOnTrip.Clone();
@@ -509,7 +510,7 @@ namespace DAL
         /// </summary>
         public LineStation GetLineStation(string lineStationKey)
         {
-            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID == lineStationKey);
+            DO.LineStation findLineStation = DataSource.lineStationList.Find(line => line.lineID + line.stationCode == lineStationKey);
 
             if (findLineStation != null)
             {

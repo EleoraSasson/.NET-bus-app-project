@@ -19,147 +19,175 @@ namespace PLConsole
             Console.WriteLine("Welcome to our Testing Zone!!");
 
             IBL bl = BLFactory.GetBL(); //creating bl 
+            IDAL dal = DLFactory.GetDL();
+
+            Console.WriteLine("getting line leaving:");
+            Console.WriteLine(dal.GetLineLeaving("11"));
+            Console.WriteLine("getting");
+
+            //Stations stations = new Stations()
+            //{
+            //    StatStation = dal.GetLineStation("1139024"),
+            //};
+
+            //BusStations bStat = new BusStations()
+            //{
+            //    Stop = dal.GetBusStop("39024"),
+            //};
+            //List<BusRoute> listRoute = bl.GetRoutesofStation(bStat).ToList();
+            //foreach (var route in listRoute)
+            //{
+            //    Console.WriteLine(route);
+            //}
 
             //BusFleet Bfleet = bl.GetEntireBusFleet();
-            //foreach (var bus in Bfleet.busesInFleet.ToList())
+            ////foreach (var bus in Bfleet.busesInFleet.ToList())
+            ////{
+            ////    Console.WriteLine(bus);
+            ////}
+
+            ////List<BusRoute> routes = bl.GetAllBusRoutes().ToList();
+            ////foreach (var r in routes)
+            ////{
+            ////    Console.WriteLine(r);
+            ////}
+
+
+            //List<BusStations> iamtired = bl.getAllBusStops().ToList();
+            //foreach(var r in iamtired)
             //{
-            //    Console.WriteLine(bus);
+            //   // r.Stop.StopLocation.
+            //  //  Console.WriteLine(r);
             //}
 
-            //List<BusRoute> routes = bl.GetAllBusRoutes().ToList();
-            //foreach (var r in routes)
+            //List<Buses> notagain = bl.GetAllBuses().ToList();
+            //foreach (var r in notagain)
             //{
+
             //    Console.WriteLine(r);
             //}
+            ////#region Testing BusFleet
+            ////Console.WriteLine("Testing BusFleet");
 
+            ////DateTime time1 = new DateTime(2017, 1, 18);
+            ////DateTime time2 = new DateTime(1999, 8, 25);
+            ////DateTime time3 = new DateTime(2000, 5, 28);
 
-            List<BusStations> iamtired = bl.getAllBusStops().ToList();
-            foreach(var r in iamtired)
-            {
-                Console.WriteLine(r);
-            }
-            //#region Testing BusFleet
-            //Console.WriteLine("Testing BusFleet");
+            ////Bus bus1 = new Bus()
+            ////{
+            ////    BusLicense = "123-23-123",
+            ////    BusMaintenanceDate = DateTime.Now,
+            ////    BusRegDate = time1,
+            ////    BusMileage = 700,
+            ////    BusFuel = 650
+            ////};
+            ////// not setting erased and status as done in CRUD
 
-            //DateTime time1 = new DateTime(2017, 1, 18);
-            //DateTime time2 = new DateTime(1999, 8, 25);
-            //DateTime time3 = new DateTime(2000, 5, 28);
+            ////Bus bus2 = new Bus()
+            ////{
+            ////    BusLicense = "345-54-345",
+            ////    BusMaintenanceDate = DateTime.Now,
+            ////    BusRegDate = time2,
+            ////    BusMileage = 300,
+            ////    BusFuel = 450
+            ////};
 
-            //Bus bus1 = new Bus()
-            //{
-            //    BusLicense = "123-23-123",
-            //    BusMaintenanceDate = DateTime.Now,
-            //    BusRegDate = time1,
-            //    BusMileage = 700,
-            //    BusFuel = 650
-            //};
-            //// not setting erased and status as done in CRUD
+            ////Bus bus3 = new Bus()
+            ////{
+            ////    BusLicense = "256-23-123",
+            ////    BusMaintenanceDate = DateTime.Now,
+            ////    BusRegDate = time3,
+            ////    BusMileage = 600,
+            ////    BusFuel = 1200
+            ////};
 
-            //Bus bus2 = new Bus()
-            //{
-            //    BusLicense = "345-54-345",
-            //    BusMaintenanceDate = DateTime.Now,
-            //    BusRegDate = time2,
-            //    BusMileage = 300,
-            //    BusFuel = 450
-            //};
+            ////bl.AddToBusFleet(bus1);
+            ////bl.AddToBusFleet(bus2);
+            ////bl.AddToBusFleet(bus3);
 
-            //Bus bus3 = new Bus()
-            //{
-            //    BusLicense = "256-23-123",
-            //    BusMaintenanceDate = DateTime.Now,
-            //    BusRegDate = time3,
-            //    BusMileage = 600,
-            //    BusFuel = 1200
-            //};
+            ////Console.WriteLine("getting all buses");
 
-            //bl.AddToBusFleet(bus1);
-            //bl.AddToBusFleet(bus2);
-            //bl.AddToBusFleet(bus3);
+            ////List<Bus> fleet = new List<Bus>();
 
-            //Console.WriteLine("getting all buses");
+            ////fleet = bl.GetEntireBusFleet().ToList(); 
 
-            //List<Bus> fleet = new List<Bus>();
+            ////foreach (Bus b in fleet)
+            ////    Console.WriteLine(b);
 
-            //fleet = bl.GetEntireBusFleet().ToList(); 
+            ////Console.WriteLine("getting bus3 - no error");
 
-            //foreach (Bus b in fleet)
-            //    Console.WriteLine(b);
+            ////Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
 
-            //Console.WriteLine("getting bus3 - no error");
+            ////Console.WriteLine("updating bus3 - changing fuel to 0 and mileage to 700");
 
-            //Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
+            ////bus3.BusFuel = 0;//changing fuel to 0 
+            ////bus3.BusMileage = 700; //chaning mileage to 700
+            ////bl.UpdateBusFleet(bus3); //updating
 
-            //Console.WriteLine("updating bus3 - changing fuel to 0 and mileage to 700");
+            ////Console.WriteLine("getting updated bus3");
+            ////Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
 
-            //bus3.BusFuel = 0;//changing fuel to 0 
-            //bus3.BusMileage = 700; //chaning mileage to 700
-            //bl.UpdateBusFleet(bus3); //updating
+            ////Console.WriteLine("removing bus 2");
+            ////bl.DeleteFromBusFleet(bus2);//deleting bus2
 
-            //Console.WriteLine("getting updated bus3");
-            //Console.WriteLine(bl.GetBusFromFleet("256-23-123"));
+            ////Console.WriteLine("reprint fleet without bus 2");
+            ////fleet = bl.GetEntireBusFleet().ToList();
+            ////foreach (Bus b in fleet)
+            ////    Console.WriteLine(b);
 
-            //Console.WriteLine("removing bus 2");
-            //bl.DeleteFromBusFleet(bus2);//deleting bus2
+            //////Console.WriteLine("getting one bus that does not exist");
 
-            //Console.WriteLine("reprint fleet without bus 2");
-            //fleet = bl.GetEntireBusFleet().ToList();
-            //foreach (Bus b in fleet)
-            //    Console.WriteLine(b);
+            //////Console.WriteLine(bl.GetBusFromFleet("111-11-111"));
+            ////#endregion
+            //////NOTE TO SELF - for BusRoute check why the program is crashing by the update function and see that update actually updates
+            ////// also change the style of the setting info so that start and end stations are also set in the add and changed accordingly when 
+            ////// new stations are added to the routes
+            //////maybe edit the running numbers ID patter so it satrst at higher than 1?
+            ////#region Testing BusRoute
+            ////Console.WriteLine("Testing BusRoute");
 
-            ////Console.WriteLine("getting one bus that does not exist");
+            ////BusLine line1 = new BusLine()
+            ////{ //line ID not included as that should be put in the dl layer of addBusLine
+            ////    BusLineNo = 1,
+            ////    BusRegion = Regions.Center_Jerusalem,
+            ////    //BusStart = "12345",
+            ////    //BusEnd = "67890",
+            ////    //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
+            ////};
+            ////BusLine line2 = new BusLine()
+            ////{ //line ID not included as that should be put in the dl layer of addBusLine
+            ////    BusLineNo = 2,
+            ////    BusRegion = Regions.North_Haifa,
+            ////    //BusStart = "54321",
+            ////    //BusEnd = "09876",
+            ////    //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
+            ////};
 
-            ////Console.WriteLine(bl.GetBusFromFleet("111-11-111"));
-            //#endregion
-            ////NOTE TO SELF - for BusRoute check why the program is crashing by the update function and see that update actually updates
-            //// also change the style of the setting info so that start and end stations are also set in the add and changed accordingly when 
-            //// new stations are added to the routes
-            ////maybe edit the running numbers ID patter so it satrst at higher than 1?
-            //#region Testing BusRoute
-            //Console.WriteLine("Testing BusRoute");
-
-            //BusLine line1 = new BusLine()
-            //{ //line ID not included as that should be put in the dl layer of addBusLine
-            //    BusLineNo = 1,
-            //    BusRegion = Regions.Center_Jerusalem,
-            //    //BusStart = "12345",
-            //    //BusEnd = "67890",
-            //    //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
-            //};
-            //BusLine line2 = new BusLine()
-            //{ //line ID not included as that should be put in the dl layer of addBusLine
-            //    BusLineNo = 2,
-            //    BusRegion = Regions.North_Haifa,
-            //    //BusStart = "54321",
-            //    //BusEnd = "09876",
-            //    //not including the start and end stations as this is set in the dl bl layer when we know what lineStations are in the busRoute
-            //};
-
-            //LineStation sta1 = new LineStation()
-            //{
-            //    //line ID not included as set later in dl add
-            //    stationCode = "11111",
-            //    stationNumber = 1, //really should be added later for now will leave - how??
-            //};
-            //LineStation sta2 = new LineStation()
-            //{
-            //    //line ID not included as set later in dl add
-            //    stationCode = "22222",
-            //    stationNumber = 2, //really should be added later for now will leave - how??
-            //};
-            //LineStation sta3 = new LineStation()
-            //{
-            //    //line ID not included as set later in dl add
-            //    stationCode = "33333",
-            //    stationNumber = 3, //really should be added later for now will leave - how??
-            //};
-            //LineStation sta4 = new LineStation()
-            //{
-            //    //line ID not included as set later in dl add
-            //    stationCode = "44444",
-            //    stationNumber = 4, //really should be added later for now will leave - how??
-            //};
-            //LineStation sta5 = new LineStation()
+            ////LineStation sta1 = new LineStation()
+            ////{
+            ////    //line ID not included as set later in dl add
+            ////    stationCode = "11111",
+            ////    stationNumber = 1, //really should be added later for now will leave - how??
+            ////};
+            ////LineStation sta2 = new LineStation()
+            ////{
+            ////    //line ID not included as set later in dl add
+            ////    stationCode = "22222",
+            ////    stationNumber = 2, //really should be added later for now will leave - how??
+            ////};
+            ////LineStation sta3 = new LineStation()
+            ////{
+            ////    //line ID not included as set later in dl add
+            ////    stationCode = "33333",
+            ////    stationNumber = 3, //really should be added later for now will leave - how??
+            ////};
+            ////LineStation sta4 = new LineStation()
+            ////{
+            ////    //line ID not included as set later in dl add
+            ////    stationCode = "44444",
+            ////    stationNumber = 4, //really should be added later for now will leave - how??
+            ////};
+            ////LineStation sta5 = new LineStation()
             //{
             //    //line ID not included as set later in dl add
             //    stationCode = "55555",

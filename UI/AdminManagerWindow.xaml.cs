@@ -25,19 +25,20 @@ namespace UI
     /// </summary>
     public partial class AdminManagerWindow : Window
     {
-        //I believe we have to create a PO Object which can then be put into a collection?
         public IBL bl = BLFactory.GetBL(); //create bl instance 
         public static ObservableCollection<BusRoute> routeCollection;
         public static ObservableCollection<Stations> stationCollection;
         public static ObservableCollection<BusStations> stopCollection;
         public static ObservableCollection<BusRoute> sWithRouteCollection;
+        public static ObservableCollection<Buses> fleetCollection;
 
-        BO.BusStations bStations;
+        BO.BusStations bStation;
         BO.BusRoute bRoute;
         
         public AdminManagerWindow()
         {
             InitializeComponent();
+
             List<BusRoute> routeList = bl.GetAllBusRoutes().ToList();
             routeCollection = new ObservableCollection<BusRoute>(routeList);
             Cb_RouteID.DataContext = routeCollection;
@@ -49,32 +50,23 @@ namespace UI
             Cb_StationNo.DataContext = stopCollection;
             Cb_StationNo.DisplayMemberPath = "Stop.StopCode";
             Cb_StationNo.SelectionChanged += Cb_StationNo_SelectionChanged;
+
+            List<Buses> buses = bl.GetAllBuses().ToList();
+            fleetCollection = new ObservableCollection<Buses>(buses);
+            lv_BusList.DataContext = fleetCollection;
+            tb_busNum.Text = fleetCollection.Count().ToString();
+
+            cb_Simulation.DataContext = stopCollection;
+            cb_Simulation.DisplayMemberPath = "Stop.StopCode";
+            cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
         }
 
-        private void Cb_StationNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bStations = (Cb_StationNo.SelectedItem as BO.BusStations);
-            string code = bl.GetBusStationsCode(bStations);
-            BO.StationWithRoutes swr = bl.GetStationWithRoute(code);
-
-            List<BusRoute> lines = swr.CurrentLines;
-            sWithRouteCollection = new ObservableCollection<BusRoute>(lines);
-            lb_LineIDs.DataContext = sWithRouteCollection;
-
-            if (bStations != null)
-            {
-
-            }
-            //ExpanderGridRouteInfo.DataContext = bStations;
-            //List<StationWithRoutes> stopList = bl.get().ToList();
-            //stationCollection = new ObservableCollection<Stations>(stationList);
-            //lb_BusStops.DataContext = stationCollection;
-
-            //if (bRoute != null)
-            //{
-            //    ExpanderGridRouteInfo.DataContext = bl.GetBusRoute(bRoute);
-            //}
+            dg_Simulation.DataContext = 0;//
         }
+
+     
 
         #region ManagerTab
         #endregion
@@ -89,8 +81,8 @@ namespace UI
 
         private void b_AddBus_Click(object sender, RoutedEventArgs e)
         {
-            //        AddBusWindow addWin = new AddBusWindow();
-            //        addWin.Show();
+            AddBusWindow addWin = new AddBusWindow();
+            addWin.Show();
         }
 
         #endregion
@@ -113,28 +105,15 @@ namespace UI
             {
                 ExpanderGridRouteInfo.DataContext = bl.GetBusRoute(bRoute);
             }
+        }
+        #endregion
 
-            ////curStu = (cbStudentID.SelectedItem as BO.Student);
-            ////gridOneStudent.DataContext = curStu;
-
-            ////if (curStu != null)
-            ////{
-            ////    list of courses of selected student
-            ////    RefreshAllRegisteredCoursesGrid();
-            ////    list of all courses(that selected student is not registered to it)
-            ////    RefreshAllNotRegisteredCoursesGrid();
-            ////}
-
-            //void RefreshAllRegisteredCoursesGrid()
-            //{
-            //    studentCourseDataGrid.DataContext = bl.GetAllCoursesPerStudent(curStu.ID);
-            //}
-
-            //void RefreshAllNotRegisteredCoursesGrid()
-            //{
-            //    List<BO.Course> listOfUnRegisteredCourses = bl.GetAllCourses().Where(c1 => bl.GetAllCoursesPerStudent(curStu.ID).All(c2 => c2.ID != c1.ID)).ToList();
-            //    courseDataGrid.DataContext = listOfUnRegisteredCourses;
-            //}
+        #region BusStations
+        private void Cb_StationNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            bStation = (Cb_StationNo.SelectedItem as BO.BusStations);
+            ExpanderGrid.DataContext = bStation;
+            lb_LineIDs.DataContext = bl.GetRoutesofStation(bStation);
         }
         #endregion
 
@@ -149,7 +128,11 @@ namespace UI
 
         #region UserTab
         #endregion
-       
+
+        #region Simulation
+
+        #endregion
+
 
         private void Dg_BusSchedule_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -177,6 +160,11 @@ namespace UI
         }
 
         private void lb_LineIDs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

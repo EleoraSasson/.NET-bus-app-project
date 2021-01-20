@@ -129,7 +129,7 @@ namespace DS
             {
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 1,
                         BusRegion = Regions.South_Eilat,
                         BusStart = "38916",
@@ -138,7 +138,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 2,
                         BusRegion = Regions.North_Haifa,
                         BusStart = "38903",
@@ -146,7 +146,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 3,
                         BusRegion = Regions.Center_Jerusalem,
                         BusStart = "38894",
@@ -155,7 +155,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 4,
                         BusRegion = Regions.Center_TelAviv,
                         BusStart = "38831",
@@ -164,7 +164,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 5,
                         BusRegion = Regions.Center_TelAviv,
                         BusStart = "39005",
@@ -173,7 +173,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 6,
                         BusRegion = Regions.National,
                         BusStart = "38903",
@@ -182,7 +182,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 7,
                         BusRegion = Regions.South_BeerSheva,
                         BusStart = "39093",
@@ -191,7 +191,7 @@ namespace DS
                     },
                     new BusLine
                     {
-                        BusLineID = RunningNumbers.LineRunNum,
+                        BusLineID = RunningNumbers.LineRunNum.ToString(),
                         BusLineNo = 8,
                         BusRegion = Regions.Center_TelAviv,
                         BusStart = "38831",

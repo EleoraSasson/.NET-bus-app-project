@@ -48,11 +48,16 @@ namespace BO
         }
 
         /* OVERRIDE TOSTRING */
+        //public override string ToString()
+        //{
+        //    return "Bus Route " + route.BusLineNo + " with the ID " + route.BusLineID + " located in the " + route.BusRegion + " region:"
+        //        + " Starting Station: " + route.BusStart + "\n Ending Station: " + route.BusEnd + "\n Number of Total Stations Visted:"
+        //        + routeStops.Count() + "\n Line has been Erased = " + route.LineErased + "\n";
+        //}
+
         public override string ToString()
         {
-            return "Bus Route " + route.BusLineNo + " with the ID " + route.BusLineID + " located in the " + route.BusRegion + " region:"
-                + " Starting Station: " + route.BusStart + "\n Ending Station: " + route.BusEnd + "\n Number of Total Stations Visted:"
-                + routeStops.Count() + "\n Line has been Erased = " + route.LineErased + "\n";
+            return "( Route #" + route.BusLineNo + " ) \n Start station: " + route.BusStart  + "\n End station: " + route.BusEnd + "\n location: " + route.BusRegion;
         }
     }
 }

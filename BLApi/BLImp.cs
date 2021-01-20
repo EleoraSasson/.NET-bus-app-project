@@ -21,44 +21,6 @@ namespace BLApi
         #endregion
 
         IDAL dal = DLFactory.GetDL();
-
-        #region BusFleet
-        //create
-        public void AddToBusFleet(Bus bus)
-        {
-            bus.BusStatus = Status.Available; //every new bus added to the fleet is automatically available for travel.
-            bus.BusFuel = 1200; //every new bus added to fleet is considered to have a full tank of fuel.
-            try { dal.AddBus(bus); }
-            catch { throw new BusAlreadyInSystemException(bus.BusLicense, "Bus Already found in Bus Fleet"); }
-        }
-
-        //retrieve
-        public Bus GetBusFromFleet(string license)
-        { 
-            Bus bus  = dal.GetBus(license);
-            if(bus != null)
-                return bus;
-            else throw new BusMissingFromSystemException(license, $"Bus {license} cannot be found");
-        }
-
-        public BusFleet GetEntireBusFleet()
-        {
-            BusFleet fleet = new BusFleet();
-            fleet.busesInFleet = dal.GetAllBuses();
-            return fleet;
-        }
-        //update
-        public void UpdateBusFleet(Bus bus)
-        {
-            dal.UpdateBus(bus);
-        }
-        //delete
-        public void DeleteFromBusFleet(Bus bus)
-        {
-            dal.DeleteBus(bus.BusLicense);
-        }
-        #endregion
-
         #region BusRoutes
         //create
         public string AddBusRoute(BO.BusRoute broute)
@@ -98,14 +60,14 @@ namespace BLApi
             dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
         }
         //retrieve
-        public BusRoute GetBusRoute(string lineID)
+        public BusRoute GetBusRoute(BusRoute bRoute)
         {
             BusRoute broute = new BusRoute();//create an instance of BusRoute
-            broute.Route = dal.GetBusLine(lineID); //get the BusLine with that ID and place in route
+            broute.Route = dal.GetBusLine(bRoute.Route.BusLineID); //get the BusLine with that ID and place in route
             IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
             broute.RouteStops = (from st in stations
-                                   where st.lineID == lineID
-                                   select st); //select all the LineStations that have that ID and place in routeStops
+                                   where st.lineID == bRoute.Route.BusLineID
+                                 select st); //select all the LineStations that have that ID and place in routeStops
             return broute;
         }
 
@@ -143,10 +105,6 @@ namespace BLApi
 
             return routeList;
         }
-        //public IEnumerable<BusRoute> GetStationsInBusRouteWithSelectedFields(Func<BusRoute, object> generate)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         //update
         public void UpdateBusRoute(BO.BusRoute broute)
@@ -211,46 +169,54 @@ namespace BLApi
         }
         #endregion
 
-        #region StationsWithRoutes
-        //NOTE: there are no addition or deletion methods in this crud implementation for this class
-        // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
-        // the active status of the busStop.
+        #region Making Busses Accessable in PO layer
+        public IEnumerable<Buses> GetAllBuses()
+        {
+            List<Buses> busList = new List<Buses>();
+            IEnumerable<Bus> bus = dal.GetAllBus();
 
-        //retrieve 
-        public StationWithRoutes GetStationWithRoute(string stationCode)
-        {
-            StationWithRoutes swr = new StationWithRoutes();
-            List<BusRoute> broutes = GetAllBusRoutes().ToList();
-            foreach (BusRoute b in broutes)
+            foreach (var buss in bus)
             {
-                foreach (LineStation l in b.RouteStops)
-                {
-                    if (l.stationCode == stationCode)
-                    {
-                        swr.CurrentLines.Add(b);
-                    }
-                }
+                Buses bs = new Buses();
+                bs.bus = new Bus();
+                bs.bus.BusLicense = buss.BusLicense;
+                bs.bus.BusFuel = buss.BusFuel;
+                bs.bus.BusErased = buss.BusErased;
+                bs.bus.BusMaintenanceDate = buss.BusMaintenanceDate;
+                bs.bus.BusMileage = buss.BusMileage;
+                bs.bus.BusRegDate = buss.BusRegDate;
+                bs.bus.BusStatus = buss.BusStatus;
+
+                busList.Add(bs);
             }
-            return swr;
-        }
-        //update:
-        public void UpdateStationWithRoutes(StationWithRoutes station)
-        {
-            //only can update the active status ///check if already on route if already assigned toa route then cannot update. if not assigned no problem
-            throw new NotImplementedException();
+
+            return busList;
         }
         #endregion
 
-        //#region BusStations
+        #region Getting all the Routes that visit a Given Station
+        //NOTE: This is a retireival method which returns a list of BusRoutes that go through a given BusStation
+        public IEnumerable<BusRoute> GetRoutesofStation(BusStations station)
+        {
+            List<BusRoute> routesOfStation = new List<BusRoute>();
+            
+            string code = station.Stop.StopCode;
 
-        //public BusStop getOneBusStop(BusStations stations)
-        //{
-        //    string code = stations.stop.StopCode;
-        //    BusStop b = dal.GetBusStop(code);
-        //    return b;
-        //}
+            List<LineStation> listStations = (from ls in dal.GetAllLineStations()
+                                             where station.Stop.StopCode == ls.stationCode
+                                             select ls).ToList(); //find all the lineStations that have this station Code.
 
-        //#endregion
+            List<BusRoute> listRoutes = GetAllBusRoutes().ToList(); //get all the BusRoutes
+
+            foreach (LineStation lineS in listStations) 
+            {
+                BusRoute route = listRoutes.Find(r => r.Route.BusLineID == lineS.lineID); //find all the routes that correspond to those LineStations
+                routesOfStation.Add(route); //add the found route
+            }
+
+            return routesOfStation;
+        }
+        #endregion
 
         #region ScheduleOfRoute
         //create
@@ -265,7 +231,7 @@ namespace BLApi
         {
             ScheduleOfRoute sched = new ScheduleOfRoute();
 
-            sched.CurrentRoute = GetBusRoute(lineID);
+            //sched.CurrentRoute = GetBusRoute(lineID);
             sched.RouteSchedule = dal.GetLineLeaving(lineID);
             sched.SelectedStaff = dal.GetStaff(sched.RouteSchedule.BusDriver);
             return sched;
@@ -286,5 +252,21 @@ namespace BLApi
         }
         #endregion
 
+        void AddLineTrip(LineTrip trip)
+        {
+            AddScheduleOfRoute(trip.LTSchedule);
+            dal.AddBusOnTrip(trip.LTbus);
+            dal.AddBusStop(trip.LTStation.Stop);
+        }
+
+        void IBL.AddLineTrip(LineTrip trip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LineTrip GetLineTrip(string stationCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

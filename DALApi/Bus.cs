@@ -78,6 +78,7 @@ namespace DO
             set { erased = value; }
         }
 
+    
         /* OVERRIDE TOSTRING */
 
         public override string ToString()
