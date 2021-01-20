@@ -34,7 +34,9 @@ namespace BLApi
         //#region BusStation
         //BusStop getOneBusStop(BusStations busStations);
         //#endregion
-
+        #region Bus
+        IEnumerable<Buses> GetAllBuses();
+        #endregion
         #region Stations
         IEnumerable<BusStations> getAllBusStops();
         string GetBusStationsCode(BusStations bs);

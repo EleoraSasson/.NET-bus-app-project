@@ -24,7 +24,7 @@ namespace BO
         /// Value Type: IEnumerable<Bus>, therefore contains the following properties -License; Mileage; Fuel; RegDate; MaintenanceDate; Status; Erased - and is countable 
         /// It defines the fleet of buses
         /// </summary>
-        public IEnumerable<Bus> busesInFleet
+        public IEnumerable<Bus> BusInFleet
         {
             get { return buses; }
             set { buses = value; }

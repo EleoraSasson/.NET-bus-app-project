@@ -36,6 +36,14 @@ namespace PLConsole
             List<BusStations> iamtired = bl.getAllBusStops().ToList();
             foreach(var r in iamtired)
             {
+               // r.Stop.StopLocation.
+              //  Console.WriteLine(r);
+            }
+
+            List<Buses> notagain = bl.GetAllBuses().ToList();
+            foreach (var r in notagain)
+            {
+
                 Console.WriteLine(r);
             }
             //#region Testing BusFleet

@@ -44,7 +44,7 @@ namespace BLApi
         public BusFleet GetEntireBusFleet()
         {
             BusFleet fleet = new BusFleet();
-            fleet.busesInFleet = dal.GetAllBuses();
+            fleet.BusInFleet = dal.GetAllBus();
             return fleet;
         }
         //update
@@ -207,28 +207,51 @@ namespace BLApi
             return stationList;
         }
 
+        public IEnumerable<Buses> GetAllBuses()
+        {
+            List<Buses> busList = new List<Buses>();
+            IEnumerable<Bus> bus = dal.GetAllBus();
+
+            foreach (var buss in bus)
+            {
+                Buses bs = new Buses();
+                bs.bus = new Bus();
+                bs.bus.BusLicense = buss.BusLicense;
+                bs.bus.BusFuel = buss.BusFuel;
+                bs.bus.BusErased = buss.BusErased;
+                bs.bus.BusMaintenanceDate = buss.BusMaintenanceDate;
+                bs.bus.BusMileage = buss.BusMileage;
+                bs.bus.BusRegDate = buss.BusRegDate;
+                bs.bus.BusStatus = buss.BusStatus;
+
+                busList.Add(bs);
+            }
+
+            return busList;
+        }
+
         #region StationsWithRoutes
         //NOTE: there are no addition or deletion methods in this crud implementation for this class
         // this is because the purpose of this class is retrieval of information only. Updating is allowed only to update
         // the active status of the busStop.
 
         //retrieve 
-        public StationWithRoutes GetStationWithRoute(string stationCode)
-        {
-            StationWithRoutes swr = new StationWithRoutes();
-            List<BusRoute> broutes = GetAllBusRoutes().ToList();
-            foreach (BusRoute b in broutes)
-            {
-                foreach (LineStation l in b.RouteStops)
-                {
-                    if (l.stationCode == stationCode)
-                    {
-                        swr.CurrentLines.Add(b);
-                    }
-                }
-            }
-            return swr;
-        }
+        //public StationWithRoutes GetStationWithRoute(string stationCode)
+        //{
+        //    StationWithRoutes swr = new StationWithRoutes();
+        //    List<BusRoute> broutes = GetAllBusRoutes().ToList();
+        //    foreach (BusRoute b in broutes)
+        //    {
+        //        foreach (LineStation l in b.RouteStops)
+        //        {
+        //            if (l.stationCode == stationCode)
+        //            {
+        //                swr.CurrentLines.Add(b);
+        //            }
+        //        }
+        //    }
+        //    return swr;
+        //}
         //update:
         public void UpdateStationWithRoutes(StationWithRoutes station)
         {
@@ -309,9 +332,10 @@ namespace BLApi
             throw new NotImplementedException();
         }
 
-      
-
-
+        public StationWithRoutes GetStationWithRoute(string stationCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     //    #region CRUD BusFleet
@@ -352,13 +376,13 @@ namespace BLApi
 
     //    public IEnumerable<BusFleet> GetEntireBusFleet()
     //    {
-    //        return from Bus in dal.GetAllBuses()
+    //        return from Bus in dal.GetAllBus()
     //               select BusFleet; //?
     //    }
 
     //    public BusFleet GetFleet() //???
     //    {
-    //        var fleet = dal.GetAllBuses();
+    //        var fleet = dal.GetAllBus();
     //        return fleet as BusFleet;
     //    }
 

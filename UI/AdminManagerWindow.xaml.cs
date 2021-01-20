@@ -31,6 +31,8 @@ namespace UI
         public static ObservableCollection<Stations> stationCollection;
         public static ObservableCollection<BusStations> stopCollection;
         public static ObservableCollection<BusRoute> sWithRouteCollection;
+        public static ObservableCollection<Buses> fleetCollection;
+        //public static int count = fleetCollection.Count();
 
         BO.BusStations bStations;
         BO.BusRoute bRoute;
@@ -49,22 +51,30 @@ namespace UI
             Cb_StationNo.DataContext = stopCollection;
             Cb_StationNo.DisplayMemberPath = "Stop.StopCode";
             Cb_StationNo.SelectionChanged += Cb_StationNo_SelectionChanged;
+
+            List<Buses> buses = bl.GetAllBuses().ToList();
+            fleetCollection = new ObservableCollection<Buses>(buses);
+            lv_BusList.DataContext = fleetCollection;
+            tb_busNum.Text = fleetCollection.Count().ToString();
         }
 
         private void Cb_StationNo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            bStations = (Cb_StationNo.SelectedItem as BO.BusStations);
-            string code = bl.GetBusStationsCode(bStations);
-            BO.StationWithRoutes swr = bl.GetStationWithRoute(code);
+            ExpanderGrid.DataContext = (Cb_StationNo.SelectedItem as BO.BusStations);
+            //bStations = (Cb_StationNo.SelectedItem as BO.BusStations);
+            //string code = bl.GetBusStationsCode(bStations);
+          //  BO.StationWithRoutes swr = bl.GetStationWithRoute(code);
 
-            List<BusRoute> lines = swr.CurrentLines;
-            sWithRouteCollection = new ObservableCollection<BusRoute>(lines);
-            lb_LineIDs.DataContext = sWithRouteCollection;
+            //List<BusRoute> lines = swr.CurrentLines;
+            //sWithRouteCollection = new ObservableCollection<BusRoute>(lines);
+            //lb_LineIDs.DataContext = sWithRouteCollection;
 
-            if (bStations != null)
-            {
+            //if (bStations != null)
+            //{
 
-            }
+            //}
+
+
             //ExpanderGridRouteInfo.DataContext = bStations;
             //List<StationWithRoutes> stopList = bl.get().ToList();
             //stationCollection = new ObservableCollection<Stations>(stationList);
@@ -177,6 +187,11 @@ namespace UI
         }
 
         private void lb_LineIDs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

@@ -12,7 +12,7 @@ namespace DALApi
         /* IMPLEMENTING CRUD METHODS FOR DO ENTITIES */
 
         #region Bus
-        IEnumerable<DO.Bus> GetAllBuses();
+        IEnumerable<DO.Bus> GetAllBus();
         IEnumerable<object> GetBusListWithSelectedFields(Predicate<Bus> predicate);
         void AddBus(Bus bus); //create
         Bus GetBus(string license); //retrieve
@@ -30,7 +30,7 @@ namespace DALApi
         #endregion
 
         #region BusOnTrip
-        IEnumerable<DO.BusOnTrip> GetAllBusesOnTrip(); //IEnumerable
+        IEnumerable<DO.BusOnTrip> GetAllBusOnTrip(); //IEnumerable
         IEnumerable<object> GetBusOnTripWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
         int AddBusOnTrip(BusOnTrip busOnTrip);//create
         BusOnTrip GetBusOnTrip(int roadID);//retrieve
