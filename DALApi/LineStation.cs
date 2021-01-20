@@ -8,6 +8,7 @@ namespace DO
 {
     public class LineStation :ICloneable
     {
+        //line id
         private string id; 
         public string lineID
         {
@@ -15,6 +16,7 @@ namespace DO
             set { id = value; }
         }
 
+        //station Code
         private string station;
 
         public string stationCode
@@ -22,13 +24,32 @@ namespace DO
             get { return station; }
             set { station = value; }
         }
-         
+
+        //number of stations on the line
         private int stationNum;
 
-        public int stationNumber //number of stations on the line
+        public int stationNumber 
         {
             get { return stationNum; }
             set { stationNum = value; }
+        }
+
+        // Distance:
+        private int distance;
+
+        public int StationDistance
+        {
+            get { return distance; }
+            set { distance = value; }
+        }
+
+        // Average Travel Time:
+        private TimeSpan aveTravelT;
+
+        public TimeSpan StationAveTravelT
+        {
+            get { return aveTravelT; }
+            set { aveTravelT = value; }
         }
 
         /* OVERRIDE TOSTRING */

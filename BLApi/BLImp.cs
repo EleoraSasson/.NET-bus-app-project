@@ -10,6 +10,7 @@ using DS;
 
 namespace BLApi
 {
+    //adding try and catch to all qualities NOte there is a bl exception class
     public class BLImp : IBL
     {
 
@@ -225,48 +226,35 @@ namespace BLApi
             string lineID = AddBusRoute(sched.CurrentRoute);
             string staffID = dal.AddStaff(sched.SelectedStaff);
             dal.AddLineLeaving(sched.RouteSchedule, lineID, staffID);
+            dal.AddBusOnTrip(sched.BusOnRoute,lineID);
         }
         //retrieve
         public ScheduleOfRoute GetScheduleOfRoute(string lineID)
         {
             ScheduleOfRoute sched = new ScheduleOfRoute();
 
-            //sched.CurrentRoute = GetBusRoute(lineID);
-            sched.RouteSchedule = dal.GetLineLeaving(lineID);
-            sched.SelectedStaff = dal.GetStaff(sched.RouteSchedule.BusDriver);
+            List<BusRoute> broutes = GetAllBusRoutes().ToList();
+            sched.CurrentRoute = broutes.Find(r => r.Route.BusLineID == lineID); //setting route
+            List<BusOnTrip> busesOnTrip = dal.GetAllBusOnTrip().ToList();
+            sched.BusOnRoute = busesOnTrip.Find(b => b.BusLineID == lineID); //setting bus on route
+            sched.RouteSchedule = dal.GetLineLeaving(lineID); //setting schedule of route
+            sched.SelectedStaff = dal.GetStaff(sched.RouteSchedule.BusDriver); //setting driver for route
+
             return sched;
-        }
-        public IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute()
-        {
-            throw new NotImplementedException();
         }
         //update
         public void UpdateScheduleOfRoute(ScheduleOfRoute sched)
-        {
-            throw new NotImplementedException();
+        { 
+            UpdateBusRoute(sched.CurrentRoute); //update route
+            dal.UpdateBusOnTrip(sched.BusOnRoute); //update bus
+            dal.UpdateLineLeaving(sched.RouteSchedule); //update schedule
+            dal.UpdateStaff(sched.SelectedStaff.BusDriverID); //update staff of trip
         }
         //delete
         public void DeleteScheduleOfRoute(ScheduleOfRoute sched)
         {
-            throw new NotImplementedException();
+            dal.DeleteLineLeaving(sched.RouteSchedule.BusLineID, sched.RouteSchedule.BusFirstLine);
         }
         #endregion
-
-        void AddLineTrip(LineTrip trip)
-        {
-            AddScheduleOfRoute(trip.LTSchedule);
-            dal.AddBusOnTrip(trip.LTbus);
-            dal.AddBusStop(trip.LTStation.Stop);
-        }
-
-        void IBL.AddLineTrip(LineTrip trip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public LineTrip GetLineTrip(string stationCode)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

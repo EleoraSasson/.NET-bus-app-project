@@ -217,13 +217,14 @@ namespace DAL
         /// parameter: BusOnTrip
         /// return type: void
         /// </summary>
-        public int AddBusOnTrip(BusOnTrip busOnTrip)
+        public string AddBusOnTrip(BusOnTrip busOnTrip, string lineID)
         {
+            busOnTrip.BusLineID = lineID; //id of line bus is on
             busOnTrip.BusRoadID = DO.RunningNumbers.BusRunNum;
             if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), "Duplicate bus on trip ID");
             DataSource.busOnTripList.Add(busOnTrip.Clone());
-            return busOnTrip.BusRoadID; //return running number
+            return busOnTrip.BusRoadID.ToString(); //return running number
         }
 
         /// <summary>

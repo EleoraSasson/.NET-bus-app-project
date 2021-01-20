@@ -18,6 +18,15 @@ namespace DO
             set { roadID = value; }
         }
 
+        //Line ID:
+        private string lineID;
+
+        public string BusLineID
+        {
+            get { return lineID; }
+            set { lineID = value; }
+        }
+
         // License No. of Bus:
         private string license;
 

@@ -14,6 +14,7 @@ namespace BO
     /// </summary>
     public class ScheduleOfRoute
     {
+       
         /// <summary>
         /// Private BLObject "route"
         /// Value Type - BO.BusRoute.
@@ -62,5 +63,27 @@ namespace BO
             get { return staff; }
             set { staff = value; }
         }
+        /// <summary>
+        /// Private BLObject "bus"
+        /// Value Type - DO.BusOnTrip.
+        /// This is the bus assigned to the specific route
+        /// </summary>
+        private BusOnTrip bus;
+        /// <summary>
+        /// Public BLObject "BusOnRoute"
+        /// Value Type - DO.BusOnTrip.
+        /// This is the bus assigned to the specific route
+        /// </summary>
+        public BusOnTrip BusOnRoute
+        {
+            get { return bus; }
+            set { bus = value; }
+        }
+
+        public override string ToString()
+        {
+            return "Current route " + CurrentRoute.ToString() + " Schedule " + RouteSchedule.ToString() + "Bus On Trip " + BusOnRoute.ToString() + "selected staff " + SelectedStaff.ToString()  ;
+        }
+
     }
 }

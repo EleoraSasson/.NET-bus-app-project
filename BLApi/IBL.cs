@@ -35,7 +35,6 @@ namespace BLApi
         #endregion
 
         #region ScheduleOfRoute
-        IEnumerable<ScheduleOfRoute> GetAllSchedulesOfRoute();
         void AddScheduleOfRoute(ScheduleOfRoute sched); //create
         ScheduleOfRoute GetScheduleOfRoute(string lineID); //retrieve
         void UpdateScheduleOfRoute(ScheduleOfRoute sched); //update
@@ -45,10 +44,6 @@ namespace BLApi
         #region Routes Through a Specific Station 
         IEnumerable<BusRoute> GetRoutesofStation(BusStations station); //retrieve
         #endregion
-
-        #region LineTrip [Simulation Logic]
-        void AddLineTrip(LineTrip trip);//create
-        LineTrip GetLineTrip(string stationCode);//retrieve
-        #endregion
+       
     }
 }

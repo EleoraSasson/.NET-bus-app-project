@@ -32,7 +32,7 @@ namespace DALApi
         #region BusOnTrip
         IEnumerable<DO.BusOnTrip> GetAllBusOnTrip(); //IEnumerable
         IEnumerable<object> GetBusOnTripWithSelectedFields(Func<DO.BusOnTrip, object> generate); //IEnumerable
-        int AddBusOnTrip(BusOnTrip busOnTrip);//create
+        string AddBusOnTrip(BusOnTrip busOnTrip, string lineID);//create
         BusOnTrip GetBusOnTrip(int roadID);//retrieve
         void UpdateBusOnTrip(BusOnTrip busOnTrip);//update
         void DeleteBusOnTrip(int roadID);//delete
