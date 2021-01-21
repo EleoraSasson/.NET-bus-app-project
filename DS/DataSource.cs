@@ -24,15 +24,6 @@ namespace DS
         public static List<UserTrip> userTripList;
         static DataSource() //add aan init to start off witha basic bunch of buses
         {
-            //least 50 stations, 10 lines of at least 10 stations, 20 buses
-            
-          
-            //Defines and a new list of BusOnTrip and adds an object of type BusOnTrip to the List:
-            busOnTripList = new List<BusOnTrip>();
-
-            //Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
-            lineLeavingList = new List<LineLeaving>();
-
             //Defines and a new list of Staff and adds an object of type Staff to the List:
             staffList = new List<Staff>();
 
@@ -198,7 +189,25 @@ namespace DS
                         BusEnd = "39019",
                         LineErased = false
                     },
-            };
+					 new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 9,
+						BusRegion = Regions.North_Golan,
+						BusStart = "39006",
+						BusEnd = "39019",
+						LineErased = false
+					},
+					  new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 10,
+						BusRegion = Regions.National,
+						BusStart = "38831",
+						BusEnd = "39019",
+						LineErased = false
+					},
+			};
             #endregion
 
             #region INIT BusStops
@@ -209,7 +218,7 @@ namespace DS
 					{
 						StopCode = "38831",
 						StopName = " בי''ס בר לב / בן יהודה",
-						StopAddress = " רחוב:בן יהודה 76 עיר: כפר סבא רציף: קומה",
+						StopAddress = " רחוב:בן יהודה 76 עיר: כפר סבא רציף: קומה",	
 						StopLocation = new GeoCoordinate(32.183921, 34.917806),
 						StopActive = true
 					},
@@ -363,38 +372,6 @@ namespace DS
 						StopName = "עיריית מודיעין מכבים רעות",
 						StopAddress = "רחוב:  עיר: מודיעין מכבים רעות רציף:   קומה",
 						StopLocation = new GeoCoordinate(31.908499, 35.007955),
-						StopActive = true
-					},
-					new BusStop
-					{
-						StopCode = "39028",
-						StopName = "חיים ברלב/מרדכי מקלף",
-						StopAddress = "רחוב:חיים ברלב 30 עיר: מודיעין מכבים רעות רציף:   קומה",
-						StopLocation = new GeoCoordinate(31.907828, 35.000614),
-						StopActive = true
-					},
-					new BusStop
-					{
-						StopCode = "39028",
-						StopName = "חיים ברלב/מרדכי מקלף",
-						StopAddress = "רחוב:חיים ברלב 30 עיר: מודיעין מכבים רעות רציף:   קומה",
-						StopLocation = new GeoCoordinate(31.907828, 35.000614),
-						StopActive = true
-					},
-					new BusStop
-					{
-						StopCode = "39028",
-						StopName = "חיים ברלב/מרדכי מקלף",
-						StopAddress = "רחוב:חיים ברלב 30 עיר: מודיעין מכבים רעות רציף:   קומה",
-						StopLocation = new GeoCoordinate(31.907828, 35.000614),
-						StopActive = true
-					},
-					new BusStop
-					{
-						StopCode = "39028",
-						StopName = "חיים ברלב/מרדכי מקלף",
-						StopAddress = "רחוב:חיים ברלב 30 עיר: מודיעין מכבים רעות רציף:   קומה",
-						StopLocation = new GeoCoordinate(31.907828, 35.000614),
 						StopActive = true
 					},
 					new BusStop
@@ -617,6 +594,75 @@ namespace DS
 			};
 			#endregion
 
+			// TIMESPAN???
+			#region INIT BusOnTrip
+			//Defines and a new list of BusOnTrip and adds an object of type BusOnTrip to the List:
+			busOnTripList = new List<BusOnTrip>()
+			{
+				new BusOnTrip
+				{
+					BusLineID = "11",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+					
+				},
+				new BusOnTrip
+				{
+					BusLineID = "12",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "13",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "14",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "15",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "16",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "17",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "18",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "19",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+				new BusOnTrip
+				{
+					BusLineID = "20",
+					BusRoadID = RunningNumbers.BusRunNum.ToString(),
+
+				},
+
+			};
+			#endregion
+
 			#region  INIT LineStation
 			//Defines and a new list of LineStations and adds an object of type LineStation to the List:
 			// initialised with 16 line Stations
@@ -628,98 +674,444 @@ namespace DS
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38916", //start
+					stationCode = "38831", 
 					stationNumber = 1
 				},
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "39024", //end
+					stationCode = "38894", 
 					stationNumber = 2
 				},
 				new LineStation
 				{
+					lineID = busLineList[i].BusLineID.ToString(),
+					stationCode = "38903", 
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i].BusLineID.ToString(),
+					stationCode = "38912", 
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i].BusLineID.ToString(),
+					stationCode = "38916",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i].BusLineID.ToString(),
+					stationCode = "38922", 
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i].BusLineID.ToString(),
+					stationCode = "39001", 
+					stationNumber = 7
+				},
+				new LineStation
+				{
 					lineID = busLineList[i + 1].BusLineID.ToString(),
-					stationCode = "38903",
+					stationCode = "389004 ",
 					stationNumber = 1
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 1].BusLineID.ToString(),
-					stationCode = "38894",
+					stationCode = "389006 ",
+					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 1].BusLineID.ToString(),
+					stationCode = "389005 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 1].BusLineID.ToString(),
+					stationCode = "39007 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 1].BusLineID.ToString(),
+					stationCode = "39008",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39012 ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39013 ",
 					stationNumber = 2
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 2].BusLineID.ToString(),
-					stationCode = "38894",
-					stationNumber = 1
+					stationCode = "39014 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39017 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39018 ",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39019 ",
+					stationNumber = 6
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 2].BusLineID.ToString(),
 					stationCode = "39024",
+					stationNumber = 7
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39028 ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39040 ",
 					stationNumber = 2
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 3].BusLineID.ToString(),
-					stationCode = "38831",
-					stationNumber = 1
+					stationCode = "39024 ",
+					stationNumber = 3
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 3].BusLineID.ToString(),
-					stationCode = "39007",
+					stationCode = "39019 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39017 ",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39043 ",
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39051",
+					stationNumber = 7
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 3].BusLineID.ToString(),
+					stationCode = "39050",
+					stationNumber = 8
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "3939041",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "39044 ",
 					stationNumber = 2
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 4].BusLineID.ToString(),
-					stationCode = "39005",
-					stationNumber = 1
+					stationCode = "39049",
+					stationNumber = 3
 				},
 				new LineStation
 				{
 					lineID = busLineList[i + 4].BusLineID.ToString(),
-					stationCode = "39006",
-					stationNumber = 2
+					stationCode = "39043",
+					stationNumber = 4
 				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "39042",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "39050",
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "39052",
+					stationNumber = 7
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 4].BusLineID.ToString(),
+					stationCode = "39051",
+					stationNumber = 8
+				},
+				
 				new LineStation
 				{
 					lineID = busLineList[i + 5].BusLineID.ToString(),
-					stationCode = "38903",
-					stationNumber = 1
-				},
-				new LineStation
-				{
-					lineID = busLineList[i + 5].BusLineID.ToString(),
-					stationCode = "39072",
-					stationNumber = 2
-				},
-				new LineStation
-				{
-					lineID = busLineList[i + 6].BusLineID.ToString(),
-					stationCode = "39093",
-					stationNumber = 1
-				},
-				new LineStation
-				{
-					lineID = busLineList[i + 6].BusLineID.ToString(),
-					stationCode = "39092",
-					stationNumber = 2
-				},
-				new LineStation
-				{
-					lineID = busLineList[i + 7].BusLineID.ToString(),
 					stationCode = "38831",
 					stationNumber = 1
 				},
 				new LineStation
 				{
-					lineID = busLineList[i + 7].BusLineID.ToString(),
-					stationCode = "39019",
+					lineID = busLineList[i + 5].BusLineID.ToString(),
+					stationCode = " 39013",
 					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 5].BusLineID.ToString(),
+					stationCode = " 39057",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 5].BusLineID.ToString(),
+					stationCode = " 39059",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 5].BusLineID.ToString(),
+					stationCode = " 39068",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 5].BusLineID.ToString(),
+					stationCode = " 39066",
+					stationNumber = 6
+				},
+				
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = "39093 ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = " 39092 ",
+					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = "39091 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = "39076 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = "39075",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = " 39073",
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 6].BusLineID.ToString(),
+					stationCode = " 390434",
+					stationNumber = 7
+				},
+				
+				new LineStation
+				{
+					lineID = busLineList[i + 7].BusLineID.ToString(),
+					stationCode = "39012 ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 7].BusLineID.ToString(),
+					stationCode = "39013 ",
+					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 7].BusLineID.ToString(),
+					stationCode = "39066",
+					stationNumber = 3
+				},
+				
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = "39049 ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = "39043",
+					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = "39042",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = " 389004 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = "389006",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 8].BusLineID.ToString(),
+					stationCode = "389005",
+					stationNumber = 6
+				},
+				
+
+				new LineStation
+				{
+					lineID = busLineList[i + 9].BusLineID.ToString(),
+					stationCode = "39014  ",
+					stationNumber = 1
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 9].BusLineID.ToString(),
+					stationCode = "39017 ",
+					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 9].BusLineID.ToString(),
+					stationCode = "389006 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 9].BusLineID.ToString(),
+					stationCode = "389005",
+					stationNumber = 4
+				},
+				
+			};
+			#endregion
+
+			//FIX line leavging Timspan not destination stations!!!
+			#region INIT LineLeaving
+			//Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
+			lineLeavingList = new List<LineLeaving>() 
+			{
+				new LineLeaving
+				{
+					BusLineID = "11",
+					BusFirstLine = "38831",
+					BusLastLine = "39001"
+				},
+				new LineLeaving
+				{
+					BusLineID = "12",
+					BusFirstLine = "389004 ",
+					BusLastLine = "39008"
+				},
+				new LineLeaving
+				{
+					BusLineID = "13",
+					BusFirstLine = "39012 ",
+					BusLastLine = "39024"
+				},
+				new LineLeaving
+				{
+					BusLineID = "14",
+					BusFirstLine = "39028 ",
+					BusLastLine = "39050"
+				},
+
+				new LineLeaving
+				{
+					BusLineID = "15",
+					BusFirstLine = "39028 ",
+					BusLastLine = "39051"
+				},
+				new LineLeaving
+				{
+					BusLineID = "16",
+					BusFirstLine = "38831 ",
+					BusLastLine = "39066"
+				},
+				new LineLeaving
+				{
+					BusLineID = "17",
+					BusFirstLine = "39093 ",
+					BusLastLine = "39043"
+				},
+				new LineLeaving
+				{
+					BusLineID = "18",
+					BusFirstLine = "39012 ",
+					BusLastLine = "39066"
+				},
+				new LineLeaving
+				{
+					BusLineID = "19",
+					BusFirstLine = "39049 ",
+					BusLastLine = "389005"
+				},
+				new LineLeaving
+				{
+					BusLineID = "20",
+					BusFirstLine = "39014 ",
+					BusLastLine = "389005 "
 				},
 			};
 			#endregion

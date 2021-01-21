@@ -28,8 +28,8 @@ namespace DO
 
         public string userLast
         {
-            get { return first; }
-            set { first = value; }
+            get { return last; }
+            set { last = value; }
         }
 
 
@@ -62,7 +62,6 @@ namespace DO
         {
             return "User details: \n Username: " + userName + " \n Permission: " + adminPermission.ToString();
         }
-
 
     }
 }

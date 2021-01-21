@@ -32,8 +32,8 @@ namespace UI
         public static ObservableCollection<BusRoute> sWithRouteCollection;
         public static ObservableCollection<Buses> fleetCollection;
         public static ObservableCollection<UserPortal> usersCollection;
-
         public static ObservableCollection<ScheduleOfRoute> companySchedule;
+
         BO.BusStations bStation;
         BO.BusRoute bRoute;
 
@@ -45,7 +45,7 @@ namespace UI
             routeCollection = new ObservableCollection<BusRoute>(routeList);
             Cb_RouteID.DataContext = routeCollection;
             Cb_RouteID.DisplayMemberPath = "Route.BusLineID";
-            Cb_RouteID.SelectionChanged += Cb_RouteID_SelectionChanged; //declaring the event handler
+            Cb_RouteID.SelectionChanged += Cb_RouteID_SelectionChanged;
 
             List<BusStations> stations = bl.GetAllBusStops().ToList();
             stopCollection = new ObservableCollection<BusStations>(stations);
@@ -58,23 +58,27 @@ namespace UI
             lv_BusList.DataContext = fleetCollection;
             tb_busNum.Text = fleetCollection.Count().ToString();
 
-            List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
-            foreach (var route in routeList)
-            {
-                ScheduleOfRoute singleRouteSched = bl.GetScheduleOfRoute(route);
-                routesSchedules.Add(singleRouteSched);
-            }
-            companySchedule = new ObservableCollection<ScheduleOfRoute>(routesSchedules);
-            Dg_BusSchedule.DataContext = companySchedule; 
-            
+
+            List<UserPortal> users = bl.GetAllUsers().ToList();
+            usersCollection = new ObservableCollection<UserPortal>();
+            lv_Users.DataContext = usersCollection;
+
+            //NOTE: need to initialize datasource before this can work
+            //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
+            //foreach (var route in routeList)
+            //{
+            //    ScheduleOfRoute singleRouteSched = bl.GetScheduleOfRoute(route);
+            //    routesSchedules.Add(singleRouteSched);
+            //}
+            //companySchedule = new ObservableCollection<ScheduleOfRoute>(routesSchedules);
+            //Dg_BusSchedule.DataContext = companySchedule; 
+
 
             cb_Simulation.DataContext = stopCollection;
             cb_Simulation.DisplayMemberPath = "Stop.StopCode";
             cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
 
-            List<UserPortal> users = bl.GetAllUsers().ToList();
-            usersCollection = new ObservableCollection<UserPortal>();
-            lv_Users.DataContext = usersCollection;
+;
         }
 
         private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -152,6 +156,10 @@ namespace UI
         #endregion
 
         #region UserTab
+        private void lv_Users_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region Simulation
@@ -198,5 +206,7 @@ namespace UI
         {
 
         }
+
+       
     }
 }

@@ -21,5 +21,9 @@ namespace BO
             set { user = value; }
         }
 
+        public override string ToString()
+        {
+            return Users.userLast + "," + Users.userFirst + "- permission:" + Users.adminPermission; 
+        }
     }
 }
