@@ -10,31 +10,29 @@ using System.Device.Location;
 
 namespace DS
 {
-    public static class DataSource
-    {
-        public static List<Bus> busList;
-        public static List<BusLine> busLineList;
-        public static List<BusOnTrip> busOnTripList;
-        public static List<BusStop> busStopList;
-        public static List<LineLeaving> lineLeavingList;
-        public static List<LineStation> lineStationList;
-        public static List<Staff> staffList;
-        public static List<SuccessiveStations> succStationsList;
-        public static List<User> usersList;
-        public static List<UserTrip> userTripList;
-        static DataSource() //add aan init to start off witha basic bunch of buses
-        {
-            //Defines and a new list of Staff and adds an object of type Staff to the List:
-            staffList = new List<Staff>();
+	public static class DataSource
+	{
+		public static List<Bus> busList;
+		public static List<BusLine> busLineList;
+		public static List<BusOnTrip> busOnTripList;
+		public static List<BusStop> busStopList;
+		public static List<LineLeaving> lineLeavingList;
+		public static List<LineStation> lineStationList;
+		public static List<Staff> staffList;
+		public static List<SuccessiveStations> succStationsList;
+		public static List<User> usersList;
+		public static List<UserTrip> userTripList;
+		static DataSource() //add aan init to start off witha basic bunch of buses
+		{
+			
+			//Defines and a new list of SuccessiveStations and adds an object of type SuccessiceStations to the List:
+			succStationsList = new List<SuccessiveStations>();
 
-            //Defines and a new list of SuccessiveStations and adds an object of type SuccessiceStations to the List:
-            succStationsList = new List<SuccessiveStations>();
+			//Defines and a new list of User and adds an object of type User to the List:
+			usersList = new List<User>();
 
-            //Defines and a new list of User and adds an object of type User to the List:
-            usersList = new List<User>();
-
-            ////Defines and a new list of UserTrip and adds an object of type UserTrip to the List:
-            //userTripList = new List<UserTrip>();
+			////Defines and a new list of UserTrip and adds an object of type UserTrip to the List:
+			//userTripList = new List<UserTrip>();
 
 			#region INIT busList
 			//Defines and a new list of Buses and adds an object of type Bus to the List:
@@ -42,153 +40,153 @@ namespace DS
 			initBusList(busList);
 
 			void initBusList(List<Bus> busList)
-            {
-				
-               //randomly initialize 20 buses
-                for (int k = 0; k < 20; k++)
-                {
-                    System.Threading.Thread.Sleep(20); //allows for randomised values to be random 
-                    Bus b = new Bus();
-                    b.BusRegDate = randDate();
-                    b.BusMaintenanceDate = DateTime.Now;
-                    b.BusLicense = randLicense(b);
-                    b.BusMileage = randMileage();
-                    System.Threading.Thread.Sleep(10);
-                    b.BusStatus = Status.Available;
-                    b.BusFuel = randFuel();
-                    busList.Add(b);
-                }
-            }
+			{
 
-            //Methods to Randomise bus initialisation:
-            DateTime randDate()
-            {
-                Random y = new Random();
-                int year = y.Next(2010, 2021); //random year
-                Random m = new Random();
-                int month = m.Next(1, 13); //random month
-                Random d = new Random();
-                int day = d.Next(1, 32);
-                var NewDate = new DateTime(year, month, day);
-                return NewDate;
-            }
+				//randomly initialize 20 buses
+				for (int k = 0; k < 20; k++)
+				{
+					System.Threading.Thread.Sleep(20); //allows for randomised values to be random 
+					Bus b = new Bus();
+					b.BusRegDate = randDate();
+					b.BusMaintenanceDate = DateTime.Now;
+					b.BusLicense = randLicense(b);
+					b.BusMileage = randMileage();
+					System.Threading.Thread.Sleep(10);
+					b.BusStatus = Status.Available;
+					b.BusFuel = randFuel();
+					busList.Add(b);
+				}
+			}
 
-            //returns random license number according to the manufacture year of the bus
-            string randLicense(Bus bus)
-            {
-                Random rand = new Random();
-                string license;
-                if (bus.BusRegDate.Year < 2018) // license will have the format XX-XXX-XX
-                {
-                    int l = rand.Next(10000000, 99999999);
-                    string Blicense = Convert.ToString(l);
-                    var num1 = Blicense.Substring(0, 2);
-                    var num2 = Blicense.Substring(2, 3);
-                    var num3 = Blicense.Substring(5, 2);
-                    license = num1 + "-" + num2 + "-" + num3;
-                    return license;
-                }
-                else // license will have the format XXX-XX-XXX
-                {
-                    int l = rand.Next(10000000, 99999999);
-                    string Blicense = Convert.ToString(l);
-                    license = Regex.Replace(Blicense, @"^(...)(..)(...)$", "$1-$2-$3");
-                }
-                return license;
-            }
+			//Methods to Randomise bus initialisation:
+			DateTime randDate()
+			{
+				Random y = new Random();
+				int year = y.Next(2010, 2021); //random year
+				Random m = new Random();
+				int month = m.Next(1, 13); //random month
+				Random d = new Random();
+				int day = d.Next(1, 32);
+				var NewDate = new DateTime(year, month, day);
+				return NewDate;
+			}
 
-            //returns random mileage
-            int randMileage()
-            {
-                Random mile = new Random();
-                int mi = mile.Next(0, 100000);
-                return mi;
-            }
-            //returns random fuel
-            int randFuel()
-            {
-                Random fu = new Random();
-                int fue = fu.Next(0, 1200);
-                return fue;
-            }
-            #endregion
+			//returns random license number according to the manufacture year of the bus
+			string randLicense(Bus bus)
+			{
+				Random rand = new Random();
+				string license;
+				if (bus.BusRegDate.Year < 2018) // license will have the format XX-XXX-XX
+				{
+					int l = rand.Next(10000000, 99999999);
+					string Blicense = Convert.ToString(l);
+					var num1 = Blicense.Substring(0, 2);
+					var num2 = Blicense.Substring(2, 3);
+					var num3 = Blicense.Substring(5, 2);
+					license = num1 + "-" + num2 + "-" + num3;
+					return license;
+				}
+				else // license will have the format XXX-XX-XXX
+				{
+					int l = rand.Next(10000000, 99999999);
+					string Blicense = Convert.ToString(l);
+					license = Regex.Replace(Blicense, @"^(...)(..)(...)$", "$1-$2-$3");
+				}
+				return license;
+			}
 
-            #region INIT BusLine
-            //Defines and a new list of BusLines and adds an object of type BusLine to the List:
-            // initialised with 8 buslines
-            busLineList = new List<BusLine>()
-            {
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 1,
-                        BusRegion = Regions.South_Eilat,
-                        BusStart = "38916",
-                        BusEnd = "39024",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 2,
-                        BusRegion = Regions.North_Haifa,
-                        BusStart = "38903",
-                        BusEnd = "39024",
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 3,
-                        BusRegion = Regions.Center_Jerusalem,
-                        BusStart = "38894",
-                        BusEnd = "39024",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 4,
-                        BusRegion = Regions.Center_TelAviv,
-                        BusStart = "38831",
-                        BusEnd = "39007",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 5,
-                        BusRegion = Regions.Center_TelAviv,
-                        BusStart = "39005",
-                        BusEnd = "39006",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 6,
-                        BusRegion = Regions.National,
-                        BusStart = "38903",
-                        BusEnd = "39072",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 7,
-                        BusRegion = Regions.South_BeerSheva,
-                        BusStart = "39093",
-                        BusEnd = "39092",
-                        LineErased = false
-                    },
-                    new BusLine
-                    {
-                        BusLineID = RunningNumbers.LineRunNum.ToString(),
-                        BusLineNo = 8,
-                        BusRegion = Regions.Center_TelAviv,
-                        BusStart = "38831",
-                        BusEnd = "39019",
-                        LineErased = false
-                    },
+			//returns random mileage
+			int randMileage()
+			{
+				Random mile = new Random();
+				int mi = mile.Next(0, 100000);
+				return mi;
+			}
+			//returns random fuel
+			int randFuel()
+			{
+				Random fu = new Random();
+				int fue = fu.Next(0, 1200);
+				return fue;
+			}
+			#endregion
+
+			#region INIT BusLine
+			//Defines and a new list of BusLines and adds an object of type BusLine to the List:
+			// initialised with 8 buslines
+			busLineList = new List<BusLine>()
+			{
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 1,
+						BusRegion = Regions.South_Eilat,
+						BusStart = "38916",
+						BusEnd = "39024",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 2,
+						BusRegion = Regions.North_Haifa,
+						BusStart = "38903",
+						BusEnd = "39024",
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 3,
+						BusRegion = Regions.Center_Jerusalem,
+						BusStart = "38894",
+						BusEnd = "39024",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 4,
+						BusRegion = Regions.Center_TelAviv,
+						BusStart = "38831",
+						BusEnd = "39007",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 5,
+						BusRegion = Regions.Center_TelAviv,
+						BusStart = "39005",
+						BusEnd = "39006",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 6,
+						BusRegion = Regions.National,
+						BusStart = "38903",
+						BusEnd = "39072",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 7,
+						BusRegion = Regions.South_BeerSheva,
+						BusStart = "39093",
+						BusEnd = "39092",
+						LineErased = false
+					},
+					new BusLine
+					{
+						BusLineID = RunningNumbers.LineRunNum.ToString(),
+						BusLineNo = 8,
+						BusRegion = Regions.Center_TelAviv,
+						BusStart = "38831",
+						BusEnd = "39019",
+						LineErased = false
+					},
 					 new BusLine
 					{
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
@@ -208,17 +206,17 @@ namespace DS
 						LineErased = false
 					},
 			};
-            #endregion
+			#endregion
 
-            #region INIT BusStops
-            //Defines and a new list of BusStops and adds an object of type BusStop to the List:
-            busStopList = new List<BusStop>()
-			{ 
+			#region INIT BusStops
+			//Defines and a new list of BusStops and adds an object of type BusStop to the List:
+			busStopList = new List<BusStop>()
+			{
 					new BusStop
 					{
 						StopCode = "38831",
 						StopName = " בי''ס בר לב / בן יהודה",
-						StopAddress = " רחוב:בן יהודה 76 עיר: כפר סבא רציף: קומה",	
+						StopAddress = " רחוב:בן יהודה 76 עיר: כפר סבא רציף: קומה",
 						StopLocation = new GeoCoordinate(32.183921, 34.917806),
 						StopActive = true
 					},
@@ -597,67 +595,71 @@ namespace DS
 			// TIMESPAN???
 			#region INIT BusOnTrip
 			//Defines and a new list of BusOnTrip and adds an object of type BusOnTrip to the List:
+			//not setting arrival time as dependent on location of next station 
+			//&& not setting stations passed as updates on trip the license of the bus is also set based on buses that chosen
+
 			busOnTripList = new List<BusOnTrip>()
 			{
 				new BusOnTrip
 				{
 					BusLineID = "11",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-					
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(8,30,00)
+
 				},
 				new BusOnTrip
 				{
 					BusLineID = "12",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(5,45,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "13",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(6,15,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "14",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(6,00,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "15",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(9,30,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "16",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(6,35,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "17",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(7,30,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "18",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(10,30,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "19",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(7,30,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "20",
-					BusRoadID = RunningNumbers.BusRunNum.ToString(),
-
+					BusRoadID = RunningNumbers.BusRunNum,
+					BusFormalDT = new TimeSpan(6,15,00)
 				},
 
 			};
@@ -674,25 +676,25 @@ namespace DS
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38831", 
+					stationCode = "38831",
 					stationNumber = 1
 				},
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38894", 
+					stationCode = "38894",
 					stationNumber = 2
 				},
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38903", 
+					stationCode = "38903",
 					stationNumber = 3
 				},
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38912", 
+					stationCode = "38912",
 					stationNumber = 4
 				},
 				new LineStation
@@ -704,13 +706,13 @@ namespace DS
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "38922", 
+					stationCode = "38922",
 					stationNumber = 6
 				},
 				new LineStation
 				{
 					lineID = busLineList[i].BusLineID.ToString(),
-					stationCode = "39001", 
+					stationCode = "39001",
 					stationNumber = 7
 				},
 				new LineStation
@@ -881,7 +883,7 @@ namespace DS
 					stationCode = "39051",
 					stationNumber = 8
 				},
-				
+
 				new LineStation
 				{
 					lineID = busLineList[i + 5].BusLineID.ToString(),
@@ -918,7 +920,7 @@ namespace DS
 					stationCode = " 39066",
 					stationNumber = 6
 				},
-				
+
 				new LineStation
 				{
 					lineID = busLineList[i + 6].BusLineID.ToString(),
@@ -961,7 +963,7 @@ namespace DS
 					stationCode = " 390434",
 					stationNumber = 7
 				},
-				
+
 				new LineStation
 				{
 					lineID = busLineList[i + 7].BusLineID.ToString(),
@@ -980,7 +982,7 @@ namespace DS
 					stationCode = "39066",
 					stationNumber = 3
 				},
-				
+
 				new LineStation
 				{
 					lineID = busLineList[i + 8].BusLineID.ToString(),
@@ -1017,7 +1019,7 @@ namespace DS
 					stationCode = "389005",
 					stationNumber = 6
 				},
-				
+
 
 				new LineStation
 				{
@@ -1043,75 +1045,85 @@ namespace DS
 					stationCode = "389005",
 					stationNumber = 4
 				},
-				
+
 			};
 			#endregion
 
-			//FIX line leavging Timspan not destination stations!!!
 			#region INIT LineLeaving
 			//Defines and a new list of LineLeaving and adds an object of type LineLeaving to the List:
-			lineLeavingList = new List<LineLeaving>() 
+			lineLeavingList = new List<LineLeaving>()
 			{
 				new LineLeaving
 				{
 					BusLineID = "11",
-					BusFirstLine = "38831",
-					BusLastLine = "39001"
+					BusFirstLine =  new TimeSpan(8,30,00),
+					BusLastLine =  new TimeSpan(16,30,00),
+					BusDriver = "D111111",
 				},
 				new LineLeaving
 				{
 					BusLineID = "12",
-					BusFirstLine = "389004 ",
-					BusLastLine = "39008"
+					BusFirstLine = new TimeSpan(5,45,00),
+					BusLastLine = new TimeSpan(2,45,00),
+					BusDriver = "D111112",
+
 				},
 				new LineLeaving
 				{
 					BusLineID = "13",
-					BusFirstLine = "39012 ",
-					BusLastLine = "39024"
+					BusFirstLine = new TimeSpan(6,15,00),
+					BusLastLine = new TimeSpan(5,45,00),
+					BusDriver = "D111113",
 				},
 				new LineLeaving
 				{
 					BusLineID = "14",
-					BusFirstLine = "39028 ",
-					BusLastLine = "39050"
+					BusFirstLine = new TimeSpan(6,00,00),
+					BusLastLine = new TimeSpan(12,55,00),
+					BusDriver = "D111114",
 				},
 
 				new LineLeaving
 				{
 					BusLineID = "15",
-					BusFirstLine = "39028 ",
-					BusLastLine = "39051"
+					BusFirstLine = new TimeSpan(9,30,00),
+					BusLastLine = new TimeSpan(14,55,00),
+					BusDriver = "D111115",
 				},
 				new LineLeaving
 				{
 					BusLineID = "16",
-					BusFirstLine = "38831 ",
-					BusLastLine = "39066"
+					BusFirstLine = new TimeSpan(6,35,00),
+					BusLastLine = new TimeSpan(14,45,00),
+					BusDriver = "D111116",
 				},
 				new LineLeaving
 				{
 					BusLineID = "17",
-					BusFirstLine = "39093 ",
-					BusLastLine = "39043"
+					BusFirstLine = new TimeSpan(7,30,00),
+					BusLastLine = new TimeSpan(13,00,00),
+					BusDriver = "D111117",
 				},
 				new LineLeaving
 				{
 					BusLineID = "18",
-					BusFirstLine = "39012 ",
-					BusLastLine = "39066"
+					BusFirstLine = new TimeSpan(10,30,00),
+					BusLastLine = new TimeSpan(12,55,00),
+					BusDriver = "D111118",
 				},
 				new LineLeaving
 				{
 					BusLineID = "19",
-					BusFirstLine = "39049 ",
-					BusLastLine = "389005"
+					BusFirstLine = new TimeSpan(7,30,00),
+					BusLastLine = new TimeSpan(14,45,00),
+					BusDriver = "D111119",
 				},
 				new LineLeaving
 				{
 					BusLineID = "20",
-					BusFirstLine = "39014 ",
-					BusLastLine = "389005 "
+					BusFirstLine = new TimeSpan(6,15,00),
+					BusLastLine = new TimeSpan(16,30,00),
+					BusDriver = "D111120",
 				},
 			};
 			#endregion
@@ -1171,9 +1183,255 @@ namespace DS
 				},
 			};
 			#endregion
-		}
+
+			#region INIT Staff
+			staffList = new List<Staff>()
+			{
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Mark",
+					BusDriverLast = "Jones",
+					BusDriverAge = 45,
+					BusDriverCellNo = "053-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Simon",
+					BusDriverLast = "Cohen",
+					BusDriverAge = 21,
+					BusDriverCellNo = "053-111-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 1,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Andy",
+					BusDriverLast = "Tohmas",
+					BusDriverAge = 45,
+					BusDriverCellNo = "053-293-8978",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Sally",
+					BusDriverLast = "Carles",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-123-2321",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Shira",
+					BusDriverLast = "Hertz",
+					BusDriverAge = 36,
+					BusDriverCellNo = "053-659-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "David",
+					BusDriverLast = "Newman",
+					BusDriverAge = 47,
+					BusDriverCellNo = "053-909-2532",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Samuel",
+					BusDriverLast = "Falkson",
+					BusDriverAge = 38,
+					BusDriverCellNo = "053-667-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Sara",
+					BusDriverLast = "Parker",
+					BusDriverAge = 33,
+					BusDriverCellNo = "053-293-8845",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Scheryl",
+					BusDriverLast = "Black",
+					BusDriverAge = 32,
+					BusDriverCellNo = "053-446-3446",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Josh",
+					BusDriverLast = "Davis",
+					BusDriverAge = 29,
+					BusDriverCellNo = "053-555-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Julie",
+					BusDriverLast = "Owens",
+					BusDriverAge = 25,
+					BusDriverCellNo = "053-293-0053",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Mark",
+					BusDriverLast = "Cohen",
+					BusDriverAge = 22,
+					BusDriverCellNo = "053-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Charlie",
+					BusDriverLast = "Simons",
+					BusDriverAge = 24,
+					BusDriverCellNo = "053-293-8786",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Adam",
+					BusDriverLast = "Nelson",
+					BusDriverAge = 27,
+					BusDriverCellNo = "058-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Ruth",
+					BusDriverLast = "Miller",
+					BusDriverAge = 42,
+					BusDriverCellNo = "053-293-9797",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Cathy",
+					BusDriverLast = "Radford",
+					BusDriverAge = 27,
+					BusDriverCellNo = "053-777-2334",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Abigail",
+					BusDriverLast = "Rosen",
+					BusDriverAge = 36,
+					BusDriverCellNo = "058-293-2422",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Robert",
+					BusDriverLast = "Karlson",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-293-0003",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Betty",
+					BusDriverLast = "Jones",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-293-8888",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Moshe",
+					BusDriverLast = "Hertzman",
+					BusDriverAge = 25,
+					BusDriverCellNo = "053-932-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				
+			};
+            #endregion
+        }
 
     }
-
 
 }

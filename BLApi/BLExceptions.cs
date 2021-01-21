@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BO
-{ 
-    
+{
+
     #region BusFleet Exceptions
-        public class BusAlreadyInSystemException : Exception
-        {
-            public string busLicense;
+    public class BusAlreadyInSystemException : Exception
+    {
+        public string busLicense;
 
-            public BusAlreadyInSystemException(string license) : base() => busLicense = license;
-            public BusAlreadyInSystemException(string license, string msg) : base(msg) { busLicense = license; }
-            public BusAlreadyInSystemException(string license, string msg, Exception innerException) : base(msg, innerException) { busLicense = license; }
+        public BusAlreadyInSystemException(string license) : base() => busLicense = license;
+        public BusAlreadyInSystemException(string license, string msg) : base(msg) { busLicense = license; }
+        public BusAlreadyInSystemException(string license, string msg, Exception innerException) : base(msg, innerException) { busLicense = license; }
 
-            public override string ToString() => base.ToString() + $"{busLicense} already exsists in the Bus Fleet.";
-        }
+        public override string ToString() => base.ToString() + $"{busLicense} already exsists in the Bus Fleet.";
+    }
 
     public class BusMissingFromSystemException : Exception
     {
@@ -132,7 +132,7 @@ namespace BO
     {
         public string id;
         public BusLineAlreadyInSytemException(string message, Exception innerException) :
-            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).lineId;
         public override string ToString() => base.ToString() + $", Bus line {id} already exists.";
     }
 
@@ -141,7 +141,7 @@ namespace BO
     {
         public string id;
         public BusLineNotInSystem(string message, Exception innerException) :
-            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).lineId;
         public override string ToString() => base.ToString() + $", Bus line {id} cannot be found in the system.";
     }
 

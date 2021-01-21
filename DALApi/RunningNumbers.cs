@@ -57,5 +57,22 @@ namespace DO
         /// </summary>
         public static int UserRunNum { get { return runNum_user++; } }
         #endregion
+
+        #region StaffID
+        private static int runNum_staffID = 111111;
+
+        public static int StaffRunNum
+        {
+            get { return runNum_staffID++; }
+        }
+
+        private static int runNum_ManagerID = 1111111;
+
+        public static int ManagerRunNum
+        {
+            get { return runNum_ManagerID++; }
+        }
+
+        #endregion
     }
 }

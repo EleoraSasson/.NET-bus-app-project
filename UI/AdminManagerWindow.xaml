@@ -27,12 +27,12 @@
                 <TabItem Header="Manage Info">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="283*"/>
-                            <ColumnDefinition Width="411*"/>
+                            <ColumnDefinition Width="250*"/>
+                            <ColumnDefinition Width="200*"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59">
+                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59" Height="22" Margin="-2,-2,0,0" VerticalAlignment="Top">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -222,11 +222,13 @@
                                         <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
                                         <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10" SelectionChanged="Cb_Search_SelectionChanged"/>
                                         <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged" IsReadOnly="False"/>
-                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
+                                        <!--<ListView Width="500" Margin="90,0,216,10" Grid.Row="1"/>-->
+
+                                        <!--<DataGrid x:Name="Dg_BusSchedule" ItemsSource="{Binding}" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
                                               AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged" >
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Route No." Binding="{Binding CurrentRoute.Route.BusLineNo}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
-                                                <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding BusOnRoute.BusRoadID}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTemplateColumn Header="Date:" Width="60">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -234,7 +236,7 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                                <DataGridTextColumn Header="Start Stop:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Start Stop:" Binding="{Binding CurrentRoute.routeStops.BusStart}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTextColumn Header="Departure Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
                                                 <DataGridTextColumn Header="End Stop:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTextColumn Header="Arrival Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
@@ -242,7 +244,7 @@
                                                 <DataGridTextColumn Header="Driver" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
 
                                             </DataGrid.Columns>
-                                        </DataGrid>
+                                        </DataGrid>-->
                                         <Label x:Name="l_WhatInTable" BorderThickness="0" Foreground="DarkBlue" Grid.Row="1" Content="Bus Route Schedule for Selected Region:" Margin="-83,89,681,105" RenderTransformOrigin="0.632,-0.759">
                                             <Label.RenderTransform>
                                                 <TransformGroup>
@@ -256,7 +258,11 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <StackPanel/>
+                            <StackPanel Orientation="Horizontal" Background="CadetBlue" Margin="1,1,1,1" >
+                                <Image Source="LogoFull.PNG" Cursor="Arrow" Stretch="None" Margin="2,5,5,5" Opacity="0.45" Width="357"/>
+                                <TextBlock FontStyle="Normal" HorizontalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Black" Foreground="#FF0E1340" TextWrapping="Wrap" Width="318" VerticalAlignment="Center" IsEnabled="False" Cursor="Arrow" TextAlignment="Center" FontStretch="SemiCondensed" Margin="0,2,0,1"><Run Text="&quot;"/><Run Text="Here at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/> <Run Text ="we believe that travel is more than simply a way to get from A to B;"/><LineBreak/><Run FontSize="16" Foreground="Black"  Text="travel is an adventure"/><Run Text=". "/><LineBreak/><Run Text="We have all had those days were by the time you get to that all-important meeting you are exhausted from  the stress of traffic, late transits and the like. "/><LineBreak/><Run Text ="We understand this, which is why at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text = "our priorities are"/> <Run Text= " reliability, ease and convenience. "/><Run Text="We insure that our buses are well maintained, our routes planned and based on updated road issues and our staff highly qualified. "/><LineBreak/><Run/><Run Text=" "/><Run FontStyle="Italic" Foreground="Black" Text="We aim to give you the ultimate travel experience: comfortable, practical, efficient"/><Run Text=". &quot;"/><Run  FontSize="9" Text= " -The GT Team"/></TextBlock>
+
+                            </StackPanel>
                         </DockPanel>
                     </Grid>
 
@@ -287,15 +293,14 @@
                 </TabItem>
                 <TabItem Header="User Info">
                     <Grid Background="#FFE5E5E5">
-                        <ListView x:Name="lv_Users" ItemsSource="{Binding Path= Users}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
+                        <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="510" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
                             <ListView.View>
-                            <GridView x:Name="gv_UserList">
-                                <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding userName}"/>
-                                <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding userFirst}"/>
-                                <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding userLast}"/>
-                                <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding userId}"/>
-                                <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding adminPermission}"/>
-                            </GridView>
+                                <GridView x:Name="gv_UserList">
+                                    <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding Users.userName}"/>
+                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding Users.userFirst}"/>
+                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding Users.userLast}"/>
+                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding Users.userId}"/>
+                                </GridView>
                             </ListView.View>
                         </ListView>
                     </Grid>
@@ -329,15 +334,20 @@
                                     <DataGridTextColumn Header="Destination Station:" Width="200" Binding="{Binding CurrentRoute.RouteStops.stationCode , Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
-                            <Label x:Name="lb_cbSimulation" Grid.Column="1"  Margin="22,72,134,241" Content="Select Station:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" />
-                            <Label x:Name="lb_slSimulation" Grid.Column="1"  Margin="22,120,105,190" Content="Simulation Speed:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium"/>
-                            <ComboBox x:Name="cb_Simulation" Grid.Column="1" Margin="125,72,19,241"  Background="WhiteSmoke" BorderBrush="CadetBlue" ItemsSource="{Binding}"/>
-                            <Slider x:Name="sl_Simulation" Grid.Column="1" Margin="26,152,23,160" Cursor="Hand"/>
+                            <TextBox x:Name="Tb_Clock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" Height="34"  Background="WhiteSmoke" BorderBrush="CadetBlue " Text="00:00:00" IsReadOnly="True" Grid.Column="1" Margin="47,44,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Cursor="None" FontWeight="Bold" FontFamily="HP Simplified" FontSize="16" />
+                            <Button x:Name="b_StartClock" Content="Start" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" Margin="48,83,128,226.334" Grid.Column="1" Click="b_StartClock_Click"/>
+                            <Button x:Name="b_StopClock" Content="Stop" FontFamily="Hp Simplified" FontSize="14" FontWeight="Medium" Margin="134,83,42,226.334" Grid.Column="1" Click="b_StopClock_Click"/>
+                            <Label x:Name="lb_cbSimulation" Grid.Column="1"  Margin="22,123,134,181.334" Content="Select Station:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" />
+                            <Label x:Name="lb_slSimulation" Grid.Column="1"  Margin="22,171,105,139.334" Content="Simulation Speed:" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium"/>
+                            <ComboBox x:Name="cb_Simulation" Grid.Column="1" Margin="125,123,19,190.334"  Background="WhiteSmoke" BorderBrush="CadetBlue" ItemsSource="{Binding}"/>
+                            <TextBox Text="{Binding ElementName=sl_Simulation, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Margin="186,175,29,141.334" Height="20" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                            <Slider x:Name="sl_Simulation" Grid.Column="1" Margin="26,203,23,109.334" Minimum="10" Maximum="100" TickFrequency="10" IsSnapToTickEnabled="True"  TickPlacement="Both" Cursor="Hand" ValueChanged="sl_Simulation_ValueChanged"/>
                         </Grid>
 
 
                     </Grid>
                 </TabItem>
+
 
             </TabControl>
 
