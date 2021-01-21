@@ -121,8 +121,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 1,
 						BusRegion = Regions.South_Eilat,
-						BusStart = "38916",
-						BusEnd = "39024",
+						BusStart = "38831 ",
+						BusEnd = "39001",
 						LineErased = false
 					},
 					new BusLine
@@ -130,15 +130,15 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 2,
 						BusRegion = Regions.North_Haifa,
-						BusStart = "38903",
-						BusEnd = "39024",
+						BusStart = "389004 ",
+						BusEnd = "39008",
 					},
 					new BusLine
 					{
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 3,
 						BusRegion = Regions.Center_Jerusalem,
-						BusStart = "38894",
+						BusStart = "39012 ",
 						BusEnd = "39024",
 						LineErased = false
 					},
@@ -147,8 +147,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 4,
 						BusRegion = Regions.Center_TelAviv,
-						BusStart = "38831",
-						BusEnd = "39007",
+						BusStart = "39028 ",
+						BusEnd = "39050",
 						LineErased = false
 					},
 					new BusLine
@@ -156,8 +156,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 5,
 						BusRegion = Regions.Center_TelAviv,
-						BusStart = "39005",
-						BusEnd = "39006",
+						BusStart = "39028  ",
+						BusEnd = "39051",
 						LineErased = false
 					},
 					new BusLine
@@ -165,8 +165,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 6,
 						BusRegion = Regions.National,
-						BusStart = "38903",
-						BusEnd = "39072",
+						BusStart = "38831  ",
+						BusEnd = "39066 ",
 						LineErased = false
 					},
 					new BusLine
@@ -174,8 +174,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 7,
 						BusRegion = Regions.South_BeerSheva,
-						BusStart = "39093",
-						BusEnd = "39092",
+						BusStart = "39093  ",
+						BusEnd = "39043 ",
 						LineErased = false
 					},
 					new BusLine
@@ -183,8 +183,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 8,
 						BusRegion = Regions.Center_TelAviv,
-						BusStart = "38831",
-						BusEnd = "39019",
+						BusStart = "39012  ",
+						BusEnd = "39066",
 						LineErased = false
 					},
 					 new BusLine
@@ -192,8 +192,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 9,
 						BusRegion = Regions.North_Golan,
-						BusStart = "39006",
-						BusEnd = "39019",
+						BusStart = "39049 ",
+						BusEnd = "389005",
 						LineErased = false
 					},
 					  new BusLine
@@ -201,8 +201,8 @@ namespace DS
 						BusLineID = RunningNumbers.LineRunNum.ToString(),
 						BusLineNo = 10,
 						BusRegion = Regions.National,
-						BusStart = "38831",
-						BusEnd = "39019",
+						BusStart = "39014 ",
+						BusEnd = "389005",
 						LineErased = false
 					},
 			};
@@ -756,6 +756,36 @@ namespace DS
 					lineID = busLineList[i + 2].BusLineID.ToString(),
 					stationCode = "39013 ",
 					stationNumber = 2
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39014 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39017 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39018 ",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39019 ",
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39024",
+					stationNumber = 7
 				},
 				new LineStation
 				{
@@ -1432,6 +1462,6 @@ namespace DS
             #endregion
         }
 
-    }
+	}
 
 }

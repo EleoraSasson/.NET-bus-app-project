@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BO
-{
-
+{ 
+    
     #region BusFleet Exceptions
-    public class BusAlreadyInSystemException : Exception
-    {
-        public string busLicense;
+        public class BusAlreadyInSystemException : Exception
+        {
+            public string busLicense;
 
-        public BusAlreadyInSystemException(string license) : base() => busLicense = license;
-        public BusAlreadyInSystemException(string license, string msg) : base(msg) { busLicense = license; }
-        public BusAlreadyInSystemException(string license, string msg, Exception innerException) : base(msg, innerException) { busLicense = license; }
+            public BusAlreadyInSystemException(string license) : base() => busLicense = license;
+            public BusAlreadyInSystemException(string license, string msg) : base(msg) { busLicense = license; }
+            public BusAlreadyInSystemException(string license, string msg, Exception innerException) : base(msg, innerException) { busLicense = license; }
 
-        public override string ToString() => base.ToString() + $"{busLicense} already exsists in the Bus Fleet.";
-    }
+            public override string ToString() => base.ToString() + $"{busLicense} already exsists in the Bus Fleet.";
+        }
 
     public class BusMissingFromSystemException : Exception
     {
@@ -126,7 +126,7 @@ namespace BO
     }
     #endregion
 
-    #region BusRoutes
+    #region BusRoutes Exceptions
     [Serializable]
     public class BusLineAlreadyInSytemException : Exception
     {
@@ -172,5 +172,17 @@ namespace BO
         public override string ToString() => base.ToString() + $", Bus line {id} cannot be found.";
     }
     #endregion
+
+    #region Buses Exceptions
+    [Serializable]
+    public class BusExistsException : Exception
+    {
+        public string id;
+        public BusExistsException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.InvalidBusLicenseException)innerException).busLicense;
+        public override string ToString() => base.ToString() + $", Bus  {id} already exists.";
+
+        #endregion
+    }
 
 }

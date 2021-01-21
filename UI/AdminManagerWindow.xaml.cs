@@ -82,7 +82,7 @@ namespace UI
             cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
 
             stopwatch = new Stopwatch();
-            timerBworker = new BackgroundWorker();
+            timerBworker = new BackgroundWorker(); 
             timerBworker.DoWork += TimerBworker_DoWork;
            // timerBworker.RunWorkerCompleted += TimerBworker_RunWorkerCompleted;
             timerBworker.ProgressChanged += TimerBworker_ProgressChanged;

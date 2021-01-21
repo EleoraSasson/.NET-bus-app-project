@@ -554,7 +554,7 @@ namespace DAL
             if (list.FirstOrDefault(s => s.BusDriverID == staff.BusDriverID) != null)
             {
                 DO.Staff st = list.Find(l => l.BusDriverID == staff.BusDriverID);
-                // st.StaffNoOfLines++;
+               // st.StaffNoOfLines++;
             }
 
             list.Add(staff);
@@ -568,9 +568,9 @@ namespace DAL
             if (list.FirstOrDefault(s => s.BusDriverID == staffID) != null)
             {
                 DO.Staff st = list.Find(l => l.BusDriverID == staffID);
-                //    if (st.StaffNoOfLines != 0)
-                //        throw new StaffAlreadyInSystemException(staffID, $"Staff {staffID} cannot be deleted.");
-                //
+            //    if (st.StaffNoOfLines != 0)
+            //        throw new StaffAlreadyInSystemException(staffID, $"Staff {staffID} cannot be deleted.");
+            //
             }
         }
 

@@ -28,7 +28,6 @@
             <RowDefinition Height="1*" x:Name="BottomBorder"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="LicenseNumTextBox" ToolTip ="Note: License number Must be 7 digits long." Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="23" MaxLength ="7" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" RenderTransformOrigin="0.367,-2.311" TextInput="LicenseNumTextBox_TextInput" TextChanged="LicenseNumTextBox_TextChanged"/>
-        <TextBox x:Name="DriverNameTextBox" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="DriverNameTextBox_TextChanged"/>
         <TextBox x:Name="FuelTxt" ToolTip="Note: Maximum fuel capacity is 1200L." Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="FuelTxt_TextChanged"/>
         <TextBox x:Name="MileageTextBox" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" Height="23"  TextWrapping="Wrap" VerticalAlignment="Top" Width="171" Background="#FFA7CAD6" TextChanged="MileageTextBox_TextChanged"/>
         <TextBlock x:Name="txtblockDate" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="277" FontSize="14" Text="Enter bus starting date:" Foreground="#FF052066"/>
@@ -46,7 +45,6 @@
         <TextBlock x:Name="LicensetextBlock" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="-1.737,0.911" FontSize ="14" Width="512" Height="49" Grid.RowSpan="2" Foreground="#FF052066"><Run Text="Enter the license number:"></Run></TextBlock>
         <TextBlock x:Name="FuelTextBlock" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="277"  FontSize ="14"><Run Text="Enter the distance left with the fuel" Foreground="#FF052066" /><Run Text=":" Foreground="#FF052066"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1"  TextWrapping="Wrap" Text="Enter the mileage:" VerticalAlignment="Top" Width="266"  FontSize ="14" Foreground="#FF052066"/>
-        <TextBlock HorizontalAlignment="Left" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" Text="Enter the driver's name:" VerticalAlignment="Top" Width="208"  FontSize ="14" RenderTransformOrigin="-0.148,0.161" Foreground="#FF052066"/>
 
         <Button x:Name="AddButton" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="0,11,0,0" Grid.Row="11" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click" BorderBrush="#FF356BCB" Foreground="#FF0B0B3A" Height="24" VerticalAlignment="Top"/>
 

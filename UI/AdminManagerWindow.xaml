@@ -293,13 +293,14 @@
                 </TabItem>
                 <TabItem Header="User Info">
                     <Grid Background="#FFE5E5E5">
-                        <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="510" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
+                        <ListView x:Name="lv_Users" ItemsSource="{Binding Path= Users}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
                             <ListView.View>
                                 <GridView x:Name="gv_UserList">
                                     <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding Users.userName}"/>
                                     <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding Users.userFirst}"/>
                                     <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding Users.userLast}"/>
                                     <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding Users.userId}"/>
+                                    <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding Users.adminPermission}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
