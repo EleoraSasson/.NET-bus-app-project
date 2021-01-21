@@ -16,87 +16,87 @@ namespace PLConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to our Testing Zone!!");
+            //Console.WriteLine("Welcome to our Testing Zone!!");
 
-            IBL bl = BLFactory.GetBL(); //creating bl 
-            IDAL dal = DLFactory.GetDL();
-
-
-
-            BusLine line = dal.GetBusLine("11");
+            //IBL bl = BLFactory.GetBL(); //creating bl 
+            //IDAL dal = DLFactory.GetDL();
 
 
-            LineStation lineStation1 = new LineStation();
 
-            List<LineStation> lineSlist = new List<LineStation>();
-            lineSlist.Add(lineStation1);
+            //BusLine line = dal.GetBusLine("11");
 
-            Staff staff = new Staff()
-            {
-                BusDriverID = "01010",
-                isAdmin = false,
-                BusDriverFirst = DriverFirstName.Debbie,
-                BusDriverLast = DriverLastName.Cohen,
-                BusDriverAge = 43,
-                StaffPosition = Position.Driver,
-                StaffYrsWorked = 3,
-                BusDriverCellNo = "072-322-1322",
-                LoginPassword = "xyz"
-            };
 
-            TimeSpan startT = new TimeSpan(08,30,00);
-            TimeSpan endT = new TimeSpan(16,00,00);
+            //LineStation lineStation1 = new LineStation();
 
-            LineLeaving lineL = new LineLeaving()
-            {
-                BusFirstLine = startT,
-                BusLastLine = endT,
-                BusNumLines = 4
-            };
+            //List<LineStation> lineSlist = new List<LineStation>();
+            //lineSlist.Add(lineStation1);
 
-            BusRoute route = new BusRoute()
-            {
-                Route = line,
-                RouteStops = lineSlist
-            };
+            //Staff staff = new Staff()
+            //{
+            //    BusDriverID = "01010",
+            //    isAdmin = false,
+            //    BusDriverFirst = DriverFirstName.Debbie,
+            //    BusDriverLast = DriverLastName.Cohen,
+            //    BusDriverAge = 43,
+            //    StaffPosition = Position.Driver,
+            //    StaffYrsWorked = 3,
+            //    BusDriverCellNo = "072-322-1322",
+            //    LoginPassword = "xyz"
+            //};
 
-            DateTime time2 = new DateTime(1999, 8, 25);
+            //TimeSpan startT = new TimeSpan(08,30,00);
+            //TimeSpan endT = new TimeSpan(16,00,00);
 
-            Bus actualBus = new Bus()
-            {
-                BusLicense = "122-12-122",
-                BusMaintenanceDate = DateTime.Now,
-                BusRegDate = time2,
-                BusMileage = 300,
-                BusFuel = 450
-            };
+            //LineLeaving lineL = new LineLeaving()
+            //{
+            //    BusFirstLine = startT,
+            //    BusLastLine = endT,
+            //    BusNumLines = 4
+            //};
 
-            DateTime FDT = new DateTime(200, DateTimeKind.Local);
-            DateTime DT = new DateTime(300, DateTimeKind.Local);
-            DateTime AT = new DateTime(400, DateTimeKind.Local);
-            DateTime TT = new DateTime(600, DateTimeKind.Local);
+            //BusRoute route = new BusRoute()
+            //{
+            //    Route = line,
+            //    RouteStops = lineSlist
+            //};
 
-            BusOnTrip bus = new BusOnTrip()
-            {
-                BusFormalDT = FDT,
-                BusActualDT = DT,
-                BusArrivalT = AT,
-                BusTransitT = TT,
-                BusLicense = actualBus.BusLicense,
+            //DateTime time2 = new DateTime(1999, 8, 25);
 
-            };
+            //Bus actualBus = new Bus()
+            //{
+            //    BusLicense = "122-12-122",
+            //    BusMaintenanceDate = DateTime.Now,
+            //    BusRegDate = time2,
+            //    BusMileage = 300,
+            //    BusFuel = 450
+            //};
 
-            ScheduleOfRoute scheduleR = new ScheduleOfRoute() 
-            { 
-              CurrentRoute = route,
-              SelectedStaff = staff,
-              RouteSchedule = lineL,
-              BusOnRoute = bus
-            };
+            //DateTime FDT = new DateTime(200, DateTimeKind.Local);
+            //DateTime DT = new DateTime(300, DateTimeKind.Local);
+            //DateTime AT = new DateTime(400, DateTimeKind.Local);
+            //DateTime TT = new DateTime(600, DateTimeKind.Local);
 
-            bl.AddScheduleOfRoute(scheduleR);
+            //BusOnTrip bus = new BusOnTrip()
+            //{
+            //    BusFormalDT = FDT,
+            //    BusActualDT = DT,
+            //    BusArrivalT = AT,
+            //    BusTransitT = TT,
+            //    BusLicense = actualBus.BusLicense,
 
-            Console.WriteLine(   bl.GetScheduleOfRoute("19"));
+            //};
+
+            //ScheduleOfRoute scheduleR = new ScheduleOfRoute() 
+            //{ 
+            //  CurrentRoute = route,
+            //  SelectedStaff = staff,
+            //  RouteSchedule = lineL,
+            //  BusOnRoute = bus
+            //};
+
+            //bl.AddScheduleOfRoute(scheduleR);
+
+            //Console.WriteLine(   bl.GetScheduleOfRoute("19"));
 
 
             //Stations stations = new Stations()
