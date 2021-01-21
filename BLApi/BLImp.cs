@@ -61,6 +61,7 @@ namespace BLApi
            
         }
         #endregion
+        IDAL dal = DLFactory.GetDL();
 
         #region BusRoutes
         //create
