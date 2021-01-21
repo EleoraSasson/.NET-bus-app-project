@@ -11,9 +11,7 @@ namespace DO
     /// We added this so that the manager can know more information of the driver. It also enables us to assign the driver to a specific route
     /// Note: even though most fields are named Driver___ a staff memeber can be admin manager etc and not be a driver
     /// </summary>
-    /// 
-    public enum DriverFirstName { Unknown, David, Sara, Mark, Ruth, Ron, Debbie };
-    public enum DriverLastName { Unknown, Johnson, Cohen, Tailor, Brent, Owen, Harper };
+    ///
     public enum Position { Driver, Manager};
     public class Staff : ICloneable
     {
@@ -38,29 +36,19 @@ namespace DO
             set { admin = value; }
         }
 
-        //Password:
-        // Needed to login to system (only if the user is an admin)
-        private string password;
-
-        public string LoginPassword
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
         // Driver First Name:
-        private DriverFirstName firstName;
+        private string firstName;
 
-        public DriverFirstName BusDriverFirst
+        public string BusDriverFirst
         {
             get { return firstName; }
             set { firstName = value; }
         }
 
         // Driver Last Name:
-        private DriverLastName lastName;
+        private string lastName;
 
-        public DriverLastName BusDriverLast
+        public string BusDriverLast
         {
             get { return lastName; }
             set { lastName = value; }
@@ -106,7 +94,7 @@ namespace DO
 
         public override string ToString()
         {
-            return "Driver Information: \n" + BusDriverLast + ", " + "Administrator" + isAdmin.ToString() + BusDriverFirst + "\n Age:" + BusDriverAge + "\n ID:" + BusDriverID + "\n Cell Phone Number:" + BusDriverCellNo + "/n Position in Company:" + StaffPosition + "/n Number of years at company:" + StaffYrsWorked + "/n Login Password:" + LoginPassword; 
+            return "Driver Information: \n" + BusDriverLast + ", " + "Administrator" + isAdmin.ToString() + BusDriverFirst + "\n Age:" + BusDriverAge + "\n ID:" + BusDriverID + "\n Cell Phone Number:" + BusDriverCellNo + "/n Position in Company:" + StaffPosition + "/n Number of years at company:" + StaffYrsWorked; 
         }
     }
 }

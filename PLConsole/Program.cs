@@ -18,11 +18,14 @@ namespace PLConsole
         {
             //Console.WriteLine("Welcome to our Testing Zone!!");
 
-            //IBL bl = BLFactory.GetBL(); //creating bl 
+            IBL bl = BLFactory.GetBL(); //creating bl 
             //IDAL dal = DLFactory.GetDL();
 
-
-
+            List<UserPortal> users = bl.GetAllUsers().ToList();
+            foreach (var u in users)
+            {
+                Console.WriteLine(u.ToString());
+            }
             //BusLine line = dal.GetBusLine("11");
 
 

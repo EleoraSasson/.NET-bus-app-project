@@ -24,9 +24,7 @@ namespace DS
 		public static List<UserTrip> userTripList;
 		static DataSource() //add aan init to start off witha basic bunch of buses
 		{
-			//Defines and a new list of Staff and adds an object of type Staff to the List:
-			staffList = new List<Staff>();
-
+			
 			//Defines and a new list of SuccessiveStations and adds an object of type SuccessiceStations to the List:
 			succStationsList = new List<SuccessiveStations>();
 
@@ -791,6 +789,36 @@ namespace DS
 				},
 				new LineStation
 				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39014 ",
+					stationNumber = 3
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39017 ",
+					stationNumber = 4
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39018 ",
+					stationNumber = 5
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39019 ",
+					stationNumber = 6
+				},
+				new LineStation
+				{
+					lineID = busLineList[i + 2].BusLineID.ToString(),
+					stationCode = "39024",
+					stationNumber = 7
+				},
+				new LineStation
+				{
 					lineID = busLineList[i + 3].BusLineID.ToString(),
 					stationCode = "39028 ",
 					stationNumber = 1
@@ -1059,62 +1087,73 @@ namespace DS
 				{
 					BusLineID = "11",
 					BusFirstLine =  new TimeSpan(8,30,00),
-					BusLastLine =  new TimeSpan(16,30,00)
+					BusLastLine =  new TimeSpan(16,30,00),
+					BusDriver = "D111111",
 				},
 				new LineLeaving
 				{
 					BusLineID = "12",
 					BusFirstLine = new TimeSpan(5,45,00),
-					BusLastLine = new TimeSpan(2,45,00)
+					BusLastLine = new TimeSpan(2,45,00),
+					BusDriver = "D111112",
+
 				},
 				new LineLeaving
 				{
 					BusLineID = "13",
 					BusFirstLine = new TimeSpan(6,15,00),
-					BusLastLine = new TimeSpan(5,45,00)
+					BusLastLine = new TimeSpan(5,45,00),
+					BusDriver = "D111113",
 				},
 				new LineLeaving
 				{
 					BusLineID = "14",
 					BusFirstLine = new TimeSpan(6,00,00),
-					BusLastLine = new TimeSpan(12,55,00)
+					BusLastLine = new TimeSpan(12,55,00),
+					BusDriver = "D111114",
 				},
 
 				new LineLeaving
 				{
 					BusLineID = "15",
 					BusFirstLine = new TimeSpan(9,30,00),
-					BusLastLine = new TimeSpan(14,55,00)
+					BusLastLine = new TimeSpan(14,55,00),
+					BusDriver = "D111115",
 				},
 				new LineLeaving
 				{
 					BusLineID = "16",
 					BusFirstLine = new TimeSpan(6,35,00),
-					BusLastLine = new TimeSpan(14,45,00)
+					BusLastLine = new TimeSpan(14,45,00),
+					BusDriver = "D111116",
 				},
 				new LineLeaving
 				{
 					BusLineID = "17",
 					BusFirstLine = new TimeSpan(7,30,00),
-					BusLastLine = new TimeSpan(13,00,00)
+					BusLastLine = new TimeSpan(13,00,00),
+					BusDriver = "D111117",
 				},
 				new LineLeaving
 				{
 					BusLineID = "18",
 					BusFirstLine = new TimeSpan(10,30,00),
 					BusLastLine = new TimeSpan(12,55,00),
+					BusDriver = "D111118",
 				},
 				new LineLeaving
 				{
 					BusLineID = "19",
 					BusFirstLine = new TimeSpan(7,30,00),
-					BusLastLine = new TimeSpan(14,45,00)
+					BusLastLine = new TimeSpan(14,45,00),
+					BusDriver = "D111119",
 				},
 				new LineLeaving
 				{
 					BusLineID = "20",
 					BusFirstLine = new TimeSpan(6,15,00),
-					BusLastLine = new TimeSpan(16,30,00)
+					BusLastLine = new TimeSpan(16,30,00),
+					BusDriver = "D111120",
 				},
 			};
 			#endregion
@@ -1174,9 +1213,255 @@ namespace DS
 				},
 			};
 			#endregion
-		}
+
+			#region INIT Staff
+			staffList = new List<Staff>()
+			{
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Mark",
+					BusDriverLast = "Jones",
+					BusDriverAge = 45,
+					BusDriverCellNo = "053-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Simon",
+					BusDriverLast = "Cohen",
+					BusDriverAge = 21,
+					BusDriverCellNo = "053-111-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 1,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Andy",
+					BusDriverLast = "Tohmas",
+					BusDriverAge = 45,
+					BusDriverCellNo = "053-293-8978",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Sally",
+					BusDriverLast = "Carles",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-123-2321",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Shira",
+					BusDriverLast = "Hertz",
+					BusDriverAge = 36,
+					BusDriverCellNo = "053-659-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "David",
+					BusDriverLast = "Newman",
+					BusDriverAge = 47,
+					BusDriverCellNo = "053-909-2532",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Samuel",
+					BusDriverLast = "Falkson",
+					BusDriverAge = 38,
+					BusDriverCellNo = "053-667-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Sara",
+					BusDriverLast = "Parker",
+					BusDriverAge = 33,
+					BusDriverCellNo = "053-293-8845",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Scheryl",
+					BusDriverLast = "Black",
+					BusDriverAge = 32,
+					BusDriverCellNo = "053-446-3446",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Josh",
+					BusDriverLast = "Davis",
+					BusDriverAge = 29,
+					BusDriverCellNo = "053-555-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Julie",
+					BusDriverLast = "Owens",
+					BusDriverAge = 25,
+					BusDriverCellNo = "053-293-0053",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Mark",
+					BusDriverLast = "Cohen",
+					BusDriverAge = 22,
+					BusDriverCellNo = "053-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Charlie",
+					BusDriverLast = "Simons",
+					BusDriverAge = 24,
+					BusDriverCellNo = "053-293-8786",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Adam",
+					BusDriverLast = "Nelson",
+					BusDriverAge = 27,
+					BusDriverCellNo = "058-293-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Ruth",
+					BusDriverLast = "Miller",
+					BusDriverAge = 42,
+					BusDriverCellNo = "053-293-9797",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Cathy",
+					BusDriverLast = "Radford",
+					BusDriverAge = 27,
+					BusDriverCellNo = "053-777-2334",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Abigail",
+					BusDriverLast = "Rosen",
+					BusDriverAge = 36,
+					BusDriverCellNo = "058-293-2422",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Robert",
+					BusDriverLast = "Karlson",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-293-0003",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Betty",
+					BusDriverLast = "Jones",
+					BusDriverAge = 35,
+					BusDriverCellNo = "053-293-8888",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				new Staff()
+				{
+					StaffPosition = Position.Driver,
+					BusDriverFirst = "Moshe",
+					BusDriverLast = "Hertzman",
+					BusDriverAge = 25,
+					BusDriverCellNo = "053-932-2432",
+					BusDriverID = "D" + RunningNumbers.StaffRunNum.ToString(),
+					isAdmin = true,
+					StaffYrsWorked = 12,
+					
+				},
+				
+			};
+            #endregion
+        }
 
 	}
-
 
 }

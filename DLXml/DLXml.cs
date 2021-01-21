@@ -184,7 +184,7 @@ namespace DAL
             busLine.BusLineID = DO.RunningNumbers.LineRunNum.ToString();
             if (list.FirstOrDefault(l => l.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Duplicate! line {busLine.BusLineID} already exists.");
-            
+
             list.Add(busLine);
             XMLTools.SaveListToXMLSerializer(list, linePath);
             return busLine.BusLineID.ToString(); //returning running number
@@ -299,7 +299,7 @@ namespace DAL
                 list.Remove(bonTrip);
                 list.Add(bonTrip);
             }
-            else 
+            else
                 throw new DO.InvalidBusOnTripIDException(bonTrip.BusRoadID.ToString(), $"Line {bonTrip.BusRoadID} cannot be found in system.");
 
             XMLTools.SaveListToXMLSerializer(list, onTripPath);
@@ -333,7 +333,7 @@ namespace DAL
                 throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Duplicate! Stop {busStop.StopCode} already exists.");
 
             list.Add(busStop);
-            XMLTools.SaveListToXMLSerializer(list, stopPath); 
+            XMLTools.SaveListToXMLSerializer(list, stopPath);
         }
 
         //retrieve
@@ -406,7 +406,7 @@ namespace DAL
                 throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} already exists.");
 
             if (list.FirstOrDefault(l => l.BusLineID == lineLeaving.BusLineID) != null)
-                throw new DO.InvalidBusLineException(lineLeaving.BusLineID.ToString(),$"Duplicate! line {lineLeaving.BusLineID} already exists.");
+                throw new DO.InvalidBusLineException(lineLeaving.BusLineID.ToString(), $"Duplicate! line {lineLeaving.BusLineID} already exists.");
 
             list.Add(lineLeaving);
             XMLTools.SaveListToXMLSerializer(list, leavingPath);
@@ -460,7 +460,7 @@ namespace DAL
             List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
             DO.LineLeaving line = list.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
-           
+
             if (line != null)
             {
                 list.Remove(line);
@@ -490,8 +490,8 @@ namespace DAL
         public void DeleteLineStation(string lineStationKey)
         {
             List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
-           
-            DO.LineStation station = list.Find(l => l.lineID  == lineStationKey);
+
+            DO.LineStation station = list.Find(l => l.lineID == lineStationKey);
             if (station != null)
             {
                 list.Remove(station);
@@ -512,7 +512,7 @@ namespace DAL
         public LineStation GetLineStation(string lineStationKey)
         {
             List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
-             
+
             DO.LineStation line = list.Find(l => l.lineID == lineStationKey);
 
             if (line != null)
@@ -551,7 +551,7 @@ namespace DAL
         {
             List<Staff> list = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
 
-            if (list.FirstOrDefault(s => s.BusDriverID  == staff.BusDriverID) != null)
+            if (list.FirstOrDefault(s => s.BusDriverID == staff.BusDriverID) != null)
             {
                 DO.Staff st = list.Find(l => l.BusDriverID == staff.BusDriverID);
                // st.StaffNoOfLines++;
@@ -608,9 +608,9 @@ namespace DAL
             if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
             {
                 if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
-                        {
-                            throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
-                        }
+                {
+                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
+                }
             }
 
             list.Add(successiveStations);
@@ -688,7 +688,7 @@ namespace DAL
 
             list.Add(user);
             XMLTools.SaveListToXMLSerializer(list, userPath);
-        } 
+        }
         public void DeleteUser(string name)
         {
             List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);

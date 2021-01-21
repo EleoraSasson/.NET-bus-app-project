@@ -63,6 +63,5 @@ namespace DO
             return "User details: \n Username: " + userName + " \n Permission: " + adminPermission.ToString();
         }
 
-
     }
 }

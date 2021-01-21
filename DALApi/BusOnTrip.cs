@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    public class BusOnTrip :ICloneable
-    { 
+    public class BusOnTrip : ICloneable
+    {
         /* PROPERTIES */
         // Bus ID on Road (auto-running number):
         private int roadID;
@@ -84,7 +84,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Line" + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusFormalDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed  + "\n"; 
+            return "Line" + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusFormalDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed + "\n";
         }
     }
 }

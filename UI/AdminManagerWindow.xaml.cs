@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using BLApi;
 using BO;
+using System.Diagnostics;
 
 namespace UI
 {
@@ -36,6 +37,9 @@ namespace UI
         BO.BusStations bStation;
         BO.BusRoute bRoute;
         BackgroundWorker timerBworker;
+        private Stopwatch stopwatch;
+        private int speedOfSimulation;
+        private bool isTimerRun;
         public AdminManagerWindow()
         {
             InitializeComponent();
@@ -59,10 +63,9 @@ namespace UI
 
 
             List<UserPortal> users = bl.GetAllUsers().ToList();
-            usersCollection = new ObservableCollection<UserPortal>();
+            usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
 
-            //NOTE: need to initialize datasource before this can work
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
             //{
@@ -70,53 +73,84 @@ namespace UI
             //    routesSchedules.Add(singleRouteSched);
             //}
             //companySchedule = new ObservableCollection<ScheduleOfRoute>(routesSchedules);
-            //Dg_BusSchedule.DataContext = companySchedule; 
+            //Dg_BusSchedule.DataContext = companySchedule;
+            //Dg_BusSchedule.DisplayMemberPath = "ScheduleOfRoute";
 
 
             cb_Simulation.DataContext = stopCollection;
             cb_Simulation.DisplayMemberPath = "Stop.StopCode";
             cb_Simulation.SelectionChanged += Cb_Simulation_SelectionChanged;
 
+            stopwatch = new Stopwatch();
             timerBworker = new BackgroundWorker();
             timerBworker.DoWork += TimerBworker_DoWork;
-            timerBworker.RunWorkerCompleted += TimerBworker_RunWorkerCompleted;
+           // timerBworker.RunWorkerCompleted += TimerBworker_RunWorkerCompleted;
             timerBworker.ProgressChanged += TimerBworker_ProgressChanged;
+            timerBworker.WorkerReportsProgress = true;
 
             //to start use RunWorkerAsync and in that method call progress changed
         }
 
         private void TimerBworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            string timerText = stopwatch.Elapsed.ToString();
+            timerText = timerText.Substring(0, 8);
+            this.Tb_Clock.Text = timerText;
         }
 
-        private void TimerBworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //private void TimerBworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+        private void sl_Simulation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            throw new NotImplementedException();
+            speedOfSimulation = (int)sl_Simulation.Value;
         }
 
         private void TimerBworker_DoWork(object sender, DoWorkEventArgs e)
         {
-            throw new NotImplementedException();
+            while(isTimerRun)
+            {
+                timerBworker.ReportProgress(1);
+                Thread.Sleep(10000);
+            }
+            
         }
 
+        private void b_StartClock_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isTimerRun)
+            {
+                stopwatch.Restart();
+                isTimerRun = true;
+                timerBworker.RunWorkerAsync(); //starts the background worker
+            }
+           
+        }
+
+        private void b_StopClock_Click(object sender, RoutedEventArgs e)
+        {
+            if (isTimerRun)
+            {
+                stopwatch.Stop();
+                isTimerRun = false;
+            }
+        }
         private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             bStation = (Cb_StationNo.SelectedItem as BO.BusStations);
-            List<BusRoute> routesThroughStop = bl.GetRoutesofStation(bStation).ToList();
-            foreach (var route in routesThroughStop)
-            {
-                ScheduleOfRoute sched = bl.GetScheduleOfRoute(route);
-                companySchedule.Add(sched);
-            }
+            //List<BusRoute> routesThroughStop = bl.GetRoutesofStation(bStation).ToList();
+            //foreach (var route in routesThroughStop)
+            //{
+            //    ScheduleOfRoute sched = bl.GetScheduleOfRoute(route);
+            //    companySchedule.Add(sched);
+            //}
 
-            dg_Simulation.DataContext = companySchedule;
+            //dg_Simulation.DataContext = companySchedule;
+           
 
-
-            //threading:
-           // timerBworker.RunWorkerAsync(/* pass value /*);
-            //timerBworker.ReportProgress();
         }
 
 
@@ -231,6 +265,6 @@ namespace UI
 
         }
 
-
+        
     }
 }
