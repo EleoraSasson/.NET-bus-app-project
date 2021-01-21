@@ -56,6 +56,27 @@ namespace BO
     }
     #endregion
 
+    #region ScheduleOfRoutes Exceptions
+
+    [Serializable]
+    public class LineLeavingExists : Exception
+    {
+        public string key;
+        public LineLeavingExists(string message, Exception innerException) :
+            base(message, innerException) => key = ((DO.InvalidLineLeavingKeyException)innerException).key;
+        public override string ToString() => base.ToString() + $", Existing line leaving: {key}.";
+    }
+
+    public class BusOnTripExists : Exception
+    {
+        public string key;
+        public BusOnTripExists(string message, Exception innerException) :
+            base(message, innerException) => key = ((DO.InvalidLineLeavingKeyException)innerException).key;
+        public override string ToString() => base.ToString() + $", Existing bus on trip: {key}.";
+    }
+
+    #endregion
+
     #region Stations Exceptions
 
     public class BusStationNotInSystem : Exception
@@ -69,6 +90,87 @@ namespace BO
         public override string ToString() => base.ToString() + $"{stationNo} does not exist";
     }
 
+    #endregion
+
+    #region UserPortal Exceptions
+
+    [Serializable]
+    public class UserExistException : Exception
+    {
+        public string name;
+        public UserExistException(string message, Exception innerException) :
+            base(message, innerException) => name = ((DO.ExsistingUserException)innerException).name;
+        public override string ToString() => base.ToString() + $", existing user name: {name}.";
+    }
+
+    [Serializable]
+    public class UserMissingExcpetion : Exception
+    {
+        public string name;
+        public UserMissingExcpetion(string message, Exception innerException) :
+            base(message, innerException) => name = ((DO.MissingUserException)innerException).name;
+        public override string ToString() => base.ToString() + $"User {name} cannot be found in the system.";
+    }
+
+    #endregion
+
+    #region Staff Exceptions
+
+    [Serializable]
+    public class StaffMissing : Exception
+    {
+        public string id;
+        public StaffMissing(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.StaffNotInSystemException)innerException).ID;
+        public override string ToString() => base.ToString() + $", Staff {id} cannot be found in the system.";
+    }
+    #endregion
+
+    #region BusRoutes
+    [Serializable]
+    public class BusLineAlreadyInSytemException : Exception
+    {
+        public string id;
+        public BusLineAlreadyInSytemException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+        public override string ToString() => base.ToString() + $", Bus line {id} already exists.";
+    }
+
+    [Serializable]
+    public class BusLineNotInSystem : Exception
+    {
+        public string id;
+        public BusLineNotInSystem(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+        public override string ToString() => base.ToString() + $", Bus line {id} cannot be found in the system.";
+    }
+
+    [Serializable]
+    public class LineStationExistsException : Exception
+    {
+        public string id;
+        public LineStationExistsException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.ExsistingLineStationException)innerException).eKey;
+        public override string ToString() => base.ToString() + $", Bus station {id} already exists.";
+    }
+
+    [Serializable]
+    public class LineStationMissingException : Exception
+    {
+        public string id;
+        public LineStationMissingException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.MissingLineStationException)innerException).eKey;
+        public override string ToString() => base.ToString() + $", Bus station {id} already exists.";
+    }
+
+    [Serializable]
+    public class BusLineMissingException : Exception
+    {
+        public string id;
+        public BusLineMissingException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).lineId;
+        public override string ToString() => base.ToString() + $", Bus line {id} cannot be found.";
+    }
     #endregion
 
 }
