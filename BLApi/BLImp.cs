@@ -26,11 +26,13 @@ namespace BLApi
         //create
         public string AddBusRoute(BO.BusRoute broute)
         {
-            var RouteID = dal.AddBusLine(broute.Route);
+            try { var RouteID = dal.AddBusLine(broute.Route); }
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineAlreadyInSytemException("Bus line already exists", ex); }
 
             foreach ( var lineS in broute.RouteStops)
             { 
-                int stationCount = dal.AddLineStation(lineS, RouteID);
+                int stationCount = dal.AddLineStation(lineS, dal.AddBusLine(broute.Route));
                 if (stationCount == 1) //it is the first station 
                 {
                     broute.Route.BusStart = lineS.stationCode;
@@ -42,33 +44,48 @@ namespace BLApi
                 }
             }
 
-            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
+            try { dal.UpdateBusLine(broute.Route); } //update busLine so that it has the corrent starting and end stations
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineNotInSystem("Bus line cannot be found", ex); }
 
-            return RouteID; //returned RouteID so can add this route to a schedule
+            return dal.AddBusLine(broute.Route); //returned RouteID so can add this route to a schedule
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
-           int stationCount = dal.AddLineStation(station, broute.Route.BusLineID);
-            if (stationCount == 1) //it is the first station 
+            try
             {
-                broute.Route.BusStart = station.stationCode;
-                broute.Route.BusEnd = station.stationCode;
+                int stationCount = dal.AddLineStation(station, broute.Route.BusLineID);
+                if (stationCount == 1) //it is the first station 
+                {
+                    broute.Route.BusStart = station.stationCode;
+                    broute.Route.BusEnd = station.stationCode;
+                }
+                else // this is not the first station to be added
+                {
+                    broute.Route.BusEnd = station.stationCode; //but it is currently the last station
+                }
             }
-            else // this is not the first station to be added
-            {
-                broute.Route.BusEnd = station.stationCode; //but it is currently the last station
-            }
-            dal.UpdateBusLine(broute.Route); //update busLine so that it has the corrent starting and end stations
+            catch (DO.ExsistingLineStationException ex)
+            { throw new BO.LineStationExistsException("Line station already exists", ex); }
+
+            try { dal.UpdateBusLine(broute.Route); } //update busLine so that it has the corrent starting and end stations
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineMissingException("Bus line missing", ex); }
         }
         //retrieve
         public BusRoute GetBusRoute(BusRoute bRoute)
         {
             BusRoute broute = new BusRoute();//create an instance of BusRoute
-            broute.Route = dal.GetBusLine(bRoute.Route.BusLineID); //get the BusLine with that ID and place in route
-            IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
-            broute.RouteStops = (from st in stations
-                                   where st.lineID == bRoute.Route.BusLineID
-                                 select st); //select all the LineStations that have that ID and place in routeStops
+            try
+            {
+                broute.Route = dal.GetBusLine(bRoute.Route.BusLineID); //get the BusLine with that ID and place in route
+                IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
+                broute.RouteStops = (from st in stations
+                                     where st.lineID == bRoute.Route.BusLineID
+                                     select st); //select all the LineStations that have that ID and place in routeStops
+            }
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineMissingException("Bus line cannot be found", ex); }
             return broute;
         }
 
@@ -110,11 +127,15 @@ namespace BLApi
         //update
         public void UpdateBusRoute(BO.BusRoute broute)
         {
-            dal.UpdateBusLine(broute.Route);
+            try { dal.UpdateBusLine(broute.Route); }
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineMissingException("Bus line cannot be found", ex); }
 
             foreach (var lineS in broute.RouteStops)
             {
-                dal.UpdateLineStation(broute.Route.BusLineID + lineS.stationCode);
+                try { dal.UpdateLineStation(broute.Route.BusLineID + lineS.stationCode); }
+                catch (DO.MissingLineStationException ex)
+                { throw new BO.LineStationMissingException("Line station cannot be found", ex); }
             }
         }
         //delete
@@ -124,7 +145,9 @@ namespace BLApi
             {
                 if ((station.lineID + station.stationCode) == (lineS.lineID + lineS.stationCode))
                 {
-                    dal.DeleteLineStation(lineS.lineID + lineS.stationCode);
+                    try { dal.DeleteLineStation(lineS.lineID + lineS.stationCode); }
+                    catch (DO.MissingLineStationException ex)
+                    { throw new LineStationMissingException("Line station does not exist", ex); }
                     UpdateBusRoute(broute);//update line
                 }
                 else throw new MissingLineStationException(lineS.lineID + lineS.stationCode, $"Line Station {lineS.lineID + lineS.stationCode} cannot be deleted as it is missing from the system");
@@ -146,7 +169,7 @@ namespace BLApi
                     return b.StopCode;
                 }
             }
-            throw new  BusStationNotInSystem(bs.Stop.StopCode, $"Station {bs.Stop.StopCode} does not exist.");
+            throw new BusStationNotInSystem(bs.Stop.StopCode, $"Station {bs.Stop.StopCode} does not exist.");
         }
 
         public IEnumerable<BusStations> GetAllBusStops()
@@ -225,9 +248,26 @@ namespace BLApi
         {
             string lineID = AddBusRoute(sched.CurrentRoute);
             string staffID = dal.AddStaff(sched.SelectedStaff);
-            dal.AddLineLeaving(sched.RouteSchedule, lineID, staffID);
-            dal.AddBusOnTrip(sched.BusOnRoute,lineID);
-        }
+            try
+            {
+                dal.AddLineLeaving(sched.RouteSchedule, lineID, staffID);
+                
+            }
+            catch (DO.InvalidLineLeavingKeyException ex)
+            {
+                throw new BO.LineLeavingExists("Line leaving already exists", ex);
+            }
+
+            try 
+            {
+                dal.AddBusOnTrip(sched.BusOnRoute, lineID);
+            }
+            catch (DO.InvalidBusOnTripIDException ex)
+            {
+                throw new BO.BusOnTripExists("Bus on trip already exists", ex);
+            }
+           
+            }
         //retrieve
         public ScheduleOfRoute GetScheduleOfRoute(string lineID)
         {
@@ -237,23 +277,43 @@ namespace BLApi
             sched.CurrentRoute = broutes.Find(r => r.Route.BusLineID == lineID); //setting route
             List<BusOnTrip> busesOnTrip = dal.GetAllBusOnTrip().ToList();
             sched.BusOnRoute = busesOnTrip.Find(b => b.BusLineID == lineID); //setting bus on route
-            sched.RouteSchedule = dal.GetLineLeaving(lineID); //setting schedule of route
-            sched.SelectedStaff = dal.GetStaff(sched.RouteSchedule.BusDriver); //setting driver for route
-
+            try
+            {
+                sched.RouteSchedule = dal.GetLineLeaving(lineID); //setting schedule of route
+            }
+            catch (DO.InvalidLineLeavingKeyException ex)
+            {
+                throw new BO.LineLeavingExists("Line leaving does not exist", ex);
+            }
+            try { sched.SelectedStaff = dal.GetStaff(sched.RouteSchedule.BusDriver); }
+            catch (DO.InvalidBusOnTripIDException ex)
+            {
+                throw new BO.BusOnTripExists("Bus on trip does not exist", ex);
+            }
             return sched;
         }
         //update
         public void UpdateScheduleOfRoute(ScheduleOfRoute sched)
         { 
             UpdateBusRoute(sched.CurrentRoute); //update route
-            dal.UpdateBusOnTrip(sched.BusOnRoute); //update bus
-            dal.UpdateLineLeaving(sched.RouteSchedule); //update schedule
-            dal.UpdateStaff(sched.SelectedStaff.BusDriverID); //update staff of trip
+            try { dal.UpdateBusOnTrip(sched.BusOnRoute); } //update bus
+            catch (DO.InvalidBusOnTripIDException ex)
+            { throw new BO.BusOnTripExists("Bus on trip does not exist", ex); }
+
+            try { dal.UpdateLineLeaving(sched.RouteSchedule); } //update schedule
+            catch (DO.InvalidLineLeavingKeyException ex)
+            { throw new BO.LineLeavingExists("Line leaving does not exist", ex); }
+
+            try { dal.UpdateStaff(sched.SelectedStaff.BusDriverID); } //update staff of trip
+            catch(DO.StaffNotInSystemException ex)
+            { throw new BO.StaffMissing("Staff cannot be found", ex); }
         }
         //delete
         public void DeleteScheduleOfRoute(ScheduleOfRoute sched)
         {
-            dal.DeleteLineLeaving(sched.RouteSchedule.BusLineID, sched.RouteSchedule.BusFirstLine);
+            try { dal.DeleteLineLeaving(sched.RouteSchedule.BusLineID, sched.RouteSchedule.BusFirstLine); }
+            catch (DO.InvalidLineLeavingKeyException ex)
+            { throw new BO.LineLeavingExists("Line leaving does not exist", ex); }
         }
         #endregion
 
@@ -278,6 +338,40 @@ namespace BLApi
             }
 
             return userList;
+        }
+        public void AddUser (string name, string first, string last, string password, string ID, bool perm)
+        {
+            try
+            {
+                UserPortal up = new UserPortal();
+                User u = new User();
+                u.userName = name;
+                u.userLast = last;
+                u.userFirst = first;
+                u.userId = ID;
+                u.adminPermission = perm;
+                u.userPassword = password;
+                up.Users = u;
+                dal.AddUser(u);
+            }
+
+            catch (DO.ExsistingUserException ex)
+            {
+                throw new BO.UserExistException("User already exists", ex);
+            }
+        }
+
+        public void DeleteUser (UserPortal up)
+        {
+            try
+            {
+                User u = new User() { userFirst = up.Users.userFirst, userLast = up.Users.userLast, userName = up.Users.userName, userId = up.Users.userId, adminPermission = up.Users.adminPermission, userPassword = up.Users.userPassword };
+                dal.DeleteUser(u.userName);
+            }
+            catch (DO.MissingUserException ex)
+            {
+                throw new BO.UserMissingExcpetion("User cannot be found", ex);
+            }
         }
 
         #endregion
