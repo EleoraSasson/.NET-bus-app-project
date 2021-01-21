@@ -37,22 +37,22 @@ namespace DO
         }
 
         // Formal Departure Time (DT):
-        private DateTime formalDT;
+        private TimeSpan formalDT;
 
-        public DateTime BusFormalDT
+        public TimeSpan BusFormalDT
         {
             get { return formalDT; }
             set { formalDT = value; }
         }
 
-        // Actual Departure Time (DT):
-        private DateTime actualDT;
+        //// Actual Departure Time (DT):
+        //private TimeSpan actualDT;
 
-        public DateTime BusActualDT
-        {
-            get { return actualDT; }
-            set { actualDT = value; }
-        }
+        //public TimeSpan BusActualDT
+        //{
+        //    get { return actualDT; }
+        //    set { actualDT = value; }
+        //}
 
         // Number of passed stops:
         private int passed;
@@ -64,18 +64,18 @@ namespace DO
         }
 
         // Transit time at aforementioned station:
-        private DateTime transitT;
+        //private TimeSpan transitT;
 
-        public DateTime BusTransitT
-        {
-            get { return transitT; }
-            set { transitT = value; }
-        }
+        //public TimeSpan BusTransitT
+        //{
+        //    get { return transitT; }
+        //    set { transitT = value; }
+        //}
 
         // Arrival time to next station:
-        private DateTime arrivalT;
+        private TimeSpan arrivalT;
 
-        public DateTime BusArrivalT
+        public TimeSpan BusArrivalT
         {
             get { return arrivalT; }
             set { arrivalT = value; }
@@ -84,7 +84,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Line" + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusActualDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed + "stations and it's total transit time is " + BusTransitT + ".\n"; 
+            return "Line" + BusLicense + " - which has a road ID - " + BusRoadID + " - was scheduled to leave the departure station at " + BusFormalDT + "\n It left the departure station at " + BusFormalDT + "\n It is Scheduled to arrive at the next station at " + BusArrivalT + "\n It has passed " + BusPassed  + "\n"; 
         }
     }
 }

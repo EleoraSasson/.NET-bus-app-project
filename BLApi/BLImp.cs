@@ -19,9 +19,36 @@ namespace BLApi
         static BLImp() { }
         BLImp() { } //dafualt => private
         public static BLImp Instance { get => instance; }
+       // IDAL dal;
+       // public BLImp() { dal = DLFactory.GetDL(); }
+        #endregion
+        IDAL dal = DLFactory.GetDL();
+
+        #region Buses
+        public void AddBus (string license, DateTime reg, DateTime maint, int mil, int fuel)
+        {
+            try
+            {
+                Buses bs = new Buses();
+                Bus b = new Bus();
+                b.BusLicense = license;
+                b.BusFuel = fuel;
+                b.BusMileage = mil;
+                b.BusMaintenanceDate = maint;
+                b.BusRegDate = reg;
+                b.BusStatus = Status.Available;
+                b.BusErased = false;
+                bs.bus = b;
+                dal.AddBus(b);
+            }
+            catch (DO.InvalidBusLicenseException ex)
+            {
+                throw new BO.BusExistsException("Bus already exists", ex);
+            }
+
+        }
         #endregion
 
-        IDAL dal = DLFactory.GetDL();
         #region BusRoutes
         //create
         public string AddBusRoute(BO.BusRoute broute)

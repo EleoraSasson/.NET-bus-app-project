@@ -27,12 +27,12 @@
                 <TabItem Header="Manage Info">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="283*"/>
-                            <ColumnDefinition Width="411*"/>
+                            <ColumnDefinition Width="250*"/>
+                            <ColumnDefinition Width="200*"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59">
+                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59" Height="22" Margin="-2,-2,0,0" VerticalAlignment="Top">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -256,7 +256,11 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <StackPanel/>
+                            <StackPanel Orientation="Horizontal" Background="CadetBlue" Margin="1,1,1,1" >
+                                <Image Source="LogoFull.PNG" Cursor="Arrow" Stretch="None" Margin="2,5,5,5" Opacity="0.45" Width="357"/>
+                                <TextBlock FontStyle="Normal" HorizontalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Black" Foreground="#FF0E1340" TextWrapping="Wrap" Width="318" VerticalAlignment="Center" IsEnabled="False" Cursor="Arrow" TextAlignment="Center" FontStretch="SemiCondensed" Margin="0,2,0,1"><Run Text="&quot;"/><Run Text="Here at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/> <Run Text ="we believe that travel is more than simply a way to get from A to B;"/><LineBreak/><Run FontSize="16" Foreground="Black"  Text="travel is an adventure"/><Run Text=". "/><LineBreak/><Run Text="We have all had those days were by the time you get to that all-important meeting you are exhausted from  the stress of traffic, late transits and the like. "/><LineBreak/><Run Text ="We understand this, which is why at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text = "our priorities are"/> <Run Text= " reliability, ease and convenience. "/><Run Text="We insure that our buses are well maintained, our routes planned and based on updated road issues and our staff highly qualified. "/><LineBreak/><Run/><Run Text=" "/><Run FontStyle="Italic" Foreground="Black" Text="We aim to give you the ultimate travel experience: comfortable, practical, efficient"/><Run Text=". &quot;"/><Run  FontSize="9" Text= " -The GT Team"/></TextBlock>
+
+                            </StackPanel>
                         </DockPanel>
                     </Grid>
 
@@ -275,7 +279,6 @@
                                     <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding BusDriverFirst}"/>
                                     <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding BusDriverLast}"/>
                                     <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding BusDriverID}"/>
-                                    <GridViewColumn/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -288,19 +291,18 @@
                 </TabItem>
                 <TabItem Header="User Info">
                     <Grid Background="#FFE5E5E5">
-                        <ListView x:Name="lv_Users" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2">
+                        <ListView x:Name="lv_Users" ItemsSource="{Binding Path= Users}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
                             <ListView.View>
                                 <GridView x:Name="gv_UserList">
-                                    <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding Users.userName}"/>
-                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding Users.userFirst}"/>
-                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding Users.userLast}"/>
-                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding Users.userId}"/>
-                                    <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding Users.adminPermission}"/>
-                                    <GridViewColumn/>
+                                    <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding userName}"/>
+                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding userFirst}"/>
+                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding userLast}"/>
+                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding userId}"/>
+                                    <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding adminPermission}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        </Grid>
+                    </Grid>
 
                 </TabItem>
                 <TabItem Header="Simulation">

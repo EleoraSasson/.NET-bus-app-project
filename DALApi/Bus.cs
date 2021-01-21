@@ -52,9 +52,9 @@ namespace DO
 
         // Fuel Amount (Tank):
         // Note: Cannot exceed 1200 Liters (this is a full tank)
-        private float fuel;
+        private int fuel;
 
-        public float BusFuel
+        public int BusFuel
         {
             get { return fuel; }
             set { fuel = value; }

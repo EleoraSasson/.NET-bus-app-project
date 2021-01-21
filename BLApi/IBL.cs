@@ -27,6 +27,7 @@ namespace BLApi
 
         #region Bus
         IEnumerable<Buses> GetAllBuses();
+        void AddBus(string license, DateTime reg, DateTime maint, int mil, int fuel);
         #endregion
 
         #region Stations

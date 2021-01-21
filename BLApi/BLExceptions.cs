@@ -126,13 +126,13 @@ namespace BO
     }
     #endregion
 
-    #region BusRoutes
+    #region BusRoutes Exceptions
     [Serializable]
     public class BusLineAlreadyInSytemException : Exception
     {
         public string id;
         public BusLineAlreadyInSytemException(string message, Exception innerException) :
-            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).lineId;
         public override string ToString() => base.ToString() + $", Bus line {id} already exists.";
     }
 
@@ -141,7 +141,7 @@ namespace BO
     {
         public string id;
         public BusLineNotInSystem(string message, Exception innerException) :
-            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).ID;
+            base(message, innerException) => id = ((DO.InvalidBusLineException)innerException).lineId;
         public override string ToString() => base.ToString() + $", Bus line {id} cannot be found in the system.";
     }
 
@@ -172,5 +172,17 @@ namespace BO
         public override string ToString() => base.ToString() + $", Bus line {id} cannot be found.";
     }
     #endregion
+
+    #region Buses Exceptions
+    [Serializable]
+    public class BusExistsException : Exception
+    {
+        public string id;
+        public BusExistsException(string message, Exception innerException) :
+            base(message, innerException) => id = ((DO.InvalidBusLicenseException)innerException).busLicense;
+        public override string ToString() => base.ToString() + $", Bus  {id} already exists.";
+
+        #endregion
+    }
 
 }

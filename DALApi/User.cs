@@ -28,8 +28,8 @@ namespace DO
 
         public string userLast
         {
-            get { return first; }
-            set { first = value; }
+            get { return last; }
+            set { last = value; }
         }
 
 
