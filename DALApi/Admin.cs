@@ -20,8 +20,8 @@ namespace DO
 
         public string adminPassword
         {
-            get { return name; }
-            set { name = value; }
+            get { return password; }
+            set { password = value; }
         }
 
     }

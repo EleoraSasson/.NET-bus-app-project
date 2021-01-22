@@ -41,6 +41,7 @@ namespace UI
         private Stopwatch stopwatch;
         private int speedOfSimulation;
         private bool isTimerRun;
+        private Timer timer;
         public AdminManagerWindow()
         {
             InitializeComponent();
@@ -63,13 +64,13 @@ namespace UI
             tb_busNum.Text = fleetCollection.Count().ToString();
 
 
-            List<UserPortal> users = bl.GetAllUsers().ToList();
-            usersCollection = new ObservableCollection<UserPortal>(users);
-            lv_Users.DataContext = usersCollection;
+            //List<UserPortal> users = bl.GetAllUsers().ToList();
+            //usersCollection = new ObservableCollection<UserPortal>(users);
+            //lv_Users.DataContext = usersCollection;
 
-            List<AdminPortal> admin = bl.GetAllAdmin().ToList();
-            adminCollection = new ObservableCollection<AdminPortal>(admin);
-            lv_Staff.DataContext = adminCollection;
+            //List<AdminPortal> admin = bl.GetAllAdmin().ToList();
+            //adminCollection = new ObservableCollection<AdminPortal>(admin);
+            //lv_Staff.DataContext = adminCollection;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
@@ -89,13 +90,16 @@ namespace UI
             stopwatch = new Stopwatch();
             timerBworker = new BackgroundWorker(); 
             timerBworker.DoWork += TimerBworker_DoWork;
-           // timerBworker.RunWorkerCompleted += TimerBworker_RunWorkerCompleted;
+            timerBworker.RunWorkerCompleted += TimerBworker_RunWorkerCompleted;
             timerBworker.ProgressChanged += TimerBworker_ProgressChanged;
             timerBworker.WorkerReportsProgress = true;
-
-            //to start use RunWorkerAsync and in that method call progress changed
+            timerBworker.WorkerSupportsCancellation = true;
         }
 
+        private void TimerBworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            stopwatch.Reset();
+        }
         private void TimerBworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             string timerText = stopwatch.Elapsed.ToString();
@@ -103,12 +107,7 @@ namespace UI
             this.Tb_Clock.Text = timerText;
         }
 
-        //private void TimerBworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
+       
         private void sl_Simulation_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             speedOfSimulation = (int)sl_Simulation.Value;
@@ -119,7 +118,7 @@ namespace UI
             while(isTimerRun)
             {
                 timerBworker.ReportProgress(1);
-                Thread.Sleep(10000);
+                Thread.Sleep(1000);
             }
             
         }
@@ -128,7 +127,7 @@ namespace UI
         {
             if (!isTimerRun)
             {
-                stopwatch.Restart();
+                stopwatch.Start();
                 isTimerRun = true;
                 timerBworker.RunWorkerAsync(); //starts the background worker
             }

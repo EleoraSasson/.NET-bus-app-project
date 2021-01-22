@@ -54,6 +54,7 @@ namespace BLApi
 
         #region Admins
         bool AdminSearch(string adminName, string pass);
+        #endregion
 
         #region AdminPortal
         IEnumerable<AdminPortal> GetAllAdmin();
