@@ -128,6 +128,7 @@ namespace DALApi
 
         #region Admin
         bool AdminSearch(string adminName, string pass);
+        Admin GetAdmin(string name);
         #endregion
 
         //#region UserTrip

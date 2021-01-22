@@ -67,9 +67,9 @@ namespace UI
             usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
 
-            List<AdminPortal> admin = bl.GetAllAdmin().ToList();
-            adminCollection = new ObservableCollection<AdminPortal>(admin);
-            lv_Staff.DataContext = adminCollection;
+            //List<AdminPortal> admin = bl.GetAllAdmin().ToList();
+            //adminCollection = new ObservableCollection<AdminPortal>(admin);
+            //lv_Staff.DataContext = adminCollection;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
