@@ -123,6 +123,11 @@ namespace DALApi
         User GetUser(string name);//retrieve
         void UpdateUser(string name);//update
         void DeleteUser(string name);//delete
+        bool UserSearch(string username, string pass);
+        #endregion
+
+        #region Admin
+        bool AdminSearch(string adminName, string pass);
         #endregion
 
         //#region UserTrip

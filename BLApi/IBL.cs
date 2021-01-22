@@ -48,8 +48,12 @@ namespace BLApi
         #endregion
 
         #region UserPortal
+        bool UserSearch(string username, string pass);
         IEnumerable<UserPortal> GetAllUsers();
         #endregion
+
+        #region Admins
+        bool AdminSearch(string adminName, string pass);
 
         #region AdminPortal
         IEnumerable<AdminPortal> GetAllAdmin();

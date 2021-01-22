@@ -773,11 +773,22 @@ namespace DAL
         {
             DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
 
-            if (findUser != null)
+            if (findUser != null )
             {
                 return findUser.Clone();
             }
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
+        }
+
+        public bool UserSearch(string name, string password)
+        {
+            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+
+            if (findUser != null && findUser.userPassword == password)
+            {
+                return true;
+            }
+            else return false;
         }
 
         /// <summary>
@@ -812,6 +823,19 @@ namespace DAL
                 DataSource.usersList.Remove(findUser);
             }
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
+        }
+        #endregion
+
+        #region Admin
+        public bool AdminSearch(string name, string password)
+        {
+            DO.Admin findAdmin = DataSource.adminList.FirstOrDefault(a => a.adminName == name);
+
+            if (findAdmin != null && findAdmin.adminPassword == password)
+            {
+                return true;
+            }
+            else return false;
         }
         #endregion
 

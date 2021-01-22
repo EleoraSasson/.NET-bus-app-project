@@ -416,6 +416,13 @@ namespace BLApi
             }
         }
 
+        public bool UserSearch (string username, string pass)
+        {
+            if (dal.UserSearch(username, pass))
+                return true;
+            else return false;
+        }
+
         #endregion
 
         #region AdminPortal
@@ -440,6 +447,16 @@ namespace BLApi
             }
 
             return adminList;
+        }
+        #endregion
+
+        #region Admins
+        public bool AdminSearch(string adminname, string pass)
+        {
+            if (dal.AdminSearch(adminname, pass))
+                return true;
+            else return false;
+           
         }
         #endregion
     }
