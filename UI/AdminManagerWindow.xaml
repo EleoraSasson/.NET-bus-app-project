@@ -32,7 +32,7 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59" Height="22" Margin="-2,-2,0,0" VerticalAlignment="Top">
+                <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59" Height="22" Margin="0" VerticalAlignment="Top">
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -268,39 +268,61 @@
 
                 </TabItem>
                 <TabItem Header="Staff Info">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid x:Name="gridStaff" Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="216*"/>
-                            <ColumnDefinition Width="479*"/>
+                            <ColumnDefinition Width="9*"/>
+                            <ColumnDefinition Width="162*"/>
+                            <ColumnDefinition Width="176*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock HorizontalAlignment="Left" Margin="30,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top"/>
-                        <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="73,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" />
-                        <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="233" Margin="46,69,0,0" VerticalAlignment="Top" Width="293" Grid.ColumnSpan="2">
+                        <TextBlock HorizontalAlignment="Left" Margin="12,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top" Height="16" Width="38" Grid.Column="1"/>
+                        <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="36,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" Grid.Column="1" />
+                        <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="274" Margin="9,69,0,0" VerticalAlignment="Top" Width="307" Grid.Column="1" MouseDoubleClick="lv_Staff_MouseDoubleClick" SelectionChanged="lv_Staff_SelectionChanged">
+                             <ListView.ItemContainerStyle>
+                                    <Style x:Name="StaffList_Style" TargetType="{x:Type ListViewItem}">
+                                        <Setter Property="ToolTip">
+                                            <Setter.Value>
+                                                <ToolTip>
+                                                    <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Staff Member."/>
+                                                </ToolTip>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value ="Black"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding BusDriverFirst}"/>
-                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding BusDriverLast}"/>
-                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding BusDriverID}"/>
+                                    <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding AdminDriver.BusDriverFirst}"/>
+                                    <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding AdminDriver.BusDriverLast}"/>
+                                    <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding AdminDriver.BusDriverID}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Image x:Name="StaffImage" HorizontalAlignment="Left" Height="67" Margin="186.5,55,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.39,0.093" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoFirst" Text="{Binding BusDriverFirst}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109" Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoLast" Text="{Binding BusDriverLast}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoID" Text="{Binding BusDriverID}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
-                        <TextBox x:Name="StaffInfoPos" Text="{Binding StaffPosition}"  HorizontalAlignment="Left" Height="19" Margin="294.5,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="109"  Grid.Column="1"/>
+                        <Grid x:Name="gridSelectedStaff" Grid.Column="2">
+                            <Label x:Name="la_years" Grid.Column="2" Margin="15,185,222,156" Content="Years with Company:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
+                            <Label x:Name="la_age" Grid.Column="2" Margin="15,223,222,118" Content="Age:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
+                            <Label x:Name="la_cell" Grid.Column="2" Margin="15,259,222,82" Content="Cell No.:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
+                            <TextBox x:Name="tb_staffFirstName" Grid.Column="2" Margin="173,45,29,295" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"  BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.BusDriverFirst, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffLastName" Grid.Column="2" Margin="173,82,29,258" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.BusDriverLast, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffPosition" Grid.Column="2" Margin="173,121,29,219" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.StaffPosition, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                            <TextBox x:Name="tb_staffYearsWorked" Grid.Column="2" Margin="149,183,53,157" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.StaffYrsWorked, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                            <TextBox x:Name="tb_staffAge" Grid.Column="2" Margin="103,229,99,111" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.BusDriverAge, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffCellNo" Grid.Column="2" Margin="103,274,99,66" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding AdminPortal.BusDriverCellNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        </Grid>
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info">
                     <Grid Background="#FFE5E5E5">
-                        <ListView x:Name="lv_Users" ItemsSource="{Binding Path= Users}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
+                        <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="233" Margin="102,83,0,0" VerticalAlignment="Top" Width="505" Grid.ColumnSpan="2" SelectionChanged="lv_Users_SelectionChanged">
                             <ListView.View>
                                 <GridView x:Name="gv_UserList">
                                     <GridViewColumn Header="UserName:" Width="100" DisplayMemberBinding="{Binding Users.userName}"/>
                                     <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding Users.userFirst}"/>
                                     <GridViewColumn Header="Last Name:" Width="100" DisplayMemberBinding="{Binding Users.userLast}"/>
                                     <GridViewColumn Header="ID:" Width="100" DisplayMemberBinding="{Binding Users.userId}"/>
-                                    <GridViewColumn Header="Permission:" Width="100" DisplayMemberBinding="{Binding Users.adminPermission}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>

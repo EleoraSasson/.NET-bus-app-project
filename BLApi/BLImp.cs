@@ -61,7 +61,7 @@ namespace BLApi
            
         }
         #endregion
-        IDAL dal = DLFactory.GetDL();
+       
 
         #region BusRoutes
         //create
@@ -416,6 +416,31 @@ namespace BLApi
             }
         }
 
+        #endregion
+
+        #region AdminPortal
+        public IEnumerable<AdminPortal> GetAllAdmin()
+        {
+            List<AdminPortal> adminList = new List<AdminPortal>();
+            IEnumerable<Staff> admin = dal.GetAllStaff();
+
+            foreach (var s in admin)
+            {
+                AdminPortal ap = new AdminPortal();
+                ap.AdminDriver = new Staff();
+                ap.AdminDriver.BusDriverID = s.BusDriverID;
+                ap.AdminDriver.BusDriverFirst = s.BusDriverFirst;
+                ap.AdminDriver.BusDriverLast = s.BusDriverLast;
+                ap.AdminDriver.BusDriverAge = s.BusDriverAge;
+                ap.AdminDriver.BusDriverCellNo = s.BusDriverCellNo;
+                ap.AdminDriver.isAdmin = s.isAdmin;
+                ap.AdminDriver.StaffPosition = s.StaffPosition;
+                ap.AdminDriver.StaffYrsWorked = s.StaffYrsWorked;
+                adminList.Add(ap);
+            }
+
+            return adminList;
+        }
         #endregion
     }
 }

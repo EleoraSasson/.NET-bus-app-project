@@ -32,6 +32,7 @@ namespace UI
         public static ObservableCollection<BusRoute> sWithRouteCollection;
         public static ObservableCollection<Buses> fleetCollection;
         public static ObservableCollection<UserPortal> usersCollection;
+        public static ObservableCollection<AdminPortal> adminCollection;
         public static ObservableCollection<ScheduleOfRoute> companySchedule;
 
         BO.BusStations bStation;
@@ -65,6 +66,10 @@ namespace UI
             List<UserPortal> users = bl.GetAllUsers().ToList();
             usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
+
+            List<AdminPortal> admin = bl.GetAllAdmin().ToList();
+            adminCollection = new ObservableCollection<AdminPortal>(admin);
+            lv_Staff.DataContext = adminCollection;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
@@ -211,6 +216,34 @@ namespace UI
         #endregion
 
         #region StaffTab
+        private void lv_Staff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //admin = (lv_Staff.SelectedItem as BO.AdminPortal);
+            //gridSelectedStaff.DataContext = admin;
+
+            AdminPortal selectedAdmin;
+
+            ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+
+            if (listViewItem != null)
+            {
+                lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
+                selectedAdmin = (AdminPortal)lv_Staff.SelectedItem;
+                gridSelectedStaff.DataContext = selectedAdmin;
+            }
+        }
+        public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
+        {
+            if (element == null) return null;
+
+            if (element.GetType() == type) return element;
+
+            return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
+        }
+        private void lv_Staff_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region UserTab
@@ -265,6 +298,6 @@ namespace UI
 
         }
 
-        
+       
     }
 }

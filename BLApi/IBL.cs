@@ -48,8 +48,11 @@ namespace BLApi
         #endregion
 
         #region UserPortal
-
         IEnumerable<UserPortal> GetAllUsers();
+        #endregion
+
+        #region AdminPortal
+        IEnumerable<AdminPortal> GetAllAdmin();
         #endregion
     }
 }
