@@ -47,7 +47,7 @@ namespace UI
         {
             if (checkUser())
             {
-                if (bl.UserSearch(userName, password))
+                if (bl.UserSearch(t_Username.Text, t_PasswordUser.Password))
                 {
                     UserWindow userWin = new UserWindow();
                     userWin.Show();

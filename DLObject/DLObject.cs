@@ -782,7 +782,8 @@ namespace DAL
 
         public bool UserSearch(string name, string password)
         {
-            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+            //  DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+            DO.User findUser = GetUser(name);
 
             if (findUser != null && findUser.userPassword == password)
             {
@@ -829,7 +830,7 @@ namespace DAL
         #region Admin
         public bool AdminSearch(string name, string password)
         {
-            DO.Admin findAdmin = DataSource.adminList.FirstOrDefault(a => a.adminName == name);
+            DO.Admin findAdmin = GetAdmin(name);
 
             if (findAdmin != null && findAdmin.adminPassword == password)
             {
@@ -837,6 +838,18 @@ namespace DAL
             }
             else return false;
         }
+
+        public Admin GetAdmin(string name)
+        {
+            DO.Admin findAdmin = DataSource.adminList.Find(a => a.adminName == name);
+
+            if (findAdmin != null)
+            {
+                return findAdmin.Clone();
+            }
+            else throw new DO.MissingUserException(name, $"No data found for user: {name}");
+        }
+
         #endregion
 
         //#region CRUD Implementation - UserTrip
