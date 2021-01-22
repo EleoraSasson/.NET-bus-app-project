@@ -1,4 +1,5 @@
 ﻿
+using BLApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,33 +21,113 @@ namespace UI
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public IBL bl = BLFactory.GetBL(); //create bl instance 
+        public string userName;
+        public string password;
+        public string adminName;
+        public string adminPass;
+
         public LoginWindow()
         {
             InitializeComponent();
         }
 
+        #region User Login
         private void t_Username_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+            userName = t_Username.Text;
         }
 
-        private void t_Admin_TextChanged(object sender, TextChangedEventArgs e)
+        private void t_PasswordUser_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            password = t_PasswordUser.Password;
         }
 
         private void b_LoginUser_Click(object sender, RoutedEventArgs e)
         {
-            UserWindow userWin = new UserWindow();
-            userWin.Show();
-            this.Close();
+            if (checkUser())
+            {
+                if (bl.UserSearch(userName, password))
+                {
+                    UserWindow userWin = new UserWindow();
+                    userWin.Show();
+                    this.Close();
+                }
+                else
+                {
+                    string title = "Gilore Travels ERROR: Login Window";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+                    MessageBox.Show("Error: wrong username or password.", title, button, icon);
+                    this.Close();
+                }
+            }
+            else
+            {
+                string title = "Gilore Travels ERROR: Login Window";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("Error: Fields have been left blank.", title, button, icon);
+                this.Close();
+            }
+        }
+
+        public bool checkUser()
+        {
+            if (t_PasswordUser.Password.Length == 0 || t_Username.Text.Length == 0)
+                return false;
+            else return true;
+        }
+
+        #endregion
+
+
+
+        private void t_Admin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            adminName = t_Username.Text;
+        }
+
+        private void t_PasswordAdmin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            adminPass = t_PasswordUser.Password;
+        }
+
+        public bool checkAdmin()
+        {
+            if (t_PasswordAdmin.Password.Length == 0 || t_Admin.Text.Length == 0)
+                return false;
+            else return true;
         }
 
         private void b_LoginAdmin_Click(object sender, RoutedEventArgs e)
         {
-            AdminManagerWindow adminWin = new AdminManagerWindow();
-            adminWin.Show();
-            this.Close();
+            if (checkAdmin())
+            {
+                if (bl.AdminSearch(t_Admin.Text, t_PasswordAdmin.Password))
+                {
+                    AdminManagerWindow adminWin = new AdminManagerWindow();
+                    adminWin.Show();
+                    this.Close();
+                }
+                else
+                {
+                    string title = "Gilore Travels ERROR: Login Window";
+                    MessageBoxButton button = MessageBoxButton.OK;
+                    MessageBoxImage icon = MessageBoxImage.Error;
+                    MessageBox.Show("Error: wrong username or password.", title, button, icon);
+                    this.Close();
+                }
+            }
+            else
+            {
+                string title = "Gilore Travels ERROR: Login Window";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Error;
+                MessageBox.Show("Error: Fields have been left blank.", title, button, icon);
+                this.Close();
+            }
+           
         }
     }
 }

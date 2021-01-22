@@ -21,7 +21,7 @@ namespace DS
 		public static List<Staff> staffList;
 		public static List<SuccessiveStations> succStationsList;
 		public static List<User> usersList;
-		public static List<UserTrip> userTripList;
+		public static List<Admin> adminList;
 		static DataSource() //add aan init to start off witha basic bunch of buses
 		{
 			
@@ -1459,9 +1459,26 @@ namespace DS
 				},
 				
 			};
+			#endregion
+
+			#region INIT Admin
+			adminList = new List<Admin>()
+			{
+				new Admin()
+				{
+					adminName="Dina",
+					adminPassword="idontlikecheese",
+				},
+
+				new Admin()
+				{
+					adminName =" Nick",
+					adminPassword="ilikecheese",
+				},
+			};
             #endregion
         }
 
-	}
+    }
 
 }
