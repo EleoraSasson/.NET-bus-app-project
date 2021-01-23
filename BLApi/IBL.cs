@@ -39,6 +39,7 @@ namespace BLApi
         #region ScheduleOfRoute
         void AddScheduleOfRoute(ScheduleOfRoute sched); //create
         ScheduleOfRoute GetScheduleOfRoute(BusRoute route); //retrieve
+        IEnumerable<ScheduleOfRoute> GetAllScheduleOfRoutes();
         void UpdateScheduleOfRoute(ScheduleOfRoute sched); //update
         void DeleteScheduleOfRoute(ScheduleOfRoute sched); //delete
         #endregion

@@ -222,13 +222,14 @@
                                         <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
                                         <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10" SelectionChanged="Cb_Search_SelectionChanged"/>
                                         <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged" IsReadOnly="False"/>
-                                        <!--<ListView Width="500" Margin="90,0,216,10" Grid.Row="1"/>-->
+                                        <ListView Width="500" Margin="90,0,216,10" Grid.Row="1"/>
 
-                                        <!--<DataGrid x:Name="Dg_BusSchedule" ItemsSource="{Binding}" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
+                                        
+                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
                                               AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged" >
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Route No." Binding="{Binding CurrentRoute.Route.BusLineNo}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
-                                                <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding BusOnRoute.BusRoadID}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Route No." Binding="{Binding Path= CurrentRoute.Route.BusLineNo}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Bus Road ID:" Binding="{Binding Path= BusOnRoute.BusRoadID}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
                                                 <DataGridTemplateColumn Header="Date:" Width="60">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -236,15 +237,15 @@
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
-                                                <DataGridTextColumn Header="Start Stop:" Binding="{Binding CurrentRoute.routeStops.BusStart}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
-                                                <DataGridTextColumn Header="Departure Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
-                                                <DataGridTextColumn Header="End Stop:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
-                                                <DataGridTextColumn Header="Arrival Time:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
-                                                <DataGridTextColumn Header="No. of Stops:" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
-                                                <DataGridTextColumn Header="Driver" Binding="{Binding}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Start Stop:" Binding="{Binding Path= CurrentRoute.Route.BusStart}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Departure Time:" Binding="{Binding Path= BusOnRoute.BusFormalDT}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
+                                                <DataGridTextColumn Header="End Stop:" Binding="{Binding Path= CurrentRoute.Route.BusEnd}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Arrival Time:" Binding="{Binding Path= BusOnRoute.BusArrivalT}" CanUserSort="True" CanUserReorder="True" SortDirection="Descending"/>
+                                                <DataGridTextColumn Header="No. of Stops:" Binding="{Binding Path= numOfStops}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
+                                                <DataGridTextColumn Header="Driver" Binding="{Binding Path= SelectedStaff }" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
 
                                             </DataGrid.Columns>
-                                        </DataGrid>-->
+                                        </DataGrid>
                                         <Label x:Name="l_WhatInTable" BorderThickness="0" Foreground="DarkBlue" Grid.Row="1" Content="Bus Route Schedule for Selected Region:" Margin="-83,89,681,105" RenderTransformOrigin="0.632,-0.759">
                                             <Label.RenderTransform>
                                                 <TransformGroup>

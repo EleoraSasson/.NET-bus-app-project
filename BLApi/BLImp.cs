@@ -130,6 +130,22 @@ namespace BLApi
             return broute;
         }
 
+        public BusRoute GetBusRouteID( string id)
+        {
+            BusRoute broute = new BusRoute();//create an instance of BusRoute
+            try
+            {
+                broute.Route = dal.GetBusLine(id); //get the BusLine with that ID and place in route
+                IEnumerable<LineStation> stations = dal.GetAllLineStations(); //get all stations
+                broute.RouteStops = (from st in stations
+                                     where st.lineID == id
+                                     select st); //select all the LineStations that have that ID and place in routeStops
+            }
+            catch (DO.InvalidBusLineException ex)
+            { throw new BO.BusLineMissingException("Bus line cannot be found", ex); }
+            return broute;
+        }
+
         public IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute)
         {
             List<Stations> listStations = new List<Stations>();
@@ -194,6 +210,8 @@ namespace BLApi
                 else throw new MissingLineStationException(lineS.lineID + lineS.stationCode, $"Line Station {lineS.lineID + lineS.stationCode} cannot be deleted as it is missing from the system");
             }
         }
+
+
 
         #endregion
 
@@ -307,7 +325,8 @@ namespace BLApi
             {
                 throw new BO.BusOnTripExists("Bus on trip already exists", ex);
             }
-           
+            sched.numOfStops = sched.CurrentRoute.RouteStops.Count();
+
             }
         //retrieve
         public ScheduleOfRoute GetScheduleOfRoute(BusRoute route)
@@ -332,7 +351,30 @@ namespace BLApi
             {
                 throw new BO.BusOnTripExists("Bus on trip does not exist", ex);
             }
+            sched.numOfStops = sched.CurrentRoute.RouteStops.Count();
             return sched;
+        }
+
+        public IEnumerable<ScheduleOfRoute> GetAllScheduleOfRoutes()
+        {
+            List<ScheduleOfRoute> scheduleList = new List<ScheduleOfRoute>();
+            IEnumerable<BusRoute> routes = GetAllBusRoutes();
+            IEnumerable<LineLeaving> lines = dal.GetAllLinesLeaving();
+            IEnumerable<BusOnTrip> buses = dal.GetAllBusOnTrip();
+            IEnumerable<Staff> staffs = dal.GetAllStaff();
+
+            foreach (var line in lines)
+            {
+                ScheduleOfRoute sroute = new ScheduleOfRoute();
+                sroute.RouteSchedule = line;
+                sroute.SelectedStaff = staffs.FirstOrDefault(s => s.BusDriverID == line.BusDriver);
+                sroute.CurrentRoute = GetBusRouteID(line.BusLineID);
+                sroute.BusOnRoute = buses.FirstOrDefault(b => b.BusLineID == line.BusLineID);
+                sroute.numOfStops = sroute.CurrentRoute.RouteStops.Count();
+                scheduleList.Add(sroute);
+            }
+
+            return scheduleList;
         }
         //update
         public void UpdateScheduleOfRoute(ScheduleOfRoute sched)
@@ -357,6 +399,8 @@ namespace BLApi
             catch (DO.InvalidLineLeavingKeyException ex)
             { throw new BO.LineLeavingExists("Line leaving does not exist", ex); }
         }
+
+      
         #endregion
 
         #region UserPortal
