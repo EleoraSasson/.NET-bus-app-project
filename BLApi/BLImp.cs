@@ -19,13 +19,13 @@ namespace BLApi
         static BLImp() { }
         BLImp() { } //dafualt => private
         public static BLImp Instance { get => instance; }
-       // IDAL dal;
-       // public BLImp() { dal = DLFactory.GetDL(); }
+        // IDAL dal;
+        // public BLImp() { dal = DLFactory.GetDL(); }
         #endregion
         IDAL dal = DLFactory.GetDL();
 
         #region Buses
-        public void AddBus (string license, DateTime reg, DateTime maint, int mil, int fuel)
+        public void AddBus(string license, DateTime reg, DateTime maint, int mil, int fuel)
         {
             try
             {
@@ -51,17 +51,17 @@ namespace BLApi
         public void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel)
         {
             bs.bus = new Bus();
-                bs.bus.BusLicense = license;
-                bs.bus.BusFuel = fuel;
-                bs.bus.BusMileage = mil;
-                bs.bus.BusMaintenanceDate = maint;
-                bs.bus.BusRegDate = reg;
-                bs.bus.BusStatus = Status.Available;
-                bs.bus.BusErased = false;
-           
+            bs.bus.BusLicense = license;
+            bs.bus.BusFuel = fuel;
+            bs.bus.BusMileage = mil;
+            bs.bus.BusMaintenanceDate = maint;
+            bs.bus.BusRegDate = reg;
+            bs.bus.BusStatus = Status.Available;
+            bs.bus.BusErased = false;
+
         }
         #endregion
-       
+
 
         #region BusRoutes
         //create
@@ -71,8 +71,8 @@ namespace BLApi
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineAlreadyInSytemException("Bus line already exists", ex); }
 
-            foreach ( var lineS in broute.RouteStops)
-            { 
+            foreach (var lineS in broute.RouteStops)
+            {
                 int stationCount = dal.AddLineStation(lineS, dal.AddBusLine(broute.Route));
                 if (stationCount == 1) //it is the first station 
                 {
@@ -157,8 +157,8 @@ namespace BLApi
                 BusRoute bRoute = new BusRoute();
                 bRoute.Route = line;
                 bRoute.RouteStops = (from ls in stations
-                                            where line.BusLineID.ToString() == ls.lineID
-                                            select ls);
+                                     where line.BusLineID.ToString() == ls.lineID
+                                     select ls);
                 routeList.Add(bRoute);
             }
 
@@ -222,7 +222,7 @@ namespace BLApi
             {
                 BusStations bs = new BusStations();
                 bs.Stop = new BusStop();
-                bs.Stop.StopName = stopp.StopName; 
+                bs.Stop.StopName = stopp.StopName;
                 bs.Stop.StopLocation = stopp.StopLocation;
                 bs.Stop.StopCode = stopp.StopCode;
                 bs.Stop.StopAddress = stopp.StopAddress;
@@ -264,16 +264,16 @@ namespace BLApi
         public IEnumerable<BusRoute> GetRoutesofStation(BusStations station)
         {
             List<BusRoute> routesOfStation = new List<BusRoute>();
-            
+
             string code = station.Stop.StopCode;
 
             List<LineStation> listStations = (from ls in dal.GetAllLineStations()
-                                             where station.Stop.StopCode == ls.stationCode
-                                             select ls).ToList(); //find all the lineStations that have this station Code.
+                                              where station.Stop.StopCode == ls.stationCode
+                                              select ls).ToList(); //find all the lineStations that have this station Code.
 
             List<BusRoute> listRoutes = GetAllBusRoutes().ToList(); //get all the BusRoutes
 
-            foreach (LineStation lineS in listStations) 
+            foreach (LineStation lineS in listStations)
             {
                 BusRoute route = listRoutes.Find(r => r.Route.BusLineID == lineS.lineID); //find all the routes that correspond to those LineStations
                 routesOfStation.Add(route); //add the found route
@@ -292,14 +292,14 @@ namespace BLApi
             try
             {
                 dal.AddLineLeaving(sched.RouteSchedule, lineID, staffID);
-                
+
             }
             catch (DO.InvalidLineLeavingKeyException ex)
             {
                 throw new BO.LineLeavingExists("Line leaving already exists", ex);
             }
 
-            try 
+            try
             {
                 dal.AddBusOnTrip(sched.BusOnRoute, lineID);
             }
@@ -307,8 +307,8 @@ namespace BLApi
             {
                 throw new BO.BusOnTripExists("Bus on trip already exists", ex);
             }
-           
-            }
+
+        }
         //retrieve
         public ScheduleOfRoute GetScheduleOfRoute(BusRoute route)
         {

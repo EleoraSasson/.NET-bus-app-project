@@ -41,7 +41,6 @@ namespace UI
         private Stopwatch stopwatch;
         private int speedOfSimulation;
         private bool isTimerRun;
-        private Timer timer;
         public AdminManagerWindow()
         {
             InitializeComponent();
@@ -63,14 +62,13 @@ namespace UI
             lv_BusList.DataContext = fleetCollection;
             tb_busNum.Text = fleetCollection.Count().ToString();
 
+            List<UserPortal> users = bl.GetAllUsers().ToList();
+            usersCollection = new ObservableCollection<UserPortal>(users);
+            lv_Users.DataContext = usersCollection;
 
-            //List<UserPortal> users = bl.GetAllUsers().ToList();
-            //usersCollection = new ObservableCollection<UserPortal>(users);
-            //lv_Users.DataContext = usersCollection;
-
-            //List<AdminPortal> admin = bl.GetAllAdmin().ToList();
-            //adminCollection = new ObservableCollection<AdminPortal>(admin);
-            //lv_Staff.DataContext = adminCollection;
+            List<AdminPortal> admin = bl.GetAllAdmin().ToList();
+            adminCollection = new ObservableCollection<AdminPortal>(admin);
+            lv_Staff.DataContext = adminCollection;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
@@ -96,6 +94,7 @@ namespace UI
             timerBworker.WorkerSupportsCancellation = true;
         }
 
+
         private void TimerBworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             stopwatch.Reset();
@@ -117,7 +116,7 @@ namespace UI
         {
             while(isTimerRun)
             {
-                timerBworker.ReportProgress(1);
+                timerBworker.ReportProgress(0);
                 Thread.Sleep(1000);
             }
             
