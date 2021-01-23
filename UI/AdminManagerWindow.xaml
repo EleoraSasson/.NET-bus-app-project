@@ -213,19 +213,32 @@
                                 </Expander.Background>
                                 <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition x:Name="RegionSearch" Height="2*"/>
-                                            <RowDefinition x:Name="Schedule" Height="10*"/>
-                                        </Grid.RowDefinitions>
-                                        <Label x:Name="l_SearchRegion" Grid.Row="0" Content="Select Region:" Margin="39,12,559,5"/>
-                                        <ComboBox x:Name="Cb_Region" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="129,13,600,9"  SelectionChanged="Cb_Region_SelectionChanged" />
-                                        <Label x:Name="l_Search" Grid.Row="0" Content="Search by:" Margin="227,12,371,5"/>
-                                        <ComboBox x:Name="Cb_Search" IsEditable="False" IsReadOnly="True" ItemsSource="{Binding}"  Grid.Row="0" Margin="295,13,410,10" SelectionChanged="Cb_Search_SelectionChanged"/>
-                                        <TextBox x:Name="Tb_SearchBox" Height="23" Width="150" Margin="440,12,216,9" Cursor="IBeam" ToolTip="Select search by and type search query here" TextChanged="Tb_SearchBox_TextChanged" IsReadOnly="False"/>
-                                        <ListView Width="500" Margin="90,0,216,10" Grid.Row="1"/>
+                                        <ListView Margin="22,10,0,22" x:Name="lv_companySched" ItemsSource="{Binding}" IsManipulationEnabled="False">
+                                            <ListView.ItemContainerStyle>
+                                                <Style x:Name="Company_Style" TargetType="{x:Type ListViewItem}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value ="Black"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView x:Name="gv_CompanySched">
+                                                    <GridViewColumn x:Name="RouteNo" Header="Route No.:" Width="65" DisplayMemberBinding="{Binding CurrentRoute.Route.BusLineNo}"  />
+                                                    <GridViewColumn x:Name="RoadID" Header="Road ID:" Width="65" DisplayMemberBinding="{Binding BusOnRoute.BusRoadID}"/>
+                                                    <GridViewColumn x:Name="BusStart" Header="Starting Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusStart}"  />
+                                                    <GridViewColumn x:Name="DepTime" Header="Departure Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusFormalDT}"  />
+                                                    <GridViewColumn x:Name="EndStop" Header="Ending Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusEnd}"  />
+                                                    <GridViewColumn x:Name="ArrivalTime" Header="Arrival Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusArrivalT}"  />
+                                                    <GridViewColumn x:Name="NoStops" Header="Number of Stops:" Width="90" DisplayMemberBinding="{Binding numOfStops}"  />
+                                                    <GridViewColumn x:Name="Driver" Header="Bus Driver:" Width="80" DisplayMemberBinding="{Binding SelectedStaff}"  />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
 
-                                        
-                                        <DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
+
+                                        <!--<DataGrid x:Name="Dg_BusSchedule" IsTextSearchEnabled="False" CanUserAddRows="False" Margin="39,0,151,12" MaxHeight="250"
                                               AutoGenerateColumns="False" Grid.Row="1" Height="213" VerticalAlignment="Bottom" SelectionChanged="Dg_BusSchedule_SelectionChanged" >
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Route No." Binding="{Binding Path= CurrentRoute.Route.BusLineNo}" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
@@ -245,17 +258,7 @@
                                                 <DataGridTextColumn Header="Driver" Binding="{Binding Path= SelectedStaff }" CanUserSort="True" CanUserReorder="True" SortDirection="{x:Null}"/>
 
                                             </DataGrid.Columns>
-                                        </DataGrid>
-                                        <Label x:Name="l_WhatInTable" BorderThickness="0" Foreground="DarkBlue" Grid.Row="1" Content="Bus Route Schedule for Selected Region:" Margin="-83,89,681,105" RenderTransformOrigin="0.632,-0.759">
-                                            <Label.RenderTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform/>
-                                                    <SkewTransform/>
-                                                    <RotateTransform Angle="-90"/>
-                                                    <TranslateTransform X="-61.449" Y="6.537"/>
-                                                </TransformGroup>
-                                            </Label.RenderTransform>
-                                        </Label>
+                                        </DataGrid>-->
                                     </Grid>
                                 </StackPanel>
                             </Expander>
@@ -278,22 +281,22 @@
                         <TextBlock HorizontalAlignment="Left" Margin="12,27,0,0" TextWrapping="Wrap" Text="Search:" VerticalAlignment="Top" Height="16" Width="38" Grid.Column="1"/>
                         <TextBox x:Name="SearchTB" HorizontalAlignment="Left" Height="17" Margin="36,26,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.511,-0.681" Grid.Column="1" />
                         <ListView x:Name="lv_Staff" ItemsSource = "{Binding}" HorizontalAlignment="Left" Height="274" Margin="9,69,0,0" VerticalAlignment="Top" Width="307" Grid.Column="1" MouseDoubleClick="lv_Staff_MouseDoubleClick" SelectionChanged="lv_Staff_SelectionChanged">
-                             <ListView.ItemContainerStyle>
-                                    <Style x:Name="StaffList_Style" TargetType="{x:Type ListViewItem}">
-                                        <Setter Property="ToolTip">
-                                            <Setter.Value>
-                                                <ToolTip>
-                                                    <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Staff Member."/>
-                                                </ToolTip>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value ="Black"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
+                            <ListView.ItemContainerStyle>
+                                <Style x:Name="StaffList_Style" TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <ToolTip>
+                                                <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Staff Member."/>
+                                            </ToolTip>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value ="Black"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="First Name:" Width="100" DisplayMemberBinding="{Binding AdminDriver.BusDriverFirst}"/>
@@ -306,12 +309,12 @@
                             <Label x:Name="la_years" Grid.Column="2" Margin="15,185,222,156" Content="Years with Company:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
                             <Label x:Name="la_age" Grid.Column="2" Margin="15,223,222,118" Content="Age:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
                             <Label x:Name="la_cell" Grid.Column="2" Margin="15,259,222,82" Content="Cell No.:" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"/>
-                            <TextBox x:Name="tb_staffFirstName" Grid.Column="2" Margin="173,45,29,295" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"  BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.BusDriverFirst, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                            <TextBox x:Name="tb_staffLastName" Grid.Column="2" Margin="173,82,29,258" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.BusDriverLast, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                            <TextBox x:Name="tb_staffPosition" Grid.Column="2" Margin="173,121,29,219" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.StaffPosition, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                            <TextBox x:Name="tb_staffYearsWorked" Grid.Column="2" Margin="149,183,53,157" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.StaffYrsWorked, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                            <TextBox x:Name="tb_staffAge" Grid.Column="2" Margin="103,229,99,111" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.BusDriverAge, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                            <TextBox x:Name="tb_staffCellNo" Grid.Column="2" Margin="103,274,99,66" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding Path = AdminPortal.BusDriverCellNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffFirstName" Grid.Column="2" Margin="173,45,29,295" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium"  BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding BusDriverFirst, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffLastName" Grid.Column="2" Margin="173,82,29,258" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding BusDriverLast, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffPosition" Grid.Column="2" Margin="173,121,29,219" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding StaffPosition, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                            <TextBox x:Name="tb_staffYearsWorked" Grid.Column="2" Margin="149,183,53,157" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding StaffYrsWorked, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                            <TextBox x:Name="tb_staffAge" Grid.Column="2" Margin="103,229,99,111" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding BusDriverAge, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            <TextBox x:Name="tb_staffCellNo" Grid.Column="2" Margin="103,274,99,66" Width="150" Height="30" Cursor="IBeam" Background="Transparent" FontFamily="HP Simplified" FontSize="12" FontWeight="Medium" BorderBrush="Transparent" Foreground="Black" IsReadOnly="True" Text ="{Binding BusDriverCellNo, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                         </Grid>
                     </Grid>
                 </TabItem>

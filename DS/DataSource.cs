@@ -592,11 +592,8 @@ namespace DS
 			};
 			#endregion
 
-			// TIMESPAN???
 			#region INIT BusOnTrip
 			//Defines and a new list of BusOnTrip and adds an object of type BusOnTrip to the List:
-			//not setting arrival time as dependent on location of next station 
-			//&& not setting stations passed as updates on trip the license of the bus is also set based on buses that chosen
 
 			busOnTripList = new List<BusOnTrip>()
 			{
@@ -604,62 +601,71 @@ namespace DS
 				{
 					BusLineID = "11",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(8,30,00)
-
+					BusFormalDT = new TimeSpan(8,30,00),
+					BusArrivalT = new TimeSpan(11,45,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "12",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(5,45,00)
+					BusFormalDT = new TimeSpan(5,45,00),
+					BusArrivalT = new TimeSpan(16,45,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "13",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(6,15,00)
+					BusFormalDT = new TimeSpan(6,15,00),
+					BusArrivalT = new TimeSpan(11,30,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "14",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(6,00,00)
+					BusFormalDT = new TimeSpan(6,00,00),
+					BusArrivalT = new TimeSpan(23,00,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "15",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(9,30,00)
+					BusFormalDT = new TimeSpan(9,30,00),
+					BusArrivalT = new TimeSpan(16,33,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "16",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(6,35,00)
+					BusFormalDT = new TimeSpan(6,35,00),
+					BusArrivalT = new TimeSpan(19,45,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "17",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(7,30,00)
+					BusFormalDT = new TimeSpan(7,30,00),
+					BusArrivalT = new TimeSpan(12,45,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "18",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(10,30,00)
+					BusFormalDT = new TimeSpan(10,30,00),
+					BusArrivalT = new TimeSpan(14,35,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "19",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(7,30,00)
+					BusFormalDT = new TimeSpan(7,30,00),
+					BusArrivalT = new TimeSpan(22,15,00)
 				},
 				new BusOnTrip
 				{
 					BusLineID = "20",
 					BusRoadID = RunningNumbers.BusRunNum,
-					BusFormalDT = new TimeSpan(6,15,00)
+					BusFormalDT = new TimeSpan(6,15,00),
+					BusArrivalT = new TimeSpan(18,55,00)
 				},
 
 			};

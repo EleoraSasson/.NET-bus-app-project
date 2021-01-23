@@ -66,17 +66,16 @@ namespace UI
             usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
 
-            List<UserPortal> users = bl.GetAllUsers().ToList();
-            usersCollection = new ObservableCollection<UserPortal>(users);
-            lv_Users.DataContext = usersCollection;
-
             List<AdminPortal> admin = bl.GetAllAdmin().ToList();
             adminCollection = new ObservableCollection<AdminPortal>(admin);
             lv_Staff.DataContext = adminCollection;
 
+
             List<ScheduleOfRoute> schedules = bl.GetAllScheduleOfRoutes().ToList();
             companySchedule = new ObservableCollection<ScheduleOfRoute>(schedules);
-            Dg_BusSchedule.ItemsSource = schedules;
+            lv_companySched.DataContext = companySchedule;
+            
+            
             //Dg_BusSchedule.DataContext = companySchedule;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
@@ -225,19 +224,21 @@ namespace UI
         #region StaffTab
         private void lv_Staff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //admin = (lv_Staff.SelectedItem as BO.AdminPortal);
-            //gridSelectedStaff.DataContext = admin;
+           
+                AdminPortal admin;
+                admin = (lv_Staff.SelectedItem as BO.AdminPortal);
+                gridSelectedStaff.DataContext = admin;
 
-            AdminPortal selectedAdmin;
+                AdminPortal selectedAdmin;
 
-            ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
+            //ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
-            if (listViewItem != null)
-            {
-                lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
-                selectedAdmin = (AdminPortal)lv_Staff.SelectedItem;
-                gridSelectedStaff.DataContext = selectedAdmin;
-            }
+            //if (listViewItem != null)
+            //{
+            //    lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
+            //    selectedAdmin = (AdminPortal)lv_Staff.SelectedItem;
+            //    gridSelectedStaff.DataContext = selectedAdmin;
+            //}
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
         {

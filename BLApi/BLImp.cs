@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using DALApi;
 using DO;
 using BO;
-using DS; 
+using DS;
+using System.Threading;
 
 namespace BLApi
 {
@@ -317,6 +318,19 @@ namespace BLApi
                 throw new BO.LineLeavingExists("Line leaving already exists", ex);
             }
 
+            int totalTravelTime = 0;
+
+            for (int i = 0; i < sched.numOfStops; i++)
+            {
+                Random rand = new Random();
+                var travelTime = rand.Next(5, 45); //we are guestinmating that the time between any given stops will be between 5 and 45 minutes
+                Thread.Sleep(40); //allowing for our values to be random
+                totalTravelTime += totalTravelTime; //add to total travel time
+            }
+
+            TimeSpan timeS = TimeSpan.FromMinutes(totalTravelTime);
+            sched.BusOnRoute.BusArrivalT = sched.BusOnRoute.BusFormalDT + timeS;
+
             try
             {
                 dal.AddBusOnTrip(sched.BusOnRoute, lineID);
@@ -327,7 +341,7 @@ namespace BLApi
             }
             sched.numOfStops = sched.CurrentRoute.RouteStops.Count();
 
-            }
+        }
         //retrieve
         public ScheduleOfRoute GetScheduleOfRoute(BusRoute route)
         {
