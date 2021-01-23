@@ -79,6 +79,13 @@ namespace BO
             get { return bus; }
             set { bus = value; }
         }
+        private int stops;
+
+        public int numOfStops
+        {
+            get { return stops; }
+            set { stops = value; }
+        }
 
         public override string ToString()
         {

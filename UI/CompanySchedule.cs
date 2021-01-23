@@ -19,13 +19,22 @@ namespace UI //dont need
 
     public class CompanySchedule
     {
-        private List<ScheduleOfRoute> companySchedule;
+        //private List<ScheduleOfRoute> companySchedule;
 
-        public List<ScheduleOfRoute> CompleteCompanySchedule
+        //public List<ScheduleOfRoute> CompleteCompanySchedule
+        //{
+        //    get { return companySchedule; }
+        //    set { companySchedule = value; }
+        //}
+
+        private ScheduleOfRoute schedule;
+
+        public ScheduleOfRoute compSchedule
         {
-            get { return companySchedule; }
-            set { companySchedule = value; }
+            get { return schedule; }
+            set { schedule = value; }
         }
+
 
     }
 }

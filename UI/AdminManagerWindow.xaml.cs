@@ -66,9 +66,18 @@ namespace UI
             usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
 
+            List<UserPortal> users = bl.GetAllUsers().ToList();
+            usersCollection = new ObservableCollection<UserPortal>(users);
+            lv_Users.DataContext = usersCollection;
+
             List<AdminPortal> admin = bl.GetAllAdmin().ToList();
             adminCollection = new ObservableCollection<AdminPortal>(admin);
             lv_Staff.DataContext = adminCollection;
+
+            List<ScheduleOfRoute> schedules = bl.GetAllScheduleOfRoutes().ToList();
+            companySchedule = new ObservableCollection<ScheduleOfRoute>(schedules);
+            Dg_BusSchedule.ItemsSource = schedules;
+            //Dg_BusSchedule.DataContext = companySchedule;
 
             //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
             //foreach (var route in routeList)
