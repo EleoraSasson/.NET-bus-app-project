@@ -66,7 +66,7 @@ namespace UI
             List<Buses> buses = bl.GetAllBuses().ToList();
             fleetCollection = new ObservableCollection<Buses>(buses);
             lv_BusList.DataContext = fleetCollection;
-            tb_busNum.Text = fleetCollection.Count().ToString();
+          
 
             List<UserPortal> users = bl.GetAllUsers().ToList();
             usersCollection = new ObservableCollection<UserPortal>(users);
