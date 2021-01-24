@@ -221,7 +221,8 @@ namespace UI
         #region BusRoute
         private void b_AddRoute_Click(object sender, RoutedEventArgs e)
         {
-
+            AddRouteWindow addRouteWin = new AddRouteWindow();
+            addRouteWin.Show();
         }
 
         private void Cb_RouteID_SelectionChanged(object sender, SelectionChangedEventArgs e)

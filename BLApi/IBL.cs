@@ -12,16 +12,18 @@ namespace BLApi
     {
         /* IMPLEMENTING CRUD METHODS FOR BO ENTITIES */
 
-        
+
 
         #region BusRoute
         IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute);
         IEnumerable<BusRoute> GetAllBusRoutes();
         string AddBusRoute(BusRoute broute);//create
+        string AddNewRoute(int region, string routeNum, IEnumerable<BusStations> stationList); // create for adding a route from add window
         void AddStationToBusRoute(BusRoute broute, LineStation line); //create
         BusRoute GetBusRoute(BusRoute broute); //retrieve
+        BusRoute GetBusRouteID(string id); //retrieve using id
         void UpdateBusRoute(BusRoute broute); //update
-        void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
+        void DeleteFromBusRoute(BusRoute broute, LineStation station); //delete
 
         #endregion
 
