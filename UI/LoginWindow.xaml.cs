@@ -130,5 +130,11 @@ namespace UI
             }
            
         }
+
+        private void b_addUser_click(object sender, RoutedEventArgs e)
+        {
+            AddUserWindow addUser = new AddUserWindow();
+            addUser.Show();
+        }
     }
 }

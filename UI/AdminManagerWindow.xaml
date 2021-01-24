@@ -128,8 +128,6 @@
                                             </ListView.View>
                                         </ListView>
                                         <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5.467,236,-0.133,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="6" Grid.ColumnSpan="3"/>
-                                        <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1" Grid.ColumnSpan="5"/>
-                                        <TextBox x:Name="tb_busNum" HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" Grid.ColumnSpan="4"  FontFamily="HP Simplified" IsReadOnly="True"/>
 
                                     </Grid>
                                 </StackPanel>

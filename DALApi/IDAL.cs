@@ -107,18 +107,17 @@ namespace DALApi
 
         #endregion
 
-        #region SuccessiveStations
-        IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
-        IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
-        void AddSuccessiveStations(SuccessiveStations successiveStations);//create
-        SuccessiveStations GetSuccessiveStations(int stat1, int stat2);//retrieve
-        void UpdateSuccessiveStations(string entityKey);//update
-        void DeleteSuccessiveStations(string entityKey);//delete
-        #endregion
+        //#region SuccessiveStations
+        //IEnumerable<DO.SuccessiveStations> GetAllSuccessiveStations(); //IEnumerable
+        //IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
+        //void AddSuccessiveStations(SuccessiveStations successiveStations);//create
+        //SuccessiveStations GetSuccessiveStations(int stat1, int stat2);//retrieve
+        //void UpdateSuccessiveStations(string entityKey);//update
+        //void DeleteSuccessiveStations(string entityKey);//delete
+        //#endregion
 
         #region User
         IEnumerable<DO.User> GetAllUsers(); //IEnumerable
-        IEnumerable<object> GetUserWithSelectedFields(Func<DO.SuccessiveStations, object> generate); //IEnumerable
         void AddUser(User user);//create
         User GetUser(string name);//retrieve
         void UpdateUser(string name);//update
@@ -131,14 +130,6 @@ namespace DALApi
         IEnumerable<Admin> GetAllAdmin();
         #endregion
 
-        //#region UserTrip
-        //IEnumerable<DO.UserTrip> GetAllUserTrip(); //IEnumerable
-        //IEnumerable<object> GetUserTripWithSelectedFields(Func<DO.UserTrip, object> generate); //IEnumerable
-        //int AddUserTrip(UserTrip userTrip);//create
-        //UserTrip GetUserTrip(int travelID);//retrieve
-        //void UpdateUserTrip(int travelID);//update
-        //void DeleteUserTrip(int travelID);//delete
 
-        //#endregion
     }
 }

@@ -113,7 +113,6 @@ namespace BLApi
         }
         #endregion
 
-
         #region BusRoutes
         //create
         public string AddBusRoute(BO.BusRoute broute)
@@ -287,8 +286,6 @@ namespace BLApi
 
 
         #endregion 
-
-
 
         #region Stations
 
@@ -545,17 +542,60 @@ namespace BLApi
 
             return userList;
         }
-        public void AddUser (string name, string first, string last, string password, string ID, bool perm)
+
+        public void SetUser (UserPortal userp, string first, string last, string username, string password, string ID)
+        {
+            UserPortal up = new UserPortal(); 
+            up.Users = new User();
+            up.Users.userFirst = first;
+            up.Users.userLast = last;
+            up.Users.userName = username;
+            up.Users.userPassword = password;
+            up.Users.userId = ID;
+            userp = up;
+        }
+
+//     try
+//            {
+//                Buses bs = new Buses();
+//        Bus b = new Bus();
+//        b.BusLicense = license;
+//                b.BusFuel = fuel;
+//                b.BusMileage = mil;
+//                b.BusMaintenanceDate = maint;
+//                b.BusRegDate = reg;
+//                b.BusStatus = Status.Available;
+//                b.BusErased = false;
+//                bs.bus = b;
+//                dal.AddBus(b);
+//            }
+//            catch (DO.InvalidBusLicenseException ex)
+//            {
+//                throw new BO.BusExistsException("Bus already exists", ex);
+//            }
+
+//        }
+
+//        public void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel)
+//{
+//    bs.bus = new Bus();
+//    bs.bus.BusLicense = license;
+//    bs.bus.BusFuel = fuel;
+//    bs.bus.BusMileage = mil;
+//    bs.bus.BusMaintenanceDate = maint;
+//    bs.bus.BusRegDate = reg;
+//    bs.bus.BusStatus = Status.Available;
+//    bs.bus.BusErased = false;
+    public void AddUser ( string first, string last, string username, string password, string ID)
         {
             try
             {
                 UserPortal up = new UserPortal();
                 User u = new User();
-                u.userName = name;
+                u.userName = username;
                 u.userLast = last;
                 u.userFirst = first;
                 u.userId = ID;
-                u.adminPermission = perm;
                 u.userPassword = password;
                 up.Users = u;
                 dal.AddUser(u);

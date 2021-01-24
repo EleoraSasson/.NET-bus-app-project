@@ -19,14 +19,14 @@ namespace DS
 		public static List<LineLeaving> lineLeavingList;
 		public static List<LineStation> lineStationList;
 		public static List<Staff> staffList;
-		public static List<SuccessiveStations> succStationsList;
+		//public static List<SuccessiveStations> succStationsList;
 		public static List<User> usersList;
 		public static List<Admin> adminList;
 		static DataSource() //add aan init to start off witha basic bunch of buses
 		{
 			
 			//Defines and a new list of SuccessiveStations and adds an object of type SuccessiceStations to the List:
-			succStationsList = new List<SuccessiveStations>();
+			//succStationsList = new List<SuccessiveStations>();
 
 			//Defines and a new list of User and adds an object of type User to the List:
 			usersList = new List<User>();

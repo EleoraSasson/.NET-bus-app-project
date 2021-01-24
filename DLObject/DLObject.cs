@@ -647,84 +647,84 @@ namespace DAL
         /// parameter: none
         /// return type: IEnumerable
         /// </summary>
-        public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
-        {
-            return from SuccessiveStations in DataSource.succStationsList
-                   select SuccessiveStations.Clone();
-        }
+        //public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
+        //{
+        //    return from SuccessiveStations in DataSource.succStationsList
+        //           select SuccessiveStations.Clone();
+        //}
 
-        public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// AddSuccessiveStations: adds successive station to the collection of successive stations
         /// parameter: SuccessiveStations
         /// return type: void
         /// </summary>
-        public void AddSuccessiveStations(SuccessiveStations successiveStations)
-        {
-            //check if station 1 exists
-            if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null))
-            {
-                //if station 1 exsists see if it connects to station 2
-                if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode2 == successiveStations.StationCode2) != null))
-                {
-                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
-                }
-            } //it is a new LineSation so can add to collection:
-            DataSource.succStationsList.Add(successiveStations.Clone());
-        }
+        //public void AddSuccessiveStations(SuccessiveStations successiveStations)
+        //{
+        //    //check if station 1 exists
+        //    if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null))
+        //    {
+        //        //if station 1 exsists see if it connects to station 2
+        //        if ((DataSource.succStationsList.FirstOrDefault(station => station.StationCode2 == successiveStations.StationCode2) != null))
+        //        {
+        //            throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
+        //        }
+        //    } //it is a new LineSation so can add to collection:
+        //    DataSource.succStationsList.Add(successiveStations.Clone());
+        //}
 
         /// <summary>
         /// GetSuccessiveStations: gets successive station to the collection of successive stations
         /// parameter: string (entity key)
         /// return type: SuccessiveStations
         /// </summary>
-        public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
-        {
-            var entityKey = stat1.ToString() + stat2.ToString();
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
-            if (findStations != null)
-            {
-                return findStations.Clone();
-            }
-            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
-        }
+        //public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
+        //{
+        //    var entityKey = stat1.ToString() + stat2.ToString();
+        //    DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
+        //    if (findStations != null)
+        //    {
+        //        return findStations.Clone();
+        //    }
+        //    else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
+        //}
 
         /// <summary>
         /// UpdateSuccessiveStations: updates successive station to the collection of successive stations
         /// parameter: string (entity key)                                               
         /// return type: void
         /// </summary>
-        public void UpdateSuccessiveStations(string entityKey)
-        {
+        //public void UpdateSuccessiveStations(string entityKey)
+        //{
 
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
-            if (findStations != null)
-            {
-                DataSource.succStationsList.Remove(findStations);
-                DataSource.succStationsList.Add(findStations.Clone());
-            }
-            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
-        }
+        //    DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
+        //    if (findStations != null)
+        //    {
+        //        DataSource.succStationsList.Remove(findStations);
+        //        DataSource.succStationsList.Add(findStations.Clone());
+        //    }
+        //    else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
+        //}
 
         /// <summary>
         /// DeleteSuccessiveStations: deletes successive station to the collection of successive stations
         /// parameter:  string (entity key)  
         /// return type: void
         /// </summary>
-        public void DeleteSuccessiveStations(string entityKey)
-        {
+        //public void DeleteSuccessiveStations(string entityKey)
+        //{
 
-            DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
-            if (findStations != null)
-            {
-                DataSource.succStationsList.Remove(findStations);
-            }
-            else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
-        }
+        //    DO.SuccessiveStations findStations = DataSource.succStationsList.Find(stat => stat.StationCode1.ToString() == entityKey);
+        //    if (findStations != null)
+        //    {
+        //        DataSource.succStationsList.Remove(findStations);
+        //    }
+        //    else throw new DO.MissingSuccessiveStationsException(entityKey, $"No data found for Successive Station : {entityKey}");
+        //}
         #endregion
 
         #region CRUD Implementation - User
@@ -740,11 +740,7 @@ namespace DAL
                    select User.Clone();
         }
 
-        public IEnumerable<object> GetUserWithSelectedFields(Func<SuccessiveStations, object> generate)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         /// <summary>
         /// AddUser: adds a user to the collection of users
         /// parameter: User
