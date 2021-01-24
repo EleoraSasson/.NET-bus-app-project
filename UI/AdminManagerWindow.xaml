@@ -314,13 +314,17 @@
                 </TabItem>
                 <TabItem Header="User Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="99*"/>
+                            <ColumnDefinition Width="595*"/>
+                        </Grid.ColumnDefinitions>
                         <Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="LightBlue"  Offset="0.009"/>
                                 <GradientStop Color="CadetBlue"  Offset="0.9"/>
                             </LinearGradientBrush>
                         </Grid.Background>
-                        <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Center" Height="234" Margin="94,68,192,68" VerticalAlignment="Center" Width="408" SelectionChanged="lv_Users_SelectionChanged" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium">
+                        <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Center" Height="234" Margin="27,45,259,91" VerticalAlignment="Center" Width="408" SelectionChanged="lv_Users_SelectionChanged" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Grid.ColumnSpan="2">
                             <ListView.ItemContainerStyle>
                                 <Style x:Name="UserList_Style" TargetType="{x:Type ListViewItem}">
                                     <Style.Triggers>
@@ -340,6 +344,9 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <Rectangle Grid.Column="1" Fill="LightBlue" Opacity="0.40"  HorizontalAlignment="Left" Height="370" Margin="369,0,0,0" Stroke="AntiqueWhite"  VerticalAlignment="Top" Width="199"/>
+                        <TextBlock HorizontalAlignment="Left" FontWeight="DemiBold" Margin="390,71,0,91" TextWrapping="Wrap" Grid.Column="1" Width="164" >
+                        <Run FontSize="20" Text="&quot; "/><Run Text="At Gilore Travels "/><Run FontSize="9" Text=" (TM) "/> <Run Text = " we care about Customer Service. For us taking a step towards the customer and their needs, is taking a leap in the right direction - a place of growth and prosperity for everyone. Remeber with us - Customers Matter"/><Run FontSize="20" Text=" &quot;"/></TextBlock>
                     </Grid>
 
                 </TabItem>
@@ -389,6 +396,221 @@
 
 
                     </Grid>
+                </TabItem>
+                <TabItem Header="Bus Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14" HorizontalAlignment="Left" Width="59" Height="22" Margin="1,0,-1,0" VerticalAlignment="Top">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="0*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="fleetRow1" Height="1*"/>
+                            <RowDefinition x:Name="routeRow1" Height="1*"/>
+                            <RowDefinition x:Name="scheduleRow1" Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,1,10" Grid.RowSpan="3">
+                            <Expander x:Name="Ex_BusFleet1" Header="Bus Fleet" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Horizontal" Height="270">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0*"/>
+                                            <ColumnDefinition Width="13*"/>
+                                            <ColumnDefinition Width="63*"/>
+                                            <ColumnDefinition Width="283*"/>
+                                            <ColumnDefinition Width="282*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition x:Name="FleetList1" Height="10*"/>
+                                            <RowDefinition x:Name="AddToFleet1" Height="1*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <ListView x:Name="lv_BusList1" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="5,10,0,10" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="3" Grid.ColumnSpan="2">
+                                            <ListView.ItemContainerStyle>
+                                                <Style x:Name="BusList_Style1" TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="ToolTip">
+                                                        <Setter.Value>
+                                                            <ToolTip>
+                                                                <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Bus."/>
+                                                            </ToolTip>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value ="Black"/>
+                                                        </Trigger>
+                                                        <DataTrigger Binding="{Binding bus.BusStatus}"  Value="Available" >
+                                                            <Setter Property="Foreground" Value="DarkGreen" />
+                                                            <Setter Property="Background" Value ="WhiteSmoke"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView x:Name="gv_BusList1">
+                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding bus.BusLicense}"/>
+                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding bus.BusMileage}"/>
+                                                    <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding bus.BusFuel}"/>
+                                                    <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding bus.BusStatus}"/>
+                                                    <GridViewColumn Header="More Options:" Width="100">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." IsEnabled="{Binding IsButtonEnabled}" Click=" B_Options_Click"/>
+
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="AtService">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Refueling">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Travelling">
+                                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Button x:Name="b_AddBus1" Content="+     Add Bus " Margin="5,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="3" Grid.ColumnSpan="2"/>
+                                        <Label  x:Name="l_NumberofBuses1" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                        <TextBox x:Name="tb_busNum1" HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" Grid.ColumnSpan="2"  FontFamily="HP Simplified" IsReadOnly="True"/>
+
+                                    </Grid>
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="Ex_BusRoutes1" Header="Bus Routes" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Vertical" Height="270">
+                                    <Grid x:Name="RouteIDGrid1" Width="655" Margin="16,5,15,5" Height="37">
+                                        <Label x:Name="l_RouteID1" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,552,0" Content="Route ID:"/>
+                                        <ComboBox x:Name="Cb_RouteID1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="109,10,0,0" Width="50" ItemsSource="{Binding ''}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsEditable="False" />
+                                    </Grid>
+                                    <Grid x:Name="ExpanderGridRouteInfo1" Width="655" Margin="16,5" Height="232" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="stationInfoC3" Width="109*"/>
+                                            <ColumnDefinition x:Name="stationInfoC4" Width="109*"/>
+                                            <ColumnDefinition x:Name="stationInfoC5" Width="215*"/>
+                                            <ColumnDefinition Width="222*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label x:Name="l_RouteNO1" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,61,0,0" Content="Route Number:"/>
+                                        <Label x:Name="l_TimeStart1" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,96,0,0" Content="Starting Station:"/>
+                                        <Label x:Name="l_TimeEnd1" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,131,0,0" Content="Ending Station:"/>
+                                        <Label x:Name="l_Active1" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,178,0,0" Content="Line Erased:"/>
+                                        <TextBox x:Name="Tb_RouteNum1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,62,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusLineNo, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_TimeSart1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,97,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusStart, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_TimeEnd1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,132,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusEnd, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <CheckBox x:Name="ChB_IsActive1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,183,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue"  IsChecked="{Binding Route.LineErased, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+                                        <Label x:Name="l_Region1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,27,0,0" Content="Region of Route:" />
+                                        <TextBox x:Name="Tb_Region1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,0,0" Width="104" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Route.BusRegion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <Label x:Name="l_BusStops1" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,97,0" Content="Stops on Route:"/>
+                                        <ListBox x:Name="lb_BusStops1"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2" SelectionChanged="lb_BusStops_SelectionChanged" />
+                                        <Button x:Name="b_AddRoute1" Grid.Column="3" Grid.Row="1" Margin="83,176,39,27" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
+                                            Click="b_AddRoute_Click"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="Ex_BusStations1" Header="Bus Stations" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Vertical" Height="270">
+                                    <Grid Height="39">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="48*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="l_StationCode1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,13,561,0" Content="Station Code:"/>
+                                        <ComboBox x:Name="Cb_StationNo1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="119,13,0,0" Width="78" ItemsSource="{Binding}" MaxDropDownHeight="60"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsEditable="False" Grid.Column="1"/>
+
+                                    </Grid>
+                                    <Grid x:Name="ExpanderGrid1" Width="655" Margin="16,5" Grid.Row="1" Height="214">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="162*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="routeInfoC3" Width="109*"/>
+                                            <ColumnDefinition x:Name="routeInfoC4" Width="109*"/>
+                                            <ColumnDefinition x:Name="routeInfoC5" Width="312*"/>
+                                            <ColumnDefinition Width="125*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label x:Name="l_StationLat1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Latitude:" Margin="0,26,0,0"/>
+                                        <Label x:Name="l_StationLon1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,62,93,0" Content="Longitude:" Width="78" Height="25" RenderTransformOrigin="0.793,0.56" Grid.ColumnSpan="2"/>
+                                        <Label x:Name="l_Address1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93,108,0" Content="Address:" Grid.ColumnSpan="2"/>
+
+                                        <Label x:Name="l_StopActive1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,181,0,0" Content="Is Active:"/>
+                                        <TextBox x:Name="Tb_StationLat1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,29,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue " Text="{Binding Stop.StopLocation.Latitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_StationLon1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,63,0,0" Width="84" Height="20"  Background="WhiteSmoke" BorderBrush="CadetBlue" Text="{Binding Stop.StopLocation.Longitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <TextBox x:Name="Tb_StationAddress1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0" Width="104" Height="86"  Background="WhiteSmoke" BorderBrush="CadetBlue" TextWrapping="Wrap" Text="{Binding Stop.StopAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsReadOnly="True"/>
+                                        <CheckBox x:Name="ChB_StopIsActive1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,187,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsChecked="{Binding Stop.StopActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=true}" />
+                                        <Label x:Name="l_LineIDs1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,79,0" Content="Lines that pass through this Station:" Width="205" Height="30"/>
+                                        <ListBox x:Name="lb_LineIDs1" ItemsSource="{Binding}" Margin="28,29,39,37" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged" Grid.ColumnSpan="2"/>
+                                        <Button x:Name="b_AddStation1" Grid.Column="2" Margin="298,182,39,12" Height="20" Width="100" Content="  +   Add Station" Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddStation_Click"
+                                            Grid.ColumnSpan="2"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Expander>
+                            <Expander x:Name="Ex_BusSchedule1" Header="Bus Schedule" DockPanel.Dock="Top">
+                                <Expander.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="LightBlue"  Offset="0.009"/>
+                                        <GradientStop Color="CadetBlue"  Offset="0.9"/>
+                                    </LinearGradientBrush>
+                                </Expander.Background>
+                                <StackPanel Orientation="Horizontal" Height="270">
+                                    <Grid>
+                                        <ListView Margin="22,10,0,22" x:Name="lv_companySched1" ItemsSource="{Binding}" IsManipulationEnabled="False">
+                                            <ListView.ItemContainerStyle>
+                                                <Style x:Name="Company_Style1" TargetType="{x:Type ListViewItem}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value ="Black"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.View>
+                                                <GridView x:Name="gv_CompanySched1">
+                                                    <GridViewColumn x:Name="RouteNo1" Header="Route No.:" Width="65" DisplayMemberBinding="{Binding CurrentRoute.Route.BusLineNo}"  />
+                                                    <GridViewColumn x:Name="RoadID1" Header="Road ID:" Width="65" DisplayMemberBinding="{Binding BusOnRoute.BusRoadID}"/>
+                                                    <GridViewColumn x:Name="BusStart1" Header="Starting Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusStart}"  />
+                                                    <GridViewColumn x:Name="DepTime1" Header="Departure Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusFormalDT}"  />
+                                                    <GridViewColumn x:Name="EndStop1" Header="Ending Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusEnd}"  />
+                                                    <GridViewColumn x:Name="ArrivalTime1" Header="Arrival Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusArrivalT}"  />
+                                                    <GridViewColumn x:Name="NoStops1" Header="Number of Stops:" Width="90" DisplayMemberBinding="{Binding numOfStops}"  />
+                                                    <GridViewColumn x:Name="Driver1" Header="Bus Driver:" Width="80" DisplayMemberBinding="{Binding SelectedStaff}"  />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Grid>
+                                </StackPanel>
+                            </Expander>
+                            <StackPanel Orientation="Horizontal" Background="CadetBlue" Margin="1,1,1,1" >
+                                <Image Source="LogoFull.PNG" Cursor="Arrow" Stretch="None" Margin="2,5,5,5" Opacity="0.45" Width="357"/>
+                                <TextBlock FontStyle="Normal" HorizontalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Black" Foreground="#FF0E1340" TextWrapping="Wrap" Width="318" VerticalAlignment="Center" IsEnabled="False" Cursor="Arrow" TextAlignment="Center" FontStretch="SemiCondensed" Margin="0,2,0,1"><Run Text="&quot;"/><Run Text="Here at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text=" "/><Run Text ="we believe that travel is more than simply a way to get from A to B;"/><LineBreak/><Run FontSize="16" Foreground="Black"  Text="travel is an adventure"/><Run Text=". "/><LineBreak/><Run Text="We have all had those days were by the time you get to that all-important meeting you are exhausted from  the stress of traffic, late transits and the like. "/><LineBreak/><Run Text ="We understand this, which is why at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text = "our priorities are"/><Run Text=" "/><Run Text= " reliability, ease and convenience. "/><Run Text="We insure that our buses are well maintained, our routes planned and based on updated road issues and our staff highly qualified. "/><LineBreak/><Run/><Run Text=" "/><Run FontStyle="Italic" Foreground="Black" Text="We aim to give you the ultimate travel experience: comfortable, practical, efficient"/><Run Text=". &quot;"/><Run  FontSize="9" Text= " -The GT Team"/></TextBlock>
+
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
+
                 </TabItem>
 
 

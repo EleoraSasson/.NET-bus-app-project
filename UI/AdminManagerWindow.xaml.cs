@@ -263,6 +263,11 @@ namespace UI
         {
 
         }
+
+        private void UserLastName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region Simulation
@@ -305,10 +310,6 @@ namespace UI
 
         }
 
-        private void UserLastName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
 
        
     }
