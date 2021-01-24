@@ -67,12 +67,14 @@ namespace BLApi
         IEnumerable<UserPortal> GetAllUsers();
         #endregion
 
-        #region Admins
+        #region AdminPortal
         AdminPortal GetAdmin(string adminname, string pass);
+        
+        IEnumerable<AdminPortal> GetAllAdmin();
         #endregion
 
-        #region AdminPortal
-        IEnumerable<AdminPortal> GetAllAdmin();
+        #region EmployeePortal
+        IEnumerable<EmployeePortal> GetAllEmployees();//retrieve
         #endregion
     }
 }

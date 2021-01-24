@@ -320,7 +320,7 @@ namespace BLApi
                 stat.Stop = bs;
                 dal.AddBusStop(s.Stop);
             }
-            catch (DO.MissingBusStopException ex)
+            catch (DO.MissingBusStopException)
             { throw new BO.BusStationNotInSystem("Bus stop already exists."); }
         }
 
@@ -598,15 +598,6 @@ namespace BLApi
             foreach (var s in admin)
             {
                 AdminPortal ap = new AdminPortal();
-                //ap.AdminDriver = new Staff();
-                //ap.AdminDriver.BusDriverID = s.BusDriverID;
-                //ap.AdminDriver.BusDriverFirst = s.BusDriverFirst;
-                //ap.AdminDriver.BusDriverLast = s.BusDriverLast;
-                //ap.AdminDriver.BusDriverAge = s.BusDriverAge;
-                //ap.AdminDriver.BusDriverCellNo = s.BusDriverCellNo;
-                //ap.AdminDriver.isAdmin = s.isAdmin;
-                //ap.AdminDriver.StaffPosition = s.StaffPosition;
-                //ap.AdminDriver.StaffYrsWorked = s.StaffYrsWorked;
                 Admin a = new Admin();
                 a.adminPassword = s.adminPassword;
                 a.adminName = s.adminName;
@@ -617,9 +608,7 @@ namespace BLApi
 
             return adminList;
         }
-        #endregion
-
-        #region Admins
+       
         public AdminPortal GetAdmin(string adminname, string pass)
         {
             try
@@ -641,5 +630,33 @@ namespace BLApi
            
         }
         #endregion
+
+        #region EmployeePortal
+
+        public IEnumerable<EmployeePortal> GetAllEmployees()
+        {
+            List<Staff> staffList = dal.GetAllStaff().ToList();
+            List<EmployeePortal> employees = new List<EmployeePortal>();
+
+            foreach (var staff in staffList)
+            {
+                EmployeePortal employee = new EmployeePortal();
+                employee.Employee = new Staff();
+                employee.Employee.BusDriverID = staff.BusDriverID;
+                employee.Employee.BusDriverAge = staff.BusDriverAge;
+                employee.Employee.BusDriverCellNo = staff.BusDriverCellNo;
+                employee.Employee.BusDriverFirst = staff.BusDriverFirst;
+                employee.Employee.BusDriverLast = staff.BusDriverLast;
+                employee.Employee.StaffPosition= staff.StaffPosition;
+                employee.Employee.StaffYrsWorked = staff.StaffYrsWorked;
+
+                employees.Add(employee);
+            }
+
+            return employees;
+        }
+
+        #endregion
+        
     }
 }

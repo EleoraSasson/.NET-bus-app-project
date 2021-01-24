@@ -33,20 +33,24 @@ namespace UI
         public static ObservableCollection<Buses> fleetCollection;
         public static ObservableCollection<UserPortal> usersCollection;
         public static ObservableCollection<AdminPortal> adminCollection;
+        public static ObservableCollection<EmployeePortal> employeeCollection;
         public static ObservableCollection<ScheduleOfRoute> companySchedule;
 
 
-        private AdminPortal administrator;
+        
         BO.BusStations bStation;
         BO.BusRoute bRoute;
         BackgroundWorker timerBworker;
         private Stopwatch stopwatch;
         private int speedOfSimulation;
         private bool isTimerRun;
-        public AdminManagerWindow(/*AdminPortal ap*/)
+
+        public AdminManagerWindow(AdminPortal loginAdmin)
         {
-            //administrator = ap;
             InitializeComponent();
+
+            tb_adminName.DataContext = loginAdmin;
+
             List<BusRoute> routeList = bl.GetAllBusRoutes().ToList();
             routeCollection = new ObservableCollection<BusRoute>(routeList);
             Cb_RouteID.DataContext = routeCollection;
@@ -68,31 +72,13 @@ namespace UI
             usersCollection = new ObservableCollection<UserPortal>(users);
             lv_Users.DataContext = usersCollection;
 
-            List<AdminPortal> admin = bl.GetAllAdmin().ToList();
-            adminCollection = new ObservableCollection<AdminPortal>(admin);
-            lv_Staff.DataContext = adminCollection;
-
+            List<EmployeePortal> employees = bl.GetAllEmployees().ToList();
+            employeeCollection = new ObservableCollection<EmployeePortal>(employees);
+            lv_Staff.DataContext = employeeCollection;
 
             List<ScheduleOfRoute> schedules = bl.GetAllScheduleOfRoutes().ToList();
             companySchedule = new ObservableCollection<ScheduleOfRoute>(schedules);
             lv_companySched.DataContext = companySchedule;
-
-            //List<Stops> stops = bl.GetAllStops().ToList();
-            //stopCollection = new ObservableCollection<Stops>(stops);
-            
-            
-            //Dg_BusSchedule.DataContext = companySchedule;
-
-            //List<ScheduleOfRoute> routesSchedules = new List<ScheduleOfRoute>();
-            //foreach (var route in routeList)
-            //{
-            //    ScheduleOfRoute singleRouteSched = bl.GetScheduleOfRoute(route);
-            //    routesSchedules.Add(singleRouteSched);
-            //}
-            //companySchedule = new ObservableCollection<ScheduleOfRoute>(routesSchedules);
-            //Dg_BusSchedule.DataContext = companySchedule;
-            //Dg_BusSchedule.DisplayMemberPath = "ScheduleOfRoute";
-
 
             cb_Simulation.DataContext = stopCollection;
             cb_Simulation.DisplayMemberPath = "Stop.StopCode";
@@ -157,16 +143,6 @@ namespace UI
         private void Cb_Simulation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bStation = (Cb_StationNo.SelectedItem as BO.BusStations);
-            //List<BusRoute> routesThroughStop = bl.GetRoutesofStation(bStation).ToList();
-            //foreach (var route in routesThroughStop)
-            //{
-            //    ScheduleOfRoute sched = bl.GetScheduleOfRoute(route);
-            //    companySchedule.Add(sched);
-            //}
-
-            //dg_Simulation.DataContext = companySchedule;
-           
-
         }
 
 
@@ -264,30 +240,18 @@ namespace UI
         #region StaffTab
         private void lv_Staff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           
-                AdminPortal admin;
-                admin = (lv_Staff.SelectedItem as BO.AdminPortal);
-                gridSelectedStaff.DataContext = admin;
+            EmployeePortal selectedEmployee;
 
-                AdminPortal selectedAdmin;
+            ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
-            //ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
-
-            //if (listViewItem != null)
-            //{
-            //    lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
-            //    selectedAdmin = (AdminPortal)lv_Staff.SelectedItem;
-            //    gridSelectedStaff.DataContext = selectedAdmin;
-            //}
+            if (listViewItem != null)
+            {
+                lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
+                selectedEmployee = (EmployeePortal)lv_Staff.SelectedItem;
+                gridSelectedStaff.DataContext = selectedEmployee;
+            }
         }
-        //public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
-        //{
-        //    if (element == null) return null;
 
-        //    if (element.GetType() == type) return element;
-
-        //    return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
-        //}
         private void lv_Staff_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
