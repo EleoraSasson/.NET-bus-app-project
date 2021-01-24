@@ -56,7 +56,6 @@
     <Compile Include="ScheduleOfRoute.cs" />
     <Compile Include="Stations.cs" />
     <Compile Include="UserPortal.cs" />
-    <Compile Include="UserTravels.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DALApi\DALApi.csproj">

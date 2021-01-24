@@ -39,14 +39,13 @@
             <Button x:Name="b_LoginUser" Content="Login" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="112,123,76,60" 
                     FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="20" Width="44" BorderThickness="0" Background="LightGray" Click="b_LoginUser_Click"/>
             <Label x:Name="l_NewUser" Content="New to GiloreTravels? " HorizontalAlignment="Right" Margin="0,154,96,13" Grid.Row="1" VerticalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Bold" FontStyle="Oblique" Grid.ColumnSpan="2" Width="154" Height="36"/>
-            <Label x:Name="l_hyperlink" Content="Click here to register! " Grid.Column="1" HorizontalAlignment="Center"  Margin="125,154,7,13" Grid.Row="1" VerticalAlignment="Center" Width="148" FontFamily="HP Simplified" FontSize="14" FontWeight="Bold" FontStyle="Oblique" Grid.ColumnSpan="2" Height="36"/>
             <DockPanel Grid.Column="1" Grid.Row="2"  Margin="5,5,5,5" LastChildFill="True" Grid.ColumnSpan="2">
                 <Expander x:Name="Ex_adminLogin" Grid.Column="1" Grid.Row="2" Header="Admin Login" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Cursor="None" IsExpanded="False" Background="{x:Null}" Margin="0,1,0,-1">
                     <Grid>
-                        <Label x:Name="l_AdminID" Content="Admin ID:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,160,68" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="28" Width="64" Grid.ColumnSpan="4"/>
+                        <Label x:Name="l_AdminID" Content="Admin ID:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,183.667,66" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="28" Width="75"/>
                         <TextBox x:Name="t_Admin" Width="120" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="66,0,34,72"
                                  BorderBrush="DimGray" BorderThickness="1" Height="20" TextChanged="t_Admin_TextChanged" Grid.Column="3"/>
-                        <Label x:Name="l_PasswordAdmin" Content="Password:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="8,0,158,38" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="28" Width="68" Grid.ColumnSpan="4"/>
+                        <Label x:Name="l_PasswordAdmin" Content="Password:" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,190.667,38" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="28" Width="68"/>
                         <PasswordBox x:Name="t_PasswordAdmin"  Width="120"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="66,0,34,43"
                                      BorderBrush="DimGray" BorderThickness="1" Height="20" Grid.Column="3"/>
                         <Button x:Name="b_LoginAdmin" Content="Login" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="110,0,116,10"  Background="LightGray" 
@@ -55,6 +54,7 @@
                 </Expander>
             </DockPanel>
             <Image Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="21" Margin="-34,-21,-32,0" VerticalAlignment="Top" Width="393" Source="IMG_20201231_145028.jpg" Cursor="Arrow" Stretch="UniformToFill"/>
+            <Button x:Name="newUserButton" Content ="New User" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="20" BorderThickness="0" Background="LightBlue" Click="b_addUser_click" Grid.Column="1" HorizontalAlignment="Left" Margin="158,157,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
         </Grid>
     </Grid>
 </Window>
