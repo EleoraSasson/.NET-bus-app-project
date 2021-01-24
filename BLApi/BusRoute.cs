@@ -57,7 +57,7 @@ namespace BO
 
         public override string ToString()
         {
-            return "( Route #" + route.BusLineNo + " ) \n Start station: " + route.BusStart  + "\n End station: " + route.BusEnd + "\n location: " + route.BusRegion;
+            return "( Route #" + route.BusLineNo + " ) \n Start station: " + route.BusStart  + "\n End station: " + route.BusEnd + "\n Location: " + route.BusRegion;
         }
     }
 }

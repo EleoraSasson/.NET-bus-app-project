@@ -106,8 +106,8 @@ namespace UI
             {
                 if (bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password) != null)
                 {
-                    BO.AdminPortal ap = bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password);
-                    AdminManagerWindow adminWin = new AdminManagerWindow(/*ap*/);
+                    BO.AdminPortal loginAdmin = bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password);
+                    AdminManagerWindow adminWin = new AdminManagerWindow(loginAdmin);
                     adminWin.Show();
                     this.Close();
                 }

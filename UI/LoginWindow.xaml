@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="199*"/>
                 <ColumnDefinition Width="41*"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="362" Margin="-34,0,-31,-24" VerticalAlignment="Top" Width="393" Source="IMG_20201231_145028.jpg" Grid.RowSpan="2" Cursor="None" Stretch="UniformToFill" Grid.Row="1"/>
+            <Image Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="362" Margin="-34,0,-31,-24" VerticalAlignment="Top" Width="393" Source="IMG_20201231_145028.jpg" Grid.RowSpan="2" Cursor="Arrow" Stretch="UniformToFill" Grid.Row="1"/>
             <Image Grid.Row="0" Source="LogoFull.PNG" Grid.ColumnSpan="3" Margin="26,0,22,0"/>
             <Label x:Name="l_Username" Content="Username:" Grid.Column="1" HorizontalAlignment="Left"  Margin="5,41,0,0" Grid.Row="1" VerticalAlignment="Top" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium"/>
             <TextBox x:Name="t_Username" Grid.Row="1" Grid.Column="1" Margin="83,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"
@@ -38,8 +38,8 @@
                          BorderBrush="DimGray" BorderThickness="1"/>
             <Button x:Name="b_LoginUser" Content="Login" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="112,123,76,60" 
                     FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Height="20" Width="44" BorderThickness="0" Background="LightGray" Click="b_LoginUser_Click"/>
-            <Label x:Name="l_NewUser" Content="New to GiloreTravels? " HorizontalAlignment="Center" Margin="38,157,88,19" Grid.Row="1" VerticalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" FontStyle="Oblique" Grid.ColumnSpan="2" Width="154"/>
-            <Label x:Name="l_hyperlink" Content="Click here to register! " Grid.Column="1" HorizontalAlignment="Center"  Margin="120,157,12,12" Grid.Row="1" VerticalAlignment="Center" Width="148" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" FontStyle="Oblique" Grid.ColumnSpan="2" Height="34"/>
+            <Label x:Name="l_NewUser" Content="New to GiloreTravels? " HorizontalAlignment="Right" Margin="0,154,96,13" Grid.Row="1" VerticalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Bold" FontStyle="Oblique" Grid.ColumnSpan="2" Width="154" Height="36"/>
+            <Label x:Name="l_hyperlink" Content="Click here to register! " Grid.Column="1" HorizontalAlignment="Center"  Margin="125,154,7,13" Grid.Row="1" VerticalAlignment="Center" Width="148" FontFamily="HP Simplified" FontSize="14" FontWeight="Bold" FontStyle="Oblique" Grid.ColumnSpan="2" Height="36"/>
             <DockPanel Grid.Column="1" Grid.Row="2"  Margin="5,5,5,5" LastChildFill="True" Grid.ColumnSpan="2">
                 <Expander x:Name="Ex_adminLogin" Grid.Column="1" Grid.Row="2" Header="Admin Login" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Cursor="None" IsExpanded="False" Background="{x:Null}" Margin="0,1,0,-1">
                     <Grid>
