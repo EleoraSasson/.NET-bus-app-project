@@ -19,7 +19,7 @@ namespace BO
 
         public override string ToString()
         {
-            return "Stop ID: " + Stop.StopCode + " stop address: " + Stop.StopAddress + " location: " + Stop.StopLocation.Latitude + "," + Stop.StopLocation.Longitude;
+            return "Stop ID: " + Stop.StopCode + " stop address: " + Stop.StopAddress + " location: " + Stop.StopLocation.ToString();
         }
     }
 }

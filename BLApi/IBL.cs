@@ -12,7 +12,7 @@ namespace BLApi
     {
         /* IMPLEMENTING CRUD METHODS FOR BO ENTITIES */
 
-        
+
 
         #region BusRoute
         IEnumerable<Stations> GetAllStationsInBusRoute(BusRoute broute);
@@ -23,19 +23,31 @@ namespace BLApi
         BusRoute GetBusRoute(BusRoute broute); //retrieve
         BusRoute GetBusRouteID(string id); //retrieve using id
         void UpdateBusRoute(BusRoute broute); //update
-        void DeleteFromBusRoute(BusRoute broute,LineStation station); //delete
+        void DeleteFromBusRoute(BusRoute broute, LineStation station); //delete
 
         #endregion
 
-        #region Bus
+        #region Buses
         IEnumerable<Buses> GetAllBuses();
         void AddBus(string license, DateTime reg, DateTime maint, int mil, int fuel);
         void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel);
+
+        void statusToAvailable(Buses b);
+        void busRefuel(Buses b);
+        void busMaintenance(Buses b);
+        bool needMaintenance(Buses b);
+        void updateTravel(Buses b, int distance); 
+        int getFuel(Buses b);
+
+        void busTravel(Buses b);
         #endregion
 
         #region Stations
         IEnumerable<BusStations> GetAllBusStops();
         string GetBusStationsCode(BusStations bs);
+        void AddBusStations(BusStations s);
+        void SetBusStop(BusStations s, string code, string name, string addr, float longi, float lat);
+
         #endregion
 
         #region ScheduleOfRoute
@@ -56,7 +68,7 @@ namespace BLApi
         #endregion
 
         #region Admins
-        bool AdminSearch(string adminName, string pass);
+        AdminPortal GetAdmin(string adminname, string pass);
         #endregion
 
         #region AdminPortal

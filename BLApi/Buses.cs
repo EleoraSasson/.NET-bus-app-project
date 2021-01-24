@@ -18,14 +18,6 @@ namespace BO
             set { theBus = value; }
         }
 
-        private int count;
-
-        public int numOfBuses
-        {
-            get { return count; }
-            set { count = value; }
-        }
-
         //public override string ToString()
         //{
         //    return "Bus Information:\n License Number:" + bus.BusLicense + "\n Registration Date:" + bus.BusRegDate + "\n Last Maintenance Date:" + bus.BusMaintenanceDate + "\n Mileage Reading:" + bus.BusMileage + "\n Fuel Amount:" + bus.BusFuel + "\n Status of Bus:" + bus.BusStatus + "\n";

@@ -61,8 +61,8 @@
     <Compile Include="AddRouteWindow.xaml.cs">
       <DependentUpon>AddRouteWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminEmployeeWindow.xaml.cs">
-      <DependentUpon>AdminEmployeeWindow.xaml</DependentUpon>
+    <Compile Include="AddStationWindow.xaml.cs">
+      <DependentUpon>AddStationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdminManagerWindow.xaml.cs">
       <DependentUpon>AdminManagerWindow.xaml</DependentUpon>
@@ -75,6 +75,12 @@
       <DependentUpon>BusInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CompanySchedule.cs" />
+    <Compile Include="OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TravelWindow.xaml.cs">
+      <DependentUpon>TravelWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserWindow.xaml.cs">
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
@@ -142,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminEmployeeWindow.xaml">
+    <Page Include="AddStationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +161,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TravelWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -490,9 +490,9 @@ namespace DAL
             List<LineStation> thisRoute = DataSource.lineStationList.FindAll(stat => stat.lineID == lineID.ToString());//finding all lineStations in this specific route
             int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
             //check if line exsists
-            if ((DataSource.lineStationList.FirstOrDefault(line => (line.lineID + line.stationCode ) == entityKey) != null))
+            if ((DataSource.lineStationList.FirstOrDefault(line => (line.lineID + line.stationCode) == entityKey) != null))
             {
-                 throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
+                throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation");
             } //it is a new LineSation so can add to collection:
             lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             DataSource.lineStationList.Add(lineStation.Clone());
@@ -824,26 +824,22 @@ namespace DAL
         #endregion
 
         #region Admin
-        public bool AdminSearch(string name, string password)
-        {
-            DO.Admin findAdmin = GetAdmin(name);
 
-            if (findAdmin != null && findAdmin.adminPassword == password)
-            {
-                return true;
-            }
-            else return false;
-        }
-
-        public Admin GetAdmin(string name)
+        public Admin GetAdmin(string name, string password)
         {
             DO.Admin findAdmin = DataSource.adminList.Find(a => a.adminName == name);
 
-            if (findAdmin != null)
+            if (findAdmin != null && findAdmin.adminPassword == password)
             {
                 return findAdmin.Clone();
             }
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
+        }
+
+        public IEnumerable<Admin> GetAllAdmin()
+        {
+            return from Admin in DataSource.adminList
+                   select Admin.Clone();
         }
 
         #endregion

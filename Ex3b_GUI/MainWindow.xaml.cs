@@ -75,6 +75,16 @@ namespace Ex3b_GUI
         }
 
         //Double-Click on Bus
+       
+        public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
+        {
+            if (element == null) return null;
+
+            if (element.GetType() == type) return element;
+
+            return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
+        }
+
         private void lv_BusList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Bus selectedBus;
@@ -86,18 +96,9 @@ namespace Ex3b_GUI
                 lv_BusList.SelectedIndex = lv_BusList.ItemContainerGenerator.IndexFromContainer(lvitem);
                 selectedBus = (Bus)lv_BusList.SelectedItem;
                 BusInfoWin infoWindow = new BusInfoWin(selectedBus);
-                infoWindow.Show();     
+                infoWindow.Show();
             }
         }
-        public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
-        {
-            if (element == null) return null;
-
-            if (element.GetType() == type) return element;
-
-            return GetAncestorByType(VisualTreeHelper.GetParent(element), type);
-        }
-
         private void lv_BusList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
