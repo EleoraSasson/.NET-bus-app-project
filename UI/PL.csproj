@@ -58,6 +58,9 @@
     <Compile Include="AddBusWindow.xaml.cs">
       <DependentUpon>AddBusWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddRouteWindow.xaml.cs">
+      <DependentUpon>AddRouteWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminEmployeeWindow.xaml.cs">
       <DependentUpon>AdminEmployeeWindow.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AddBusWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddRouteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

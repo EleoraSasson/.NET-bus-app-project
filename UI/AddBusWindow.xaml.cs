@@ -142,7 +142,7 @@ namespace UI
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Wrong input format.", title, button, icon);
                 this.Close();
-             }
+            }
         }
 
         //check if the textbox have been provided with some values

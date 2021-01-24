@@ -490,13 +490,9 @@ namespace DAL
             List<LineStation> thisRoute = DataSource.lineStationList.FindAll(stat => stat.lineID == lineID.ToString());//finding all lineStations in this specific route
             int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
             //check if line exsists
-            if ((DataSource.lineStationList.FirstOrDefault(line => line.lineID == lineID.ToString()) != null))
+            if ((DataSource.lineStationList.FirstOrDefault(line => (line.lineID + line.stationCode ) == entityKey) != null))
             {
-                //if line exsists see if it holds the same station
-                if ((DataSource.lineStationList.FirstOrDefault(stations => stations.stationCode == lineStation.stationCode) != null))
-                {
-                    throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
-                }
+                 throw new DO.ExsistingLineStationException(entityKey, "Duplicate lineStation"); 
             } //it is a new LineSation so can add to collection:
             lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             DataSource.lineStationList.Add(lineStation.Clone());

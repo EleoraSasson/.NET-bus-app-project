@@ -181,14 +181,16 @@ namespace UI
         {
             AddBusWindow addWin = new AddBusWindow();
             addWin.Show();
+            //tb_busNum.Text = fleetCollection.Count().ToString();
         }
-
+       
         #endregion
 
         #region BusRoute
         private void b_AddRoute_Click(object sender, RoutedEventArgs e)
         {
-
+            AddRouteWindow addRouteWin = new AddRouteWindow();
+            addRouteWin.Show();
         }
 
         private void Cb_RouteID_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -224,21 +226,16 @@ namespace UI
         #region StaffTab
         private void lv_Staff_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           
-                AdminPortal admin;
-                admin = (lv_Staff.SelectedItem as BO.AdminPortal);
-                gridSelectedStaff.DataContext = admin;
+            AdminPortal selectedStaff;
 
-                AdminPortal selectedAdmin;
+            ListViewItem lvi = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
 
-            //ListViewItem listViewItem = GetAncestorByType(e.OriginalSource as DependencyObject, typeof(ListViewItem)) as ListViewItem;
-
-            //if (listViewItem != null)
-            //{
-            //    lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(listViewItem);
-            //    selectedAdmin = (AdminPortal)lv_Staff.SelectedItem;
-            //    gridSelectedStaff.DataContext = selectedAdmin;
-            //}
+            if (lvi != null)
+            {
+                lv_Staff.SelectedIndex = lv_Staff.ItemContainerGenerator.IndexFromContainer(lvi);
+                selectedStaff = (AdminPortal)lv_Staff.SelectedItem;
+                gridSelectedStaff.DataContext = selectedStaff;
+            }
         }
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
         {
@@ -307,5 +304,7 @@ namespace UI
         }
 
        
+
+        
     }
 }

@@ -28,6 +28,9 @@ namespace BLApi
         #region Buses
         public void AddBus(string license, DateTime reg, DateTime maint, int mil, int fuel)
         {
+            IEnumerable<Bus> existingBuses = dal.GetAllBus();
+            int count = existingBuses.Count();
+
             try
             {
                 Buses bs = new Buses();
@@ -40,13 +43,13 @@ namespace BLApi
                 b.BusStatus = Status.Available;
                 b.BusErased = false;
                 bs.bus = b;
+                bs.numOfBuses = count + 1; //new number of buses is all buses plus this one
                 dal.AddBus(b);
             }
             catch (DO.InvalidBusLicenseException ex)
             {
                 throw new BO.BusExistsException("Bus already exists", ex);
             }
-
         }
 
         public void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel)
@@ -68,13 +71,14 @@ namespace BLApi
         //create
         public string AddBusRoute(BO.BusRoute broute)
         {
-            try { var RouteID = dal.AddBusLine(broute.Route); }
+            string RouteID;
+            try { RouteID = dal.AddBusLine(broute.Route); }
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineAlreadyInSytemException("Bus line already exists", ex); }
 
             foreach (var lineS in broute.RouteStops)
             {
-                int stationCount = dal.AddLineStation(lineS, dal.AddBusLine(broute.Route));
+                int stationCount = dal.AddLineStation(lineS, RouteID);
                 if (stationCount == 1) //it is the first station 
                 {
                     broute.Route.BusStart = lineS.stationCode;
@@ -90,7 +94,7 @@ namespace BLApi
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineNotInSystem("Bus line cannot be found", ex); }
 
-            return dal.AddBusLine(broute.Route); //returned RouteID so can add this route to a schedule
+            return RouteID; //returned RouteID so can add this route to a schedule
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
@@ -114,6 +118,28 @@ namespace BLApi
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineMissingException("Bus line missing", ex); }
         }
+
+        public string AddNewRoute(int region, string routeNum, IEnumerable<BusStations> stationList)
+        {
+            BusRoute newRoute = new BusRoute();
+            BusLine line = new BusLine();
+            line.BusLineNo = Int32.Parse(routeNum);
+            int regionIndex = region + 1;
+            line.BusRegion = (Regions)regionIndex;
+            newRoute.Route = line;
+            List<LineStation> lsList = new List<LineStation>();
+            foreach (var stop in stationList)
+            {
+                LineStation lineStation = new LineStation();
+                lineStation.stationCode = stop.Stop.StopCode;
+                lsList.Add(lineStation);
+            }
+            newRoute.RouteStops = lsList;
+
+            string routeID = AddBusRoute(newRoute);
+            return routeID;
+        }
+
         //retrieve
         public BusRoute GetBusRoute(BusRoute bRoute)
         {
