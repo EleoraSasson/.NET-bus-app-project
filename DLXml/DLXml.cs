@@ -815,6 +815,21 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        public bool UserSearch(string username, string pass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Admin GetAdmin(string name, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Admin> GetAllAdmin()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region UserTrip

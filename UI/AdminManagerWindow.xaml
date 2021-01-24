@@ -25,11 +25,14 @@
         <Grid x:Name="InnerGrid" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
             <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="400" Width="700" >
                 <TabItem Header="Manage Info">
-                    <Grid Background="#FFE5E5E5">
+                    <Grid Background="#FFE5E3E3">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250*"/>
-                            <ColumnDefinition Width="200*"/>
+                            <ColumnDefinition Width="122*"/>
+                            <ColumnDefinition Width="263*"/>
+                            <ColumnDefinition Width="308*"/>
                         </Grid.ColumnDefinitions>
+                        <TextBox x:Name="tb_welcome" HorizontalAlignment="Left" Height="33" Margin="26,44,0,0" TextWrapping="Wrap" Text="Welcome" VerticalAlignment="Top" Width="102" FontWeight="Bold" IsEnabled="False" FontSize="20" Grid.ColumnSpan="2"/>
+                        <TextBox x:Name="tb_name" Text="{Binding Path = ap.adminPortal.adminName}" HorizontalAlignment="Left" Height="23" Margin="26,104,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Bus Info" FontFamily="HP Simplified" HorizontalAlignment="Left" Width="59" Height="22" Margin="0" VerticalAlignment="Top">
@@ -95,7 +98,7 @@
                                                     <GridViewColumn Header="More Options:" Width="100">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
-                                                                <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." IsEnabled="{Binding IsButtonEnabled}"/>
+                                                                <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." IsEnabled="{Binding IsButtonEnabled}" Click=" B_Options_Click"/>
                                                                 <!--Click="B_Options_Click"-->
                                                                 <DataTemplate.Triggers>
                                                                     <DataTrigger Binding="{Binding bus.BusStatus}" Value="AtService">
@@ -117,6 +120,7 @@
                                         <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5,236,0,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="3" Grid.ColumnSpan="2"/>
                                         <Label  x:Name="l_NumberofBuses" Content="No. of Buses:" HorizontalAlignment="Left" Margin="1,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0,-0.231" Width="75" Height="26" Grid.Column="1" Grid.ColumnSpan="2"/>
                                         <TextBox x:Name="tb_busNum" HorizontalAlignment="Left" Height="23" Margin="6,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="49" Background="WhiteSmoke" BorderBrush="CadetBlue" Cursor="None" Grid.Column="1" Grid.ColumnSpan="2"  FontFamily="HP Simplified" IsReadOnly="True"/>
+
                                     </Grid>
                                 </StackPanel>
                             </Expander>
@@ -197,7 +201,7 @@
                                         <CheckBox x:Name="ChB_StopIsActive" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,187,0,0"  Background="WhiteSmoke" BorderBrush="CadetBlue" IsChecked="{Binding Stop.StopActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=true}" />
                                         <Label x:Name="l_LineIDs" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,79,0" Content="Lines that pass through this Station:" Width="205" Height="30"/>
                                         <ListBox x:Name="lb_LineIDs" ItemsSource="{Binding}" Margin="28,29,39,37" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" SelectionChanged="lb_LineIDs_SelectionChanged" Grid.ColumnSpan="2"/>
-                                        <Button x:Name="b_AddStation" Grid.Column="2" Margin="298,182,39,12" Height="20" Width="100" Content="  +   Add Station" Background="WhiteSmoke" BorderBrush="CadetBlue"
+                                        <Button x:Name="b_AddStation" Grid.Column="2" Margin="298,182,39,12" Height="20" Width="100" Content="  +   Add Station" Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddStation_Click"
                                                  Grid.ColumnSpan="2"/>
                                         <!--Click="b_AddStation_Click"-->
                                     </Grid>

@@ -46,7 +46,7 @@
         <TextBlock x:Name="FuelTextBlock" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="277"  FontSize ="14"><Run Text="Enter the distance left with the fuel" Foreground="#FF052066" /><Run Text=":" Foreground="#FF052066"/></TextBlock>
         <TextBlock HorizontalAlignment="Left" Grid.Row="7" Grid.Column="1"  TextWrapping="Wrap" Text="Enter the mileage:" VerticalAlignment="Top" Width="266"  FontSize ="14" Foreground="#FF052066"/>
 
-        <Button x:Name="AddButton" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="11" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click" BorderBrush="#FF356BCB" Foreground="#FF0B0B3A" Height="24" VerticalAlignment="Top"/>
+        <Button x:Name="AddButton" Content="Add Bus" Grid.Column="1" HorizontalAlignment="Left" Margin="0,11,0,0" Grid.Row="11" Width="75" FontFamily="HP Simplified" FontSize="14" FontWeight="SemiBold" FontStyle="Normal" Click="B_AddBus_Click" BorderBrush="#FF356BCB" Foreground="#FF0B0B3A" Height="24" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

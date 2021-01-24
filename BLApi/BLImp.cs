@@ -28,9 +28,6 @@ namespace BLApi
         #region Buses
         public void AddBus(string license, DateTime reg, DateTime maint, int mil, int fuel)
         {
-            IEnumerable<Bus> existingBuses = dal.GetAllBus();
-            int count = existingBuses.Count();
-
             try
             {
                 Buses bs = new Buses();
@@ -43,13 +40,13 @@ namespace BLApi
                 b.BusStatus = Status.Available;
                 b.BusErased = false;
                 bs.bus = b;
-                bs.numOfBuses = count + 1; //new number of buses is all buses plus this one
                 dal.AddBus(b);
             }
             catch (DO.InvalidBusLicenseException ex)
             {
                 throw new BO.BusExistsException("Bus already exists", ex);
             }
+
         }
 
         public void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel)
@@ -64,6 +61,56 @@ namespace BLApi
             bs.bus.BusErased = false;
 
         }
+
+        public void busRefuel(Buses b)
+        {
+            b.bus.BusStatus = Status.Refueling;
+            b.bus.BusFuel = 1200;
+        }
+
+        public void statusToAvailable(Buses b)
+        {
+            b.bus.BusStatus = Status.Available;
+        }
+        public void busMaintenance(Buses b)
+        {
+            b.bus.BusStatus = Status.AtService;
+            b.bus.BusFuel = 1200; //refuels
+            DateTime current = DateTime.Today;
+            b.bus.BusMaintenanceDate = current; //gives new date    //service date    
+        }
+
+        public int getFuel(Buses b)
+        {
+            return b.bus.BusFuel;
+        }
+
+        public bool needMaintenance(Buses b)
+        {
+            var today = DateTime.Now;
+            var MaintenanceDate = b.bus.BusMaintenanceDate.AddYears(1); //adding a Year to last maintenance date
+
+            var compareDates = today.CompareTo(MaintenanceDate);
+            if (compareDates < 0)
+            {
+                //no maintenance needed as within a year
+                return false;
+            }
+            else //a year or more has passed
+            {
+                return true; //needs maintenance
+            }
+        }
+        public void updateTravel(Buses b, int distance)
+        {
+            b.bus.BusFuel -= distance;
+            b.bus.BusMileage += distance;
+        }
+
+        public void busTravel(Buses b)
+        {
+            b.bus.BusStatus = Status.Traveling;
+        }
         #endregion
 
 
@@ -71,14 +118,13 @@ namespace BLApi
         //create
         public string AddBusRoute(BO.BusRoute broute)
         {
-            string RouteID;
-            try { RouteID = dal.AddBusLine(broute.Route); }
+            try { var RouteID = dal.AddBusLine(broute.Route); }
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineAlreadyInSytemException("Bus line already exists", ex); }
 
             foreach (var lineS in broute.RouteStops)
             {
-                int stationCount = dal.AddLineStation(lineS, RouteID);
+                int stationCount = dal.AddLineStation(lineS, dal.AddBusLine(broute.Route));
                 if (stationCount == 1) //it is the first station 
                 {
                     broute.Route.BusStart = lineS.stationCode;
@@ -94,7 +140,7 @@ namespace BLApi
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineNotInSystem("Bus line cannot be found", ex); }
 
-            return RouteID; //returned RouteID so can add this route to a schedule
+            return dal.AddBusLine(broute.Route); //returned RouteID so can add this route to a schedule
         }
         public void AddStationToBusRoute(BO.BusRoute broute, DO.LineStation station)
         {
@@ -118,28 +164,6 @@ namespace BLApi
             catch (DO.InvalidBusLineException ex)
             { throw new BO.BusLineMissingException("Bus line missing", ex); }
         }
-
-        public string AddNewRoute(int region, string routeNum, IEnumerable<BusStations> stationList)
-        {
-            BusRoute newRoute = new BusRoute();
-            BusLine line = new BusLine();
-            line.BusLineNo = Int32.Parse(routeNum);
-            int regionIndex = region + 1;
-            line.BusRegion = (Regions)regionIndex;
-            newRoute.Route = line;
-            List<LineStation> lsList = new List<LineStation>();
-            foreach (var stop in stationList)
-            {
-                LineStation lineStation = new LineStation();
-                lineStation.stationCode = stop.Stop.StopCode;
-                lsList.Add(lineStation);
-            }
-            newRoute.RouteStops = lsList;
-
-            string routeID = AddBusRoute(newRoute);
-            return routeID;
-        }
-
         //retrieve
         public BusRoute GetBusRoute(BusRoute bRoute)
         {
@@ -184,7 +208,7 @@ namespace BLApi
                     station.StatStation = st;
                     listStations.Add(station);
                 }
-            }
+            }   
 
             return listStations;
         }
@@ -242,8 +266,42 @@ namespace BLApi
 
         #endregion
 
+
+
         #region Stations
-        // public void AddBusStation(string code, )
+
+        public void SetBusStop(BusStations s, string code, string name, string addr, float longi, float lat)
+        {
+            s.Stop = new BusStop();
+            s.Stop.StopCode = code;
+            s.Stop.StopAddress = addr;
+            s.Stop.StopActive = true;
+            s.Stop.StopLocation = new System.Device.Location.GeoCoordinate();
+            s.Stop.StopLocation.Longitude = longi;
+            s.Stop.StopLocation.Latitude = lat;
+            s.Stop.StopName = name;
+        }
+
+        public void AddBusStations(BusStations s)
+        {
+            try
+            {
+                BusStations stat = new BusStations();
+                BusStop bs = new BusStop();
+                bs.StopActive = true;
+                bs.StopAddress = s.Stop.StopAddress;
+                bs.StopCode = s.Stop.StopCode;
+                bs.StopName = s.Stop.StopName;
+                bs.StopLocation = new System.Device.Location.GeoCoordinate();
+                bs.StopLocation.Latitude = s.Stop.StopLocation.Latitude;
+                bs.StopLocation.Longitude = s.Stop.StopLocation.Longitude;
+                stat.Stop = bs;
+                dal.AddBusStop(s.Stop);
+            }
+            catch (DO.MissingBusStopException ex)
+            { throw new BO.BusStationNotInSystem("Bus stop already exists."); }
+        }
+
 
         public string GetBusStationsCode(BusStations bs)
         {
@@ -513,20 +571,25 @@ namespace BLApi
         public IEnumerable<AdminPortal> GetAllAdmin()
         {
             List<AdminPortal> adminList = new List<AdminPortal>();
-            IEnumerable<Staff> admin = dal.GetAllStaff();
+            IEnumerable<Admin> admin = dal.GetAllAdmin();
 
             foreach (var s in admin)
             {
                 AdminPortal ap = new AdminPortal();
-                ap.AdminDriver = new Staff();
-                ap.AdminDriver.BusDriverID = s.BusDriverID;
-                ap.AdminDriver.BusDriverFirst = s.BusDriverFirst;
-                ap.AdminDriver.BusDriverLast = s.BusDriverLast;
-                ap.AdminDriver.BusDriverAge = s.BusDriverAge;
-                ap.AdminDriver.BusDriverCellNo = s.BusDriverCellNo;
-                ap.AdminDriver.isAdmin = s.isAdmin;
-                ap.AdminDriver.StaffPosition = s.StaffPosition;
-                ap.AdminDriver.StaffYrsWorked = s.StaffYrsWorked;
+                //ap.AdminDriver = new Staff();
+                //ap.AdminDriver.BusDriverID = s.BusDriverID;
+                //ap.AdminDriver.BusDriverFirst = s.BusDriverFirst;
+                //ap.AdminDriver.BusDriverLast = s.BusDriverLast;
+                //ap.AdminDriver.BusDriverAge = s.BusDriverAge;
+                //ap.AdminDriver.BusDriverCellNo = s.BusDriverCellNo;
+                //ap.AdminDriver.isAdmin = s.isAdmin;
+                //ap.AdminDriver.StaffPosition = s.StaffPosition;
+                //ap.AdminDriver.StaffYrsWorked = s.StaffYrsWorked;
+                Admin a = new Admin();
+                a.adminPassword = s.adminPassword;
+                a.adminName = s.adminName;
+                ap.adminPortal = a;
+               
                 adminList.Add(ap);
             }
 
@@ -535,11 +598,24 @@ namespace BLApi
         #endregion
 
         #region Admins
-        public bool AdminSearch(string adminname, string pass)
+        public AdminPortal GetAdmin(string adminname, string pass)
         {
-            if (dal.AdminSearch(adminname, pass))
-                return true;
-            else return false;
+            try
+            {
+                Admin admin = dal.GetAdmin(adminname, pass);
+                if (admin != null)
+                {
+                    AdminPortal a = new AdminPortal();
+                    Admin ad = new Admin();
+                    ad.adminName = adminname;
+                    ad.adminPassword = pass;
+                    a.adminPortal = ad;
+                    return a;
+                }
+                else return null;
+            }
+            catch (DO.MissingUserException ex)
+            { throw new BO.UserMissingExcpetion("Admin does not exist", ex); } 
            
         }
         #endregion

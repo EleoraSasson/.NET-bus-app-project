@@ -127,8 +127,8 @@ namespace DALApi
         #endregion
 
         #region Admin
-        bool AdminSearch(string adminName, string pass);
-        Admin GetAdmin(string name);
+        Admin GetAdmin(string name, string password);
+        IEnumerable<Admin> GetAllAdmin();
         #endregion
 
         //#region UserTrip

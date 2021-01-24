@@ -14,17 +14,17 @@ namespace BO
     /// </summary>
     public class AdminPortal
     {
-        private Staff driver;
+        private Admin admin;
 
-        public Staff AdminDriver
+        public Admin adminPortal
         {
-            get { return driver; }
-            set { driver = value; }
+            get { return admin; }
+            set { admin = value; }
         }
 
-        public override string ToString()
-        {
-            return AdminDriver.BusDriverFirst + AdminDriver.BusDriverLast + ", with ID " + AdminDriver.BusDriverID; 
-        }
+        //public override string ToString()
+        //{
+        //    return AdminDriver.BusDriverFirst + AdminDriver.BusDriverLast + ", with ID " + AdminDriver.BusDriverID; 
+        //}
     }
 }

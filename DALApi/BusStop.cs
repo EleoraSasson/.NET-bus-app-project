@@ -71,7 +71,7 @@ namespace DO
         /* OVERRIDE TOSTRING */
         public override string ToString()
         {
-            return "Station Name:" + StopName +  "\n Station Code:" + StopCode + "\n Location: " + StopLocation.ToString() + "\n Physical Address:" + StopAddress; 
+            return "Bus Stop Details: \n Station Name:" + StopName +  "\n Station Code:" + StopCode + "\n Location:" + StopLocation.ToString() + "\n Physical Address:" + /*address +*/ "\n Active:" + StopActive; 
         }
     }
 }
