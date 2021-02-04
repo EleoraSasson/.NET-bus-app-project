@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="Gilore Travels" Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1" ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <!-- The Window Resource "GradientBackground_Resource" is used to set a standard gradient background which is used in mulitiple sections of this 
+        UserWindow -->
+        <LinearGradientBrush x:Key="GradientBackground_Resource"   EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="LightBlue"  Offset="0.009"/>
+            <GradientStop Color="CadetBlue"  Offset="0.9"/>
+        </LinearGradientBrush>
+    </Window.Resources>
+
     <Grid x:Name="InnerGrid" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
         <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="400" Width="700" >
             <TabItem Header="Bus Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14" HorizontalAlignment="Left" Width="59" Height="22" Margin="0" VerticalAlignment="Top">
@@ -20,13 +30,13 @@
                         <RowDefinition x:Name="scheduleRow" Height="1*"/>
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,1,10" Grid.RowSpan="3">
-                        <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top">
-                            <Expander.Background>
+                        <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                            <!--<Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="LightBlue"  Offset="0.009"/>
                                     <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                 </LinearGradientBrush>
-                            </Expander.Background>
+                            </Expander.Background>-->
                             <StackPanel Orientation="Vertical" Height="270">
                                 <Grid Name="RouteIDGrid" Width="655" Margin="16,5,15,5" Height="37">
                                     <Label x:Name="l_RouteID" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,552,0" Content="Route ID:"/>
@@ -56,13 +66,13 @@
                                 </Grid>
                             </StackPanel>
                         </Expander>
-                        <Expander x:Name="Ex_BusStations" Header="Bus Stations" DockPanel.Dock="Top">
-                            <Expander.Background>
+                        <Expander x:Name="Ex_BusStations" Header="Bus Stations" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                            <!--<Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="LightBlue"  Offset="0.009"/>
                                     <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                 </LinearGradientBrush>
-                            </Expander.Background>
+                            </Expander.Background>-->
                             <StackPanel Orientation="Vertical" Height="270">
                                 <Grid Height="39">
                                     <Grid.ColumnDefinitions>
@@ -99,13 +109,13 @@
                                 </Grid>
                             </StackPanel>
                         </Expander>
-                        <Expander x:Name="Ex_BusSchedule" Header="Bus Schedule" DockPanel.Dock="Top">
-                            <Expander.Background>
+                        <Expander x:Name="Ex_BusSchedule" Header="Bus Schedule" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                            <!--<Expander.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="LightBlue"  Offset="0.009"/>
                                     <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                 </LinearGradientBrush>
-                            </Expander.Background>
+                            </Expander.Background>-->
                             <StackPanel Orientation="Horizontal" Height="270">
                                 <Grid>
                                     <ListView Margin="22,10,0,22" x:Name="lv_companySched" ItemsSource="{Binding}" IsManipulationEnabled="False">

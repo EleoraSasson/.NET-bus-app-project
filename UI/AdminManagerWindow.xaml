@@ -9,6 +9,16 @@
         Title="Gilore Travels &gt; Admin Portal " Height="450" Width="800" Icon ="GiloreTravels.ico" BorderBrush="#FF3973F1"
     ResizeMode="CanMinimize">
 
+    <Window.Resources>
+        <!-- The Window Resource "GradientBackground_Resource" is used to set a standard gradient background which is used in mulitiple sections of this 
+        AdminManagerWindow (specifically in the expanders of the Bus Tab) -->
+        <LinearGradientBrush x:Key="GradientBackground_Resource"   EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="LightBlue"  Offset="0.009"/>
+            <GradientStop Color="CadetBlue"  Offset="0.9"/>
+        </LinearGradientBrush>
+        <!-- Used as a Refresh Button Image Resource -->
+        <Image x:Key="RefreshImage" Source="RefreshButtonImage.PNG"/>
+    </Window.Resources>
 
     <Grid x:Name="BasicGrid">
         <Grid.ColumnDefinitions>
@@ -25,13 +35,13 @@
         <Grid x:Name="InnerGrid" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
             <TabControl HorizontalAlignment="Center"  Margin="10,0,10.333,0" VerticalAlignment="Top" Height="400" Width="700" >
                 <TabItem Header="Manage Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14">
-                    <Grid>
-                        <Grid.Background>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <Grid Background="{StaticResource GradientBackground_Resource}">
+                        <!--<Grid.Background>-->
+                        <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="LightBlue"  Offset="0.009"/>
                                 <GradientStop Color="CadetBlue"  Offset="0.9"/>
-                            </LinearGradientBrush>
-                        </Grid.Background>
+                            </LinearGradientBrush>-->
+                        <!--</Grid.Background>-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="107*"/>
                             <ColumnDefinition Width="240*"/>
@@ -53,44 +63,28 @@
                             <RowDefinition x:Name="scheduleRow" Height="1*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" LastChildFill="True" Margin="5,5,1,10" Grid.RowSpan="3">
-                            <Expander x:Name="Ex_BusFleet" Header="Bus Fleet" DockPanel.Dock="Top">
-                                <Expander.Background>
+                            <Expander x:Name="Ex_BusFleet" Header="Bus Fleet" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                                <!--<Expander.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="LightBlue"  Offset="0.009"/>
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
-                                </Expander.Background>
+                                </Expander.Background>-->
                                 <StackPanel Orientation="Horizontal" Height="270">
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="0*"/>
-                                            <ColumnDefinition Width="15*"/>
-                                            <ColumnDefinition Width="15*"/>
-                                            <ColumnDefinition Width="15*"/>
-                                            <ColumnDefinition Width="15*"/>
-                                            <ColumnDefinition Width="15*"/>
-                                            <ColumnDefinition Width="17*"/>
-                                            <ColumnDefinition Width="265*"/>
-                                            <ColumnDefinition Width="283*"/>
-                                        </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition x:Name="FleetList" Height="10*"/>
                                             <RowDefinition x:Name="AddToFleet" Height="1*"/>
+                                            <RowDefinition x:Name="botBorder" Height="1*"/>
                                         </Grid.RowDefinitions>
 
-                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="5.467,10,-0.133,10.333" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="6" Grid.ColumnSpan="3">
+                                        <ListView x:Name="lv_BusList" ItemsSource="{Binding}" Grid.Row="0"  Margin="55,10,55,10" Width="560" FontFamily="Hp Simplified" FontSize="12" FontStyle="Normal" FontWeight="Medium" Foreground="#FF052066" BorderBrush="CadetBlue" Background="#FFE8EBF7" SelectionChanged="lv_BusList_SelectionChanged" Grid.Column="6" Grid.ColumnSpan="3">
                                             <ListView.ItemContainerStyle>
                                                 <Style x:Name="BusList_Style" TargetType="{x:Type ListViewItem}">
-                                                    <Setter Property="ToolTip">
-                                                        <Setter.Value>
-                                                            <ToolTip>
-                                                                <TextBlock x:Name="tb_Tooltip" Text="Double-Click for more Information about this Bus."/>
-                                                            </ToolTip>
-                                                        </Setter.Value>
-                                                    </Setter>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Foreground" Value ="Black"/>
+                                                            <Setter Property="BorderBrush" Value="Black"/>
                                                         </Trigger>
                                                         <DataTrigger Binding="{Binding bus.BusStatus}"  Value="Available" >
                                                             <Setter Property="Foreground" Value="DarkGreen" />
@@ -101,11 +95,13 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView x:Name="gv_BusList">
-                                                    <GridViewColumn Header="License Number:" Width="95" DisplayMemberBinding="{Binding bus.BusLicense }"/>
-                                                    <GridViewColumn Header="Mileage:" Width="60" DisplayMemberBinding="{Binding bus.BusMileage }"/>
-                                                    <GridViewColumn Header="Fuel:" Width="60" DisplayMemberBinding="{Binding bus.BusFuel}"/>
-                                                    <GridViewColumn Header="Bus Status:" Width="150" DisplayMemberBinding="{Binding bus.BusStatus}"/>
-                                                    <GridViewColumn Header="More Options:" Width="100">
+                                                    <GridViewColumn Header="License Number:" Width="96" DisplayMemberBinding="{Binding bus.BusLicense}"/>
+                                                    <GridViewColumn Header="Registration Date:" Width="96" DisplayMemberBinding="{Binding bus.BusRegDate}"/>
+                                                    <GridViewColumn Header="Mileage:" Width="50" DisplayMemberBinding="{Binding bus.BusMileage}"/>
+                                                    <GridViewColumn Header="Fuel:" Width="50" DisplayMemberBinding="{Binding bus.BusFuel}"/>
+                                                    <GridViewColumn Header="Last Maintenance:" Width="100" DisplayMemberBinding="{Binding bus.BusMaintenanceDate}"/>
+                                                    <GridViewColumn Header="Bus Status:" Width="80" DisplayMemberBinding="{Binding bus.BusStatus}"/>
+                                                    <GridViewColumn Header="More Options:" Width="80">
                                                         <GridViewColumn.CellTemplate>
                                                             <DataTemplate>
                                                                 <Button x:Name="B_Options" ToolTip="Select for Refuel, Maintenance and Travel Options." Content="Options..." IsEnabled="{Binding IsButtonEnabled}" Click=" B_Options_Click"/>
@@ -117,7 +113,7 @@
                                                                     <DataTrigger Binding="{Binding bus.BusStatus}" Value="Refueling">
                                                                         <Setter Property="IsEnabled" Value="False"/>
                                                                     </DataTrigger>
-                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Travelling">
+                                                                    <DataTrigger Binding="{Binding bus.BusStatus}" Value="Traveling">
                                                                         <Setter Property="IsEnabled" Value="False"/>
                                                                     </DataTrigger>
                                                                 </DataTemplate.Triggers>
@@ -127,18 +123,17 @@
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
-                                        <Button x:Name="b_AddBus" Content="+     Add Bus " Margin="5.467,236,-0.133,5" Grid.RowSpan="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.Column="6" Grid.ColumnSpan="3"/>
-
+                                        <Button x:Name="b_AddBus" Content="+     Add Bus "  Margin="515,223,55,0" Height="25" Width="100" Background="WhiteSmoke" BorderBrush="CadetBlue" Click="b_AddBus_Click" Grid.RowSpan="2" />
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top">
-                                <Expander.Background>
+                            <Expander x:Name="Ex_BusRoutes" Header="Bus Routes" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                                <!--<Expander.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="LightBlue"  Offset="0.009"/>
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
-                                </Expander.Background>
+                                </Expander.Background>-->
                                 <StackPanel Orientation="Vertical" Height="270">
                                     <Grid Name="RouteIDGrid" Width="655" Margin="16,5,15,5" Height="37">
                                         <Label x:Name="l_RouteID" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,9,552,0" Content="Route ID:"/>
@@ -170,13 +165,15 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <Expander x:Name="Ex_BusStations" Header="Bus Stations" DockPanel.Dock="Top">
-                                <Expander.Background>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <Expander x:Name="Ex_BusStations" Header="Bus Stations" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                                <!--<Expander.Background>
+                                    -->
+                                <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="LightBlue"  Offset="0.009"/>
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
-                                    </LinearGradientBrush>
-                                </Expander.Background>
+                                    </LinearGradientBrush>-->
+                                <!--
+                                </Expander.Background>-->
                                 <StackPanel Orientation="Vertical" Height="270">
                                     <Grid Height="39">
                                         <Grid.ColumnDefinitions>
@@ -214,16 +211,22 @@
                                     </Grid>
                                 </StackPanel>
                             </Expander>
-                            <Expander x:Name="Ex_BusSchedule" Header="Bus Schedule" DockPanel.Dock="Top">
-                                <Expander.Background>
+                            <Expander x:Name="Ex_BusSchedule" Header="Bus Schedule" DockPanel.Dock="Top" Background="{StaticResource GradientBackground_Resource}">
+                                <!--<Expander.Background>
                                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                         <GradientStop Color="LightBlue"  Offset="0.009"/>
                                         <GradientStop Color="CadetBlue"  Offset="0.9"/>
                                     </LinearGradientBrush>
-                                </Expander.Background>
-                                <StackPanel Orientation="Horizontal" Height="270">
+                                </Expander.Background>-->
+                                <StackPanel Orientation="Vertical" Height="270">
                                     <Grid>
-                                        <ListView Margin="22,10,0,22" x:Name="lv_companySched" ItemsSource="{Binding}" IsManipulationEnabled="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition x:Name="LB" Width="1*"/>
+                                            <ColumnDefinition x:Name="Schedule" Width="100*"/>
+                                            <ColumnDefinition x:Name="Refresh" Width="10*"/>
+                                            <ColumnDefinition x:Name="RB" Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ListView Grid.Column="1" Margin="5,0,5,0" Height="240" x:Name="lv_companySched" ItemsSource="{Binding}" IsManipulationEnabled="False">
                                             <ListView.ItemContainerStyle>
                                                 <Style x:Name="Company_Style" TargetType="{x:Type ListViewItem}">
                                                     <Style.Triggers>
@@ -235,23 +238,24 @@
                                             </ListView.ItemContainerStyle>
                                             <ListView.View>
                                                 <GridView x:Name="gv_CompanySched">
-                                                    <GridViewColumn x:Name="RouteNo" Header="Route No.:" Width="65" DisplayMemberBinding="{Binding CurrentRoute.Route.BusLineNo}"  />
-                                                    <GridViewColumn x:Name="RoadID" Header="Road ID:" Width="65" DisplayMemberBinding="{Binding BusOnRoute.BusRoadID}"/>
-                                                    <GridViewColumn x:Name="BusStart" Header="Starting Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusStart}"  />
-                                                    <GridViewColumn x:Name="DepTime" Header="Departure Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusFormalDT}"  />
-                                                    <GridViewColumn x:Name="EndStop" Header="Ending Stop:" Width="73" DisplayMemberBinding="{Binding CurrentRoute.Route.BusEnd}"  />
-                                                    <GridViewColumn x:Name="ArrivalTime" Header="Arrival Time:" Width="85" DisplayMemberBinding="{Binding BusOnRoute.BusArrivalT}"  />
-                                                    <GridViewColumn x:Name="NoStops" Header="Number of Stops:" Width="90" DisplayMemberBinding="{Binding numOfStops}"  />
-                                                    <GridViewColumn x:Name="Driver" Header="Bus Driver:" Width="80" DisplayMemberBinding="{Binding SelectedStaff}"  />
+                                                    <GridViewColumn x:Name="RouteNo" Header="Route No:" Width="70" DisplayMemberBinding="{Binding CurrentRoute.Route.BusLineNo}"  />
+                                                    <GridViewColumn x:Name="RoadID" Header="Road ID:" Width="70" DisplayMemberBinding="{Binding BusOnRoute.BusRoadID}"/>
+                                                    <GridViewColumn x:Name="BusStart" Header="Starting At:" Width="75" DisplayMemberBinding="{Binding CurrentRoute.Route.BusStart}"  />
+                                                    <GridViewColumn x:Name="DepTime" Header="Departure T:" Width="75" DisplayMemberBinding="{Binding BusOnRoute.BusFormalDT}"  />
+                                                    <GridViewColumn x:Name="EndStop" Header="Ending At:" Width="75" DisplayMemberBinding="{Binding CurrentRoute.Route.BusEnd}"  />
+                                                    <GridViewColumn x:Name="ArrivalTime" Header="Arrival T:" Width="75" DisplayMemberBinding="{Binding BusOnRoute.BusArrivalT}"  />
+                                                    <GridViewColumn x:Name="NoStops" Header="# Stops:" Width="70" DisplayMemberBinding="{Binding numOfStops}"  />
+                                                    <GridViewColumn x:Name="Driver" Header="Driver:" Width="70" DisplayMemberBinding="{Binding SelectedStaff}"  />
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
+                                        <Button x:Name="b_RefreshSchedule" Grid.Column="2" Content="{StaticResource RefreshImage}" Width="35" Height="35" Margin="10,10,16,195" Background="Navy" Click="b_RefreshSchedule_Click"/>
                                     </Grid>
                                 </StackPanel>
                             </Expander>
                             <StackPanel Orientation="Horizontal" Background="CadetBlue" Margin="1,1,1,1" >
                                 <Image Source="LogoFull.PNG" Cursor="Arrow" Stretch="None" Margin="2,5,5,5" Opacity="0.45" Width="357"/>
-                                <TextBlock FontStyle="Normal" HorizontalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Black" Foreground="#FF0E1340" TextWrapping="Wrap" Width="318" VerticalAlignment="Center" IsEnabled="False" Cursor="Arrow" TextAlignment="Center" FontStretch="SemiCondensed" Margin="0,2,0,1"><Run Text="&quot;"/><Run Text="Here at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/> <Run Text ="we believe that travel is more than simply a way to get from A to B;"/><LineBreak/><Run FontSize="16" Foreground="Black"  Text="travel is an adventure"/><Run Text=". "/><LineBreak/><Run Text="We have all had those days were by the time you get to that all-important meeting you are exhausted from  the stress of traffic, late transits and the like. "/><LineBreak/><Run Text ="We understand this, which is why at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text = "our priorities are"/> <Run Text= " reliability, ease and convenience. "/><Run Text="We insure that our buses are well maintained, our routes planned and based on updated road issues and our staff highly qualified. "/><LineBreak/><Run/><Run Text=" "/><Run FontStyle="Italic" Foreground="Black" Text="We aim to give you the ultimate travel experience: comfortable, practical, efficient"/><Run Text=". &quot;"/><Run  FontSize="9" Text= " -The GT Team"/></TextBlock>
+                                <TextBlock FontStyle="Normal" HorizontalAlignment="Center" FontFamily="HP Simplified" FontSize="14" FontWeight="Black" Foreground="#FF0E1340" TextWrapping="Wrap" Width="318" VerticalAlignment="Center" IsEnabled="False" Cursor="Arrow" TextAlignment="Center" FontStretch="SemiCondensed" Margin="0,10,0,8"><Run Text="&quot;"/><Run Text="Here at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text=" "/><Run Text ="we believe that travel is more than simply a way to get from A to B;"/><LineBreak/><Run FontSize="16" Foreground="Black"  Text="travel is an adventure"/><Run Text=". "/><LineBreak/><Run Text="We have all had those days were by the time you get to that all-important meeting you are exhausted from  the stress of traffic, late transits and the like. "/><LineBreak/><Run Text ="We understand this, which is why at Gilore Travels"/><Run FontSize="9" Text=" (TM) "/><Run Text = "our priorities are"/><Run Text=" "/><Run Text= " reliability, ease and convenience. "/><Run Text="We insure that our buses are well maintained, our routes planned and based on updated road issues and our staff highly qualified. "/><LineBreak/><Run/><Run Text=" "/><Run FontStyle="Italic" Foreground="Black" Text="We aim to give you the ultimate travel experience: comfortable, practical, efficient"/><Run Text=". &quot;"/><Run  FontSize="9" Text= " -The GT Team"/></TextBlock>
 
                             </StackPanel>
                         </DockPanel>
@@ -259,13 +263,13 @@
 
                 </TabItem>
                 <TabItem Header="Staff Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14">
-                    <Grid x:Name="gridStaff">
-                        <Grid.Background>
+                    <Grid x:Name="gridStaff" Background="{StaticResource GradientBackground_Resource}">
+                        <!--<Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="LightBlue"  Offset="0.009"/>
                                 <GradientStop Color="CadetBlue"  Offset="0.9"/>
                             </LinearGradientBrush>
-                        </Grid.Background>
+                        </Grid.Background>-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="9*"/>
                             <ColumnDefinition Width="162*"/>
@@ -315,17 +319,17 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="User Info" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14">
-                    <Grid>
+                    <Grid Background="{StaticResource GradientBackground_Resource}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="99*"/>
                             <ColumnDefinition Width="595*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid.Background>
+                        <!--<Grid.Background >
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="LightBlue"  Offset="0.009"/>
                                 <GradientStop Color="CadetBlue"  Offset="0.9"/>
                             </LinearGradientBrush>
-                        </Grid.Background>
+                        </Grid.Background>-->
                         <ListView x:Name="lv_Users" ItemsSource="{Binding}"  HorizontalAlignment="Center" Height="234" Margin="27,45,259,91" VerticalAlignment="Center" Width="408" SelectionChanged="lv_Users_SelectionChanged" FontFamily="HP Simplified" FontSize="14" FontWeight="Medium" Grid.ColumnSpan="2">
                             <ListView.ItemContainerStyle>
                                 <Style x:Name="UserList_Style" TargetType="{x:Type ListViewItem}">
@@ -353,13 +357,13 @@
 
                 </TabItem>
                 <TabItem Header="Simulation" FontFamily="HP Simplified" FontWeight="Medium" FontSize="14">
-                    <Grid>
-                        <Grid.Background>
+                    <Grid Background="{StaticResource GradientBackground_Resource}">
+                        <!--<Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="LightBlue"  Offset="0.009"/>
                                 <GradientStop Color="CadetBlue"  Offset="0.9"/>
                             </LinearGradientBrush>
-                        </Grid.Background>
+                        </Grid.Background>-->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="SimulationBorderLeft" Width="17*"/>
                             <ColumnDefinition x:Name="SimulationMiddle_C" Width="152*"/>
@@ -395,12 +399,9 @@
                             <TextBox Text="{Binding ElementName=sl_Simulation, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Margin="186,175,29,141.334" Height="20" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                             <Slider x:Name="sl_Simulation" Grid.Column="1" Margin="26,203,23,109.334" Minimum="10" Maximum="100" TickFrequency="10" IsSnapToTickEnabled="True"  TickPlacement="Both" Cursor="Hand" ValueChanged="sl_Simulation_ValueChanged"/>
                         </Grid>
-
-
                     </Grid>
                 </TabItem>
             </TabControl>
-
         </Grid>
     </Grid>
 </Window>

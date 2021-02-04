@@ -11,8 +11,7 @@ using System.Threading;
 
 namespace BLApi
 {
-    //adding try and catch to all qualities NOte there is a bl exception class
-    public class BLImp : IBL
+    class BLImp : IBL //internal class
     {
 
         #region Singleton
@@ -20,9 +19,8 @@ namespace BLApi
         static BLImp() { }
         BLImp() { } //dafualt => private
         public static BLImp Instance { get => instance; }
-        // IDAL dal;
-        // public BLImp() { dal = DLFactory.GetDL(); }
         #endregion
+
         IDAL dal = DLFactory.GetDL();
 
         #region Buses

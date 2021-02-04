@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DALApi;
 
-namespace DO
+namespace DS
 {
-    /// <summary>
-    /// This class keeps track of the start values for every 
-    /// running number used in the various entity keys throughtout the DAL 
-    /// layer in the project
-    /// </summary>
+ /// <summary>
+ /// This class keeps track of the start values for every 
+ /// running number used in the various entity keys throughtout the DAL 
+ /// layer in the project
+ /// </summary>
     public static class RunningNumbers
     {
         #region Running Number Line - LineID

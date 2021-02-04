@@ -135,7 +135,7 @@ namespace DAL
         /// </summary>
         public string AddBusLine(BusLine busLine)
         {
-            busLine.BusLineID = DO.RunningNumbers.LineRunNum.ToString();
+            busLine.BusLineID = DS.RunningNumbers.LineRunNum.ToString();
             if (DataSource.busLineList.FirstOrDefault(b => b.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID, "Duplicate bus license number");
             DataSource.busLineList.Add(busLine.Clone());
@@ -220,7 +220,7 @@ namespace DAL
         public string AddBusOnTrip(BusOnTrip busOnTrip, string lineID)
         {
             busOnTrip.BusLineID = lineID; //id of line bus is on
-            busOnTrip.BusRoadID = DO.RunningNumbers.BusRunNum;
+            busOnTrip.BusRoadID = DS.RunningNumbers.BusRunNum;
             if (DataSource.busOnTripList.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), "Duplicate bus on trip ID");
             DataSource.busOnTripList.Add(busOnTrip.Clone());
@@ -840,7 +840,7 @@ namespace DAL
 
         #endregion
 
-        //#region CRUD Implementation - UserTrip
+        #region CRUD Implementation - UserTrip
 
         ///// <summary>
         ///// GetAllUsers: gets all users from the collection  
@@ -926,7 +926,7 @@ namespace DAL
         //    throw new NotImplementedException();
         //}
 
-        //#endregion
+        #endregion
 
     }
 }

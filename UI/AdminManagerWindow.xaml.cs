@@ -179,8 +179,6 @@ namespace UI
             }
         }
 
-        //Double-Click on Bus
-
         public static DependencyObject GetAncestorByType(DependencyObject element, Type type)
         {
             if (element == null) return null;
@@ -233,6 +231,12 @@ namespace UI
 
         #region BusSchedule
 
+        private void b_RefreshSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            List<ScheduleOfRoute> schedules = bl.GetAllScheduleOfRoutes().ToList();
+            companySchedule = new ObservableCollection<ScheduleOfRoute>(schedules);
+            lv_companySched.DataContext = companySchedule;
+        }
         #endregion
 
         #endregion
@@ -310,7 +314,5 @@ namespace UI
 
         }
 
-
-       
     }
 }
