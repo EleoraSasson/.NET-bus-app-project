@@ -7,6 +7,7 @@ using System.Xml.Linq; //added to allow use of XElement and XML Library
 using System.IO; //for using files
 using DALApi;
 using DO;
+using DS;
 using System.Xml.Serialization;
 
 
@@ -31,9 +32,10 @@ namespace DAL
         static string leavingPath = @"LineLeaving.xml";
         static string stationPath = @"LineStation.xml";
         static string staffPath = @"Staff.xml";
-        static string succSPath = @"SuccessiveStations.xml";
+        //static string succSPath = @"SuccessiveStations.xml";
         static string userPath = @"Users.xml";
         static string userTripPath = @"UserTrips.xml";
+        static string adminPath = @"Admin.xml";
 
         //XML Root XElements:
         static XElement busRoot;
@@ -43,9 +45,10 @@ namespace DAL
         static XElement leavingRoot;
         static XElement stationRoot;
         static XElement staffRoot;
-        static XElement succSRoot;
+        //static XElement succSRoot;
         static XElement userRoot;
         static XElement userTripRoot;
+        static XElement adminRoot;
 
         #endregion
 
@@ -100,7 +103,7 @@ namespace DAL
             catch { throw new InvalidBusLicenseException(license, $"bus {license} does not exist in system."); }
             return bus;
         }
-        public IEnumerable<Bus> GetAllBuses()
+        public IEnumerable<Bus> GetAllBus()
         {
             XElement busRoot = XMLTools.LoadListFromXMLElement(busPath);
 
@@ -181,7 +184,7 @@ namespace DAL
         {
             List<BusLine> list = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
-            busLine.BusLineID = DO.RunningNumbers.LineRunNum.ToString();
+            busLine.BusLineID = DS.RunningNumbers.LineRunNum.ToString();
             if (list.FirstOrDefault(l => l.BusLineID == busLine.BusLineID) != null)
                 throw new DO.InvalidBusLineException(busLine.BusLineID.ToString(), $"Duplicate! line {busLine.BusLineID} already exists.");
 
@@ -190,7 +193,7 @@ namespace DAL
             return busLine.BusLineID.ToString(); //returning running number
         }
         //retrieve
-        public BusLine GetBusLine(int lineID)
+        public BusLine GetBusLine(string lineID)
         {
             List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
@@ -201,6 +204,7 @@ namespace DAL
             else
                 throw new DO.InvalidBusLineException(lineID.ToString(), $"Line {lineID} cannot be found in system.");
         }
+
         public IEnumerable<BusLine> GetAllBusLines()
         {
             List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
@@ -231,7 +235,7 @@ namespace DAL
             XMLTools.SaveListToXMLSerializer(listLines, linePath);
         }
         //delete
-        public void DeleteBusLine(int lineID)
+        public void DeleteBusLine(string lineID)
         {
             List<BusLine> listLines = XMLTools.LoadListFromXMLSerializer<BusLine>(linePath);
 
@@ -245,20 +249,21 @@ namespace DAL
             XMLTools.SaveListToXMLSerializer(listLines, linePath);
         }
         #endregion
-
+        
         #region BusOnTrip
         //create
-        public int AddBusOnTrip(BusOnTrip busOnTrip)
+        public string AddBusOnTrip(BusOnTrip busOnTrip, string lineID)
         {
             List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
 
-            busOnTrip.BusRoadID = DO.RunningNumbers.BusRunNum;
+            busOnTrip.BusLineID = lineID; //id of line bus is on
+            busOnTrip.BusRoadID = DS.RunningNumbers.BusRunNum;
             if (list.FirstOrDefault(b => b.BusRoadID == busOnTrip.BusRoadID) != null)
                 throw new DO.InvalidBusOnTripIDException(busOnTrip.BusRoadID.ToString(), $"Duplicate! line {busOnTrip.BusRoadID} already exists.");
 
             list.Add(busOnTrip);
             XMLTools.SaveListToXMLSerializer(list, onTripPath);
-            return busOnTrip.BusRoadID; //returning running number
+            return busOnTrip.BusRoadID.ToString(); //returning running number
         }
         //retrieve
         public BusOnTrip GetBusOnTrip(int roadID)
@@ -273,6 +278,7 @@ namespace DAL
                 throw new DO.InvalidBusOnTripIDException(bonTrip.BusRoadID.ToString(), $"Line {bonTrip.BusRoadID} cannot be found in system.");
         }
 
+
         public IEnumerable<object> GetBusOnTripWithSelectedFields(Func<BusOnTrip, object> generate)
         {
             List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
@@ -281,7 +287,7 @@ namespace DAL
                    select generate(bonTrip);
         }
 
-        public IEnumerable<BusOnTrip> GetAllBusesOnTrip()
+        public IEnumerable<BusOnTrip> GetAllBusOnTrip()
         {
             List<BusOnTrip> list = XMLTools.LoadListFromXMLSerializer<BusOnTrip>(onTripPath);
 
@@ -331,7 +337,7 @@ namespace DAL
 
             if (list.FirstOrDefault(b => b.StopCode == busStop.StopCode) != null)
                 throw new DO.InvalidStopCodeException(busStop.StopCode.ToString(), $"Duplicate! Stop {busStop.StopCode} already exists.");
-
+            busStop.StopActive = true; //all BusStops added are initially set to being active
             list.Add(busStop);
             XMLTools.SaveListToXMLSerializer(list, stopPath);
         }
@@ -345,7 +351,7 @@ namespace DAL
                    select bStop;
         }
 
-        public BusStop GetBusStop(int stopCode)
+        public BusStop GetBusStop(string stopCode)
         {
             List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
 
@@ -381,7 +387,7 @@ namespace DAL
             XMLTools.SaveListToXMLSerializer(list, stopPath);
         }
         //delete
-        public void DeleteBusStop(int stopCode)
+        public void DeleteBusStop(string stopCode)
         {
             List<BusStop> list = XMLTools.LoadListFromXMLSerializer<BusStop>(stopPath);
 
@@ -398,21 +404,24 @@ namespace DAL
         #endregion
 
         #region LineLeaving
-        public void AddLineLeaving(LineLeaving lineLeaving)
+        public void AddLineLeaving(LineLeaving lineLeaving, string lineID, string staffID)
         {
             List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+
+            lineLeaving.BusLineID = lineID; //set which line this lineleave=ing is reffering to
+            lineLeaving.BusDriver = staffID; //set which driver is on that route
             string key = lineLeaving.BusLineID + lineLeaving.BusFirstLine.ToString();
             if (list.FirstOrDefault(b => b.BusLineID + b.BusFirstLine.ToString() == key) != null)
                 throw new DO.InvalidLineLeavingKeyException(key, $"Line leaving {key} already exists.");
 
-            if (list.FirstOrDefault(l => l.BusLineID == lineLeaving.BusLineID) != null)
-                throw new DO.InvalidBusLineException(lineLeaving.BusLineID.ToString(), $"Duplicate! line {lineLeaving.BusLineID} already exists.");
+            //if (list.FirstOrDefault(l => l.BusLineID == lineLeaving.BusLineID) != null)
+            //    throw new DO.InvalidBusLineException(lineLeaving.BusLineID.ToString(), $"Duplicate! line {lineLeaving.BusLineID} already exists.");
 
             list.Add(lineLeaving);
             XMLTools.SaveListToXMLSerializer(list, leavingPath);
         }
 
-        public void DeleteLineLeaving(int lineID, TimeSpan startTime)
+        public void DeleteLineLeaving(string lineID, TimeSpan startTime)
         {
             List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
             string key = lineID.ToString() + startTime.ToString();
@@ -435,10 +444,10 @@ namespace DAL
                    select leaving;
         }
 
-        public LineLeaving GetLineLeaving(int lineID, TimeSpan startTime)
+        public LineLeaving GetLineLeaving(string lineID)
         {
             List<LineLeaving> list = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
-            string key = lineID.ToString() + startTime.ToString();
+            string key = lineID.ToString();
             DO.LineLeaving line = list.Find(b => b.BusLineID + b.BusFirstLine.ToString() == key);
 
             if (line != null)
@@ -476,16 +485,20 @@ namespace DAL
 
         #region LineStation
 
-        public void AddLineStation(LineStation lineStation, int lineID)
+        public int AddLineStation(LineStation lineStation, string lineID)
         {
             lineStation.lineID = lineID.ToString(); //assigning the LineID to Linestation
+            var entityKey = lineID + lineStation.stationCode; //defining entity key
             List<LineStation> list = XMLTools.LoadListFromXMLSerializer<LineStation>(stationPath);
-
+            List<LineStation> thisRoute = list.FindAll(stat => stat.lineID == lineID.ToString()); //finding all lineStations in this specific route
+            int currentCount = thisRoute.Count(); //finding out how many stations are already in the route
+            //check if line exsists
             if (list.FirstOrDefault(s => s.lineID == lineStation.lineID) != null)
                 throw new DO.InvalidBusLineException(lineStation.lineID.ToString(), $"Duplicate! line {lineStation.lineID} already exists.");
-
+            lineStation.stationNumber = currentCount + 1; //this station is stop one more then the number of stations previously in route
             list.Add(lineStation);
             XMLTools.SaveListToXMLSerializer(list, stationPath);
+            return lineStation.stationNumber;//return which number station this is
         }
         public void DeleteLineStation(string lineStationKey)
         {
@@ -547,18 +560,22 @@ namespace DAL
         #endregion
 
         #region Staff
-        public void AddStaff(Staff staff) //change it to an excpetion
+
+        public string AddStaff(Staff staff) //change it to an excpetion
         {
-            List<Staff> list = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
-
-            if (list.FirstOrDefault(s => s.BusDriverID == staff.BusDriverID) != null)
+            //NOTE: once a driver is assigned to a line that is all the lines he can drive
+            List<Staff> listStaff = XMLTools.LoadListFromXMLSerializer<Staff>(staffPath);
+            List<LineLeaving> listLines = XMLTools.LoadListFromXMLSerializer<LineLeaving>(leavingPath);
+            if (listStaff.FirstOrDefault(s => s.BusDriverID == staff.BusDriverID) != null)
             {
-                DO.Staff st = list.Find(l => l.BusDriverID == staff.BusDriverID);
-               // st.StaffNoOfLines++;
+                if (listLines.FirstOrDefault(ln => ln.BusDriver == staff.BusDriverID)!= null)
+                {
+                    throw new DO.StaffAlreadyInSystemException($"Staff member {staff.BusDriverID} is already listed in the system as driving another line");
+                }
             }
-
-            list.Add(staff);
-            XMLTools.SaveListToXMLSerializer(list, staffPath);
+            listStaff.Add(staff);
+            XMLTools.SaveListToXMLSerializer(listStaff, staffPath);
+            return staff.BusDriverID;
         }
 
         public void DeleteStaff(string staffID)
@@ -568,9 +585,11 @@ namespace DAL
             if (list.FirstOrDefault(s => s.BusDriverID == staffID) != null)
             {
                 DO.Staff st = list.Find(l => l.BusDriverID == staffID);
-            //    if (st.StaffNoOfLines != 0)
-            //        throw new StaffAlreadyInSystemException(staffID, $"Staff {staffID} cannot be deleted.");
-            //
+                if (st != null)
+                {
+                    list.Remove(st);
+                }
+                else throw new StaffAlreadyInSystemException(staffID, $"Staff {staffID} cannot be deleted");
             }
         }
 
@@ -595,87 +614,85 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-
-
-        #endregion      
+        #endregion
 
         #region SuccessiveStations
 
-        public void AddSuccessiveStations(SuccessiveStations successiveStations)
-        {
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
-            //check if station 1 exists
-            if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
-            {
-                if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
-                {
-                    throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
-                }
-            }
+        //public void AddSuccessiveStations(SuccessiveStations successiveStations)
+        //{
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //    //check if station 1 exists
+        //    if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
+        //    {
+        //        if (list.FirstOrDefault(station => station.StationCode1 == successiveStations.StationCode1) != null)
+        //        {
+        //            throw new DO.MissingSuccessiveStationsException(successiveStations.StationCode1.ToString(), "Duplicate Successive Station");
+        //        }
+        //    }
 
-            list.Add(successiveStations);
-            XMLTools.SaveListToXMLSerializer(list, succSPath);
+        //    list.Add(successiveStations);
+        //    XMLTools.SaveListToXMLSerializer(list, succSPath);
 
-        }
-        public void DeleteSuccessiveStations(string entityKey)
-        {
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //}
+        //public void DeleteSuccessiveStations(string entityKey)
+        //{
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
 
-            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
-            if (station != null)
-            {
-                list.Remove(station);
-            }
-            else
-                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+        //    DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+        //    if (station != null)
+        //    {
+        //        list.Remove(station);
+        //    }
+        //    else
+        //        throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
 
-            XMLTools.SaveListToXMLSerializer(list, stationPath);
-        }
-        public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
-        {
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //    XMLTools.SaveListToXMLSerializer(list, stationPath);
+        //}
+        //public IEnumerable<SuccessiveStations> GetAllSuccessiveStations()
+        //{
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
 
-            return from stations in list
-                   select stations;
-        }
+        //    return from stations in list
+        //           select stations;
+        //}
 
-        public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
-        {
-            var entityKey = stat1.ToString() + stat2.ToString();
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //public SuccessiveStations GetSuccessiveStations(int stat1, int stat2)
+        //{
+        //    var entityKey = stat1.ToString() + stat2.ToString();
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
 
-            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+        //    DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
 
-            if (station != null)
-                return station;
-            else
-                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+        //    if (station != null)
+        //        return station;
+        //    else
+        //        throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
 
-        }
+        //}
 
-        public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
-        {
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //public IEnumerable<object> GetSuccessiveStationsWithSelectedFields(Func<SuccessiveStations, object> generate)
+        //{
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
 
-            return from stations in list
-                   select generate(stations);
-        }
-        public void UpdateSuccessiveStations(int stat1, int stat2)
-        {
-            List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
-            var entityKey = stat1.ToString() + stat2.ToString();
-            DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
+        //    return from stations in list
+        //           select generate(stations);
+        //}
+        //public void UpdateSuccessiveStations(int stat1, int stat2)
+        //{
+        //    List<SuccessiveStations> list = XMLTools.LoadListFromXMLSerializer<SuccessiveStations>(succSPath);
+        //    var entityKey = stat1.ToString() + stat2.ToString();
+        //    DO.SuccessiveStations station = list.Find(l => l.StationCode1.ToString() + l.StationCode2.ToString() == entityKey);
 
-            if (station != null)
-            {
-                list.Remove(station);
-                list.Add(station);
-            }
-            else
-                throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
+        //    if (station != null)
+        //    {
+        //        list.Remove(station);
+        //        list.Add(station);
+        //    }
+        //    else
+        //        throw new DO.MissingSuccessiveStationsException(entityKey, $"Successive stations {entityKey} do not exist.");
 
-            XMLTools.SaveListToXMLSerializer(list, succSPath);
-        }
+        //    XMLTools.SaveListToXMLSerializer(list, succSPath);
+        //}
         #endregion
 
         #region User
@@ -724,6 +741,17 @@ namespace DAL
                 throw new DO.MissingUserException(name, $"User {name} cannot be found in system.");
         }
 
+        public bool UserSearch(string username, string pass)
+        {
+            DO.User findUser = GetUser(username);
+
+            if (findUser != null && findUser.userPassword == pass)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         public void UpdateUser(string name)
         {
             List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
@@ -739,97 +767,29 @@ namespace DAL
 
             XMLTools.SaveListToXMLSerializer(list, userPath);
         }
+        #endregion
 
-        public IEnumerable<Bus> GetAllBus()
-        {
-            throw new NotImplementedException();
-        }
-
-        string IDAL.AddBusLine(BusLine busLine)
-        {
-            throw new NotImplementedException();
-        }
-
-        public BusLine GetBusLine(string lineID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteBusLine(string lineID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<BusOnTrip> GetAllBusOnTrip()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string AddBusOnTrip(BusOnTrip busOnTrip, string lineID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public BusStop GetBusStop(string stopCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteBusStop(string stopCode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddLineLeaving(LineLeaving lineLeaving, string lineID, string staffID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public LineLeaving GetLineLeaving(string lineID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteLineLeaving(string lineID, TimeSpan startTime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int AddLineStation(LineStation lineStation, string lineID)
-        {
-            throw new NotImplementedException();
-        }
-
-        string IDAL.AddStaff(Staff staff)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateSuccessiveStations(string entityKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<object> GetUserWithSelectedFields(Func<SuccessiveStations, object> generate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool UserSearch(string username, string pass)
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Admin
         public Admin GetAdmin(string name, string password)
         {
-            throw new NotImplementedException();
+            List<Admin> list = XMLTools.LoadListFromXMLSerializer<Admin>(adminPath);
+
+            DO.Admin findAdmin = list.Find(ad => ad.adminName == name);
+
+            if (findAdmin != null && findAdmin.adminPassword == password)
+            {
+                return findAdmin;
+            }
+            else throw new DO.MissingAdminException(name, $"Admin {name} cannot be found in system.");
         }
 
         public IEnumerable<Admin> GetAllAdmin()
         {
-            throw new NotImplementedException();
-        }
+            List<Admin> list = XMLTools.LoadListFromXMLSerializer<Admin>(adminPath);
 
+            return from admin in list
+                   select admin;
+        }
         #endregion
 
         #region UserTrip
@@ -877,5 +837,6 @@ namespace DAL
 
         #endregion
 
+       
     }
 }

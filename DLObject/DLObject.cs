@@ -819,7 +819,7 @@ namespace DAL
         }
         #endregion
 
-        #region Admin
+        #region CRUD Implementation - Admin
 
         public Admin GetAdmin(string name, string password)
         {

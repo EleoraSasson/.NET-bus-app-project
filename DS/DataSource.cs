@@ -22,7 +22,7 @@ namespace DS
 		//public static List<SuccessiveStations> succStationsList;
 		public static List<User> usersList;
 		public static List<Admin> adminList;
-		static DataSource() //add aan init to start off witha basic bunch of buses
+		static DataSource() 
 		{
 			
 			//Defines and a new list of SuccessiveStations and adds an object of type SuccessiceStations to the List:

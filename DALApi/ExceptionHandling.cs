@@ -145,6 +145,32 @@ namespace DO
     }
     #endregion
 
+    #region Admin Exceptions
+    public class MissingAdminException : Exception
+    {
+
+        public string name;
+
+        public MissingAdminException(string adminName) : base() => name = adminName;
+        public MissingAdminException(string adminName, string msg) : base(msg) { name = adminName; }
+        public MissingAdminException(string adminName, string msg, Exception innerException) : base(msg, innerException) { name = adminName; }
+
+        public override string ToString() => base.ToString() + $", missing user: {name}";
+    }
+
+    public class ExsistingAdminException : Exception
+    {
+
+        public string name;
+
+        public ExsistingAdminException(string adminName) : base() => name = adminName;
+        public ExsistingAdminException(string adminName, string msg) : base(msg) { name = adminName; }
+        public ExsistingAdminException(string adminName, string msg, Exception innerException) : base(msg, innerException) { name = adminName; }
+
+        public override string ToString() => base.ToString() + $", user already exsists: {name}";
+    }
+    #endregion
+
     #region SuccessiveStations Exceptions
     public class MissingSuccessiveStationsException : Exception
     {
