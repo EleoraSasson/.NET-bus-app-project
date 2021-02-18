@@ -119,10 +119,9 @@ namespace DALApi
         #region User
         IEnumerable<DO.User> GetAllUsers(); //IEnumerable
         void AddUser(User user);//create
-        User GetUser(string name);//retrieve
+        User GetUser(string name, string pass);//retrieve
         void UpdateUser(string name);//update
         void DeleteUser(string name);//delete
-        bool UserSearch(string username, string pass);
         #endregion
 
         #region Admin

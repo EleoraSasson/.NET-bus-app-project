@@ -528,13 +528,13 @@ namespace BLApi
             foreach (var user in users)
             {
                 UserPortal up = new UserPortal();
-                up.Users = new User();
-                up.Users.adminPermission = user.adminPermission;
-                up.Users.userName = user.userName;
-                up.Users.userPassword = user.userPassword;
-                up.Users.userFirst = user.userFirst;
-                up.Users.userLast = user.userLast;
-                up.Users.userId = user.userId;
+                up.userPortal = new User();
+                up.userPortal.adminPermission = user.adminPermission;
+                up.userPortal.userName = user.userName;
+                up.userPortal.userPassword = user.userPassword;
+                up.userPortal.userFirst = user.userFirst;
+                up.userPortal.userLast = user.userLast;
+                up.userPortal.userId = user.userId;
                 userList.Add(up);
             }
 
@@ -544,47 +544,16 @@ namespace BLApi
         public void SetUser (UserPortal userp, string first, string last, string username, string password, string ID)
         {
             UserPortal up = new UserPortal(); 
-            up.Users = new User();
-            up.Users.userFirst = first;
-            up.Users.userLast = last;
-            up.Users.userName = username;
-            up.Users.userPassword = password;
-            up.Users.userId = ID;
+            up.userPortal = new User();
+            up.userPortal.userFirst = first;
+            up.userPortal.userLast = last;
+            up.userPortal.userName = username;
+            up.userPortal.userPassword = password;
+            up.userPortal.userId = ID;
             userp = up;
         }
 
-//     try
-//            {
-//                Buses bs = new Buses();
-//        Bus b = new Bus();
-//        b.BusLicense = license;
-//                b.BusFuel = fuel;
-//                b.BusMileage = mil;
-//                b.BusMaintenanceDate = maint;
-//                b.BusRegDate = reg;
-//                b.BusStatus = Status.Available;
-//                b.BusErased = false;
-//                bs.bus = b;
-//                dal.AddBus(b);
-//            }
-//            catch (DO.InvalidBusLicenseException ex)
-//            {
-//                throw new BO.BusExistsException("Bus already exists", ex);
-//            }
-
-//        }
-
-//        public void SetBus(Buses bs, string license, DateTime reg, DateTime maint, int mil, int fuel)
-//{
-//    bs.bus = new Bus();
-//    bs.bus.BusLicense = license;
-//    bs.bus.BusFuel = fuel;
-//    bs.bus.BusMileage = mil;
-//    bs.bus.BusMaintenanceDate = maint;
-//    bs.bus.BusRegDate = reg;
-//    bs.bus.BusStatus = Status.Available;
-//    bs.bus.BusErased = false;
-    public void AddUser ( string first, string last, string username, string password, string ID)
+        public void AddUser ( string first, string last, string username, string password, string ID)
         {
             try
             {
@@ -595,7 +564,7 @@ namespace BLApi
                 u.userFirst = first;
                 u.userId = ID;
                 u.userPassword = password;
-                up.Users = u;
+                up.userPortal = u;
                 dal.AddUser(u);
             }
 
@@ -609,7 +578,7 @@ namespace BLApi
         {
             try
             {
-                User u = new User() { userFirst = up.Users.userFirst, userLast = up.Users.userLast, userName = up.Users.userName, userId = up.Users.userId, adminPermission = up.Users.adminPermission, userPassword = up.Users.userPassword };
+                User u = new User() { userFirst = up.userPortal.userFirst, userLast = up.userPortal.userLast, userName = up.userPortal.userName, userId = up.userPortal.userId, adminPermission = up.userPortal.adminPermission, userPassword = up.userPortal.userPassword };
                 dal.DeleteUser(u.userName);
             }
             catch (DO.MissingUserException ex)
@@ -618,11 +587,27 @@ namespace BLApi
             }
         }
 
-        public bool UserSearch (string username, string pass)
+        public UserPortal GetUser(string username, string pass)
         {
-            if (dal.UserSearch(username, pass))
-                return true;
-            else return false;
+            try
+            {
+                User user = dal.GetUser(username, pass);
+                if (user != null)
+                {
+
+                    UserPortal u = new UserPortal();
+                    User use = new User();
+                    use.userName = username;
+                    use.userPassword = pass;
+                    u.userPortal = use;
+                    return u;
+                }
+                else return null;
+            }
+            catch (DO.MissingUserException ex)
+            {
+                throw new BO.UserMissingExcpetion("User does not exist", ex);
+            }
         }
 
         #endregion

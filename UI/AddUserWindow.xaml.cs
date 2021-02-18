@@ -88,7 +88,6 @@ namespace UI
             {
                 bl.SetUser(up, first, last, username, password, id);
                 AdminManagerWindow.usersCollection.Add(up);
-
             }
         }
     }

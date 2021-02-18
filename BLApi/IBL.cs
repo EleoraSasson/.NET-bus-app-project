@@ -63,7 +63,7 @@ namespace BLApi
         #endregion
 
         #region UserPortal
-        bool UserSearch(string username, string pass);
+        UserPortal GetUser(string username, string pass);
         void AddUser(string first, string last, string username, string password, string id);
         void SetUser(UserPortal up, string first, string last, string username, string password, string ID);
         IEnumerable<UserPortal> GetAllUsers();

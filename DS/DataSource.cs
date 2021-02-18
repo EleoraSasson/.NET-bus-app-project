@@ -1473,13 +1473,13 @@ namespace DS
 				new Admin()
 				{
 					adminName="Dina",
-					adminPassword="idontlikecheese",
+					adminPassword="cyberSafe",
 				},
 
 				new Admin()
 				{
-					adminName =" Nick",
-					adminPassword="ilikecheese",
+					adminName ="Nick",
+					adminPassword="IamtheBoss",
 				},
 			};
             #endregion

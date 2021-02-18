@@ -84,6 +84,9 @@
     <Compile Include="TravelWindow.xaml.cs">
       <DependentUpon>TravelWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateRouteWindow.xaml.cs">
+      <DependentUpon>UpdateRouteWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserWindow.xaml.cs">
       <DependentUpon>UserWindow.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TravelWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateRouteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

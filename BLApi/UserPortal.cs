@@ -15,15 +15,15 @@ namespace BO
     {
         private User user;
 
-        public User Users
+        public User userPortal
         {
             get { return user; }
             set { user = value; }
         }
 
-        public override string ToString()
-        {
-            return Users.userLast + "," + Users.userFirst + "- permission:" + Users.adminPermission; 
-        }
+        //public override string ToString()
+        //{
+        //    return userPortal.userLast + "," + userPortal.userFirst + "- permission:" + userPortal.adminPermission; 
+        //}
     }
 }

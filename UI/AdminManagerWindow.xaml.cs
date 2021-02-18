@@ -199,6 +199,11 @@ namespace UI
             addRouteWin.Show();
         }
 
+        private void b_UpdateRoute_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateRouteWindow updateRouteWin = new UpdateRouteWindow();
+            updateRouteWin.Show();
+        }
         private void Cb_RouteID_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             bRoute = (Cb_RouteID.SelectedItem as BO.BusRoute);

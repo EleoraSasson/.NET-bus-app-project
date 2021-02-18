@@ -47,19 +47,36 @@ namespace UI
         {
             if (checkUser())
             {
-                if (bl.UserSearch(t_Username.Text, t_PasswordUser.Password))
+                //if (bl.UserSearch(t_Username.Text, t_PasswordUser.Password))
+                //{
+                //    UserWindow userWin = new UserWindow();
+                //    userWin.Show();
+                //    this.Close();
+                //}
+                //else
+                //{
+                //    string title = "Gilore Travels ERROR: Login Window";
+                //    MessageBoxButton button = MessageBoxButton.OK;
+                //    MessageBoxImage icon = MessageBoxImage.Error;
+                //    MessageBox.Show("Error: wrong username or password.", title, button, icon);
+                //    this.Close();
+                //}
+
+                try
                 {
+                    BO.UserPortal loginUser = bl.GetUser(t_Username.Text, t_PasswordUser.Password);
                     UserWindow userWin = new UserWindow();
                     userWin.Show();
                     this.Close();
                 }
-                else
+                catch
                 {
                     string title = "Gilore Travels ERROR: Login Window";
                     MessageBoxButton button = MessageBoxButton.OK;
                     MessageBoxImage icon = MessageBoxImage.Error;
                     MessageBox.Show("Error: wrong username or password.", title, button, icon);
-                    this.Close();
+                    t_Username.Text = "";
+                    t_PasswordUser.Password = "";
                 }
             }
             else
@@ -68,7 +85,8 @@ namespace UI
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Error: Fields have been left blank.", title, button, icon);
-                this.Close();
+                t_Username.Text = "";
+                t_PasswordUser.Password = "";
             }
         }
 
@@ -104,21 +122,36 @@ namespace UI
         {
             if (checkAdmin())
             {
-                if (bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password) != null)
+                //if (bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password) != null)
+                //{
+
+                //    }
+                //    else
+                //    {
+                //        string title = "Gilore Travels ERROR: Login Window";
+                //        MessageBoxButton button = MessageBoxButton.OK;
+                //        MessageBoxImage icon = MessageBoxImage.Error;
+                //        MessageBox.Show("Error: wrong username or password.", title, button, icon);
+                //        this.Close();
+                //    }
+
+                try
                 {
                     BO.AdminPortal loginAdmin = bl.GetAdmin(t_Admin.Text, t_PasswordAdmin.Password);
                     AdminManagerWindow adminWin = new AdminManagerWindow(loginAdmin);
                     adminWin.Show();
                     this.Close();
                 }
-                else
+                catch
                 {
                     string title = "Gilore Travels ERROR: Login Window";
                     MessageBoxButton button = MessageBoxButton.OK;
                     MessageBoxImage icon = MessageBoxImage.Error;
-                    MessageBox.Show("Error: wrong username or password.", title, button, icon);
-                    this.Close();
+                    MessageBox.Show("Error: Incorrect username or password. Please try re-entering your information", title, button, icon);
+                    t_Admin.Text = "";
+                    t_PasswordAdmin.Password = "";
                 }
+
             }
             else
             {
@@ -126,7 +159,8 @@ namespace UI
                 MessageBoxButton button = MessageBoxButton.OK;
                 MessageBoxImage icon = MessageBoxImage.Error;
                 MessageBox.Show("Error: Fields have been left blank.", title, button, icon);
-                this.Close();
+                t_Admin.Text = "";
+                t_PasswordAdmin.Password = "";
             }
            
         }

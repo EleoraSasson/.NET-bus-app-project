@@ -162,6 +162,8 @@
                                         <ListBox x:Name="lb_BusStops"  Grid.Row="1" ItemsSource="{Binding}" Margin="31,27,39,53" Grid.Column="2"  Background="WhiteSmoke" BorderBrush="CadetBlue" Grid.ColumnSpan="2" SelectionChanged="lb_BusStops_SelectionChanged" />
                                         <Button x:Name="b_AddRoute" Grid.Column="3" Grid.Row="1" Margin="83,176,39,27" Height="20" Width="100" Content="  +   Add Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
                                                 Click="b_AddRoute_Click"/>
+                                        <Button x:Name="b_UpdateRoute" Grid.Column="2" Margin="194,180,143,32" Height="20" Width="100" Content="Update Route" Background="WhiteSmoke" BorderBrush="CadetBlue"
+                                                Click="b_UpdateRoute_Click" Grid.ColumnSpan="2"/>
                                     </Grid>
                                 </StackPanel>
                             </Expander>

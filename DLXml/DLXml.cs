@@ -729,27 +729,16 @@ namespace DAL
         }
 
 
-        public User GetUser(string name)
+        public User GetUser(string name, string pass)
         {
             List<User> list = XMLTools.LoadListFromXMLSerializer<User>(userPath);
 
-            DO.User user = list.Find(u => u.userName == name);
+            DO.User user = list.Find(u => u.userName == name && u.userPassword == pass);
 
             if (user != null)
                 return user;
             else
                 throw new DO.MissingUserException(name, $"User {name} cannot be found in system.");
-        }
-
-        public bool UserSearch(string username, string pass)
-        {
-            DO.User findUser = GetUser(username);
-
-            if (findUser != null && findUser.userPassword == pass)
-            {
-                return true;
-            }
-            else return false;
         }
 
         public void UpdateUser(string name)

@@ -761,9 +761,9 @@ namespace DAL
         /// parameter: string (name)
         /// return type: User
         /// </summary>
-        public User GetUser(string name)
+        public User GetUser(string name, string password)
         {
-            DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
+            DO.User findUser = DataSource.usersList.Find(u => u.userName == name && u.userPassword == password);
 
             if (findUser != null )
             {
@@ -771,19 +771,6 @@ namespace DAL
             }
             else throw new DO.MissingUserException(name, $"No data found for user: {name}");
         }
-
-        public bool UserSearch(string name, string password)
-        {
-            //  DO.User findUser = DataSource.usersList.Find(u => u.userName == name);
-            DO.User findUser = GetUser(name);
-
-            if (findUser != null && findUser.userPassword == password)
-            {
-                return true;
-            }
-            else return false;
-        }
-
         /// <summary>
         /// UpdateUser: updates a user from the collection of users
         /// parameter: string (name)                                               
